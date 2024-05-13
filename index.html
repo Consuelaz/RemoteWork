@@ -8,8 +8,20 @@
     <meta name="description" content="">
     <script src="https://remotework.asia/static/css/tailwind.3.4.3.js"></script>
     <link rel="shortcut icon" href="./rwpico.png" />
-    <style type="text/css">
+    <style>
+        .container {
+            display: flex;
+        }
 
+        .left-column {
+            width: 70%;
+            background-color: lightgray;
+        }
+
+        .right-column {
+            width: 30%;
+            background-color: lightblue;
+        }
     </style>
 </head>
 
@@ -42,14 +54,21 @@
     
   </div>
 </section>
+<section>
 
+<div class="left-column">
+            <!-- 左侧内容 -->
+            <h2>左侧栏</h2>
+            <p>这是左侧栏的内容。</p>
+        </div>
 
+      </section>  
 <section>
   <!-- Container -->
-  <div class="mx-auto w-full max-w-8xl px-5 md:px-10">
+  <div class="right-column" class="mx-auto w-full max-w-8xl px-5 md:px-10">
     <!-- Heading -->
     <div class="mx-auto max-w-3xl text-center">
-      <h1 class="mb-4 mt-6 text-3xl font-extrabold md:text-3xl">100+ Fully Remote Companys</h1>
+      <h1 class="mb-4 mt-6 text-3xl font-extrabold md:text-3xl"></h1>
     </div>
     <!-- Features -->
     <div class="grid grid-cols-1 gap-5 lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 links">
