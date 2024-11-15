@@ -1,182 +1,287 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head><script src="assets/js/color-modes.js"></script>
+  
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8403146902177842"
+       crossorigin="anonymous"></script>
 
-<!DOCTYPE html>
-<html>
-<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Remote Worker Platform</title>
     <meta name="description" content="">
-    <script src="https://remotework.asia/static/css/tailwind.3.4.3.js"></script>
-    <link rel="shortcut icon" href="./rwpico.png" />
-</head>
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.122.0">
+    <title>RemoteWorkerPlatform</title>
 
+<link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<body>
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
 
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
 
+      .b-example-divider {
+        width: 100%;
+        height: 0.01rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
 
-<!-- Section Features  -->
-<section>
-  <!-- Features Container -->
-  <div class="px-5 py-16 md:px-10 md:py-24 lg:py-32">
-    <!-- Features Content -->
-    <div class="mx-auto mb-8 max-w-3xl text-center md:mb-12 lg:mb-16">
-      <!-- Features Title -->
-      <h2 class="text-3xl font-bold md:text-5xl">Remote Worker Platform</h2>
-      <p class="mx-auto mb-8 mt-4 max-w-lg text-[#647084] md:mb-12 lg:mb-16">The leading remote companies and virtual teams at here.</p>
-      <!-- Features Count -->
-      <div class="flex justify-center">
-        <div class="mr-6 md:mr-10 lg:mr-12">
-          <h3 class="text-2xl font-bold text-[#276ef1] md:text-3xl">10W+</h3>
-          <p class="text-sm text-[#636262]">Happy Workers</p>
-        </div>
-        <div>
-          <h3 class="text-2xl font-bold text-[#276ef1] md:text-3xl">150+</h3>
-          <p class="text-sm text-[#636262]">Remote Companieds</p>
-        </div>
-      </div>
-    </div>
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .btn-bd-primary {
+        --bd-violet-bg: #712cf9;
+        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+        --bs-btn-font-weight: 600;
+        --bs-btn-color: var(--bs-white);
+        --bs-btn-bg: var(--bd-violet-bg);
+        --bs-btn-border-color: var(--bd-violet-bg);
+        --bs-btn-hover-color: var(--bs-white);
+        --bs-btn-hover-bg: #6528e0;
+        --bs-btn-hover-border-color: #6528e0;
+        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+        --bs-btn-active-color: var(--bs-btn-hover-color);
+        --bs-btn-active-bg: #5a23c8;
+        --bs-btn-active-border-color: #5a23c8;
+      }
+
+      .bd-mode-toggle {
+        z-index: 1500;
+      }
+
+      .bd-mode-toggle .dropdown-menu .active .bi {
+        display: block !important;
+      }
+    </style>
+
     
-  </div>
-</section>
+    <!-- Custom styles for this template -->
+    <link href="headers.css" rel="stylesheet">
+  </head>
+  <body>
+	  <div id="header"></div>
+	  <script>
+	      document.addEventListener("DOMContentLoaded", () => {
+	          fetch("headers/index.html")
+	              .then(response => response.text())
+	              .then(data => {
+	                  document.getElementById("header").innerHTML = data;
+	              })
+	              .catch(error => console.error('Error loading header:', error));
+	      });
+	  </script>
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="check2" viewBox="0 0 16 16">
+        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+      </symbol>
+      <symbol id="circle-half" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
+      </symbol>
+      <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+        <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"/>
+      </symbol>
+      <symbol id="sun-fill" viewBox="0 0 16 16">
+        <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+      </symbol>
+    </svg>
 
-
-<section>
-  <!-- Container -->
-  <div class="mx-auto w-full max-w-8xl px-5 md:px-10">
-    <!-- Heading -->
-    <div class="mx-auto max-w-3xl text-center">
-      <h1 class="mb-4 mt-6 text-3xl font-extrabold md:text-3xl"></h1>
+    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+      <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
+              id="bd-theme"
+              type="button"
+              aria-expanded="false"
+              data-bs-toggle="dropdown"
+              aria-label="Toggle theme (auto)">
+        <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
+        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+            <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#sun-fill"></use></svg>
+            Light
+            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+            <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
+            Dark
+            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+            <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#circle-half"></use></svg>
+            Auto
+            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+          </button>
+        </li>
+      </ul>
     </div>
-    <!-- Features -->
-    <div class="grid grid-cols-1 gap-5 lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 links">
-    
 
-      <!-- Item -->
-      <a class="link rounded-xl p-2 md:p-3" href="https://buffer.com/" target="_blank">
-        <div class="flex items-center gap-4 mb-4">
-            <img src="/static/img/buffer-100x100.jpeg" alt="Features Icon" class="inline-block h-16" />
-          <p class="text-xl font-semibold">Buffer</p>
-        </div>
-        <p class="text-sm text-[#636262]">
-
-成立时间： Buffer 成立于2010年，总部位于美国加利福尼亚州圣弗朗西斯科。
-创始人： Joel Gascoigne 和 Leo Widrich 是 Buffer 的创始人之一，他们创建了这个平台，以帮助用户更有效地管理其社交媒体内容和发布计划。
-</p>
-        </a>
-
-      <!-- Item -->
-      <a class="link rounded-xl p-2 md:p-3" href="https://automattic.com/" target="_blank">
-        <div class="flex items-center gap-4 mb-4">
-          <img src="/static/img/automattic_twitter-100x100.png" alt="Features Icon" class="inline-block h-16" />
-          <p class="text-xl font-semibold">Automattic</p>
-        </div>
-        <p class="text-sm text-[#636262]">Automattic 是一家总部位于美国的软件公司，创建了许多知名的在线服务和产品，最著名的产品是WordPress.com。以下是关于 Automattic 的介绍：
-
-公司背景：
-
-成立时间： Automattic 成立于2005年，总部位于美国加利福尼亚州圣弗朗西斯科。
-创始人： Automattic 的创始人之一是 Matt Mullenweg，他是 WordPress 的共同创始人之一。该公司还由其他一些核心成员共同创建。</p>
-      </a>
-      <!-- Item -->
-      <a class="link rounded-xl p-2 md:p-3" href="https://about.gitlab.com/company/" target="_blank">
-        <div class="flex items-center gap-4 mb-4">
-          <img src="/static/img/gitlab_twitter-100x100.png" alt="Features Icon" class="inline-block h-16" />
-          <p class="text-xl font-semibold">GitLab
-        </div>
-        <p class="text-sm text-[#636262]">GitLab 是一家总部位于美国的技术公司，提供基于网络的 Git 仓库管理服务，帮助开发团队协作开发软件项目。以下是关于 GitLab 的介绍：
-
-公司背景：
-
-成立时间： GitLab 成立于2014年，总部位于美国加利福尼亚州圣弗朗西斯科。
-创始人： GitLab 的创始人之一是 Sid Sijbrandij，他于2011年创建了 GitLab 的前身 Gitorious，后来将其改名为 GitLab 并扩展成为一个完整的 DevOps 平台。</p>
-      </a>
-      <!-- Item -->
-      <a class="link rounded-xl p-2 md:p-3" href="https://gradle.com/" target="_blank">
-        <div class="flex items-center gap-4 mb-4">
-          <img src="/static/img/gradleinc.png" alt="Features Icon" class="inline-block h-16" />
-          <p class="text-xl font-semibold">Gradle Inc.</p>
-        </div>
-        <p class="text-sm text-[#636262]">Gradle Inc. 是一家软件公司，提供了流行的项目自动化构建工具 Gradle 的开发和支持。以下是关于 Gradle Inc. 的介绍：
-公司背景：
-成立时间： Gradle Inc. 成立于2008年，总部位于美国加利福尼亚州帕洛阿尔托。
-创始人： Hans Dockter 创立了 Gradle Inc.，他也是 Gradle 构建工具的创始人之一。</p> </a>
-      
-      <!-- Item -->
-      <a class="link rounded-xl p-2 md:p-3" href="https://basecamp.com/" target="_blank">
-        <div class="flex items-center gap-4 mb-4">
-          <img src="/static/img/Basecamp100x100.png" alt="Features Icon" class="inline-block h-16" />
-          <p class="text-xl font-semibold">Basecamp</p>
-        </div>
-        <p class="text-sm text-[#636262]">
-成立时间： Basecamp 成立于1999年。
-总部地点： 公司总部位于美国芝加哥。
-创始人： Jason Fried 和 David Heinemeier Hansson 是 Basecamp 的创始人之一。
-</p> </a>
-      
-       <!-- Item -->
-      <a class="link rounded-xl p-2 md:p-3" href="https://www.invisionapp.com/" target="_blank">
-        <div class="flex items-center gap-4 mb-4">
-          <img src="/static/img/InVision-icon-pink.png" alt="Features Icon" class="inline-block h-16" />
-          <p class="text-xl font-semibold">InVision</p>
-        </div>
-        <p class="text-sm text-[#636262]">InVision是一家总部位于美国的公司，成立于2011年，是一家以全员远程办公文化著称的公司。该公司的主要业务是提供数字产品设计和协作工具，帮助设计师、开发人员和产品团队更好地合作、原型设计和构建数字产品。</p> </a>
-      
-       <!-- Item -->
-      <a class="link rounded-xl p-2 md:p-3" href="https://www.elastic.co/cn/" target="_blank">
-        <div class="flex items-center gap-4 mb-4">
-          <img src="/static/img/elastic.png" alt="Features Icon" class="inline-block h-16" />
-          <p class="text-xl font-semibold">Elastic</p>
-        </div>
-        <p class="text-sm text-[#636262]">Elastic是一家知名的全员远程办公的公司，其总部位于美国，成立于2012年。该公司是一家专注于搜索和数据分析领域的技术公司，以其开源搜索和分析引擎Elasticsearch而闻名。</p> </a>
-      
-       <!-- Item -->
-      <a class="link rounded-xl p-2 md:p-3" href="https://lumenalta.com/remote-jobs" target="_blank">
-        <div class="flex items-center gap-4 mb-4">
-          <img src="/static/img/lumenalta.png" alt="Features Icon" class="inline-block h-16" />
-          <p class="text-xl font-semibold">Clevertech</p>
-        </div>
-        <p class="text-sm text-[#636262]">Clevertech成立于2000年，总部位于美国，目前已经发展成为一家全球性的远程工作公司。他们的团队成员遍布世界各地，采用远程工作模式，这使得他们能够吸引和留住来自世界各地的Top技术人才。</p> </a>
-      
-
-      
-    </div>
-  </div>
-</section>
-        
-<footer class="block">
-  <!-- Container -->
-  <div class="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-24 lg:py-32">
-    <!-- Component -->
-    <div class="flex flex-col items-center">
-      <a href="#" class="mb-8 inline-block max-w-full text-black">
-        <img src="" alt="" class="inline-block max-h-15" />
-      </a>
-      <div class="max-[991px]: text-center font-semibold max-[991px]:py-1">
-        <a href="#" class="inline-block px-6 py-2 font-normal text-black transition hover:text-[#d6a701]">About</a>
-        <a href="#" class="inline-block px-6 py-2 font-normal text-black transition hover:text-[#d6a701]">Features</a>
-        <a href="#" class="inline-block px-6 py-2 font-normal text-black transition hover:text-[#d6a701]">Works</a>
-        <a href="#" class="inline-block px-6 py-2 font-normal text-black transition hover:text-[#d6a701]">Support</a>
-        <a href="#" class="inline-block px-6 py-2 font-normal text-black transition hover:text-[#d6a701]">Help</a>
+<script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+<main>
+  <div class="px-4 py-5 my-5 text-center">
+    <img class="d-block mx-auto mb-4" src="assets/brand/rwp_logo.svg" alt="" width="72" height="57">
+    <h1 class="display-5 fw-bold text-body-emphasis">全球</h1>
+	<h1 class="display-5 fw-bold text-body-emphasis">最佳远程工作招聘</h1>
+	<h1 class="display-5 fw-bold text-body-emphasis">齐聚RWP</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">一个综合性平台，可帮助雇主和创作者发现灵感、建立链接、一起创造世界</p>
+	  <!--
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <button type="button" class="btn btn-primary btn-lg px-4 gap-3">雇用远程工作者</button>
+        <button type="button" class="btn btn-outline-secondary btn-lg px-4">试用RWP Pro</button>-->
       </div>
-      <div class="mb-8 mt-8 w-48 [border-bottom:1px_solid_rgb(0,_0,_0)]"></div>
-      <div class="mb-12 grid w-full max-w-[208px] grid-flow-col grid-cols-4 gap-3">
-        <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5Nzk5MDAyMQ==&action=getalbum&album_id=3084973784593645568&scene=173&subscene=91&sessionid=1715587793&enterid=1715587830&from_msgid=2247485454&from_itemidx=1&count=3&nolastread=1#wechat_redirect" class="mx-auto flex max-w-[24px] flex-col items-center justify-center">
-          <img src="https://assets.website-files.com/6357722e2a5f19121d37f84d/6358f65ff1579cbd64244573_FacebookLogo.svg" alt="" class="inline-block" />
-        </a>
-        <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5Nzk5MDAyMQ==&action=getalbum&album_id=3084973784593645568&scene=173&subscene=91&sessionid=1715587793&enterid=1715587830&from_msgid=2247485454&from_itemidx=1&count=3&nolastread=1#wechat_redirect" class="mx-auto flex max-w-[24px] flex-col items-center justify-center">
-          <img src="https://assets.website-files.com/6357722e2a5f19121d37f84d/6358f65864ee6f4870bbe5cb_InstagramLogo.svg" alt="" class="inline-block" />
-        </a>
-        <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5Nzk5MDAyMQ==&action=getalbum&album_id=3084973784593645568&scene=173&subscene=91&sessionid=1715587793&enterid=1715587830&from_msgid=2247485454&from_itemidx=1&count=3&nolastread=1#wechat_redirect" class="mx-auto flex max-w-[24px] flex-col items-center justify-center">
-          <img src="https://assets.website-files.com/6357722e2a5f19121d37f84d/6358f65ab9fdec6c06b596f6_SlackLogo.svg" alt="" class="inline-block" />
-        </a>
-        <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5Nzk5MDAyMQ==&action=getalbum&album_id=3084973784593645568&scene=173&subscene=91&sessionid=1715587793&enterid=1715587830&from_msgid=2247485454&from_itemidx=1&count=3&nolastread=1#wechat_redirect" class="mx-auto flex max-w-[24px] flex-col items-center justify-center">
-          <img src="https://assets.website-files.com/6357722e2a5f19121d37f84d/6358f65b64ee6f2f15bbe5e0_TwitterLogo.svg" alt="" class="inline-block" />
-        </a>
-      </div>
-      <p class="max-[479px]:text-sm">© Copyright 2024. All rights reserved.</p>
     </div>
   </div>
-</footer>
-</body>
+</main>
+
+<div class="container">		  
+<div class="markdown-heading" dir="auto">
+	<h2 tabindex="-1" class="heading-element" dir="auto">Job boards</h2>
+	<a id="user-content-companies-with-remote-dna" class="anchor" aria-label="Permalink: Companies with &quot;remote DNA&quot;" href="#companies-with-remote-dna"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+		<ol dir="auto">					
+		<li><a href="https://www.realworkfromanywhere.com/" rel="nofollow">Real Work From Anywhere</a> - A site for fully location independent jobs. All jobs on the site are 100% work from anywhere.</li>
+		<li><a href="https://4dayweek.io" rel="nofollow">4 Day Week</a> - Software jobs with a better work / life balance.</li>
+		<li><a href="https://authenticjobs.com/?search_location=remote" rel="nofollow">Authentic Jobs</a></li>
+		<li><a href="https://builtin.com/jobs/remote" rel="nofollow">Built In</a></li>
+		<li><a href="https://clojurejobboard.com/remote-clojure-jobs.html" rel="nofollow">ClojureJobboard.com</a>- Clojure jobs, filter -&gt; Remote only</li>
+		<li><a href="https://crypto.jobs/?jobs=remote" rel="nofollow">Crypto Jobs</a> - Blockchain jobs for crypto enthusiasts.</li>
+		<li><a href="https://cryptojobslist.com/remote" rel="nofollow">Crypto Jobs List</a> - #1 job board to find and post crypto, bitcoin and blockchain jobs.</li>
+		<li><a href="https://cryptocurrencyjobs.co/remote/" rel="nofollow">Cryptocurrency Jobs</a> - Location filter -&gt; <em>Remote</em></li>
+		<li><a href="https://cyberjobhunt.in/" rel="nofollow">CyberJobHunt.in</a> - Explore Cyber Security Jobs in top Companies and Startups.</li>
+		<li><a href="https://dailyremote.com" rel="nofollow">Daily Remote</a> Filter and find remote jobs for every role!</li>
+		<li><a href="https://devemploy.com" rel="nofollow">Dev Employ</a> Hand-picked developer jobs</li>
+		<li><a href="https://www.diversifytech.co/job-board" rel="nofollow">Diversify Tech</a> - Companies are transparent about their Diversity &amp; Inclusion efforts</li>
+		<li><a href="https://dribbble.com/jobs?location=Anywhere" rel="nofollow">Dribbble Jobs</a></li>
+		<li><a href="https://jobs.drupal.org/home/type/telecommute-remote-3588" rel="nofollow">Drupal Jobs</a></li>
+		<li><a href="https://findbacon.com" rel="nofollow">Find Bacon</a> - Design and Dev jobs</li>
+		<li><a href="https://www.flexjobs.com/" rel="nofollow">Flexjobs</a> – Telecommuting Jobs &amp; Professional Part-Time Jobs.</li>
+		<li><a href="https://www.freelancermap.com/remote-jobs" rel="nofollow">freelancermap</a> - Freelance &amp; contract jobs for IT experts (mostly German projects)</li>
+		<li><a href="https://www.golangprojects.com/golang-remote-jobs.html" rel="nofollow">Golangprojects</a> filter -&gt; Remote only</li>
+		<li><a href="https://graphql.jobs/r/remote" rel="nofollow">GraphQL Jobs</a> - Work with GraphQL in a modern startup.</li>
+		<li><a href="https://www.guru.com/" rel="nofollow">Guru</a> - (has MANY different categories outside software)</li>
+		<li><a href="https://www.hackerx.org/jobs/" rel="nofollow">HackerX</a></li>
+		<li><a href="https://hasjob.co/" rel="nofollow">Hasjob</a> – Location filter -&gt; "<em>Anywhere/Remote</em>"</li>
+		<li><a href="https://www.higheredjobs.com/search/remote.cfm" rel="nofollow">HigherEdJobs</a> has remote type filter.</li>
+		<li><a href="http://hnhiring.me/" rel="nofollow">HN hiring</a> – Filter REMOTE.</li>
+		<li><a href="https://javaprohire.com/" rel="nofollow">JavaProHire</a> - Java developer jobs</li>
+		<li><a href="https://landing.jobs/offers" rel="nofollow">JOBBOX.io</a> – Filter -&gt; Remote only.</li>
+		<li><a href="https://jobhunt.ai/machinelearning-remote-jobs.html" rel="nofollow">Jobhunt.ai</a> – Machine learning jobs. Filter -&gt; Remote only.</li>
+		<li><a href="https://jobspresso.co/" rel="nofollow">Jobspresso</a> * High-quality remote positions that are open and legitimate *</li>
+		<li><a href="https://justremote.co" rel="nofollow">JustRemote</a></li>
+		<li><a href="https://landing.jobs/offers" rel="nofollow">Landing.jobs</a> filter -&gt; Remote only</li>
+		<li><a href="https://larajobs.com/?location=&amp;remote=1" rel="nofollow">Larajobs</a> – The artisan employment connection</li>
+		<li><a href="https://lgbtqremotely.com/" rel="nofollow">LGBTQ Remotely</a> – Democratizing remote job opportunities for the LGBTQ+ community.</li>
+		<li><a href="https://nofluffjobs.com/#criteria=remote" rel="nofollow">No Fluff Jobs</a> – Filter -&gt; “<em>remote</em>”</li>
+		<li><a href="https://nodesk.co/remote-jobs/" rel="nofollow">NODESK</a></li>
+		<li><a href="https://powertofly.com/jobs/" rel="nofollow">Power to Fly</a> - Specific to women</li>
+		<li><a href="https://remotebackendjobs.com/" rel="nofollow">Remote Backend Jobs</a> - Find exclusively remote backend jobs aggregated from the top 22 job boards in the world.</li>
+		<li><a href="https://remotefrontendjobs.com/" rel="nofollow">Remote Frontend Jobs</a> - Find exclusively remote frontend jobs aggregated from the top 22 job boards in the world.</li>
+		<li><a href="https://www.pyjobs.com/?remoteLevel%5B0%5D=1&amp;remoteLevel%5B1%5D=2" rel="nofollow">PyJobs.com</a> - Jobs for Python developers</li>
+		<li><a href="https://remotegamejobs.com/" rel="nofollow">Remote Game Jobs</a> - Find remote work and talent in the game industry.</li>
+		<li><a href="https://github.com/remote-es/remotes">remote-es/remotes</a> - Repository listing companies which offer full-time remote jobs with Spanish contracts</li>
+		<li><a href="https://github.com/jessicard/remote-jobs">remote-jobs</a> - A list of semi to fully remote-friendly companies in tech</li>
+		<li><a href="https://remotees.com/" rel="nofollow">Remotees</a></li>
+		<li><a href="https://remotewide.co/" rel="nofollow">Remotewide</a> - Find remote jobs with location independent pay</li>
+		<li><a href="https://remote.co/remote-jobs/" rel="nofollow">Remote.co Jobs</a></li>
+		<li><a href="https://remotejobs.lat/" rel="nofollow">RemoteJobs.lat</a> -  Remote jobs for LATAM people</li>
+		<li><a href="https://remotive.io/" rel="nofollow">Remotive Jobs</a></li>
+		<li><a href="https://remotepeople.io/" rel="nofollow">Remote People</a></li>
+		<li><a href="https://remote.works-hub.com" rel="nofollow">Remote Works</a> - Remote jobs in software development</li>
+		<li><a href="https://rubyonremote.com/" rel="nofollow">Ruby On Remote</a> - All ruby remote jobs in one place</li>
+		<li><a href="https://www.skipthedrive.com/" rel="nofollow">Skip the Drive</a></li>
+		<li><a href="https://slasify.com/en/" rel="nofollow">Slasify</a> - Remote tech, art/design and marketing opportunities from Asia, global payroll service included.</li>
+		<li><a href="https://streamnative.io/careers/" rel="nofollow">Stream Native Jobs</a> - Scroll down to <code>Join Us</code></li>
+		<li><a href="https://swissdevjobs.ch/" rel="nofollow">SwissDev Jobs</a> - Filter -&gt; "Remote / Work from home"</li>
+		<li><a href="https://uiuxdesignerjobs.com/remote-ui-ux-designer-jobs/" rel="nofollow">UI &amp; UX Designer Jobs</a> - Remote jobs for UI, UX &amp; UXR Designers</li>
+		<li><a href="https://www.useweb3.xyz/jobs" rel="nofollow">useWeb3</a> - A curated blockchain, crypto and web3 job board and developer platform</li>
+		<li><a href="https://www.upwork.com" rel="nofollow">Upwork</a> - Find remote jobs in any category</li>
+		<li><a href="https://www.virtualvocations.com/" rel="nofollow">Virtual Vocations</a></li>
+		<li><a href="https://vuejobs.com/" rel="nofollow">Vue.js Jobs</a> Find Vue.js jobs all around the world - Click on "Remote" tab.</li>
+		<li><a href="https://www.react-jobs.com" rel="nofollow">React.js Jobs</a> Find React.js jobs all around the world - Click on "Remote" toggle button.</li>
+		<li><a href="https://web3.career/remote-jobs" rel="nofollow">Web3Jobs</a> - Remote Web3 Jobs</li>
+		<li><a href="https://wellfound.com/jobs" rel="nofollow">Wellfound</a> - Startup Jobs. Search by going to Job Type, and selecting "Remote OK".</li>
+		<li><a href="https://www.welovegolang.com/" rel="nofollow">We Love Go</a> Find Go jobs and Go people all around the world - Click on "Remote Go jobs" link. #golang</li>
+		<li><a href="https://weworkremotely.com/" rel="nofollow">We Work Remotely</a></li>
+		<li><a href="https://www.workana.com/" rel="nofollow">Workana</a> Freelance Job Board in Spanish and Portuguese</li>
+		<li><a href="https://www.workingnomads.co/jobs" rel="nofollow">Working Nomads</a></li>
+		<li><a href="https://zuhausejobs.com" rel="nofollow">zuhausejobs.com</a> - Remote Jobs in German-speaking countries (Germany/Austria/Switzerland)</li>
+		<li><a href="https://dataaxy.com" rel="nofollow">Dataaxy</a> Job board and reverse job board specialized in Data and AI in North America</li>
+		<li><a href="https://freel.ca" rel="nofollow">Freel</a> Freelancers job board in Canada</li>
+		</ol>
+		<div class="markdown-heading" dir="auto"><h2 tabindex="-1" class="heading-element" dir="auto">Job boards aggregators</h2><a id="user-content-job-boards-aggregators" class="anchor" aria-label="Permalink: Job boards aggregators" href="#job-boards-aggregators"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+		<ol dir="auto">
+		<li><a href="https://www.careervault.io" rel="nofollow">Career Vault</a> - Hundreds of remote jobs added each day from thousands of company career pages. Free and no signup required.</li>
+		<li><a href="https://findwork.dev/" rel="nofollow">Findwork</a> Crawls multiple job boards and enriches job postings with Glassdoor (reviews) and Crunchbase (funding).</li>
+		<li><a href="https://www.google.com/search?q=remote&amp;ibp=htl;jobs#fpstate=tldetail&amp;htidocid=IO0hI7dpKTSlzSKoAAAAAA%3D%3D&amp;htin=1&amp;htivrt=jobs" rel="nofollow">Google Jobs</a>  – Aggregates from multiple boards and employer sites with sensitivity to location, job type, and more. Find out how to use it <a href="https://support.google.com/websearch/answer/7498276?p=job_search_box&amp;sa=X&amp;ved=0ahUKEwid_qyLmJfXAhVD4YMKHYGBAK8Qra4CCGQoAQ&amp;visit_id=1-636449234996681631-3229288694&amp;rd=1" rel="nofollow">here</a>.</li>
+		<li><a href="https://jsremotely.com/" rel="nofollow">JS Remotely</a> - All remote JavaScript jobs on one board</li>
+		<li><a href="https://www.remote.io/" rel="nofollow">Remote.io</a> - Job board and aggregator for remote jobs, primarily tech.</li>
+		<li><a href="https://remote4me.com/" rel="nofollow">Remote 4 Me</a> - An aggregator for remote jobs in tech and non-tech.</li>
+		<li><a href="https://remoteindex.co/" rel="nofollow">Remote Index</a> - Job board and aggregator for remote jobs in tech.</li>
+		<li><a href="https://remoteleaf.com" rel="nofollow">Remote Leaf</a> - Hand-picked remote jobs from 40+ remote job boards, 1500+ company career pages, Twitter feed, Linkedin, Reddit, Hacker News Hiring and only sends the ones that apply to you.</li>
+		<li><a href="https://remoteok.io/" rel="nofollow">Remote OK</a> - Scrapes many job board feeds for remote positions.</li>
+		<li><a href="https://www.remotepython.com/" rel="nofollow">Remote Python</a> - Job board and aggregator specifically for remote Python jobs.</li>
+		<li><a href="https://slashjobs.com/" rel="nofollow">SlashJobs</a> - Remote dev jobs aggregator. <code>and</code>/<code>or</code>/<code>not</code> filters, location search, fast, no sign-up/login.</li>
+		<li><a href="https://untalent.org/jobs/home-based" rel="nofollow">UN Talent</a> - Vacancies at the United Nations and its agencies.</li>
+		<li><a href="https://www.vollna.com/" rel="nofollow">Vollna</a> - An aggregator for top freelance sites.</li>
+		<li><a href="https://whoishiring.io/#!/search/19.41/-43.14/2/?remote=true" rel="nofollow">whoishiring.io</a></li>
+		<li><a href="https://workremotely.io/" rel="nofollow">Work Remotely</a> - Crawls and curates many job board feeds for remote positions</li>
+		</ol>  
+</div>
+
+<div id="footer"></div>
+	<script>
+	    document.addEventListener("DOMContentLoaded", () => {
+	        fetch("footers/index.html")
+	            .then(response => response.text())
+	            .then(data => {
+	                document.getElementById("footer").innerHTML = data;
+	            })
+	            .catch(error => console.error('Error loading footer:', error));
+	    });
+	</script>
+    </body>
 </html>

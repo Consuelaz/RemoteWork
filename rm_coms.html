@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head><script src="assets/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.122.0">
+    <title>Headers · Bootstrap v5.3</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
+
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+<link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        width: 100%;
+        height: 0.01rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .btn-bd-primary {
+        --bd-violet-bg: #712cf9;
+        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+        --bs-btn-font-weight: 600;
+        --bs-btn-color: var(--bs-white);
+        --bs-btn-bg: var(--bd-violet-bg);
+        --bs-btn-border-color: var(--bd-violet-bg);
+        --bs-btn-hover-color: var(--bs-white);
+        --bs-btn-hover-bg: #6528e0;
+        --bs-btn-hover-border-color: #6528e0;
+        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+        --bs-btn-active-color: var(--bs-btn-hover-color);
+        --bs-btn-active-bg: #5a23c8;
+        --bs-btn-active-border-color: #5a23c8;
+      }
+
+      .bd-mode-toggle {
+        z-index: 1500;
+      }
+
+      .bd-mode-toggle .dropdown-menu .active .bi {
+        display: block !important;
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="headers.css" rel="stylesheet">
+  </head>
+  <body>
+	  <div id="header"></div>
+	  <script>
+	      document.addEventListener("DOMContentLoaded", () => {
+	          fetch("headers/index.html")
+	              .then(response => response.text())
+	              .then(data => {
+	                  document.getElementById("header").innerHTML = data;
+	              })
+	              .catch(error => console.error('Error loading header:', error));
+	      });
+	  </script>
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="check2" viewBox="0 0 16 16">
+        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+      </symbol>
+      <symbol id="circle-half" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
+      </symbol>
+      <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+        <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"/>
+      </symbol>
+      <symbol id="sun-fill" viewBox="0 0 16 16">
+        <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+      </symbol>
+    </svg>
+
+    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+      <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
+              id="bd-theme"
+              type="button"
+              aria-expanded="false"
+              data-bs-toggle="dropdown"
+              aria-label="Toggle theme (auto)">
+        <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
+        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+            <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#sun-fill"></use></svg>
+            Light
+            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+            <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
+            Dark
+            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+            <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#circle-half"></use></svg>
+            Auto
+            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+  <symbol id="bootstrap" viewBox="0 0 118 94">
+    <title>Bootstrap</title>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"></path>
+  </symbol>
+  <symbol id="home" viewBox="0 0 16 16">
+    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+  </symbol>
+  <symbol id="speedometer2" viewBox="0 0 16 16">
+    <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+    <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/>
+  </symbol>
+  <symbol id="table" viewBox="0 0 16 16">
+    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+  </symbol>
+  <symbol id="people-circle" viewBox="0 0 16 16">
+    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+  </symbol>
+  <symbol id="grid" viewBox="0 0 16 16">
+    <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/>
+  </symbol>
+</svg>
+
+<main>
+
+</main>
+<script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+		  
+<div class="markdown-heading" dir="auto"><h2 tabindex="-1" class="heading-element" dir="auto">Companies with "remote DNA"</h2><a id="user-content-companies-with-remote-dna" class="anchor" aria-label="Permalink: Companies with &quot;remote DNA&quot;" href="#companies-with-remote-dna"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+		<ol dir="auto">
+		<li><a href="https://10up.com/careers/" rel="nofollow">10up</a> - 10up makes the web better by finely crafting websites &amp; tools for content creators.</li>
+		<li><a href="https://www.15five.com/careers/" rel="nofollow">15Five</a> - Join our mission to create the spaces where people become their greatest selves, by joining some of the greatest employees around.</li>
+		<li><a href="https://1password.com/jobs/" rel="nofollow">1Password</a> - The world’s most-loved password manager.</li>
+		<li><a href="https://adevait.com" rel="nofollow">Adeva</a> - An exclusive remote developers network. Adeva partners with companies to scale engineering teams on-demand.</li>
+		<li><a href="https://agentfire.com/meet-our-team/" rel="nofollow">AgentFire</a> - Hyper local real estate websites powered by Wordpress.</li>
+		<li><a href="https://www.affirm.com/careers" rel="nofollow">Affirm</a> - financial technology company that offers point-of-sale financing options to consumers.</li>
+		<li><a href="https://www.aha.io/company/careers/current-openings" rel="nofollow">Aha!</a> - Aha! is roadmapping software for PMs who want their mojo back.</li>
+		<li><a href="https://www.airtreks.com/about/" rel="nofollow">AirTreks</a> - Multi-stop international flight planner with a distributed team.</li>
+		<li><a href="https://alley.co/jobs/" rel="nofollow">Alley</a> - Digital Agency. We are strategists, researchers, designers, and developers who craft custom digital experiences for publishers, nonprofit institutions, museums, and brands.</li>
+		<li><a href="https://www.aliceplatform.com/careers/" rel="nofollow">ALICE</a> - Remote-friendly start-up company. We’re creating the global operations platform for the hospitality industry. ALICE empowers the world's best hotels to deliver a remarkable guest experience.</li>
+		<li><a href="https://www.amazee.io/careers" rel="nofollow">amazee.io</a> - Open source container hosting - high-performance flexible solutions. Kubernetes, TypeScript (Node.js and React), Go, GraphQL.</li>
+		<li><a href="http://ameego.ca/" rel="nofollow">Ameego</a> - Restaurant scheduling software.</li>
+		<li><a href="https://arkency.com/join-our-team/" rel="nofollow">Arkency</a> - Rails and React.js experts, fully remote/async.</li>
+		<li><a href="https://array.com/careers" rel="nofollow">Array.com</a> - Financial, identity, and privacy protection tools.</li>
+		<li><a href="https://articulate.com/company/careers.php" rel="nofollow">Articulate</a> - EdTech. Makes software that helps teachers make e-learning courses. Ruby, Node, C#, and .NET for Windows app.</li>
+		<li><a href="https://att.jobs" rel="nofollow">AT&amp;T</a> - Nearly <a href="https://www.att.com/Common/about_us/files/csr_2012/worklife_balance.pdf" rel="nofollow">20% of the eligible workforce</a> works remotely.</li>
+		<li><a href="https://aurorasolar.com/careers/" rel="nofollow">Aurora Solar</a> - solar permitting.</li>
+		<li><a href="https://auth0.com/jobs" rel="nofollow">Auth0</a> - Zero-friction authentication and authorization for developers.</li>
+		<li><a href="https://authenticff.com/" rel="nofollow">Authentic F &amp; F</a> - Independent design and technology studio based in Denver and Minnesota</li>
+		<li><a href="https://www.aurity.co/" rel="nofollow">Aurity</a> - 100% remote company, specializing in React and React Native.</li>
+		<li><a href="https://automattic.com/work-with-us/" rel="nofollow">Automattic</a> - Makers of WordPress.com and Gravatar.</li>
+		<li><a href="https://www.assemblyai.com/careers" rel="nofollow">AssemblyAI</a> - AI models to transcribe and understand speech.</li>
+		<li><a href="https://www.avallain.com/" rel="nofollow">Avallain</a> - Education Technology and Digital Publishing. We have the tools and processes to achieve the positive impact on human potential that technology enhanced education can provide</li>
+		<li><a href="https://avantstay.com/careers" rel="nofollow">AvantStay</a> - Short-term rental company based in Los Angeles, with remote dev team.</li>
+		<li><a href="https://www.axelerant.com/careers" rel="nofollow">Axelerant</a></li>
+		<li><a href="https://bandlab.com/careers" rel="nofollow">BandLab</a> - Social music platform that enables creators to make music and share the creative process with musicians and fans.</li>
+		<li><a href="https://baremetrics.com/about" rel="nofollow">Baremetrics</a> - Analytics and insights for Stripe, Braintree, Recurly and Chargify.</li>
+		<li><a href="https://basecamp.com/about/team" rel="nofollow">BaseCamp</a> - Project management software.</li>
+		<li><a href="https://www.baselayer.com/company/careers/" rel="nofollow">Baselayer</a> - Data center and infrastructure management software.</li>
+		<li><a href="https://bebanjo.com/careers/" rel="nofollow">BeBanjo</a> - Software as a service for managing video on-demand. Ruby / Rails, Elasticsearch, Sidekiq.</li>
+		<li><a href="https://binti.com/current-openings/" rel="nofollow">Binti</a> - Foster care.</li>
+		<li><a href="https://www.bluespark.com/careers" rel="nofollow">Bluespark Labs</a> - WebDev Consulting and makers of Roomify. Remote team with HQs in Raleigh, NC and Italy. Drupal.</li>
+		<li><a href="https://blend.com/company/careers/" rel="nofollow">Blend</a> - Fintech.</li>
+		<li><a href="https://www.bookingsync.com/en/jobs" rel="nofollow">BookingSync</a> - Vacation Rental Software for professionals. Fully distributed team, we work remotely and try to make a company retreat each year. Proud Ember.js official sponsor, Ruby / Rails</li>
+		<li><a href="https://brave.com" rel="nofollow">Brave</a> - Web browser with built-in ad blocker and crypto-token micro-payments.</li>
+		<li><a href="https://buffer.com/journey/" rel="nofollow">Buffer</a> - Tools to help manage social media. PHP, CodeIgniter, MongoDB, Memcache, Backbone.js, React.js, Grunt.js, LESS, and Python.</li>
+		<li><a href="https://bugfender.com/" rel="nofollow">Bugfender</a> - Bugfender is a remote logger for multiple platforms including iOS and Android. It stores logs created by your application and sends them to our server, creating a remote console where you can see logs in real time. Remote company based in Barcelona.</li>
+		<li><a href="http://www.buttercloud.com/" rel="nofollow">ButterCloud</a> - A small team of web &amp; app developers. We help startups &amp; small to medium-sized businesses build, maintain, and grow their products.</li>
+		<li><a href="https://www.calm.com/careers" rel="nofollow">Calm</a> - improve your health and happiness.</li>
+		<li><a href="https://cadasta.org/about-us-3/careers-2/" rel="nofollow">Cadasta</a> - Secure platform for mapping global land &amp; resource rights. 100% remote team; Python, Django, JavaScript, PostgreSQL.</li>
+		<li><a href="https://www.canonical.com/careers/all-vacancies" rel="nofollow">Canonical</a> - Ubuntu.</li>
+		<li><a href="https://labs.ceros.com/jobs/#/" rel="nofollow">Ceros</a> - .</li>
+		<li><a href="https://www.chef.io/careers/" rel="nofollow">Chef</a> - We are all about IT automation for speed and awesomeness. Ruby, JavaScript &amp; shell scripting. HQ in Seattle but we have employees all around US.</li>
+		<li><a href="https://ciaobambino.com/" rel="nofollow">Ciao Bambino</a> - Family destinations and hotel reviews.</li>
+		<li><a href="https://www.circonus.com/careers" rel="nofollow">Circonus</a> - SaaS and on-prem monitoring, analytics, alerting, and more.  C, Go, Java, Perl.  HQ in Fulton MD, most employees are remote.</li>
+		<li><a href="https://clevertech.biz/careers" rel="nofollow">Clevertech</a> - We build incredible, game-changing technology.</li>
+		<li><a href="https://jobs.close.com/" rel="nofollow">Close</a> - Inside sales CRM for startups and SMBs.</li>
+		<li><a href="https://codeship.com/jobs" rel="nofollow">Codeship</a> - SaaS Continuous Delivery</li>
+		<li><a href="https://www.codeweavers.com/about/jobs" rel="nofollow">CodeWeavers</a> - Wine-based open source software.</li>
+		<li><a href="https://www.collabora.com/careers.html" rel="nofollow">Collabora</a> - Open source software-based consulting.</li>
+		<li><a href="https://www.compose.io/jobs/" rel="nofollow">Compose</a> - Managing databases as a service. Distributed team with offices in San Meteo, CA and Birmingham, AL.</li>
+		<li><a href="https://consensys.net/careers/" rel="nofollow">ConsenSys</a> - Blockchain software technology company with offices all around the world, and independent employees in even more locations.</li>
+		<li><a href="https://www.continu.co/" rel="nofollow">Continu</a> - Continuous learning software for modern teams.</li>
+		<li><a href="https://about.coursera.org/careers/jobs/" rel="nofollow">Coursera</a> - online courses.</li>
+		<li><a href="https://crometrics.com/careers/" rel="nofollow">CRO Metrics</a> - Data-driven expirementation and growth programs.</li>
+		<li><a href="https://crosscan.com/jobs/" rel="nofollow">Crosscan</a> - Retail Analytics, IoT (PHP, React, Web, Mobile, Rust)</li>
+		<li><a href="https://app.crossover.com/x/marketplace/available-jobs" rel="nofollow">Crossover</a> - Project-based Java, .Net and DevOps positions.</li>
+		<li><a href="https://jobs.custimy.io/" rel="nofollow">Custimy</a> - Customer Data Platform for e-commerce. Jobs with Spark, Python, Terraform, AWS, Node and more. EU timezone. HQ in Copenhagen with colleagues all over Europe. Fully remote allowed. Company gatherings and optional travel.</li>
+		<li><a href="https://customer.io/careers/" rel="nofollow">Customer.io</a> - Customer engagement platform. 100% remote and globally distributed team. Go, MySQL, Typescript, Ember, React, etc</li>
+		<li><a href="https://www.datacose.com" rel="nofollow">DataCose</a> - Custome web development and custom automations. Python, Vue.Js, TypeScript</li>
+		<li><a href="https://www.darecode.com" rel="nofollow">DareCode</a> - Big-data, fast-data, micro-services. Projects with real DevOps and OpenSource orientation.</li>
+		<li><a href="https://www.datadoghq.com/careers/" rel="nofollow">Datadog</a> - Easy to use and scalable monitoring systems for modern and dynamic infrastructure.  Distributed team with offices in New York, Boston and Paris.  Engineers based all around the world.</li>
+		<li><a href="https://www.datastax.com/company/careers" rel="nofollow">DataStax</a> - Consulting based on Apache Cassandra.</li>
+		<li><a href="https://www.deeson.co.uk/careers" rel="nofollow">Deeson</a> - UK-based with European team. Digital agency specialising in Drupal, Symfony and Laravel</li>
+		<li><a href="https://www.digitalocean.com/careers/" rel="nofollow">DigitalOcean</a> - Simple Cloud Hosting, Built for Developers</li>
+		<li><a href="https://www.discourse.org/team" rel="nofollow">Discourse</a> - Civilized discussion for your community.</li>
+		<li><a href="https://dnsimple.com/" rel="nofollow">DNSimple</a> - Small 100% remote and globally distributed team working to make domain management an afterthought.</li>
+		<li><a href="https://www.docker.com/career-openings/" rel="nofollow">Docker</a> -</li>
+		<li><a href="https://doist.com/jobs/" rel="nofollow">Doist</a> - Redefining productivity since 2007.</li>
+		<li><a href="https://careers.doit.com/" rel="nofollow">DoIT</a> - technology and cloud expertise.</li>
+		<li><a href="https://dotnetos.org/" rel="nofollow">Dotnetos</a> - Dotnet performance conferences, meetups and courses.</li>
+		<li><a href="https://dotsub.com/jobs" rel="nofollow">Dotsub</a> - Browser-based platform for subtitling &amp; translating online videos. Java / Spring, JavaScript / React.js</li>
+		<li><a href="https://www.doximity.com/about/jobs" rel="nofollow">Doximity</a> - Largest online medical network of US physicians. Ruby, Rails, Go, JavaScript, MySQL.</li>
+		<li><a href="https://assoc.drupal.org/jobs" rel="nofollow">Drupal Association</a> - Non-profit supporting the Drupal project.</li>
+		<li><a href="https://jobs.dropbox.com/all-jobs" rel="nofollow">Dropbox</a> -  file hosting service that provides cloud storage.</li>
+		<li><a href="https://duck.co/help/company/hiring" rel="nofollow">DuckDuckGo</a> - Search engine.</li>
+		<li><a href="https://www.easycomtec.com/homeoffice/developer" rel="nofollow">EasyCommunicationTechnology</a> - .NET development using C#, Angular, Azure. Remote-first company.</li>
+		<li><a href="https://www.elastic.co/" rel="nofollow">Elastic</a> - Open source search &amp; analytics</li>
+		<li><a href="http://eloquentix.com/" rel="nofollow">Eloquentix</a> - All remote company across 3 continents and 9 timezones.</li>
+		<li><a href="https://envato.com/careers" rel="nofollow">Envato</a> - Maker of ThemeForest and other online marketplaces. MySQL, Ruby, Rails, JavaScript. Distributed team with HQ in Melbourne, Australia.</li>
+		<li><a href="https://www.ergeon.com/careers/" rel="nofollow">Ergeon</a> - Home Services and construction company. An all-remote company with HQ in Palo Alto, California, but hiring worldwide.</li>
+		<li><a href="https://www.etsy.com/careers" rel="nofollow">Etsy</a> - Marketplace for artists. MySQL, Memcache, PHP. Offices in Dublin, Paris, San Francisco, New York, London and Melbourne.</li>
+		<li><a href="https://www.exportdata.io/team" rel="nofollow">ExportData</a> - Export, search &amp; analyse Twitter data. Ruby, Rails, React.JS, Terraform, AWS.</li>
+		<li><a href="https://eyeo.com/en/jobs/" rel="nofollow">Eyeo</a> - Maker of AdBlock Plus. Main office in Cologne, Germany.</li>
+		<li><a href="https://factorialhr.com/" rel="nofollow">Factorial</a> - A Human Resources management platform for SMEs</li>
+		<li><a href="https://feeld.co/" rel="nofollow">Feeld</a> - Dating app for couples and singles.</li>
+		<li><a href="https://findify.io/" rel="nofollow">Findify</a> - E-commerce search powered by machine learning and big data. Team distributed across Europe.</li>
+		<li><a href="https://generalassemb.ly/careers" rel="nofollow">General Assembly</a> - Physical and on-line education for technology, business, and design.</li>
+		<li><a href="https://ghost.org/about/#careers" rel="nofollow">Ghost</a> - Publishing platform.</li>
+		<li><a href="https://www.giantswarm.io/careers" rel="nofollow">Giant Swarm</a> - Giant Swarm’s managed microservices infrastructure enables enterprises to run agile, resilient, distributed systems at scale, while removing the tasks related to managing the complex underlying infrastructure</li>
+		<li><a href="https://gigster.com/" rel="nofollow">Gigster</a> - vetted network of top 5% freelancers worldwide. PM, Dev, Sales positions available.</li>
+		<li><a href="https://www.headspin.io/" rel="nofollow">HeadSpin</a> - world’s first Digital Experience AI Platform that combines cloud-hosted and on-prem global device infrastructure, test automation, and ML-driven performance &amp; quality of experience analytics for mobile, web, audio, and video.</li>
+		<li><a href="https://jobs.gitbook.com/" rel="nofollow">Gitbook</a> - Publishing toolchain based on git. JavaScript, node.js, Go.</li>
+		<li><a href="https://github.com/about/jobs">GitHub</a></li>
+		<li><a href="https://about.gitlab.com/jobs/" rel="nofollow">GitLab</a> - Competitor to GitHub.</li>
+		<li><a href="https://gitee.com" rel="nofollow">Gitee</a> - GitHub alternative in China.</li>
+		<li><a href="https://gradle.com/careers" rel="nofollow">Gradle</a> - Open Source Build Tool ; Enterprise SaaS and on-premise. Fully remote. Java, Groovy, Kotlin.</li>
+		<li><a href="https://www.groovehq.com/about" rel="nofollow">GrooveHQ</a> - Help desk software.</li>
+		<li><a href="https://www.goguardian.com/careers" rel="nofollow">GoGuardian</a> - K-12 digital learning environments.</li>
+		<li><a href="https://www.hanzo.co/about-us/careers-uk" rel="nofollow">Hanzo</a> - Web archiving company. Fully Remote. Python, AWS.</li>
+		<li><a href="https://www.getharvest.com/careers" rel="nofollow">Harvest</a> - Time tracking software.</li>
+		<li><a href="https://www.hashicorp.com/jobs.html" rel="nofollow">HashiCorp</a> - Open source tools for automating the modern data center. Go, Ruby, Rails, Ember, JavaScript.</li>
+		<li><a href="https://www.hatica.io" rel="nofollow">Hatica</a> - Work analytics for engineering teams: Hatica equips engineering leaders and managers with actionable insights to promote effort alignment, accelerate delivery, drive team engagement, and promote team well-being.</li>
+		<li><a href="https://www.healthfinch.com/careers" rel="nofollow">Healthfinch</a> - Making Healthcare systems more usable. HQ in Madison, WI, USA. Ruby, JavaScript.</li>
+		<li><a href="https://heapanalytics.com/careers/jobs" rel="nofollow">Heap</a> – Web &amp; Mobile Analytics, 2 of our 8 teammates are remote.</li>
+		<li><a href="https://jobs.heetch.com" rel="nofollow">Heetch</a> – Ride Hailing service, operating in Europe and Africa. Fully Remote across Europe or similar timezones. Go, AWS.</li>
+		<li><a href="https://www.helpscout.com/company/careers/" rel="nofollow">Help Scout</a> - A help desk for teams that insist on a delightful customer experience.</li>
+		<li><a href="https://www.heroku.com/careers" rel="nofollow">Heroku</a> - PaaS Cloud, makes devs' experience awesome, Ruby, Erlang, JavaScript, Golang, Python.</li>
+		<li><a href="https://www.honeybadger.io/" rel="nofollow">Honeybadger</a> - Ruby. 100% remote.</li>
+		<li><a href="https://careers.hotjar.com/" rel="nofollow">Hotjar</a> - Analytics &amp; Feedback tool.</li>
+		<li><a href="https://hubstaff.com/jobs" rel="nofollow">Hubstaff</a> - Time tracking solution with multiple integrations.</li>
+		<li><a href="https://www.igalia.com/about-us/form" rel="nofollow">Igalia</a> - Open source consultancy. HQ in Spain.</li>
+		<li><a href="https://incsub.com/careers/" rel="nofollow">Incsub</a> - Remote team that builds WordPress projects.</li>
+		<li><a href="https://inpsyde.com/" rel="nofollow">Inpsyde GmbH</a> - WordPress Agency in Germany.</li>
+		<li><a href="https://inn.org/about/jobs/" rel="nofollow">Institute for Nonprofit News</a> - Nonprofit news organization.</li>
+		<li><a href="https://www.instructure.com/careers/" rel="nofollow">Instructure</a> - We make software that makes people smarter.</li>
+		<li><a href="https://www.intellum.com/" rel="nofollow">Intellum</a> - We build employee collaboration, performance and learning tools. Ruby, iOS, Android, AWS, GCS.</li>
+		<li><a href="https://www.intevity.com/" rel="nofollow">Intevity</a></li>
+		<li><a href="https://jobs.imachines.com/" rel="nofollow">Intuition Machines, Inc.</a> - Intuition Machines specializes in deep learning and visual domain ML at scale. Python, JavaScript, Kubernetes, Kafka, Dask/Spark, ML/Computer Vision</li>
+		<li><a href="https://www.invisionapp.com/company#jobs" rel="nofollow">InVision</a> - prototyping, collaboration &amp; workflow platform.</li>
+		<li><a href="https://iterative.notion.site/Iterative-ai-is-Hiring-852cb978129645e1906e2c9a878a4d22" rel="nofollow">Iterative</a> - ML Model Development for teams. Remotely worldwide</li>
+		<li><a href="https://careers.ironin.it" rel="nofollow">iRonin.IT</a> - software house. Polish language. Ruby on Rails, Node.js, JavaScript, React, Angular, Vue.js.</li>
+		<li><a href="https://careers.isostech.com/" rel="nofollow">Isos Technology</a> - premier Atlassian Platinum &amp; Enterprise Solution Partner, helping organizations solve complex development and business problems with the Atlassian tools.</li>
+		<li><a href="https://www.jacksonriver.com/about/jobs" rel="nofollow">Jackson River</a> - Digital-first technology and strategy for nonprofits.</li>
+		<li><a href="http://careers.jibblegroup.com/" rel="nofollow">Jibble Group</a> - Remote team across 15 different countries building the next world-class workforce management and payroll Software-as-a-Service.</li>
+		<li><a href="https://www.journy.io/about-us" rel="nofollow">journy.io</a> - Customer Data Platform.</li>
+		<li><a href="https://judge.me/" rel="nofollow">Judge.me</a> - A review platform for ecommerces. Our company is fully remote across 4 continents.</li>
+		<li><a href="https://www.getkeepsafe.com" rel="nofollow">Keepsafe</a> - Mobile-first privacy products, making privacy easy for the world to opt into.</li>
+		<li><a href="https://www.khanacademy.org/careers" rel="nofollow">Khan Academy</a> - EdTech. Non-profit focusing on K-12 STEM. Less, React, Flux, Backbone, jQuery, Python, Google App Engine, Swift, and Objective-C.</li>
+		<li><a href="https://www.knack.com/jobs" rel="nofollow">Knack</a> - The easy online database helping customers streamline their business processes and automate workflow. The product is DIY with no-code/low-code. The company is 100% remote.</li>
+		<li><a href="https://www.laterpay.net/" rel="nofollow">LaterPay</a> - The (micro)payment enabler. Munich, Germany. Python, JavaScript, AWS.</li>
+		<li><a href="https://launchpotato.com/careers" rel="nofollow">LaunchPotato</a> - Startup studio based in Delray Beach, Florida.</li>
+		<li><a href="https://www.solarwinds.jobs/" rel="nofollow">Librato</a> - Cloud Monitoring.</li>
+		<li><a href="https://www.linaro.org/careers/" rel="nofollow">Linaro</a> - OpenSource Engineering on ARM.</li>
+		<li><a href="https://lincolnloop.com" rel="nofollow">Lincoln Loop</a> - WebDev shop.</li>
+		<li><a href="https://litmus.com/careers" rel="nofollow">Litmus</a> - Optimization tools for email professionals. Offices in Boston and London, but nearly 50% of the team works remotely.</li>
+		<li><a href="https://www.livechat.com/careers/jobs/" rel="nofollow">LiveChat</a> - online customer service software with online chat, help desk software, and web analytics</li>
+		<li><a href="https://jobs.groupon.com/" rel="nofollow">LivingSocial</a> - Company-wide support for teams of experienced, remote developers. Lots of autonomy.</li>
+		<li><a href="https://logit.io/about-us#careers" rel="nofollow">Logit.io</a> - Fully remote first logging and metrics management company with 100% of operations and development based remotely</li>
+		<li><a href="https://www.lullabot.com/jobs" rel="nofollow">Lullabot</a> - Strategy, design and development using Drupal.</li>
+		<li><a href="https://madewithlove.com/jobs" rel="nofollow">madewithlove</a> - We help companies build digital products and bring new juice to teams that seem to jam.</li>
+		<li><a href="https://maintainer.io" rel="nofollow">Maintainer Mountaineer</a> - Open source community management as a service.</li>
+		<li><a href="https://www.mailerlite.com/" rel="nofollow">MailerLite</a> - Email marketing tool with a remote-first team that's scattered all over the world. Twice a year, they go on workation to places like Bali, Panama and Miami.</li>
+		<li><a href="https://mariadb.com/about-us/careers" rel="nofollow">MariaDB</a> - Open source database.</li>
+		<li><a href="https://marsbased.com" rel="nofollow">MarsBased</a> - MarsBased is a development consultancy from Barcelona offering end‑to‑end web &amp; mobile apps based on Ruby on Rails, Angular and other JavaScript frameworks.</li>
+		<li><a href="https://www.mapbox.com/jobs/" rel="nofollow">Mapbox</a> - Map integration tools for various platforms.</li>
+		<li><a href="https://meetedgar.com/careers/" rel="nofollow">MeetEdgar</a> - Automated social sharing. US remote.</li>
+		<li><a href="https://www.metacareers.com/jobs/" rel="nofollow">Meta</a> - Partent company of Facebook, Instagram. Filter by remote.</li>
+		<li><a href="https://merico.dev/" rel="nofollow">Merico</a> - Code deep analysis engine.</li>
+		<li><a href="https://careers.mixmax.com/" rel="nofollow">Mixmax</a> - Email with superpowers.</li>
+		<li><a href="https://mobilejazz.com/" rel="nofollow">Mobile Jazz</a> - We are a dedicated team of highly-skilled engineers, designers and marketing experts on a mission to build a more beautiful digital world. We are a remote friendly company with headquarters in Barcelona.</li>
+		<li><a href="https://tri.be/careers" rel="nofollow">Modern Tribe</a> - A digital agency with a modern twist. All freelancers. All experts.</li>
+		<li><a href="https://modlr.co" rel="nofollow">MODLR</a> - MODLR is business modelling and collaborative planning tool for connected financial planning process</li>
+		<li><a href="https://moduscreate.com/" rel="nofollow">Modus Create</a> - Modus is a digital design-build agency driven by world-class talent. PHP, JavaScript.</li>
+		<li><a href="https://mode.com/careers/#open-roles" rel="nofollow">Mode Analytic</a> - BI.</li>
+		<li><a href="https://www.mosalingua.com/en/jobs/" rel="nofollow">Mosalingua</a> - Learn words, enjoy the world.</li>
+		<li><a href="https://careers.mozilla.org/listings/" rel="nofollow">Mozilla</a> - Firefox has a 'Remote' option under it's location searchbar</li>
+		<li><a href="https://www.nearform.com/careers/" rel="nofollow">NearForm</a> - NearForm evolves enterprises by building high-performance, open software. Our global team uses modern processes and tools to help clients innovate at speed.</li>
+		<li><a href="https://www.netguru.com/career" rel="nofollow">Netguru</a> - Software agency. JavaScript, Ruby on Rails, Python, Android, iOS</li>
+		<li><a href="https://www.netlandish.com/" rel="nofollow">Netlandish</a> - Software development for businesses of all sizes. Python, Django, DevOps. 100% Remote.</li>
+		<li><a href="https://www.netsparker.com/jobs/" rel="nofollow">Netsparker</a> - Web Application Security Scanner.</li>
+		<li><a href="https://www.nextbigsound.com/about" rel="nofollow">Next Big Sound</a> - Analytics and Insights for the Music Industry.</li>
+		<li><a href="https://www.ninjacat.io/jobs" rel="nofollow">NinjaCat</a> - Reporting, Monitoring &amp; Call Tracking Platform for Leading Digital Agencies.</li>
+		<li><a href="https://niteo.co/careers" rel="nofollow">Niteo</a> - A decade old SaaS studio full of bright ideas, building smart solutions to empower small businesses online.</li>
+		<li><a href="https://nodesource.com/about" rel="nofollow">NodeSource</a> - NodeSource is dedicated to creating a sustainable ecosystem for Node.js.</li>
+		<li><a href="https://nozbe.com/careers" rel="nofollow">Nozbe</a> - GTD app for Mac, Windows, Linux, Android, iPad and iPhone.</li>
+		<li><a href="https://www.ofri.ch/job_openings" rel="nofollow">ofri</a> - A swiss online marketplace that connects homeowners with quality home improvement professionals.</li>
+		<li><a href="https://www.olark.com/jobs" rel="nofollow">Olark</a> - Chat support funnel.</li>
+		<li><a href="https://www.onthegosystems.com/jobs/" rel="nofollow">onTheGo Systems</a> - WordPress Developer, Supporter and Marketing Jobs.</li>
+		<li><a href="https://opencraft.com/" rel="nofollow">OpenCraft</a> - Open edX development (Free Software MOOC project).</li>
+		<li><a href="https://parknav.com" rel="nofollow">Parknav</a> - Intelligent parking using AI</li>
+		<li><a href="https://www.parse.ly/careers" rel="nofollow">Parsely</a> - Analytics solutions</li>
+		<li><a href="https://particular.net/careers" rel="nofollow">Particular Software (NServiceBus)</a> - Enterprise Service Bus, Messaging, C#, Open Source</li>
+		<li><a href="https://patients.workable.com/" rel="nofollow">Patients Know Best</a> - Empowering patients to manage their care, enabling professionals to share information while improving efficiencies for payers.</li>
+		<li><a href="https://www.paylocity.com/careers/" rel="nofollow">Paylocity</a> - HR and payroll solutions</li>
+		<li><a href="https://pilot.co" rel="nofollow">Pilot</a> - Pilot is a software platform that removes all the pain from contract work. We find work, negotiate contracts, send invoices and chase payments for hundreds of forward-looking engineers and designers around the world.</li>
+		<li><a href="https://careers.pleo.io/" rel="nofollow">Pleo</a> - Pleo is a company payment card solution that automates expense reports and simplifies company spending.</li>
+		<li><a href="https://www.precisionnutrition.com/" rel="nofollow">Precision Nutrition</a> -  Online Nutrition Coaching and Certification.</li>
+		<li><a href="https://www.previousnext.com.au" rel="nofollow">PreviousNext</a> - Australian based Drupal agency.</li>
+		<li><a href="https://www.prezly.com/" rel="nofollow">Prezly</a> - SaaS PR platform. PHP, React, JS, Postgres. 100% remote.</li>
+		<li><a href="https://prodperfect.com/" rel="nofollow">Prodperfect</a> - Automated QA testing from live user data. Remote-first org with workplaces in Boston and San Fran.</li>
+		<li><a href="https://profinda.com/" rel="nofollow">ProFinda</a> - Workforce planning &amp; optimization. 100% remote dev team. Ruby on Rails, React.js and Python. Company based in UK.</li>
+		<li><a href="https://prosopo.io/" rel="nofollow">Prosopo</a> - Bot protection &amp; web security company. Fully remote team based in UK. Typescript, Rust, Open Source.</li>
+		<li><a href="https://www.rainforestqa.com/jobs/" rel="nofollow">RainforestQA</a> - On demand QA as a service.</li>
+		<li><a href="https://blog.rebelmouse.com/careers/" rel="nofollow">RebelMouse</a> - Social publishing platform. Python, JS &amp; iOS/Android developers. All over the world team.</li>
+		<li><a href="https://recurly.com/jobs/" rel="nofollow">Recurly</a> - recurring billing management for subscription-based businesses</li>
+		<li><a href="https://www.redhat.com/jobs/" rel="nofollow">Red Hat</a></li>
+		<li><a href="https://www.redoxengine.com/company/careers/" rel="nofollow">Redox</a> - Healthcare API platform. Proudly remote-first team.</li>
+		<li><a href="https://relevantbits.com" rel="nofollow">Relevant Bits</a> - Relevant Bits positively influences customer experiences and outcomes with data, design, technology, and critical thinking. Based out of Ontario Canada, Relevant Bits is 100% remote.</li>
+		<li><a href="https://www.renofi.com/careers/" rel="nofollow">RenoFi</a> - 100% remote from day 1. Ruby, React.js, GraphQL, k8s.</li>
+		<li><a href="https://jobs.lever.co/revolut?lever-via=8QDkIWda8L" rel="nofollow">Revolut</a> - App for buying, investing and sending money. HQ London.</li>
+		<li><a href="https://riak.com/careers/" rel="nofollow">Riak</a> - An open source platform and k/v database. We code in Erlang and hang out on clouds. Everyone works remote and gets together a few times a year at HQ in Seattle.</li>
+		<li><a href="https://www.flexera.com/about-us/careers.html" rel="nofollow">RightScale</a></li>
+		<li><a href="https://www.sangoma.com/" rel="nofollow">Sangoma</a> - Trusted leader in delivering globally scalable Voice-Over-IP telephony systems, both on-site and cloud-based. C, PHP, Python, JavaScript, Linux, FreePBX, VoIP.</li>
+		<li><a href="https://scrapinghub.com/jobs" rel="nofollow">Scrapinghub</a></li>
+		<li><a href="https://www.sketch.com/about-us/#careers-at-sketch" rel="nofollow">Sketch</a> - design tool for Mac.</li>
+		<li><a href="https://serpapi.com/team" rel="nofollow">SerpApi</a> - Real-time API to access structured search results of Google, Youtube, eBay and other search engines. Ruby, Rails, React.js.</li>
+		<li><a href="https://jobs.jobvite.com/servicenow/search?c=&amp;l=&amp;r=&amp;t=&amp;q=remote" rel="nofollow">ServiceNow</a> - Enterprise cloud computing to improve service levels, energize employees, and change the way your enterprise works. Work at lightspeed.</li>
+		<li><a href="https://www.shakacode.com/career/" rel="nofollow">ShakaCode</a> - A global web development software consultancy and product company.</li>
+		<li><a href="https://getshogun.com/team" rel="nofollow">Shogun</a> - Build and optimize eCommerce landing pages. Ruby / Rails, Go, JavaScript, React. 100% remote.</li>
+		<li><a href="https://www.signal.org/workworkwork/" rel="nofollow">Signal</a> - These people make the fantastic <a href="https://www.signal.org" rel="nofollow">Signal app</a>. US Only.</li>
+		<li><a href="https://skyscrapers.eu/jobs/" rel="nofollow">Skyscrapers</a> - Cloud hosting services &amp; management. Working with multiple cloud providers (AWS, Digital Ocean, Linode, ...). 100% remote.</li>
+		<li><a href="https://softwaremill.com/join-us/" rel="nofollow">SoftwareMill</a></li>
+		<li><a href="https://soshace.com/" rel="nofollow">Soshace</a> - Angular/React/Vue.js/Java/Python remote development company</li>
+		<li><a href="https://songspace.com" rel="nofollow">Songspace</a> Helps music creators collaborate, catalog, and share work with their professional team</li>
+		<li><a href="https://github.com/sourcegraph/careers">Sourcegraph</a> - Code search and navigation for teams (self-hosted, OSS). Fully remote (across time zones).</li>
+		<li><a href="https://careers.spreaker.com/opportunities/" rel="nofollow">Spreaker</a> Create, host, distribute and monetize your podcasts. All engineers are remote. Tech stack: Javascript (React, Node.js), PHP (Symfony), iOS, Android. All hosted on AWS..</li>
+		<li><a href="https://stackoverflow.com/company/work-here" rel="nofollow">StackExchange</a></li>
+		<li><a href="https://streamnative.io" rel="nofollow">Stream Native</a> Cloud-Native messaging and event streaming powered by Apache Pulsar</li>
+		<li><a href="https://stripe.com/blog/remote-hub" rel="nofollow">Stripe</a> Stripe builds financial tools and economic infrastructure for the internet</li>
+		<li><a href="https://strongloop.com/careers/" rel="nofollow">Strongloop</a></li>
+		<li><a href="http://static.styleseat.com/jobs/index.html" rel="nofollow">StyleSeat</a> - we love high-impact remote engineers, collaboration, creativity, python, angularjs</li>
+		<li><a href="https://superorbit.al" rel="nofollow">SuperOrbital</a> - Kubernetes engineering and training.</li>
+		<li><a href="https://www.surevine.com/jobs/" rel="nofollow">Surevine</a></li>
+		<li><a href="https://www.surgeforward.com/careers/" rel="nofollow">Surge</a> - 100% remote consulting company working primarily in Node.JS, iOS, .NET, PHP, and Android</li>
+		<li><a href="https://careers.squareup.com/us/en/jobs?location%5B%5D=Remote" rel="nofollow">Square</a> - Square helps millions of sellers run their business-from secure credit card processing to point of sale solutions. Products: Square and Cash App.</li>
+		<li><a href="https://www.svix.com/careers/" rel="nofollow">Svix</a> - Open source and hosted webhook service so you can launch webhooks in days, not months.</li>
+		<li><a href="https://sysdig.com/jobs/" rel="nofollow">Sysdig Cloud</a></li>
+		<li><a href="https://www.taskade.com/contact/" rel="nofollow">Taskade</a> - Remote team building real-time collaboration &amp; collaborative editing for teams.</li>
+		<li><a href="https://www.taxjar.com/jobs/" rel="nofollow">TaxJar</a> - Eliminate sales tax headaches.</li>
+		<li><a href="https://www.teamed.io/" rel="nofollow">Teamed.io</a></li>
+		<li><a href="https://www.teamsnap.com/about/careers" rel="nofollow">TeamSnap</a> - TeamSnap is the No. 1 online sports team management software. 80% remote employees</li>
+		<li><a href="https://www.ted.com/about/our-organization/jobs-at-ted" rel="nofollow">TED</a> - Technology team supports ted.com and internal tools. All engineers are remote. Ruby on Rails, JavaScript, Ember.js</li>
+		<li><a href="https://teleport.org/jobs/" rel="nofollow">Teleport</a></li>
+		<li><a href="https://www.teamsnap.com/company/careers" rel="nofollow">TeamSnap</a> - sports club managment software.</li>
+		<li><a href="https://tesera.com/" rel="nofollow">Tesera</a> - We disrupt conventional thinking to expand what is possible. We ignite change in the future we share.</li>
+		<li><a href="https://thegrid.io/" rel="nofollow">The Grid</a> - AI website builder. 100% distributed team.</li>
+		<li><a href="https://thermeon.com/vacancies/" rel="nofollow">Thermeon</a> - Car rental software - 100% remote technical team</li>
+		<li><a href="https://thorn.org/careers" rel="nofollow">Thorn</a> - 100% remote company, building technology to fight child sexual abuse &amp; trafficking online.</li>
+		<li><a href="https://www.timedoctor.com/about-us.html" rel="nofollow">TimeDoctor</a> - Time tracking with screenshots, web and app usage monitoring, and integrations.</li>
+		<li><a href="https://jobs.toggl.com/" rel="nofollow">Toggl</a></li>
+		<li><a href="https://www.toptal.com/careers" rel="nofollow">Toptal</a> - 100% remote development company, solving worldwide talent shortage</li>
+		<li><a href="https://www.tortugabackpacks.com/pages/join" rel="nofollow">Tortuga Backpacks</a> - Backpacks for city travel.</li>
+		<li><a href="https://transloadit.com/jobs/" rel="nofollow">Transloadit</a> - The world's most versatile file uploading &amp; encoding service, since 2009, by devs for devs</li>
+		<li><a href="https://trello.com/jobs" rel="nofollow">Trello</a></li>
+		<li><a href="https://www.trmlabs.com/careers" rel="nofollow">TRM labs</a></li>
+		<li><a href="https://www.truelogic.io/careers" rel="nofollow">Truelogic</a> - Outsourcing company focused on Latin America talent for US companies</li>
+		<li><a href="https://tyk.io/current-vacancies/" rel="nofollow">Tyk</a> - API Gateway and API Management. Built with Go, open source.</li>
+		<li><a href="https://www.vidalingua.com/amaze.php" rel="nofollow">Vidalingua</a> - Bringing language apps to life.</li>
+		<li><a href="https://waat.eu/job/" rel="nofollow">WAAT</a> - A cross-functional digital agency that adapts to project needs.</li>
+		<li><a href="https://walltime.info" rel="nofollow">Walltime</a> - A Brazilian digital assets exchange and other products &amp; services using Blockchain technology.</li>
+		<li><a href="https://waterlilypond.co.uk/" rel="nofollow">Water Lily Pond</a> - Advertising and marketing communication services.</li>
+		<li><a href="https://wemake.services/meta/employees" rel="nofollow">wemake.services</a> - We sell repeatable software development process. Fully remote. Python, JavaScript, Vue</li>
+		<li><a href="https://www.wheel.com/careers" rel="nofollow">Wheel</a> - healthcare startup.</li>
+		<li><a href="https://wikimediafoundation.org/wiki/Work_with_us" rel="nofollow">Wikimedia</a></li>
+		<li><a href="https://x-team.com/join/" rel="nofollow">X-Team</a> - Work on incredible web and mobile projects, with extraordinary developers. Unleash your potential. From anywhere. We are X-Team.</li>
+		<li><a href="https://www.youneedabudget.com/jobs/" rel="nofollow">You Need a Budget</a> - Bank syncing and goals and debt management.</li>
+		<li><a href="https://www.careers.quora.com/" rel="nofollow">Quora</a> - Q&amp;A site.</li>
+		<li><a href="https://zamphyr.com/" rel="nofollow">Zamphyr</a> - School 2.0 for learning computer science. Remote-first, 100% JavaScript mostly Meteor.</li>
+		<li><a href="https://zapier.com/about/" rel="nofollow">Zapier</a></li>
+		<li><a href="https://www.ziprecruiter.com/careers" rel="nofollow">ZipRecruiter</a> - Perl/Catalyst shop that has some of the best Perl devs working remotely.</li>
+	</div>
+	</div>
+	
+	<div id="footer"></div>
+	<script>
+	    document.addEventListener("DOMContentLoaded", () => {
+	        fetch("footers/index.html")
+	            .then(response => response.text())
+	            .then(data => {
+	                document.getElementById("footer").innerHTML = data;
+	            })
+	            .catch(error => console.error('Error loading footer:', error));
+	    });
+	</script>
+    </body>
+</html>
+
