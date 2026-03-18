@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Junes远程 · 中国远程工作岗位收集平台</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- 导航栏 -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🌐</span>
+        <span class="logo-text">Junes<span class="logo-accent">远程</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="#jobs">岗位列表</a>
+        <a href="companies.html">100+ fullyremote公司列表</a>
+        <a href="community.html">加入社群</a>
+      </nav>
+      <a href="submit.html" class="btn btn-primary nav-cta">发布岗位</a>
+    </div>
+  </header>
+
+  <!-- Hero 区域 -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-badge">🇨🇳 专注中国远程工作</div>
+      <h1 class="hero-title">找到你的<br /><span class="highlight">远程工作</span>岗位</h1>
+      <p class="hero-subtitle">收集来自网络的真实远程岗位，涵盖国内和海外机会。</p>
+
+      <!-- 搜索框 -->
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="搜索岗位、公司或技能……" oninput="filterJobs()" />
+        <button class="btn btn-primary" onclick="filterJobs()">搜索</button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item"><strong id="totalJobCount">0</strong><span>个在招岗位</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><strong id="cnJobCount">0</strong><span>国内岗位</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><strong id="globalJobCount">0</strong><span>海外岗位</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 国内/国外切换 + 分类标签 -->
+  <section class="categories" id="categories">
+    <div class="container">
+      <!-- 来源切换 Tab -->
+      <div class="source-tabs" id="sourceTabs">
+        <button class="source-tab active" onclick="switchSource('cn')" id="tab-cn">
+          🇨🇳 中国远程岗
+        </button>
+        <button class="source-tab" onclick="switchSource('global')" id="tab-global">
+          🌍 海外远程岗
+        </button>
+      </div>
+
+      <!-- 数据来源说明 -->
+      <div class="source-info" id="sourceInfo">
+        <span id="sourceInfoText">数据来源于网络 · 最近2个月真实岗位</span>
+        <span id="sourceUpdateTime"></span>
+      </div>
+
+      <!-- 分类标签 -->
+      <div class="category-tags" id="categoryTags">
+        <button class="tag active" onclick="filterByCategory('全部')">全部</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 岗位列表 -->
+  <section class="jobs-section" id="jobs">
+    <div class="container">
+      <div class="section-header">
+        <h2 id="sectionTitle">最新国内远程岗位</h2>
+        <span class="sort-label">按最新发布排序 · 真实数据</span>
+      </div>
+
+      <div class="job-list" id="jobList">
+        <!-- 动态生成 -->
+      </div>
+
+      <div class="empty-state" id="emptyState" style="display:none">
+        <div class="empty-icon">🔍</div>
+        <p>没有找到相关岗位，试试其他关键词~</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 订阅区域 -->
+  <section class="subscribe-section">
+    <div class="container subscribe-inner">
+      <div class="subscribe-text">
+        <h3>💬 加入远程工作社群</h3>
+        <p>有新岗位时第一时间通知你，不错过任何远程机会。</p>
+      </div>
+      <a href="community.html" class="btn btn-primary">立即加入</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon">🌐</span>
+        <span class="logo-text">Junes<span class="logo-accent">远程</span></span>
+        <p>专注收集中国远程工作岗位，帮你找到在家工作的机会。</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <a href="index.html">首页</a>
+          <a href="#jobs">岗位列表</a>
+          <a href="companies.html">远程公司</a>
+          <a href="aggregate.html">远程工作网站聚合</a>
+        </div>
+        <div class="footer-col">
+          <h4>数据来源</h4>
+          <a href="#">数据来源于网络</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Junes远程 · 专注中国远程工作岗位收集平台 · 数据来自公开渠道整理</p>
+    </div>
+  </footer>
+
+  <!-- 岗位详情弹窗 -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal" id="jobModal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="jobs-mainlist.js"></script>
+  <script src="jobs-cn.js"></script>
+  <script src="jobs-global.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>公众号二维码 · Junes远程</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    }
+    .qr-page {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .qr-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      padding: 40px;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    .qr-card h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+    .qr-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .qr-img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 0 auto 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+    .qr-img img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      object-fit: contain;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 24px;
+      background: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .back-btn:hover {
+      background: var(--primary-dark);
+    }
+  </style>
+</head>
+<body>
+  <div class="qr-page">
+    <div class="qr-card">
+      <h1>📱 关注公众号</h1>
+      <p>扫码关注公众号，接收最新远程工作资讯</p>
+      <div class="qr-img">
+        <img src="con_code.png" alt="公众号二维码">
+      </div>
+      <a href="community.html" class="back-btn">
+        ← 返回社群页面
+      </a>
+    </div>
+  </div>
+</body>
+</html>

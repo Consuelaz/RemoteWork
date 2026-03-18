@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>远程工作网站聚合 · Junes远程</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    .aggregate-page {
+      min-height: 100vh;
+      background: var(--bg-light);
+    }
+    .aggregate-main {
+      padding: 40px 0 60px;
+    }
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .page-header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+    }
+    .page-header p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .section {
+      margin-bottom: 48px;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--primary);
+      display: inline-block;
+    }
+    .site-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .site-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: all 0.2s;
+      text-decoration: none;
+      display: block;
+    }
+    .site-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .site-card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+    .site-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .site-card .site-link {
+      font-size: 12px;
+      color: var(--primary);
+      margin-top: 8px;
+      display: block;
+    }
+    @media (max-width: 640px) {
+      .site-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="aggregate-page">
+
+  <!-- 导航栏 -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🌐</span>
+        <span class="logo-text">Junes<span class="logo-accent">远程</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">岗位列表</a>
+        <a href="companies.html">100+ fullyremote公司列表</a>
+        <a href="community.html">加入社群</a>
+      </nav>
+      <a href="submit.html" class="btn btn-primary nav-cta">发布岗位</a>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="aggregate-main">
+    <div class="container">
+      <!-- 标题 -->
+      <div class="page-header">
+        <h1>🌐 远程工作网站聚合</h1>
+        <p>精选全球优质远程工作招聘网站和职位聚合器，帮助您发现更多远程工作机会</p>
+      </div>
+
+      <!-- 招聘网站列表 -->
+      <div class="section">
+        <h2 class="section-title">💼 招聘网站 (68个)</h2>
+        <div class="site-grid">
+          <a href="https://www.realworkfromanywhere.com/" target="_blank" class="site-card">
+            <h3>Real Work From Anywhere</h3>
+            <p>专门提供完全不受地点限制的工作</p>
+            <span class="site-link">realworkfromanywhere.com →</span>
+          </a>
+          <a href="https://4dayweek.io" target="_blank" class="site-card">
+            <h3>4 Day Week</h3>
+            <p>提供更好工作与生活平衡的软件工作</p>
+            <span class="site-link">4dayweek.io →</span>
+          </a>
+          <a href="https://authenticjobs.com/?search_location=remote" target="_blank" class="site-card">
+            <h3>Authentic Jobs</h3>
+            <p>专业设计、技术类远程职位招聘</p>
+            <span class="site-link">authenticjobs.com →</span>
+          </a>
+          <a href="https://builtin.com/jobs/remote" target="_blank" class="site-card">
+            <h3>Built In</h3>
+            <p>科技公司远程职位招聘平台</p>
+            <span class="site-link">builtin.com →</span>
+          </a>
+          <a href="https://www.careerjar.com" target="_blank" class="site-card">
+            <h3>CareerJar</h3>
+            <p>专注于远程工作的招聘平台</p>
+            <span class="site-link">careerjar.com →</span>
+          </a>
+          <a href="https://www.cryptocurrencyjobs.co/remote" target="_blank" class="site-card">
+            <h3>Crypto Jobs</h3>
+            <p>区块链和加密货币领域的远程工作</p>
+            <span class="site-link">cryptocurrencyjobs.co →</span>
+          </a>
+          <a href="https://www.cssjobs.co.uk" target="_blank" class="site-card">
+            <h3>CSS Jobs</h3>
+            <p>英国地区的Web开发、设计工作</p>
+            <span class="site-link">cssjobs.co.uk →</span>
+          </a>
+          <a href="https://www.datajobs.com" target="_blank" class="site-card">
+            <h3>Data Jobs</h3>
+            <p>数据科学和分析领域的远程职位</p>
+            <span class="site-link">datajobs.com →</span>
+          </a>
+          <a href="https://www.definitionsearch.com" target="_blank" class="site-card">
+            <h3>Definition Search</h3>
+            <p>设计和创意领域的远程工作</p>
+            <span class="site-link">definitionsearch.com →</span>
+          </a>
+          <a href="https://www.dribbble.com/jobs" target="_blank" class="site-card">
+            <h3>Dribbble Jobs</h3>
+            <p>设计类远程职位招聘</p>
+            <span class="site-link">dribbble.com →</span>
+          </a>
+          <a href="https://remotefrontendjobs.com" target="_blank" class="site-card">
+            <h3>Remote Frontend Jobs</h3>
+            <p>前端开发远程职位</p>
+            <span class="site-link">remotefrontendjobs.com →</span>
+          </a>
+          <a href="https://www.freelancer.com" target="_blank" class="site-card">
+            <h3>Freelancer</h3>
+            <p>全球自由职业者远程工作平台</p>
+            <span class="site-link">freelancer.com →</span>
+          </a>
+          <a href="https://www.glassdoor.com" target="_blank" class="site-card">
+            <h3>Glassdoor</h3>
+            <p>公司评价和远程职位招聘</p>
+            <span class="site-link">glassdoor.com →</span>
+          </a>
+          <a href="https://www.guru.com" target="_blank" class="site-card">
+            <h3>Guru</h3>
+            <p>自由职业者远程工作平台</p>
+            <span class="site-link">guru.com →</span>
+          </a>
+          <a href="https://hasjob.co" target="_blank" class="site-card">
+            <h3>Hasjob</h3>
+            <p>印度技术岗位远程招聘</p>
+            <span class="site-link">hasjob.co →</span>
+          </a>
+          <a href="https://www.hired.com" target="_blank" class="site-card">
+            <h3>Hired</h3>
+            <p>技术人才远程招聘平台</p>
+            <span class="site-link">hired.com →</span>
+          </a>
+          <a href="https://indeed.com" target="_blank" class="site-card">
+            <h3>Indeed</h3>
+            <p>全球最大招聘网站，含远程职位</p>
+            <span class="site-link">indeed.com →</span>
+          </a>
+          <a href="https://www.jobspresso.co" target="_blank" class="site-card">
+            <h3>Jobspresso</h3>
+            <p>远程工作招聘平台</p>
+            <span class="site-link">jobspresso.co →</span>
+          </a>
+          <a href="https://jobvertise.com" target="_blank" class="site-card">
+            <h3>Jobvertise</h3>
+            <p>免费发布远程工作职位</p>
+            <span class="site-link">jobvertise.com →</span>
+          </a>
+          <a href="https://justremote.co" target="_blank" class="site-card">
+            <h3>JustRemote</h3>
+            <p>全球远程工作职位搜索</p>
+            <span class="site-link">justremote.co →</span>
+          </a>
+          <a href="https://landing.jobs" target="_blank" class="site-card">
+            <h3>Landing Jobs</h3>
+            <p>欧洲远程工作招聘平台</p>
+            <span class="site-link">landing.jobs →</span>
+          </a>
+          <a href="https://remoteok.com" target="_blank" class="site-card">
+            <h3>Remote OK</h3>
+            <p>最受欢迎的远程工作招聘网站</p>
+            <span class="site-link">remoteok.com →</span>
+          </a>
+          <a href="https://remotive.com" target="_blank" class="site-card">
+            <h3>Remotive</h3>
+            <p>远程工作和自由职业招聘</p>
+            <span class="site-link">remotive.com →</span>
+          </a>
+          <a href="https://remote.recurse.com" target="_blank" class="site-card">
+            <h3>Recurse Center</h3>
+            <p>程序员远程工作社区</p>
+            <span class="site-link">remote.recurse.com →</span>
+          </a>
+          <a href="https://www.skipthedrive.com" target="_blank" class="site-card">
+            <h3>SkipTheDrive</h3>
+            <p>远程工作职位招聘平台</p>
+            <span class="site-link">skipthedrive.com →</span>
+          </a>
+          <a href="https://stackoverflow.com/jobs" target="_blank" class="site-card">
+            <h3>Stack Overflow Jobs</h3>
+            <p>技术开发者远程职位</p>
+            <span class="site-link">stackoverflow.com →</span>
+          </a>
+          <a href="https://weworkremotely.com" target="_blank" class="site-card">
+            <h3>We Work Remotely</h3>
+            <p>全球最大的远程工作社区之一</p>
+            <span class="site-link">weworkremotely.com →</span>
+          </a>
+          <a href="https://www.workingnomads.com" target="_blank" class="site-card">
+            <h3>Working Nomads</h3>
+            <p>数字游民远程工作招聘</p>
+            <span class="site-link">workingnomads.com →</span>
+          </a>
+          <a href="https://www.x-Team.com" target="_blank" class="site-card">
+            <h3>X-Team</h3>
+            <p>远程开发者招聘平台</p>
+            <span class="site-link">x-team.com →</span>
+          </a>
+          <a href="https://www.ycombinator.com/jobs" target="_blank" class="site-card">
+            <h3>Y Combinator Jobs</h3>
+            <p>初创公司远程职位</p>
+            <span class="site-link">ycombinator.com →</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 职位聚合器 -->
+      <div class="section">
+        <h2 class="section-title">🔗 职位聚合器 (15个)</h2>
+        <div class="site-grid">
+          <a href="https://www.careervault.io" target="_blank" class="site-card">
+            <h3>Career Vault</h3>
+            <p>每天从数千家公司招聘页面添加数百个远程职位</p>
+            <span class="site-link">careervault.io →</span>
+          </a>
+          <a href="https://findwork.dev/" target="_blank" class="site-card">
+            <h3>Findwork</h3>
+            <p>爬取多个招聘板，用Glassdoor和Crunchbase信息丰富职位描述</p>
+            <span class="site-link">findwork.dev →</span>
+          </a>
+          <a href="https://www.google.com/search?q=remote&ibp=htl;jobs" target="_blank" class="site-card">
+            <h3>Google Jobs</h3>
+            <p>聚合多个招聘板和雇主网站的信息</p>
+            <span class="site-link">google.com →</span>
+          </a>
+          <a href="https://www.hirehual.com" target="_blank" class="site-card">
+            <h3>Hirehual</h3>
+            <p>智能远程职位聚合</p>
+            <span class="site-link">hirehual.com →</span>
+          </a>
+          <a href="https://www.jobsall.co" target="_blank" class="site-card">
+            <h3>JobsAll</h3>
+            <p>多源远程职位聚合</p>
+            <span class="site-link">jobsall.co →</span>
+          </a>
+          <a href="https://www.jobthrift.com" target="_blank" class="site-card">
+            <h3>Job Thrift</h3>
+            <p>远程工作职位聚合平台</p>
+            <span class="site-link">jobthrift.com →</span>
+          </a>
+          <a href="https://remotemission.io" target="_blank" class="site-card">
+            <h3>Remote Mission</h3>
+            <p>远程工作机会聚合</p>
+            <span class="site-link">remotemission.io →</span>
+          </a>
+          <a href="https://remote.preset.io" target="_blank" class="site-card">
+            <h3>Remote Preset</h3>
+            <p>远程职位聚合与筛选</p>
+            <span class="site-link">remote.preset.io →</span>
+          </a>
+          <a href="https://remoteindex.co" target="_blank" class="site-card">
+            <h3>Remote Index</h3>
+            <p>远程工作职位索引</p>
+            <span class="site-link">remoteindex.co →</span>
+          </a>
+          <a href="https://remoteworkhub.com" target="_blank" class="site-card">
+            <h3>Remote Work Hub</h3>
+            <p>远程工作资源聚合中心</p>
+            <span class="site-link">remoteworkhub.com →</span>
+          </a>
+          <a href="https://workremotely.io/" target="_blank" class="site-card">
+            <h3>Work Remotely</h3>
+            <p>爬取并筛选多个招聘源的远程职位</p>
+            <span class="site-link">workremotely.io →</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Junes远程</h4>
+          <p>专注中国远程工作岗位收集平台</p>
+        </div>
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <a href="index.html">首页</a>
+          <a href="index.html#jobs">岗位列表</a>
+          <a href="companies.html">100+ fullyremote公司列表</a>
+          <a href="community.html">加入社群</a>
+          <a href="aggregate.html">远程工作网站聚合</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Junes远程 · 专注中国远程工作岗位收集平台</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

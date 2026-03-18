@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>加入社群 · Junes远程</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    .community-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .community-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 0;
+      background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    }
+    .community-card-box {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      padding: 40px 48px;
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+    }
+    .community-header {
+      margin-bottom: 32px;
+    }
+    .community-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+    .community-header p {
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+    .qr-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 32px;
+    }
+    .qr-box {
+      flex-shrink: 0;
+    }
+    .qr-image {
+      width: 160px;
+      height: 160px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+    .qr-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .qr-text {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .join-info {
+      text-align: left;
+      max-width: 280px;
+    }
+    .join-info h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+    }
+    .join-info p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-dark);
+    }
+    .contact-icon {
+      font-size: 16px;
+    }
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding: 24px 0;
+      border-top: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 24px;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .channels {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+    .channel-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      background: var(--primary-light);
+      color: var(--primary);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .channel-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    @media (max-width: 640px) {
+      .community-card-box {
+        padding: 32px 24px;
+        margin: 16px;
+      }
+      .qr-section {
+        flex-direction: column;
+        gap: 24px;
+      }
+      .join-info {
+        text-align: center;
+      }
+      .stats-row {
+        gap: 24px;
+      }
+      .channels {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body class="community-page">
+
+  <!-- 导航栏 -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🌐</span>
+        <span class="logo-text">Junes<span class="logo-accent">远程</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">岗位列表</a>
+        <a href="companies.html">100+ fullyremote公司列表</a>
+        <a href="community.html" style="color: var(--primary)">加入社群</a>
+      </nav>
+      <a href="submit.html" class="btn btn-primary nav-cta">发布岗位</a>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="community-main">
+    <div class="community-card-box">
+      <!-- 标题 -->
+      <div class="community-header">
+        <h1>🌍 加入数字游民社区</h1>
+        <p>汇聚远程工作者，共创多元开放的远程工作生态</p>
+      </div>
+
+      <!-- 内推优势 -->
+      <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; text-align: left;">
+        <h4 style="font-size: 15px; font-weight: 600; color: #92400e; margin-bottom: 8px;">🎯 社群专属福利</h4>
+        <ul style="font-size: 13px; color: #92400e; margin: 0; padding-left: 18px; line-height: 1.8;">
+          <li><strong>内推机会</strong>：社群成员可享专属内推通道，简历直达HR</li>
+          <li><strong>优先获取</strong>：新岗位第一时间在群内发布，抢占先机</li>
+          <li><strong>组队接单</strong>：与群友组队接Upwork、Fiverr等平台外包项目</li>
+        </ul>
+      </div>
+
+      <!-- 二维码区域 -->
+      <div class="qr-section">
+        <div class="qr-box">
+          <div class="qr-image">
+            <img src="wechat-qr.png" alt="微信二维码">
+          </div>
+          <p class="qr-text">扫码添加小助手</p>
+        </div>
+        <div class="join-info">
+          <h3>如何加入？</h3>
+          <p>扫描二维码添加小助手微信，回复「加入社群」即可被邀请进入我们的微信交流群。</p>
+          <div class="contact-list">
+            <div class="contact-item">
+              <span class="contact-icon">💬</span>
+              <span>微信：Junes2023</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 数据统计 -->
+      <div class="stats-row">
+        <div class="stat-item">
+          <div class="stat-number">5000+</div>
+          <div class="stat-label">社区成员</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">100+</div>
+          <div class="stat-label">合作企业</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">成功案例</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">在线交流</div>
+        </div>
+      </div>
+
+      <!-- 其他渠道 -->
+      <div class="channels">
+        <a href="gongzhonghao.html" class="channel-btn">
+          <span>📱</span>
+          <span>公众号</span>
+        </a>
+        <a href="xiaohongshu.html" class="channel-btn">
+          <span>📕</span>
+          <span>小红书</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" style="padding: 20px 0;">
+    <div class="container" style="text-align: center;">
+      <div style="margin-bottom: 12px;">
+        <a href="index.html" style="color: var(--text-muted); margin: 0 8px; font-size: 13px;">首页</a>
+        <a href="companies.html" style="color: var(--text-muted); margin: 0 8px; font-size: 13px;">远程公司</a>
+        <a href="aggregate.html" style="color: var(--text-muted); margin: 0 8px; font-size: 13px;">远程工作网站聚合</a>
+      </div>
+      <p style="font-size: 13px;">© 2026 Junes远程 · 专注中国远程工作岗位收集平台</p>
+    </div>
+  </footer>
+
+</body>
+</html>

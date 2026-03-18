@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>100+ Fully Remote 公司列表 · Junes远程</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    .company-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 32px;
+    }
+    .company-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+    .company-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+      border-color: var(--primary);
+    }
+    .company-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+    .company-logo {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .company-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      min-height: 60px;
+    }
+    .company-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .company-tag {
+      font-size: 12px;
+      padding: 4px 12px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 20px;
+    }
+    .company-website-btn {
+      display: block;
+      text-align: center;
+      padding: 10px;
+      background: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .company-website-btn:hover {
+      background: #2563eb;
+    }
+    .filter-section {
+      margin: 32px 0;
+      padding: 24px;
+      background: #f8fafc;
+      border-radius: 12px;
+    }
+    .filter-input {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px 16px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .filter-tag {
+      padding: 8px 16px;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fff;
+    }
+    .filter-tag:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .filter-tag.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 导航栏 -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🌐</span>
+        <span class="logo-text">Junes<span class="logo-accent">远程</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">岗位列表</a>
+        <a href="companies.html" style="color: var(--primary)">100+ fullyremote公司列表</a>
+        <a href="community.html">加入社群</a>
+      </nav>
+      <a href="submit.html" class="btn btn-primary nav-cta">发布岗位</a>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="submit-page">
+    <div class="container">
+      <h1 class="page-title">🌍 100+ Fully Remote 公司列表</h1>
+      <p class="page-subtitle">精选全球最顶尖的100%远程工作公司，支持从 anywhere 工作的自由职业和远程岗位机会。</p>
+
+      <!-- 筛选区域 -->
+      <div class="filter-section">
+        <input type="text" class="filter-input" id="searchInput" placeholder="搜索公司名称、行业或关键词..." oninput="filterCompanies()">
+        <div class="filter-tags" id="filterTags">
+          <span class="filter-tag active" onclick="filterByTag('all', this)">全部</span>
+          <span class="filter-tag" onclick="filterByTag('科技', this)">科技</span>
+          <span class="filter-tag" onclick="filterByTag('SaaS', this)">SaaS</span>
+          <span class="filter-tag" onclick="filterByTag('金融', this)">金融</span>
+          <span class="filter-tag" onclick="filterByTag('设计', this)">设计</span>
+          <span class="filter-tag" onclick="filterByTag('开发工具', this)">开发工具</span>
+          <span class="filter-tag" onclick="filterByTag('教育', this)">教育</span>
+          <span class="filter-tag" onclick="filterByTag('AI', this)">AI</span>
+          <span class="filter-tag" onclick="filterByTag('区块链', this)">区块链</span>
+          <span class="filter-tag" onclick="filterByTag('健康', this)">健康</span>
+        </div>
+      </div>
+
+      <!-- 公司列表 -->
+      <div class="company-grid" id="companyList">
+        <!-- 动态生成 -->
+      </div>
+
+      <div class="empty-state" id="emptyState" style="display:none; text-align:center; padding:48px">
+        <div style="font-size:56px; margin-bottom:20px">🔍</div>
+        <p style="color:var(--text-muted)">没有找到符合条件的公司</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" style="margin-top:64px">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon">🌐</span>
+        <span class="logo-text">Junes<span class="logo-accent">远程</span></span>
+        <p>专注收集中国远程工作岗位，帮你找到在家工作的机会。</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <a href="index.html">首页</a>
+          <a href="index.html#jobs">岗位列表</a>
+          <a href="companies.html">远程公司</a>
+          <a href="aggregate.html">远程工作网站聚合</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Junes远程 · 专注中国远程工作岗位收集平台</p>
+    </div>
+  </footer>
+
+  <script src="companies-data.js"></script>
+  <script>
+    let currentTag = 'all';
+
+    function renderCompanies(companies) {
+      const list = document.getElementById('companyList');
+      const empty = document.getElementById('emptyState');
+
+      if (companies.length === 0) {
+        list.innerHTML = '';
+        if (empty) empty.style.display = 'block';
+        return;
+      }
+
+      if (empty) empty.style.display = 'none';
+
+      list.innerHTML = companies.map(company => `
+        <div class="company-card">
+          <div class="company-logo">${company.logo || '🏢'}</div>
+          <div class="company-name">${company.name}</div>
+          <div class="company-desc">${company.description}</div>
+          <div class="company-tags">
+            ${company.tags.map(tag => `<span class="company-tag">${tag}</span>`).join('')}
+          </div>
+          <a href="${company.website}" target="_blank" class="company-website-btn">访问官网 →</a>
+        </div>
+      `).join('');
+    }
+
+    function filterByTag(tag, element) {
+      currentTag = tag;
+
+      // 更新标签样式
+      document.querySelectorAll('.filter-tag').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+
+      applyFilters();
+    }
+
+    function filterCompanies() {
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      let filtered = COMPANIES;
+
+      if (currentTag !== 'all') {
+        filtered = filtered.filter(c => c.tags.includes(currentTag));
+      }
+
+      if (search) {
+        filtered = filtered.filter(c =>
+          c.name.toLowerCase().includes(search) ||
+          c.description.toLowerCase().includes(search) ||
+          c.tags.some(t => t.toLowerCase().includes(search))
+        );
+      }
+
+      renderCompanies(filtered);
+    }
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCompanies(COMPANIES);
+    });
+  </script>
+</body>
+</html>

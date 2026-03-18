@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>提交岗位 · Junes远程</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- 导航栏 -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🌐</span>
+        <span class="logo-text">Junes<span class="logo-accent">远程</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">岗位列表</a>
+        <a href="companies.html">100+ fullyremote公司列表</a>
+        <a href="community.html">加入社群</a>
+      </nav>
+      <a href="submit.html" class="btn btn-primary nav-cta">发布岗位</a>
+    </div>
+  </header>
+
+  <!-- 提交表单 -->
+  <main class="submit-page">
+    <div class="container" style="max-width:720px">
+      <h1 class="page-title">📤 发布远程岗位</h1>
+      <p class="page-subtitle">发布你们公司的远程职位，让全国的优秀人才看见。提交后将在审核通过后上线（通常24小时内）。</p>
+
+      <div class="form-card">
+        <form id="submitForm" onsubmit="handleFormSubmit(event)">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>岗位名称 <span>*</span></label>
+              <input type="text" name="title" placeholder="例如：高级前端开发工程师" required />
+            </div>
+            <div class="form-group">
+              <label>公司名称 <span>*</span></label>
+              <input type="text" name="company" placeholder="例如：字节跳动" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>岗位分类 <span>*</span></label>
+              <select name="category" required>
+                <option value="">请选择分类</option>
+                <option>前端开发</option>
+                <option>后端开发</option>
+                <option>全栈开发</option>
+                <option>移动端</option>
+                <option>产品经理</option>
+                <option>UI/UX设计</option>
+                <option>运营</option>
+                <option>内容/编辑</option>
+                <option>市场营销</option>
+                <option>数据分析</option>
+                <option>客户服务</option>
+                <option>教育/培训</option>
+                <option>其他</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>薪资范围 <span>*</span></label>
+              <input type="text" name="salary" placeholder="例如：20-35K/月" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>工作类型</label>
+              <select name="jobType">
+                <option>远程全职</option>
+                <option>远程兼职</option>
+                <option>远程实习</option>
+                <option>项目合作</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>技能标签</label>
+              <input type="text" name="tags" placeholder="用逗号分隔，例如：React, TypeScript" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>岗位描述 <span>*</span></label>
+            <textarea name="description" placeholder="请描述岗位的主要工作内容……" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>任职要求</label>
+            <textarea name="requirements" placeholder="例如：3年以上相关经验……" style="min-height:80px"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>福利待遇</label>
+            <input type="text" name="benefits" placeholder="例如：五险一金、弹性工时、年终奖" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>联系邮箱 <span>*</span></label>
+              <input type="email" name="email" placeholder="用于接收审核结果通知" required />
+            </div>
+            <div class="form-group">
+              <label>公司官网</label>
+              <input type="url" name="website" placeholder="https://example.com" />
+            </div>
+          </div>
+
+          <div class="form-submit">
+            <button type="submit" class="btn btn-primary">提交岗位</button>
+            <a href="index.html" class="btn btn-outline">返回首页</a>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- 提交须知 -->
+      <div style="margin-top:24px; padding:20px 24px; background:var(--primary-light); border-radius:var(--radius); border:1px solid #BFDBFE;">
+        <h4 style="font-size:14px; font-weight:600; color:var(--primary); margin-bottom:8px;">📋 提交须知</h4>
+        <ul style="font-size:13px; color:var(--text-muted); padding-left:16px; line-height:1.8">
+          <li>所有岗位须为<strong>真实的远程工作机会</strong>，拒绝虚假岗位。</li>
+          <li>岗位必须是<strong>面向中国求职者</strong>，支持中国境内远程工作。</li>
+          <li>禁止发布传销、违法或骚扰性质的内容。</li>
+          <li>审核通过后将上线展示，违规岗位将被直接删除。</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" style="margin-top:64px">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon">🌐</span>
+        <span class="logo-text">Junes<span class="logo-accent">远程</span></span>
+        <p>专注收集中国远程工作岗位，帮你找到在家工作的机会。</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <a href="index.html">首页</a>
+          <a href="index.html#jobs">岗位列表</a>
+          <a href="companies.html">远程公司</a>
+          <a href="aggregate.html">远程工作网站聚合</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Junes远程 · 专注中国远程工作岗位收集平台</p>
+    </div>
+  </footer>
+
+  <script>
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      console.log('提交岗位数据：', data);
+
+      // 模拟提交成功
+      e.target.style.display = 'none';
+      const card = e.target.closest('.form-card');
+      card.innerHTML = `
+        <div style="text-align:center; padding:48px 24px">
+          <div style="font-size:56px; margin-bottom:20px">🎉</div>
+          <h2 style="font-size:22px; font-weight:700; color:var(--text-dark); margin-bottom:8px">提交成功！</h2>
+          <p style="color:var(--text-muted); margin-bottom:24px">感谢你提交「${data.title}」岗位信息。<br/>我们会在 <strong>24小时内</strong> 完成审核并通知你。</p>
+          <a href="index.html" class="btn btn-primary">返回首页查看岗位</a>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
