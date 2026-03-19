@@ -254,7 +254,10 @@ function openModal(id) {
     </div>` : ''}
 
     <div class="modal-actions">
-      <a href="${job.applyUrl || job.sourceUrl}" target="_blank" class="btn btn-primary">${job.applyUrl ? '申请职位 →' : '查看原帖投递 →'}</a>
+      ${job.canRefer 
+        ? '<a href="community.html" target="_blank" class="btn btn-primary">加入社群内推 →</a>'
+        : `<a href="${job.applyUrl || job.sourceUrl}" target="_blank" class="btn btn-primary">${job.applyUrl ? '申请职位 →' : '查看原帖投递 →'}</a>`
+      }
       <button class="btn btn-outline" onclick="closeModal()">关闭</button>
     </div>
   `;
