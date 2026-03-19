@@ -82,7 +82,7 @@ function renderJobs(jobs) {
         <div class="job-title">${job.title}</div>
         <div class="job-company">
           ${job.company}
-          <span class="job-source-badge">可内推岗位</span>
+          ${job.canRefer ? '<span class="job-source-badge" style="background:#fef3c7;color:#92400e;">🎯 可内推</span>' : ''}
         </div>
         <div class="job-meta-row">${job.location}</div>
         <div class="job-tags">
@@ -152,14 +152,17 @@ function openModal(id) {
 
   const sourceLabel = currentSource === 'global'
     ? `<span class="global-badge">🌍 海外岗位</span>` : '';
+  const referBadge = job.canRefer
+    ? `<span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:4px;font-size:12px;margin-left:8px;">🎯 可内推</span>`
+    : '';
 
   const content = document.getElementById('modalContent');
   content.innerHTML = `
     <div class="modal-logo">${job.logo}</div>
-    <div class="modal-title">${job.title} ${sourceLabel}</div>
+    <div class="modal-title">${job.title} ${sourceLabel} ${referBadge}</div>
     <div class="modal-company">${job.company}</div>
     <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">
-      📍 ${job.location} &nbsp;·&nbsp; 可内推岗位
+      📍 ${job.location}
     </div>
     <div class="modal-tags">
       <span class="job-tag primary-tag">${job.category}</span>
@@ -223,7 +226,7 @@ function updateStats() {
 
   // 更新时间
   const timeEl = document.getElementById('sourceUpdateTime');
-  if (timeEl) timeEl.textContent = `· 更新于 2026-03-17`;
+  if (timeEl) timeEl.textContent = `· 更新于 2026-03-19`;
 }
 
 // ── 初始化 ──
