@@ -8,6 +8,9 @@
 let currentSource = 'cn';       // 'cn' | 'global'
 let currentCategory = '全部';
 let currentSearch = '';
+let currentPage = 1;
+const PAGE_SIZE = 10;
+let filteredJobsCache = []; // 缓存过滤后的职位
 
 // 各数据源的分类映射
 const CATEGORIES_CN = ['全部','全栈开发','后端开发','前端开发','AI/算法','区块链','运营','多岗位','市场营销'];
@@ -23,6 +26,7 @@ function switchSource(source) {
   currentSource = source;
   currentCategory = '全部';
   currentSearch = '';
+  currentPage = 1;
   const input = document.getElementById('searchInput');
   if (input) input.value = '';
 
@@ -66,16 +70,23 @@ function buildCategoryTags() {
 function renderJobs(jobs) {
   const list = document.getElementById('jobList');
   const empty = document.getElementById('emptyState');
+  const pagination = document.getElementById('pagination');
   if (!list) return;
 
   if (jobs.length === 0) {
     list.innerHTML = '';
     if (empty) empty.style.display = 'block';
+    if (pagination) pagination.style.display = 'none';
     return;
   }
   if (empty) empty.style.display = 'none';
 
-  list.innerHTML = jobs.map(job => `
+  // 分页：只渲染当前页的数据
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+  const pageJobs = jobs.slice(start, end);
+
+  list.innerHTML = pageJobs.map(job => `
     <div class="job-card ${job.isFeatured ? 'featured' : ''}" onclick="openModal('${job.id}')">
       <div class="job-logo">${job.logo}</div>
       <div class="job-info">
@@ -97,6 +108,54 @@ function renderJobs(jobs) {
       </div>
     </div>
   `).join('');
+}
+
+// ── 渲染分页 ──
+function renderPagination() {
+  const pagination = document.getElementById('pagination');
+  const pageInfo = document.getElementById('pageInfo');
+  const prevBtn = document.getElementById('prevPage');
+  const nextBtn = document.getElementById('nextPage');
+  if (!pagination) return;
+
+  const totalPages = Math.ceil(filteredJobsCache.length / PAGE_SIZE);
+
+  if (totalPages <= 1) {
+    pagination.style.display = 'none';
+    return;
+  }
+
+  pagination.style.display = 'flex';
+  if (pageInfo) pageInfo.textContent = `${currentPage} / ${totalPages}`;
+  if (prevBtn) prevBtn.disabled = currentPage <= 1;
+  if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+}
+
+// ── 上一页 ──
+function prevPage() {
+  if (currentPage <= 1) return;
+  currentPage--;
+  renderJobs(filteredJobsCache);
+  renderPagination();
+  scrollToJobList();
+}
+
+// ── 下一页 ──
+function nextPage() {
+  const totalPages = Math.ceil(filteredJobsCache.length / PAGE_SIZE);
+  if (currentPage >= totalPages) return;
+  currentPage++;
+  renderJobs(filteredJobsCache);
+  renderPagination();
+  scrollToJobList();
+}
+
+// ── 滚动到列表顶部 ──
+function scrollToJobList() {
+  const jobsSection = document.getElementById('jobs');
+  if (jobsSection) {
+    jobsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 // ── 分类筛选 ──
@@ -130,7 +189,12 @@ function applyFilters() {
     );
   }
 
+  // 缓存过滤结果，重置到第一页
+  filteredJobsCache = filtered;
+  currentPage = 1;
+
   renderJobs(filtered);
+  renderPagination();
 }
 
 // ── 日期格式化 ──
