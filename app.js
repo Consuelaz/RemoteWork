@@ -254,7 +254,7 @@ function openModal(id) {
     </div>` : ''}
 
     <div class="modal-actions">
-      <a href="${job.sourceUrl}" target="_blank" class="btn btn-primary">查看原帖投递 →</a>
+      <a href="${job.applyUrl || job.sourceUrl}" target="_blank" class="btn btn-primary">${job.applyUrl ? '申请职位 →' : '查看原帖投递 →'}</a>
       <button class="btn btn-outline" onclick="closeModal()">关闭</button>
     </div>
   `;

@@ -838,6 +838,8 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/895",
     sourceUrl: "https://remote-china.com/jobs/895",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CC218061310J40867060313.htm",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CC218061310J40867060313.htm",
     description: "翻译服务行业，英语至越南语笔译，长期兼职合作。",
     requirements: ["英语至越南语翻译能力", "有翻译经验优先", "可长期合作"],
     benefits: ["兼职", "灵活结算"]
@@ -856,6 +858,8 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/895",
     sourceUrl: "https://remote-china.com/jobs/895",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CC218061310J40867060313.htm",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CC218061310J40867060313.htm",
     description: "法律服务行业，独立律师，案件承办，客户维护，参与律所会议，需要执业证书。",
     requirements: ["律师执业证书", "案件承办经验", "客户维护能力"],
     benefits: ["独立执业", "灵活工作"]
@@ -874,6 +878,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/907",
     sourceUrl: "https://remote-china.com/jobs/907",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CCL1464788710J40992734904.htm",
     description: "生物医药行业，医学专员，文献检查汇总，报告撰写，稿件质量控制，需要相关专业背景。",
     requirements: ["医学/生物相关专业", "文献检查能力", "报告撰写经验"],
     benefits: ["专业背景", "远程全职"]
@@ -892,6 +897,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/895",
     sourceUrl: "https://remote-china.com/jobs/895",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CC218061310J40867060313.htm",
     description: "软件外包行业，大模型数据标注，生活学相关内容，含竞赛内容，需要相关专业背景，英文读写能力。",
     requirements: ["生物学相关专业背景", "英文读写能力", "细心认真"],
     benefits: ["时薪结算", "兼职灵活"]
@@ -910,6 +916,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/895",
     sourceUrl: "https://remote-china.com/jobs/895",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CC218061310J40867060313.htm",
     description: "软件外包行业，全栈开发工程师，要求英语交流能力。",
     requirements: ["全栈开发经验", "英语交流能力", "可远程协作"],
     benefits: ["远程办公", "外语环境"]
@@ -928,6 +935,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/895",
     sourceUrl: "https://remote-china.com/jobs/895",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CC218061310J40867060313.htm",
     description: "人力资源行业，后端开发工程师，财务系统，Java, Spring Boot，兼职合作。",
     requirements: ["熟练 Java/Spring Boot", "有财务系统经验优先", "可兼职"],
     benefits: ["兼职", "项目稳定"]
@@ -946,6 +954,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/896",
     sourceUrl: "https://remote-china.com/jobs/896",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CC880793000J40840869709.htm",
     description: "健康咨询行业，美工/视频剪辑师，宣传物料设计，视频剪辑后期，base上海优先。",
     requirements: ["视频剪辑能力", "宣传物料设计经验", "Base上海优先"],
     benefits: ["创意工作", "远程办公"]
@@ -964,6 +973,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/897",
     sourceUrl: "https://remote-china.com/jobs/897",
+    applyUrl: "https://www.zhipin.com/job_detail/905e8f4124be00e90nZ52N6-FFJQ.html",
     description: "教育培训行业，课程运营，社群管理，Python编程课程，私域活动策划，数据分析，需要有开发相关背景。",
     requirements: ["课程运营经验", "社群管理能力", "数据分析能力", "有开发背景优先"],
     benefits: ["成长空间", "远程办公"]
@@ -982,6 +992,7 @@ const JOBS_CN = [
     isFeatured: true,
     source: "https://remote-china.com/jobs/897",
     sourceUrl: "https://remote-china.com/jobs/897",
+    applyUrl: "https://www.zhipin.com/job_detail/905e8f4124be00e90nZ52N6-FFJQ.html",
     description: "教育培训行业，线上校长，教学教务管理，建立家校沟通机制，培训经验，需要有校长经验。",
     requirements: ["校长经验", "教学教务管理能力", "家校沟通经验"],
     benefits: ["高薪", "远程全职"]
@@ -1000,6 +1011,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/897",
     sourceUrl: "https://remote-china.com/jobs/897",
+    applyUrl: "https://www.zhipin.com/job_detail/905e8f4124be00e90nZ52N6-FFJQ.html",
     description: "AI相关产品，软件架构师，Java/Go/Python，DDD，架构设计，边界控制，团队搭建，兼职合作。",
     requirements: ["深厚架构设计经验", "熟悉 DDD", "团队管理能力"],
     benefits: ["兼职", "AI方向"]
@@ -1018,6 +1030,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/897",
     sourceUrl: "https://remote-china.com/jobs/897",
+    applyUrl: "https://www.zhipin.com/job_detail/905e8f4124be00e90nZ52N6-FFJQ.html",
     description: "广告营销行业，AI KOL 营销产品，后端开发工程师，Python/Node.js/TypeScript，LangChain/LangGraph，数据工程，性能优化，女性友好。",
     requirements: ["熟练 Python/Node.js", "了解 LangChain", "有 AI 产品经验优先"],
     benefits: ["AI赛道", "远程全职"]
@@ -1036,6 +1049,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/906",
     sourceUrl: "https://remote-china.com/jobs/906",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CCL1485706630J40845339110.htm",
     description: "电商行业，新媒体运营，小红书店铺管理，文字策划，数据分析，兼职合作。",
     requirements: ["小红书运营经验", "文案策划能力", "数据分析能力"],
     benefits: ["兼职", "热门平台"]
@@ -1054,6 +1068,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/906",
     sourceUrl: "https://remote-china.com/jobs/906",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CCL1485706630J40845339110.htm",
     description: "软件外包行业，新媒体运营，社群运营，连接企业需求方和自由职业者。",
     requirements: ["运营管理经验", "社群运营能力", "资源对接能力"],
     benefits: ["核心岗位", "远程办公"]
@@ -1072,6 +1087,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/907",
     sourceUrl: "https://remote-china.com/jobs/907",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CCL1464788710J40992734904.htm",
     description: "生物医药行业，生命科学食品销售，大型食品学术宣讲经验优先，进口产品中文资料整理。",
     requirements: ["销售经验", "医学/生物背景优先", "学术宣讲能力"],
     benefits: ["高提成", "远程办公"]
@@ -1090,6 +1106,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/907",
     sourceUrl: "https://remote-china.com/jobs/907",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CCL1464788710J40992734904.htm",
     description: "医药零售行业，职业药师，中西医不限，年龄不限，需要执业药师资格证。",
     requirements: ["执业药师资格证", "医药零售经验"],
     benefits: ["行业稳定", "远程办公"]
@@ -1108,6 +1125,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/907",
     sourceUrl: "https://remote-china.com/jobs/907",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CCL1464788710J40992734904.htm",
     description: "生物医药行业，销售工程师，生命科学相关，客户开发，市场调研，生物学相关专业背景，江苏区域远程。",
     requirements: ["生物学相关专业背景", "销售经验", "客户开发能力"],
     benefits: ["区域远程", "专业背景"]
@@ -1126,6 +1144,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/907",
     sourceUrl: "https://remote-china.com/jobs/907",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CCL1464788710J40992734904.htm",
     description: "游戏行业，游戏策划，海外游戏，系统设计，关卡编辑，数据高估，Unity Editor，益智类游戏。",
     requirements: ["游戏策划经验", "Unity Editor 使用经验", "海外游戏了解"],
     benefits: ["游戏行业", "远程办公"]
@@ -1144,6 +1163,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/908",
     sourceUrl: "https://remote-china.com/jobs/908",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CCL1507319420J40833783107.htm",
     description: "翻译服务行业，游戏本地化，法语翻译，校对，质量测试，术语整理。",
     requirements: ["法语翻译能力", "游戏本地化经验", "校对能力"],
     benefits: ["游戏行业", "远程兼职"]
@@ -1162,6 +1182,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/908",
     sourceUrl: "https://remote-china.com/jobs/908",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CCL1507319420J40833783107.htm",
     description: "翻译服务行业，游戏翻译，日语，游戏文本翻译，术语管理，质量交付，兼职合作。",
     requirements: ["日语翻译能力", "游戏文本翻译经验", "术语管理能力"],
     benefits: ["兼职", "游戏行业"]
@@ -1180,6 +1201,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/908",
     sourceUrl: "https://remote-china.com/jobs/908",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CCL1507319420J40833783107.htm",
     description: "翻译服务行业，日语翻译，简中到日语翻译，技术或医药翻译经验，有保密协议。",
     requirements: ["日语翻译能力", "技术/医药翻译经验", "保密意识"],
     benefits: ["兼职", "专业翻译"]
@@ -1198,6 +1220,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/908",
     sourceUrl: "https://remote-china.com/jobs/908",
+    applyUrl: "https://www.zhaopin.com/jobdetail/CCL1507319420J40833783107.htm",
     description: "翻译服务行业，游戏本地化翻译，英语翻译较验，质量管理。",
     requirements: ["英语翻译能力", "游戏本地化经验", "质量管理能力"],
     benefits: ["游戏行业", "远程办公"]
@@ -1216,6 +1239,7 @@ const JOBS_CN = [
     isFeatured: false,
     source: "https://remote-china.com/jobs/894",
     sourceUrl: "https://remote-china.com/jobs/894",
+    applyUrl: "https://www.lagou.com/wn/jobs/12694942.html",
     description: "代招，跨境电商行业，电商运营专员，物流对接，商家拓展，客服指导，英语交流，有社保，跨时区工作。",
     requirements: ["跨境电商运营经验", "英语交流能力", "物流对接经验"],
     benefits: ["有社保", "跨时区工作"]
