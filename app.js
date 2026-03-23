@@ -18,7 +18,16 @@ const CATEGORIES_GLOBAL = ['全部','全栈开发','前端开发','后端开发'
 
 // ── 获取当前数据集 ──
 function getCurrentJobs() {
-  return currentSource === 'cn' ? JOBS_MAINLIST : JOBS_GLOBAL;
+  if (currentSource === 'cn') {
+    // 合并手动维护的精选岗位 + 自动抓取的 CN 岗位
+    const mainList = (typeof JOBS_MAINLIST !== 'undefined') ? JOBS_MAINLIST : [];
+    const cnList   = (typeof JOBS_CN      !== 'undefined') ? JOBS_CN      : [];
+    // 用 id 去重，JOBS_MAINLIST 优先
+    const seen = new Set(mainList.map(j => j.id));
+    const unique = cnList.filter(j => !seen.has(j.id));
+    return [...mainList, ...unique];
+  }
+  return (typeof JOBS_GLOBAL !== 'undefined') ? JOBS_GLOBAL : [];
 }
 
 // ── 切换国内/国外 ──
@@ -210,7 +219,10 @@ function formatDate(dateStr) {
 
 // ── 弹窗详情 ──
 function openModal(id) {
-  const allJobs = [...JOBS_MAINLIST, ...JOBS_GLOBAL];
+  const mainList   = (typeof JOBS_MAINLIST !== 'undefined') ? JOBS_MAINLIST : [];
+  const cnList     = (typeof JOBS_CN       !== 'undefined') ? JOBS_CN       : [];
+  const globalList = (typeof JOBS_GLOBAL   !== 'undefined') ? JOBS_GLOBAL   : [];
+  const allJobs = [...mainList, ...cnList, ...globalList];
   const job = allJobs.find(j => j.id === id);
   if (!job) return;
 
@@ -280,20 +292,26 @@ function handleSubscribe(e) {
 
 // ── 更新统计数字 ──
 function updateStats() {
-  const total = JOBS_MAINLIST.length + JOBS_GLOBAL.length;
-  const cnNew = JOBS_MAINLIST.filter(j => j.isNew).length;
-  const globalNew = JOBS_GLOBAL.filter(j => j.isNew).length;
+  const mainList = (typeof JOBS_MAINLIST !== 'undefined') ? JOBS_MAINLIST : [];
+  const cnList   = (typeof JOBS_CN      !== 'undefined') ? JOBS_CN      : [];
+  const globalList = (typeof JOBS_GLOBAL !== 'undefined') ? JOBS_GLOBAL : [];
+
+  // CN 去重合并
+  const seen = new Set(mainList.map(j => j.id));
+  const allCN = [...mainList, ...cnList.filter(j => !seen.has(j.id))];
+
+  const total = allCN.length + globalList.length;
 
   const el = document.getElementById('totalJobCount');
   if (el) el.textContent = total;
   const cnEl = document.getElementById('cnJobCount');
-  if (cnEl) cnEl.textContent = JOBS_MAINLIST.length;
+  if (cnEl) cnEl.textContent = allCN.length;
   const globalEl = document.getElementById('globalJobCount');
-  if (globalEl) globalEl.textContent = JOBS_GLOBAL.length;
+  if (globalEl) globalEl.textContent = globalList.length;
 
   // 更新时间
   const timeEl = document.getElementById('sourceUpdateTime');
-  if (timeEl) timeEl.textContent = `· 更新于 2026-03-19`;
+  if (timeEl) timeEl.textContent = `· 更新于 2026-03-23`;
 }
 
 // ── 初始化 ──
