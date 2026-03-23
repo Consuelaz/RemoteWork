@@ -316,6 +316,15 @@ function updateStats() {
 
 // ── 初始化 ──
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('🔍 页面初始化开始');
+  console.log('📊 数据源检查:');
+  console.log('  JOBS_MAINLIST:', typeof JOBS_MAINLIST !== 'undefined' ? JOBS_MAINLIST.length : 0, '条');
+  console.log('  JOBS_CN:', typeof JOBS_CN !== 'undefined' ? JOBS_CN.length : 0, '条');
+  console.log('  JOBS_GLOBAL:', typeof JOBS_GLOBAL !== 'undefined' ? JOBS_GLOBAL.length : 0, '条');
+  
+  const cnJobs = getCurrentJobs();
+  console.log('✅ CN 模式合并后:', cnJobs.length, '条');
+  
   updateStats();
   buildCategoryTags();
   applyFilters();
