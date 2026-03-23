@@ -102,7 +102,7 @@ function renderJobs(jobs) {
         <div class="job-title">${job.title}</div>
         <div class="job-company">
           ${job.company.startsWith('(') ? `<span style="color:#999;font-size:13px;">${job.company.slice(1, -1)} 发布</span>` : job.company}
-          ${job.canRefer ? '<span class="job-source-badge" style="background:#fef3c7;color:#92400e;">🎯 可内推</span>' : ''}
+          ${job.canRefer ? '<span class="job-source-badge" style="background:#dbeafe;color:#1e40af;">👥 社群内推</span>' : ''}
         </div>
         <div class="job-meta-row">${job.location}</div>
         <div class="job-tags">
@@ -229,7 +229,7 @@ function openModal(id) {
   const sourceLabel = currentSource === 'global'
     ? `<span class="global-badge">🌍 海外岗位</span>` : '';
   const referBadge = job.canRefer
-    ? `<span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:4px;font-size:12px;margin-left:8px;">🎯 可内推</span>`
+    ? `<span style="background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:4px;font-size:12px;margin-left:8px;">👥 社群内推</span>`
     : '';
 
   const content = document.getElementById('modalContent');
