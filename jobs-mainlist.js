@@ -1,15 +1,15 @@
 // ============================================================
 // V2EX + 电鸭远程招聘数据（实时抓取）
 // 数据来源：V2EX 远程工作版块、电鸭社区
-// 最后更新：2026-03-23 16:02
+// 最后更新：2026-03-23 16:09
 // 标记 canRefer: true 表示可内推（来自 V2EX、电鸭社群）
 // ============================================================
 
 const JOBS_MAINLIST = [
   {
-    'id': 'v2ex-3-92853',
+    'id': 'v2ex-3-49457',
     'title': '招聘多模态搜索后端工程师， founding engineer',
-    'company': '(V2EX用户招聘)',
+    'company': '(alexlichumi)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -26,9 +26,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-4-74804',
+    'id': 'v2ex-4-32754',
     'title': 'BitFit 招聘（远程）',
-    'company': '(V2EX用户招聘)',
+    'company': 'BitFit',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -45,9 +45,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-5-89853',
+    'id': 'v2ex-5-68494',
     'title': '外企远距招聘，在家工作 Blockchain Engineer (Node.js / Blockchain)',
-    'company': '(V2EX用户招聘)',
+    'company': '(fjfw1990)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -64,9 +64,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-6-21238',
+    'id': 'v2ex-6-4267',
     'title': '招两个远程工作，熟练基于开源大模型文本训练，视频训练的岗位',
-    'company': '(V2EX用户招聘)',
+    'company': '(ElroyW)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -83,9 +83,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-7-68796',
+    'id': 'v2ex-7-59481',
     'title': '[远程][外企] Atria 招聘 多个研发岗位和产品设计师',
-    'company': '(V2EX用户招聘)',
+    'company': 'Atria',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -102,9 +102,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-8-19241',
+    'id': 'v2ex-8-12143',
     'title': '[全职远程工作 ] AI 翻译/个人知识助手应用 iOS/Android 开发（限 3 ～ 5 年工作经验）',
-    'company': '(V2EX用户招聘)',
+    'company': '(dxc111)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -121,9 +121,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-9-58051',
+    'id': 'v2ex-9-9779',
     'title': '[全职远程] AI-Native Java /React 全栈工程师',
-    'company': '(V2EX用户招聘)',
+    'company': '(tonychenc)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -140,9 +140,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-10-39730',
+    'id': 'v2ex-10-4356',
     'title': '[远程全职招聘] Web3 华人团队： AI 负责人（Head of AI / Head of Applied AI）',
-    'company': '(V2EX用户招聘)',
+    'company': '(amberGuo)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -159,9 +159,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-11-60538',
+    'id': 'v2ex-11-58656',
     'title': '[远程全职 DV Labs 招聘] 智能合约工程师/区块链工程师',
-    'company': '(V2EX用户招聘)',
+    'company': 'DV Labs',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -178,9 +178,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-12-47229',
+    'id': 'v2ex-12-18426',
     'title': '北美 AI 公司 自己 team 招一个 junior - mid level 前端开发 国内 remote',
-    'company': '(V2EX用户招聘)',
+    'company': '北美 AI 公司 自己 team',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -197,9 +197,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-13-25247',
+    'id': 'v2ex-13-88754',
     'title': '外企招聘数据工程师 20-50w/year (接受后端转)-full remote',
-    'company': '(V2EX用户招聘)',
+    'company': '外企',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -216,9 +216,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-14-15016',
+    'id': 'v2ex-14-82017',
     'title': '生成式广告素材专家/资深广告策略优化师/全职远程/ai 生产全球 TOC 行业',
-    'company': '(V2EX用户招聘)',
+    'company': '(wangluowangwang)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -235,9 +235,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-15-97397',
+    'id': 'v2ex-15-29772',
     'title': 'Web3 运营招聘要求（长期）',
-    'company': '(V2EX用户招聘)',
+    'company': '(ethbtc)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -254,9 +254,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-16-85442',
+    'id': 'v2ex-16-55051',
     'title': '[远程] AI-First Builder（软件工程师，实习 3 个月以上）',
-    'company': '(V2EX用户招聘)',
+    'company': '(nito61)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -273,9 +273,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-17-3140',
+    'id': 'v2ex-17-53391',
     'title': '远程开发收款问题？',
-    'company': '(V2EX用户招聘)',
+    'company': '(jackenliu)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -292,9 +292,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-18-73745',
+    'id': 'v2ex-18-1702',
     'title': '招聘 React/Nextjs 前端工程师（远程）',
-    'company': '(V2EX用户招聘)',
+    'company': '(JohnJiangChina)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -311,9 +311,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-19-85206',
+    'id': 'v2ex-19-9219',
     'title': '远程全栈职位（外企｜ AI Agent 方向｜ 40K 月薪起）',
-    'company': '(V2EX用户招聘)',
+    'company': '(TobyQuest)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -330,9 +330,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-20-96173',
+    'id': 'v2ex-20-75200',
     'title': '[远程兼职] 日本 AI / Web2.5 项目招前端｜可转全职｜ 3-6K｜长期合作',
-    'company': '(V2EX用户招聘)',
+    'company': '(xuy26041)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -349,9 +349,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-21-97839',
+    'id': 'v2ex-21-65043',
     'title': 'ai 岗位 全职远程',
-    'company': '(V2EX用户招聘)',
+    'company': '(feiling208)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],
@@ -368,9 +368,9 @@ const JOBS_MAINLIST = [
     'benefits': [],
   },
   {
-    'id': 'v2ex-22-34395',
+    'id': 'v2ex-22-69791',
     'title': '#Hiring Java',
-    'company': '(V2EX用户招聘)',
+    'company': '(Sam869)',
     'logo': '💻',
     'category': '远程工作',
     'tags': ['远程', 'V2EX'],

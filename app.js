@@ -101,7 +101,7 @@ function renderJobs(jobs) {
       <div class="job-info">
         <div class="job-title">${job.title}</div>
         <div class="job-company">
-          ${job.company}
+          ${job.company.startsWith('(') ? `<span style="color:#999;font-size:13px;">${job.company.slice(1, -1)} 发布</span>` : job.company}
           ${job.canRefer ? '<span class="job-source-badge" style="background:#fef3c7;color:#92400e;">🎯 可内推</span>' : ''}
         </div>
         <div class="job-meta-row">${job.location}</div>
