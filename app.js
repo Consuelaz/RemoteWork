@@ -16,18 +16,35 @@ let filteredJobsCache = []; // 缓存过滤后的职位
 const CATEGORIES_CN = ['全部','全栈开发','后端开发','前端开发','AI/算法','区块链','运营','多岗位','市场营销'];
 const CATEGORIES_GLOBAL = ['全部','全栈开发','前端开发','后端开发','数据分析','产品经理','市场营销','UI/UX设计','运营','人力资源','技术/运营'];
 
+// ── 通用工具函数 ──
+// 截断过长标题
+const truncateTitle = (title, maxLen = 28) => {
+  return title.length > maxLen ? title.substring(0, maxLen) + '...' : title;
+};
+
+// 处理公司名显示 - 不显示V2EX相关内容
+const formatCompany = (company) => {
+  if (!company || company === '（V2EX用户招聘）') return '';
+  if (company.length > 20) return company.substring(0, 20) + '...';
+  return company;
+};
+
 // ── 获取当前数据集 ──
 function getCurrentJobs() {
   if (currentSource === 'cn') {
     // 合并手动维护的精选岗位 + 自动抓取的 CN 岗位
     const mainList = (typeof JOBS_MAINLIST !== 'undefined') ? JOBS_MAINLIST : [];
     const cnList   = (typeof JOBS_CN      !== 'undefined') ? JOBS_CN      : [];
-    // 用 id 去重，JOBS_MAINLIST 优先
+    // 用 id 去重
     const seen = new Set(mainList.map(j => j.id));
     const unique = cnList.filter(j => !seen.has(j.id));
-    return [...mainList, ...unique];
+    // 合并后按日期倒序排列（最新的在前）
+    const allJobs = [...mainList, ...unique];
+    return allJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
   }
-  return (typeof JOBS_GLOBAL !== 'undefined') ? JOBS_GLOBAL : [];
+  // 海外岗位也按日期倒序
+  const globalList = (typeof JOBS_GLOBAL !== 'undefined') ? JOBS_GLOBAL : [];
+  return globalList.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 // ── 切换国内/国外 ──
@@ -64,13 +81,20 @@ function switchSource(source) {
 function buildCategoryTags() {
   const container = document.getElementById('categoryTags');
   if (!container) return;
-  const cats = currentSource === 'cn' ? CATEGORIES_CN : CATEGORIES_GLOBAL;
 
-  // 过滤出实际有岗位的分类
   const jobs = getCurrentJobs();
-  const availableCats = cats.filter(c => c === '全部' || jobs.some(j => j.category === c));
 
-  container.innerHTML = availableCats.map(c =>
+  // 优先用预设顺序，再补充数据里实际有的分类
+  const presetOrder = currentSource === 'cn' ? CATEGORIES_CN : CATEGORIES_GLOBAL;
+  const actualCats = [...new Set(jobs.map(j => j.category).filter(Boolean))];
+
+  // 合并：预设在前（过滤掉无数据的），再追加预设里没有的实际分类
+  const merged = ['全部',
+    ...presetOrder.filter(c => c !== '全部' && actualCats.includes(c)),
+    ...actualCats.filter(c => !presetOrder.includes(c))
+  ];
+
+  container.innerHTML = merged.map(c =>
     `<button class="tag ${c === currentCategory ? 'active' : ''}" onclick="filterByCategory('${c}')">${c}</button>`
   ).join('');
 }
@@ -99,15 +123,15 @@ function renderJobs(jobs) {
     <div class="job-card ${job.isFeatured ? 'featured' : ''}" onclick="openModal('${job.id}')">
       <div class="job-logo">${job.logo}</div>
       <div class="job-info">
-        <div class="job-title">${job.title}</div>
+        <div class="job-title">${truncateTitle(job.title)}</div>
         <div class="job-company">
-          ${job.company.startsWith('(') ? `<span style="color:#999;font-size:13px;">${job.company.slice(1, -1)} 发布</span>` : job.company}
-          ${job.canRefer ? '<span class="job-source-badge" style="background:#dbeafe;color:#1e40af;">👥 社群内推</span>' : ''}
+          ${formatCompany(job.company)}
+          ${job.canRefer ? '<span class="job-source-badge" style="background:#dbeafe;color:#1e40af;">👥 内推岗</span>' : ''}
         </div>
         <div class="job-meta-row">${job.location}</div>
         <div class="job-tags">
           <span class="job-tag primary-tag">${job.category}</span>
-          ${job.tags.slice(0,3).map(t => `<span class="job-tag">${t}</span>`).join('')}
+          ${job.tags.filter(t => !['V2EX', '远程', '社群内推'].includes(t)).slice(0,2).map(t => `<span class="job-tag">${t}</span>`).join('')}
         </div>
       </div>
       <div class="job-right">
@@ -229,27 +253,55 @@ function openModal(id) {
   const sourceLabel = currentSource === 'global'
     ? `<span class="global-badge">🌍 海外岗位</span>` : '';
   const referBadge = job.canRefer
-    ? `<span style="background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:4px;font-size:12px;margin-left:8px;">👥 社群内推</span>`
+    ? `<span style="background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:4px;font-size:12px;margin-left:8px;">👥 内推岗</span>`
     : '';
 
+  // 详情页标题截断处理
+  const modalTitle = job.title.length > 50 ? job.title.substring(0, 50) + '...' : job.title;
+  
+  // 处理公司名显示 - 详情页也用相同逻辑
+  const modalCompany = formatCompany(job.company);
+  
+  // 处理描述：如果是无意义的默认描述，则用标题替代
+  const validDescription = (job.description && 
+    job.description !== '来自V2EX远程工作社区的招聘帖子' && 
+    job.description.length > 10) 
+    ? job.description 
+    : job.title;
+  
   const content = document.getElementById('modalContent');
+  // 过滤掉不需要展示的标签
+  const filteredTags = (job.tags || []).filter(t => !['V2EX', '远程', '社群内推'].includes(t));
   content.innerHTML = `
     <div class="modal-logo">${job.logo}</div>
-    <div class="modal-title">${job.title} ${sourceLabel} ${referBadge}</div>
-    <div class="modal-company">${job.company}</div>
+    <div class="modal-title">${modalTitle} ${sourceLabel} ${referBadge}</div>
+    <div class="modal-company">${modalCompany}</div>
     <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">
-      📍 ${job.location}
+      📍 ${job.location} ${job.work_style ? '| ' + job.work_style : ''}
     </div>
     <div class="modal-tags">
       <span class="job-tag primary-tag">${job.category}</span>
-      ${(job.tags || []).map(t => `<span class="job-tag">${t}</span>`).join('')}
+      ${filteredTags.map(t => `<span class="job-tag">${t}</span>`).join('')}
     </div>
     <div class="modal-salary-big">${job.salary}</div>
 
+    ${job.company_info && job.company_info.length > 10 ? `
+    <div class="modal-section">
+      <h4>公司介绍</h4>
+      <p>${job.company_info}</p>
+    </div>` : ''}
+
+    ${validDescription ? `
     <div class="modal-section">
       <h4>岗位描述</h4>
-      <p>${job.description}</p>
-    </div>
+      <p>${validDescription}</p>
+    </div>` : ''}
+
+    ${job.responsibilities && job.responsibilities.length ? `
+    <div class="modal-section">
+      <h4>岗位职责</h4>
+      <ul>${job.responsibilities.map(r => `<li>${r}</li>`).join('')}</ul>
+    </div>` : ''}
 
     ${job.requirements && job.requirements.length ? `
     <div class="modal-section">
@@ -309,9 +361,11 @@ function updateStats() {
   const globalEl = document.getElementById('globalJobCount');
   if (globalEl) globalEl.textContent = globalList.length;
 
-  // 更新时间
+  // 更新时间 - 使用最新岗位的日期
+  const allJobsSorted = [...allCN, ...globalList].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const latestDate = allJobsSorted[0]?.date || '';
   const timeEl = document.getElementById('sourceUpdateTime');
-  if (timeEl) timeEl.textContent = `· 更新于 2026-03-23`;
+  if (timeEl && latestDate) timeEl.textContent = `· 更新于 ${latestDate}`;
 }
 
 // ── 初始化 ──
