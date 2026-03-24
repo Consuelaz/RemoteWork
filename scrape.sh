@@ -309,7 +309,7 @@ def jobs_to_js(jobs, var_name):
         lines.append("  {")
         for i, (key, val) in enumerate(job.items()):
             if isinstance(val, bool):
-                lines.append(f"    {key}: {val},")
+                lines.append(f"    {key}: {'true' if val else 'false'},")
             elif isinstance(val, list):
                 tags = ", ".join([f"'{escape_str(t)}'" for t in val])
                 lines.append(f"    {key}: [{tags}],")
