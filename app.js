@@ -62,19 +62,30 @@ function switchSource(source) {
 
   // 更新标题
   const title = document.getElementById('sectionTitle');
-  if (title) title.textContent = source === 'cn' ? '最新国内远程岗位' : '最新海外/国外远程岗位';
+  if (title) title.textContent = source === 'cn' ? '最新国内远程岗位' : '🌏 海外远程岗位（华人友好）';
 
-  // 更新来源说明
-  const info = document.getElementById('sourceInfoText');
-  if (info) {
-    info.textContent = source === 'cn'
-      ? '数据来源于网络 · 最近2个月真实岗位'
-      : '数据来源于网络 · 最近2个月真实岗位';
+  // 切换布局显示
+  const cnLayout = document.getElementById('jobList');
+  const globalLayout = document.getElementById('globalLayout');
+  const categoryTags = document.getElementById('categoryTags');
+  
+  if (source === 'global') {
+    // 海外模式
+    if (cnLayout) cnLayout.style.display = 'none';
+    if (globalLayout) globalLayout.style.display = 'block';
+    if (categoryTags) categoryTags.style.display = 'flex';
+    // 重建分类标签（海外）
+    buildCategoryTags();
+    applyFilters();
+  } else {
+    // 国内模式：显示原有布局
+    if (cnLayout) cnLayout.style.display = 'grid';
+    if (globalLayout) globalLayout.style.display = 'none';
+    if (categoryTags) categoryTags.style.display = 'flex';
+    // 重建分类标签
+    buildCategoryTags();
+    applyFilters();
   }
-
-  // 重建分类标签
-  buildCategoryTags();
-  applyFilters();
 }
 
 // ── 构建分类标签 ──
@@ -119,28 +130,190 @@ function renderJobs(jobs) {
   const end = start + PAGE_SIZE;
   const pageJobs = jobs.slice(start, end);
 
-  list.innerHTML = pageJobs.map(job => `
-    <div class="job-card ${job.isFeatured ? 'featured' : ''}" onclick="openModal('${job.id}')">
-      <div class="job-logo">${job.logo}</div>
-      <div class="job-info">
-        <div class="job-title">${truncateTitle(job.title)}</div>
-        <div class="job-company">
-          ${formatCompany(job.company)}
-          ${job.canRefer ? '<span class="job-source-badge" style="background:#dbeafe;color:#1e40af;">👥 内推岗</span>' : ''}
+  // 使用与海外岗位一致的列表卡片样式
+  list.innerHTML = pageJobs.map(job => {
+    const postedTime = formatTimeAgo(job.date);
+    // 提取地点信息
+    const locationParts = job.location ? job.location.split(/[,，]/) : [''];
+    const cityCountry = locationParts.length > 1 
+      ? `${locationParts[0].trim()}, ${locationParts[1].trim()}`
+      : job.location || '远程';
+    
+    return `
+    <div class="global-job-card ${job.isFeatured ? 'featured' : ''}" onclick="openModal('${job.id}')" style="cursor: pointer;">
+      <div class="global-job-header">
+        <div class="global-job-logo">
+          ${job.logo && job.logo.startsWith('http') 
+            ? `<img src="${job.logo}" alt="${job.company}">` 
+            : `<div class="logo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>`}
         </div>
-        <div class="job-meta-row">${job.location}</div>
-        <div class="job-tags">
-          <span class="job-tag primary-tag">${job.category}</span>
-          ${job.tags.filter(t => !['V2EX', '远程', '社群内推'].includes(t)).slice(0,2).map(t => `<span class="job-tag">${t}</span>`).join('')}
+        <div class="global-job-info">
+          <div class="global-job-title">${job.title}</div>
+          <div class="global-job-company-row">
+            <span class="company-name">${formatCompany(job.company)}</span>
+            ${job.canRefer ? '<span class="job-source-badge refer-badge"><svg class="refer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>内推岗</span>' : ''}
+            <span class="location">📍 ${cityCountry}</span>
+          </div>
         </div>
-      </div>
-      <div class="job-right">
-        <div class="job-salary">${job.salary}</div>
-        ${job.isNew ? '<span class="job-new-badge">NEW</span>' : ''}
-        <div class="job-date">${formatDate(job.date)}</div>
+        <div class="global-job-time">${postedTime}</div>
       </div>
     </div>
-  `).join('');
+  `}).join('');
+}
+
+// ── 海外岗位：构建筛选器 ──
+function buildGlobalFilters() {
+  const jobs = getCurrentJobs();
+  
+  // 提取所有地点
+  const locations = [...new Set(jobs.map(j => j.companyCountry).filter(Boolean))];
+  const locationContainer = document.getElementById('locationFilters');
+  if (locationContainer) {
+    locationContainer.innerHTML = `
+      <label class="filter-option"><input type="checkbox" value="all" checked onchange="applyGlobalFilters()"> 不限</label>
+      ${locations.map(loc => `<label class="filter-option"><input type="checkbox" value="${loc}" onchange="applyGlobalFilters()"> ${loc}</label>`).join('')}
+    `;
+  }
+  
+  // 提取所有分类
+  const categories = [...new Set(jobs.map(j => j.category).filter(Boolean))];
+  const categoryContainer = document.getElementById('categoryFilters');
+  if (categoryContainer) {
+    categoryContainer.innerHTML = `
+      <label class="filter-option"><input type="checkbox" value="all" checked onchange="applyGlobalFilters()"> 不限</label>
+      ${categories.map(cat => `<label class="filter-option"><input type="checkbox" value="${cat}" onchange="applyGlobalFilters()"> ${cat}</label>`).join('')}
+    `;
+  }
+}
+
+// ── 海外岗位：应用筛选 ──
+function applyGlobalFilters() {
+  let jobs = getCurrentJobs();
+  
+  // 获取选中的地点
+  const locationCheckboxes = document.querySelectorAll('#locationFilters input:checked');
+  const selectedLocations = Array.from(locationCheckboxes).map(cb => cb.value);
+  if (!selectedLocations.includes('all') && selectedLocations.length > 0) {
+    jobs = jobs.filter(j => selectedLocations.includes(j.companyCountry));
+  }
+  
+  // 获取选中的薪资范围
+  const salaryCheckboxes = document.querySelectorAll('#salaryFilters input:checked');
+  const selectedSalary = Array.from(salaryCheckboxes).map(cb => cb.value);
+  if (!selectedSalary.includes('all') && selectedSalary.length > 0) {
+    jobs = jobs.filter(j => {
+      const salary = j.salary || '';
+      // 简单匹配薪资范围
+      if (selectedSalary.includes('0-20') && (salary.includes('面议') || salary.match(/\d+/))) return true;
+      if (selectedSalary.includes('20-50') && salary.match(/[2-4]\d/)) return true;
+      if (selectedSalary.includes('50-100') && salary.match(/[5-9]\d/)) return true;
+      if (selectedSalary.includes('100+') && salary.match(/1\d{2}/)) return true;
+      return selectedSalary.includes('all');
+    });
+  }
+  
+  // 获取选中的分类
+  const categoryCheckboxes = document.querySelectorAll('#categoryFilters input:checked');
+  const selectedCategories = Array.from(categoryCheckboxes).map(cb => cb.value);
+  if (!selectedCategories.includes('all') && selectedCategories.length > 0) {
+    jobs = jobs.filter(j => selectedCategories.includes(j.category));
+  }
+  
+  // 搜索过滤
+  if (currentSearch) {
+    const keyword = currentSearch.toLowerCase();
+    jobs = jobs.filter(j => 
+      j.title.toLowerCase().includes(keyword) || 
+      j.company.toLowerCase().includes(keyword) ||
+      (j.tags && j.tags.some(t => t.toLowerCase().includes(keyword)))
+    );
+  }
+  
+  filteredJobsCache = jobs;
+  renderGlobalJobs(jobs);
+}
+
+// ── 海外岗位：渲染职位列表 ──
+function renderGlobalJobs(jobs) {
+  const list = document.getElementById('globalJobList');
+  if (!list) return;
+  
+  if (jobs.length === 0) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><p>没有找到相关岗位，试试调整筛选条件~</p></div>';
+    return;
+  }
+  
+  // 分页
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+  const pageJobs = jobs.slice(start, end);
+  
+  list.innerHTML = pageJobs.map(job => {
+    const postedTime = formatTimeAgo(job.date);
+    // 提取国家和城市信息
+    const locationParts = job.location ? job.location.split(/[,，]/) : [''];
+    const cityCountry = locationParts.length > 1 
+      ? `${locationParts[0].trim()}, ${locationParts[1].trim()}`
+      : job.location || '全球远程';
+    
+    return `
+    <div class="global-job-card" onclick="openModal('${job.id}')" style="cursor: pointer;">
+      <div class="global-job-header">
+        <div class="global-job-logo">
+          ${job.logo && job.logo.startsWith('http') 
+            ? `<img src="${job.logo}" alt="${job.company}">` 
+            : `<div class="logo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>`}
+        </div>
+        <div class="global-job-info">
+          <div class="global-job-title">${job.title}</div>
+          <div class="global-job-company-row">
+            <span class="company-name">${job.company}</span>
+            <span class="location">📍 ${cityCountry}</span>
+          </div>
+        </div>
+        <div class="global-job-time">${postedTime}</div>
+      </div>
+    </div>
+  `}).join('');
+  
+  // 更新分页
+  renderGlobalPagination();
+}
+
+// ── 海外岗位：渲染分页 ──
+function renderGlobalPagination() {
+  const totalPages = Math.ceil(filteredJobsCache.length / PAGE_SIZE);
+  const pagination = document.getElementById('pagination');
+  const pageInfo = document.getElementById('pageInfo');
+  const prevBtn = document.getElementById('prevPage');
+  const nextBtn = document.getElementById('nextPage');
+  
+  if (!pagination) return;
+  
+  if (totalPages <= 1) {
+    pagination.style.display = 'none';
+    return;
+  }
+  
+  pagination.style.display = 'flex';
+  if (pageInfo) pageInfo.textContent = `${currentPage} / ${totalPages}`;
+  if (prevBtn) prevBtn.disabled = currentPage <= 1;
+  if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+}
+
+// ── 格式化相对时间 ──
+function formatTimeAgo(dateStr) {
+  if (!dateStr) return '未知时间';
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diff = now - date;
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  
+  if (days === 0) return '今天';
+  if (days === 1) return '昨天';
+  if (days < 7) return `${days}天前`;
+  if (days < 30) return `${Math.floor(days / 7)}周前`;
+  return `${Math.floor(days / 30)}个月前`;
 }
 
 // ── 渲染分页 ──
@@ -168,8 +341,13 @@ function renderPagination() {
 function prevPage() {
   if (currentPage <= 1) return;
   currentPage--;
-  renderJobs(filteredJobsCache);
-  renderPagination();
+  if (currentSource === 'global') {
+    renderGlobalJobs(filteredJobsCache);
+    renderGlobalPagination();
+  } else {
+    renderJobs(filteredJobsCache);
+    renderPagination();
+  }
   scrollToJobList();
 }
 
@@ -178,8 +356,13 @@ function nextPage() {
   const totalPages = Math.ceil(filteredJobsCache.length / PAGE_SIZE);
   if (currentPage >= totalPages) return;
   currentPage++;
-  renderJobs(filteredJobsCache);
-  renderPagination();
+  if (currentSource === 'global') {
+    renderGlobalJobs(filteredJobsCache);
+    renderGlobalPagination();
+  } else {
+    renderJobs(filteredJobsCache);
+    renderPagination();
+  }
   scrollToJobList();
 }
 
@@ -226,8 +409,14 @@ function applyFilters() {
   filteredJobsCache = filtered;
   currentPage = 1;
 
-  renderJobs(filtered);
-  renderPagination();
+  // 根据当前模式选择渲染函数
+  if (currentSource === 'global') {
+    renderGlobalJobs(filtered);
+    renderGlobalPagination();
+  } else {
+    renderJobs(filtered);
+    renderPagination();
+  }
 }
 
 // ── 日期格式化 ──
@@ -253,7 +442,7 @@ function openModal(id) {
   const sourceLabel = currentSource === 'global'
     ? `<span class="global-badge">🌍 海外岗位</span>` : '';
   const referBadge = job.canRefer
-    ? `<span style="background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:4px;font-size:12px;margin-left:8px;">👥 内推岗</span>`
+    ? `<span class="refer-badge" style="background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:4px;font-size:12px;margin-left:8px;display:inline-flex;align-items:center;gap:4px;"><svg class="refer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>内推岗</span>`
     : '';
 
   // 详情页标题截断处理
@@ -360,12 +549,6 @@ function updateStats() {
   if (cnEl) cnEl.textContent = allCN.length;
   const globalEl = document.getElementById('globalJobCount');
   if (globalEl) globalEl.textContent = globalList.length;
-
-  // 更新时间 - 使用最新岗位的日期
-  const allJobsSorted = [...allCN, ...globalList].sort((a, b) => new Date(b.date) - new Date(a.date));
-  const latestDate = allJobsSorted[0]?.date || '';
-  const timeEl = document.getElementById('sourceUpdateTime');
-  if (timeEl && latestDate) timeEl.textContent = `· 更新于 ${latestDate}`;
 }
 
 // ── 初始化 ──
@@ -380,6 +563,19 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('✅ CN 模式合并后:', cnJobs.length, '条');
   
   updateStats();
-  buildCategoryTags();
-  applyFilters();
+  
+  // 根据当前模式初始化
+  if (currentSource === 'global') {
+    const globalLayout = document.getElementById('globalLayout');
+    const cnLayout = document.getElementById('jobList');
+    const categoryTags = document.getElementById('categoryTags');
+    if (globalLayout) globalLayout.style.display = 'flex';
+    if (cnLayout) cnLayout.style.display = 'none';
+    if (categoryTags) categoryTags.style.display = 'none';
+    buildGlobalFilters();
+    applyGlobalFilters();
+  } else {
+    buildCategoryTags();
+    applyFilters();
+  }
 });

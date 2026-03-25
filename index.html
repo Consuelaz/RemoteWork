@@ -64,13 +64,7 @@
         </button>
       </div>
 
-      <!-- 数据来源说明 -->
-      <div class="source-info" id="sourceInfo">
-        <span id="sourceInfoText">数据来源于网络 · 最近2个月真实岗位</span>
-        <span id="sourceUpdateTime"></span>
-      </div>
-
-      <!-- 分类标签 -->
+      <!-- 分类标签（国内/海外模式都显示） -->
       <div class="category-tags" id="categoryTags">
         <!-- 由 app.js buildCategoryTags() 动态生成 -->
       </div>
@@ -85,6 +79,14 @@
         <span class="sort-label">按最新发布排序 · 真实数据</span>
       </div>
 
+      <!-- 海外岗位列表 -->
+      <div class="global-layout" id="globalLayout" style="display: none;">
+        <div class="job-list global-job-list" id="globalJobList">
+          <!-- 动态生成 -->
+        </div>
+      </div>
+
+      <!-- 国内岗位列表 -->
       <div class="job-list" id="jobList">
         <!-- 动态生成 -->
       </div>

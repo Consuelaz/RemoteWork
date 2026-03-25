@@ -39,6 +39,22 @@ else
     echo "Remotive 下载失败" >> $LOG_FILE
 fi
 
+# ========================================
+# 1.2 抓取远程岛 (JSON API) - 华人全球远程工作
+# ========================================
+echo "正在抓取远程岛..." >> $LOG_FILE
+# 获取多页数据
+for page in 1 2 3 4 5; do
+    curl -s -L -A "Mozilla/5.0" "https://yuanchengdao.com/api/jobs?page=${page}&limit=30" -o /tmp/yuanchengdao_${page}.json
+    sleep 1
+done
+
+if [ -s /tmp/yuanchengdao_1.json ]; then
+    echo "远程岛 下载完成" >> $LOG_FILE
+else
+    echo "远程岛 下载失败" >> $LOG_FILE
+fi
+
 # 预下载 Remote OK 详情页（前10个岗位）
 echo "正在预下载Remote OK岗位详情..." >> $LOG_FILE
 python3 << 'PYEOF'
@@ -52,21 +68,21 @@ else:
     with open('/tmp/remoteok.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
     
-    # 下载前10个岗位的详情页
-    for i, item in enumerate(data[1:11]):
+    # 下载前50个岗位的详情页（增加数量以获取更丰富的数据）
+    for i, item in enumerate(data[1:51]):
         url = item.get("url", "")
         if url and not url.startswith("http"):
             url = "https://remoteok.com" + url
         if url:
             # 用hash作为文件名
             fname = f"/tmp/remoteok_detail_{i}.html"
-            cmd = f'curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" "{url}" -o "{fname}"'
+            cmd = f'curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" "{url}" -o "{fname}" --max-time 15'
             os.system(cmd)
             print(f"下载 {i}: {url[:50]}")
 
-# 保存映射
+# 保存映射（使用idx作为key）
 remoteok_url_map = {}
-for i, item in enumerate(data[1:11]):
+for i, item in enumerate(data[1:51]):
     url = item.get("url", "")
     if url and not url.startswith("http"):
         url = "https://remoteok.com" + url
@@ -261,49 +277,155 @@ def parse_remoteok_detail(file_path):
         return {}
     
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            html = f.read()
+        # 尝试多种编码
+        html = ''
+        for encoding in ['utf-8', 'latin-1', 'cp1252', 'iso-8859-1']:
+            try:
+                with open(file_path, 'r', encoding=encoding) as f:
+                    html = f.read()
+                break
+            except UnicodeDecodeError:
+                continue
+        
+        if not html:
+            return {}
         
         soup = BeautifulSoup(html, 'html.parser')
         
         result = {
             'description': '',
             'requirements': [],
-            'benefits': []
+            'benefits': [],
+            'company_info': ''
         }
         
-        # 获取主要内容区域
-        main = soup.select_one('div#main') or soup.select_one('main') or soup.select_one('.job-content')
-        if not main:
-            return result
-        
-        full_text = main.get_text('\n', strip=True)
-        
-        # 提取职位描述（通常在job description部分）
-        desc_elem = soup.select_one('div.job-description') or soup.select_one('.description')
+        # 提取职位描述 - Remote OK 使用 div.description
+        desc_elem = soup.select_one('div.description')
         if desc_elem:
-            result['description'] = desc_elem.get_text('\n', strip=True)[:500]
+            # 获取完整文本
+            full_desc = desc_elem.get_text('\n', strip=True)
+            
+            # 清理噪音：使用正则表达式更精确地匹配
+            import re
+            noise_patterns = [
+                r'^Apply now$',
+                r'^Share this job:$',
+                r'^Get a$',
+                r'^rok\.co$',
+                r'^short link$',
+                r'^👍$',
+                r'^👎$',
+                r'^❤️$',
+                r'^📍$',
+                r'^💼$',
+                r'^Report this job$',
+                r'^Save$',
+                r'^Hide$',
+            ]
+            
+            lines = full_desc.split('\n')
+            cleaned_lines = []
+            
+            for line in lines:
+                line = line.strip()
+                # 跳过匹配噪音模式的行
+                if any(re.match(pattern, line) for pattern in noise_patterns):
+                    continue
+                # 跳过太短的行
+                if len(line) < 2:
+                    continue
+                cleaned_lines.append(line)
+            
+            # 找到实际内容开始的位置
+            content_start = 0
+            for i, line in enumerate(cleaned_lines):
+                # 找到包含 "is hiring" 或职位标题后的内容
+                if 'is hiring' in line.lower():
+                    content_start = i + 1
+                    break
+                # 或者找到 Remote 开头的行（通常是职位标题）
+                if line.startswith('Remote ') and i > 0:
+                    content_start = i + 1
+                    break
+            
+            # 提取内容
+            if content_start < len(cleaned_lines):
+                # 从 content_start 开始的所有内容作为描述
+                desc_text = '\n'.join(cleaned_lines[content_start:])
+                # 清理多余的空白和制表符
+                desc_text = re.sub(r'\t+', ' ', desc_text)
+                desc_text = re.sub(r'\n\s*\n', '\n\n', desc_text)
+                result['description'] = desc_text.strip()[:1500]
+                
+                # 前几句作为公司介绍
+                if content_start < len(cleaned_lines):
+                    first_para = cleaned_lines[content_start]
+                    if len(first_para) > 20:
+                        result['company_info'] = first_para[:400]
+            else:
+                # 如果找不到标记，使用全部内容（但跳过前2行，通常是公司名+职位名）
+                if len(cleaned_lines) > 2:
+                    result['description'] = '\n'.join(cleaned_lines[2:])[:1500]
+                else:
+                    result['description'] = '\n'.join(cleaned_lines)[:1500]
         
-        # 提取要求
-        req_section = soup.select_one('div.job-requirements') or soup.select_one('.requirements')
-        if req_section:
-            req_text = req_section.get_text('\n', strip=True)
-            lines = [l.strip() for l in req_text.split('\n') if l.strip() and len(l) > 5]
-            result['requirements'] = lines[:5]
+        # 从描述中提取要求（寻找关键词后的内容）
+        if result['description']:
+            desc_lower = result['description'].lower()
+            req_keywords = ['requirements:', 'what you need:', 'qualifications:', 'you have:', 
+                           'skills required:', 'requirements', 'qualifications', 'what you’ll bring']
+            for keyword in req_keywords:
+                if keyword in desc_lower:
+                    idx = desc_lower.find(keyword)
+                    if idx >= 0:
+                        # 找到这个部分的开始和结束（到下一个主要标题）
+                        req_section = result['description'][idx:idx+1000]
+                        # 提取列表项
+                        req_lines = []
+                        for l in req_section.split('\n'):
+                            l = l.strip()
+                            if l and len(l) > 10:
+                                # 移除列表标记
+                                if l.startswith(('- ', '• ', '* ')):
+                                    l = l[2:]
+                                elif l[0].isdigit() and l[1:3] in ('. ', ') '):
+                                    l = l[3:]
+                                if len(l) > 10:
+                                    req_lines.append(l)
+                        if len(req_lines) > 1:
+                            result['requirements'] = req_lines[:8]
+                        break
         
-        # 提取福利
-        benefit_section = soup.select_one('div.job-benefits') or soup.select_one('.benefits')
-        if benefit_section:
-            benefit_text = benefit_section.get_text('\n', strip=True)
-            lines = [l.strip() for l in benefit_text.split('\n') if l.strip() and len(l) > 3]
-            result['benefits'] = lines[:5]
+        # 从描述中提取福利
+        if result['description']:
+            desc_lower = result['description'].lower()
+            benefit_keywords = ['benefits:', 'perks:', 'we offer:', 'compensation:', 
+                               'benefits', 'perks', 'what we offer']
+            for keyword in benefit_keywords:
+                if keyword in desc_lower:
+                    idx = desc_lower.find(keyword)
+                    if idx >= 0:
+                        benefit_section = result['description'][idx:idx+800]
+                        benefit_lines = []
+                        for l in benefit_section.split('\n'):
+                            l = l.strip()
+                            if l and len(l) > 5:
+                                if l.startswith(('- ', '• ', '* ')):
+                                    l = l[2:]
+                                elif l[0].isdigit() and l[1:3] in ('. ', ') '):
+                                    l = l[3:]
+                                if len(l) > 5:
+                                    benefit_lines.append(l)
+                        if len(benefit_lines) > 1:
+                            result['benefits'] = benefit_lines[:6]
+                        break
         
-        # 如果没有从详情页提取到内容，使用标签生成描述
+        # 如果没有提取到描述，使用标签生成
         if not result['description']:
             tags = soup.select('div.tags a') or soup.select('.tag')
             if tags:
-                tag_texts = [t.get_text(strip=True) for t in tags[:6]]
-                result['description'] = f"要求技能: {', '.join(tag_texts)}"
+                tag_texts = [t.get_text(strip=True) for t in tags[:8]]
+                result['description'] = f"技能标签: {', '.join(tag_texts)}"
         
         return result
     except Exception as e:
@@ -354,7 +476,8 @@ try:
             "companyCountry": "海外",
             "description": detail_info.get('description', f"{item.get('company', '')} 招聘 {item.get('position', '')}"),
             "requirements": detail_info.get('requirements', []),
-            "benefits": detail_info.get('benefits', [])
+            "benefits": detail_info.get('benefits', []),
+            "company_info": detail_info.get('company_info', '')
         }
         if job["title"]:
             remoteok_jobs.append(job)
@@ -400,6 +523,116 @@ try:
     print(f"Remotive: {len(remotive_jobs)} jobs")
 except Exception as e:
     print(f"Remotive 解析失败: {e}")
+
+# ========== 处理远程岛 ==========
+yuanchengdao_jobs = []
+try:
+    import glob
+    all_jobs = []
+    for fname in glob.glob('/tmp/yuanchengdao_*.json'):
+        try:
+            with open(fname, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                jobs = data.get('jobs', [])
+                all_jobs.extend(jobs)
+        except Exception as e:
+            print(f"解析 {fname} 失败: {e}")
+    
+    for item in all_jobs[:2000]:
+        title = item.get("title", "")
+        company = item.get("company_name", "远程岛")
+        
+        # 处理薪资
+        salary_lower = item.get("salary_lower", 0)
+        salary_upper = item.get("salary_upper", 0)
+        salary_currency = item.get("salary_currency", "CNY")
+        salary_pay_cycle = item.get("salary_pay_cycle", "year")
+        
+        if salary_lower > 0 and salary_upper > 0:
+            if salary_pay_cycle == "year":
+                salary = f"{salary_lower/10000:.0f}万-{salary_upper/10000:.0f}万/年"
+            else:
+                salary = f"{salary_lower}-{salary_upper}/月"
+        else:
+            salary = "面议"
+        
+        # 处理地点
+        location_parts = []
+        country = item.get("country_name_cn", "")
+        location = item.get("location_name_cn", "")
+        if country:
+            location_parts.append(country)
+        if location and location != country:
+            location_parts.append(location)
+        location_str = " | ".join(location_parts) if location_parts else "全球远程"
+        
+        # 解析发布时间
+        posted_at = item.get("posted_at", "")
+        if posted_at:
+            try:
+                from datetime import datetime
+                dt = datetime.fromisoformat(posted_at.replace('Z', '+00:00'))
+                date_str = dt.strftime('%Y-%m-%d')
+            except:
+                date_str = DATE
+        else:
+            date_str = DATE
+        
+        # 解析申请链接
+        apply_url = ""
+        apply_options = item.get("apply_options", "")
+        if apply_options:
+            try:
+                import ast
+                options = ast.literal_eval(apply_options)
+                if options and len(options) > 0:
+                    apply_url = options[0].get("link", "")
+            except:
+                pass
+        
+        # 解析职位亮点
+        requirements = []
+        benefits = []
+        try:
+            job_highlights = item.get("job_highlights", "")
+            if job_highlights:
+                import ast
+                highlights = ast.literal_eval(job_highlights)
+                for h in highlights:
+                    if h.get("title") == "资格":
+                        requirements = h.get("items", [])[:8]
+                    elif h.get("title") == "福利":
+                        benefits = h.get("items", [])[:5]
+        except:
+            pass
+        
+        job = {
+            "id": f"global-yuanchengdao-{item.get('id', '')}",
+            "title": title,
+            "company": company,
+            "logo": item.get("company_thumbnail", "🌏"),
+            "category": guess_category_global(title),
+            "tags": ["远程", "华人友好"],
+            "salary": salary,
+            "location": location_str,
+            "date": date_str,
+            "isNew": True,
+            "isFeatured": False,
+            "canRefer": False,
+            "source": "https://yuanchengdao.com",
+            "sourceUrl": f"https://yuanchengdao.com/job/{item.get('slug', '')}",
+            "applyUrl": apply_url if apply_url else f"https://yuanchengdao.com/job/{item.get('slug', '')}",
+            "currency": salary_currency,
+            "companyCountry": item.get("country_name_cn", "海外"),
+            "description": item.get("description", "")[:500] if item.get("description") else f"{company} 招聘 {title}",
+            "requirements": requirements,
+            "benefits": benefits
+        }
+        if job["title"]:
+            yuanchengdao_jobs.append(job)
+    print(f"远程岛: {len(yuanchengdao_jobs)} jobs")
+except Exception as e:
+    print(f"远程岛 解析失败: {e}")
 
 # ========== 处理远程中文网 ==========
 from bs4 import BeautifulSoup
@@ -812,8 +1045,8 @@ def merge_jobs(old_jobs, new_jobs):
 # V2EX 数据放最前面（最新抓取的社群内推岗位）
 # 国内上限2000条
 merged_cn = merge_jobs(existing_cn, v2ex_jobs + remotechina_jobs + dianyu_jobs)[:2000]
-# 海外上限2000条（Remote OK + Remotive）
-merged_global = merge_jobs(existing_global, remoteok_jobs + remotive_jobs)[:2000]
+# 海外上限2000条（Remote OK + Remotive + 远程岛）
+merged_global = merge_jobs(existing_global, remoteok_jobs + remotive_jobs + yuanchengdao_jobs)[:2000]
 
 print(f"合并后: CN={len(merged_cn)}, Global={len(merged_global)}")
 
@@ -929,5 +1162,6 @@ EOF
 echo "数据更新完成: $DATE" >> $LOG_FILE
 echo "========================================" >> $LOG_FILE
 
-# 清理临时文件
-rm -f /tmp/remoteok.json /tmp/remote-china.html /tmp/v2ex*.html /tmp/remoteok_detail*.html /tmp/v2ex_url_map.txt /tmp/remoteok_url_map.pkl
+# 清理临时文件（保留详情页文件用于调试）
+rm -f /tmp/remoteok.json /tmp/remote-china.html /tmp/v2ex*.html /tmp/v2ex_url_map.txt /tmp/remoteok_url_map.pkl
+# rm -f /tmp/remoteok_detail*.html  # 暂时保留详情页文件

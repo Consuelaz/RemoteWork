@@ -358,6 +358,25 @@ body {
   border-radius: 99px;
   padding: 1px 7px;
 }
+
+/* 内推岗标识样式 */
+.refer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #dbeafe;
+  color: #1e40af;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.refer-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
 .job-meta-row {
   font-size: 12px;
   color: var(--text-muted);
@@ -415,6 +434,198 @@ body {
   color: var(--text-muted);
 }
 .empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+/* ── 海外岗位专用布局 ── */
+.global-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+.filter-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 80px;
+}
+.filter-section {
+  margin-bottom: 24px;
+}
+.filter-section:last-child {
+  margin-bottom: 0;
+}
+.filter-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-body);
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+.filter-option:hover {
+  color: var(--primary);
+}
+.filter-option input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+}
+.global-job-content {
+  flex: 1;
+  min-width: 0;
+}
+.global-job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 海外岗位卡片样式 - 列表模式 */
+.global-job-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+  margin-bottom: 12px;
+}
+.global-job-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+.global-job-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.global-job-logo {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.global-job-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.global-job-logo .logo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+}
+
+.global-job-logo .logo-placeholder svg {
+  width: 24px;
+  height: 24px;
+  color: #94a3b8;
+}
+.global-job-info {
+  flex: 1;
+  min-width: 0;
+}
+.global-job-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.global-job-company-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+.global-job-company-row .company-name {
+  color: var(--text-body);
+  font-weight: 500;
+}
+.global-job-company-row .location {
+  color: var(--text-muted);
+}
+.global-job-time {
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.global-job-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.global-job-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.global-job-salary {
+  color: var(--accent);
+  font-weight: 600;
+}
+.global-job-actions {
+  display: flex;
+  gap: 12px;
+}
+.global-job-actions .btn {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+.global-job-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.global-job-tag {
+  font-size: 11px;
+  padding: 3px 8px;
+  background: var(--bg);
+  color: var(--text-muted);
+  border-radius: 99px;
+}
+
+@media (max-width: 768px) {
+  .global-layout {
+    flex-direction: column;
+  }
+  .filter-sidebar {
+    width: 100%;
+    position: static;
+  }
+}
 
 /* ── 分页 ── */
 .pagination {
