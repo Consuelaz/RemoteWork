@@ -882,6 +882,7 @@ print(f"✅ 数据更新完成!")
 # ========== 更新 money.xlsx ==========
 try:
     from openpyxl import load_workbook
+    from datetime import datetime
     
     xlsx_file = 'money.xlsx'
     if os.path.exists(xlsx_file):
@@ -898,12 +899,26 @@ try:
         # 写入 V2EX 新数据到表格
         for i, job in enumerate(v2ex_jobs):
             row = data_start_row + i
-            sheet.cell(row, 1).value = job['company']
+            sheet.cell(row, 1).value = job['company'] if job.get('company') and job['company'] != '（V2EX用户招聘）' else '待补充'
             sheet.cell(row, 2).value = "互联网"
             sheet.cell(row, 3).value = job['category']
             sheet.cell(row, 4).value = job['title']
             sheet.cell(row, 5).value = job['location']
             sheet.cell(row, 6).value = job['sourceUrl']
+            sheet.cell(row, 7).value = "是" if job.get('canRefer') else "否"
+            sheet.cell(row, 8).value = job.get('date', DATE)
+            # 合并 responsibilities 和 requirements 到工作职责&任职要求
+            desc_parts = []
+            if job.get('responsibilities') and len(job['responsibilities']) > 0:
+                desc_parts.append("岗位职责：" + "；".join(job['responsibilities'][:5]))
+            if job.get('requirements') and len(job['requirements']) > 0:
+                desc_parts.append("任职要求：" + "；".join(job['requirements'][:5]))
+            if job.get('description') and len(job['description']) > 10:
+                desc_parts.append(job['description'][:200])
+            sheet.cell(row, 9).value = "\n".join(desc_parts) if desc_parts else "详见原帖"
+            sheet.cell(row, 10).value = job.get('salary', '面议')
+            sheet.cell(row, 11).value = "加入Junes数字游民社群内推" if job.get('canRefer') else "直接投递"
+            sheet.cell(row, 12).value = "V2EX"
         
         wb.save(xlsx_file)
         print(f"✅ money.xlsx 已更新，插入 {len(v2ex_jobs)} 条V2EX数据")
