@@ -961,6 +961,15 @@ try:
         if not title or not link:
             continue
         
+        # ===== 过滤：黑名单标题（非招聘内容，如网站上线公告等）=====
+        TITLE_BLACKLIST = [
+            '一直想做的远程工作集合网站',
+            '远程工作网站开放',
+            # 可在此继续追加非招聘类标题关键词
+        ]
+        if any(kw in title for kw in TITLE_BLACKLIST):
+            continue
+        
         # ===== 过滤：只保留当天发布的帖子 =====
         time_elem = item.select_one('span[title]')
         post_date = ''
