@@ -648,7 +648,7 @@ except Exception as e:
     print(f"加载远程中文网详情页映射失败: {e}")
 
 def parse_remotechina_detail(file_path):
-    """解析远程中文网详情页，提取申请职位链接"""
+    """解析远程中文网详情页，提取申请职位链接、岗位描述、职责、要求等"""
     if not os.path.exists(file_path):
         return {}
     
@@ -657,14 +657,62 @@ def parse_remotechina_detail(file_path):
             html = f.read()
         
         soup = BeautifulSoup(html, 'html.parser')
+        result = {}
         
-        # 查找申请职位按钮
+        # ===== 申请职位链接 =====
         apply_link = ''
-        apply_btn = soup.select_one('a.btn-primary') or soup.select_one('a[href*="zhaopin"]')
-        if apply_btn:
-            apply_link = apply_btn.get('href', '')
+        for sel in ['a.btn-primary', 'a[href*="zhaopin"]', 'a[href*="zhipin"]',
+                    'a[href*="lagou"]', 'a[href*="eleduck"]', 'a[href*="liepin"]']:
+            btn = soup.select_one(sel)
+            if btn:
+                apply_link = btn.get('href', '')
+                break
+        if apply_link:
+            result['applyUrl'] = apply_link
         
-        return {'applyUrl': apply_link} if apply_link else {}
+        # ===== 从 .markdown-content 提取岗位描述 =====
+        mc = soup.select_one('.markdown-content')
+        if mc:
+            lines = [l.strip() for l in mc.get_text('\n').split('\n') if l.strip()]
+            
+            responsibilities = []
+            requirements = []
+            current_section = None
+            desc_lines = []
+            
+            RESP_KEYWORDS = ['岗位职责', '职位职责', '工作职责', '工作内容', '主要职责']
+            REQ_KEYWORDS  = ['技能要求', '任职要求', '岗位要求', '职位要求', '基本要求']
+            
+            for line in lines:
+                if any(kw in line for kw in RESP_KEYWORDS):
+                    current_section = 'resp'
+                    continue
+                elif any(kw in line for kw in REQ_KEYWORDS):
+                    current_section = 'req'
+                    continue
+                elif any(kw in line for kw in ['薪资待遇', '福利待遇', '工作时间', '行业和产品', '岗位名称']):
+                    current_section = None
+                    continue
+                
+                if current_section == 'resp' and len(line) > 5:
+                    responsibilities.append(line)
+                elif current_section == 'req' and len(line) > 5:
+                    requirements.append(line)
+                else:
+                    desc_lines.append(line)
+            
+            if responsibilities:
+                result['responsibilities'] = responsibilities[:20]
+            if requirements:
+                result['requirements'] = requirements[:15]
+            
+            # description 用前5行精华内容（跳过"行业和产品"这类 AI 生成的标题行）
+            skip_prefixes = ['行业和产品', '岗位名称', '推测常规名称', '薪资待遇', '福利待遇', '工作时间']
+            clean_desc = [l for l in desc_lines if not any(l.startswith(p) for p in skip_prefixes)]
+            if clean_desc:
+                result['description'] = ' | '.join(clean_desc[:5])
+        
+        return result
     except Exception as e:
         print(f"解析远程中文网详情页失败: {e}")
         return {}
@@ -682,7 +730,7 @@ try:
         title = title_elem.get_text(strip=True) if title_elem else ""
         
         company_elem = item.select_one('.job-team-name')
-        company = company_elem.get_text(strip=True) if company_elem else "远程中文网"
+        company = company_elem.get_text(strip=True) if company_elem else ""
         
         salary_elem = item.select_one('.job-description')
         salary = salary_elem.get_text(strip=True)[:50] if salary_elem else "面议"
@@ -690,8 +738,9 @@ try:
         href = item.get('href', '')
         link = "https://remote-china.com" + href if href else ""
         
-        # 从详情页获取申请链接
+        # 从详情页获取申请链接、描述等
         apply_url = link  # 默认使用详情页链接
+        detail_info = {}
         if str(i) in remotechina_detail_map:
             detail_file = remotechina_detail_map[str(i)].get('file', '')
             if detail_file:
@@ -716,8 +765,9 @@ try:
                 "source": "https://remote-china.com/jobs",
                 "sourceUrl": link,
                 "applyUrl": apply_url,
-                "description": "来自远程中文网的远程工作机会",
-                "requirements": [],
+                "description": detail_info.get('description', ''),
+                "responsibilities": detail_info.get('responsibilities', []),
+                "requirements": detail_info.get('requirements', []),
                 "benefits": []
             }
             remotechina_jobs.append(job)

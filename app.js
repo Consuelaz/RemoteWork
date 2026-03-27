@@ -22,9 +22,11 @@ const truncateTitle = (title, maxLen = 28) => {
   return title.length > maxLen ? title.substring(0, maxLen) + '...' : title;
 };
 
-// 处理公司名显示 - 不显示V2EX相关内容
+// 处理公司名显示 - 过滤数据源网站名称等无意义内容
+const INVALID_COMPANY_NAMES = ['（V2EX用户招聘）', '远程中文网', 'Remote China', 'remote-china'];
 const formatCompany = (company) => {
-  if (!company || company === '（V2EX用户招聘）') return '';
+  if (!company) return '';
+  if (INVALID_COMPANY_NAMES.some(n => company.includes(n))) return '';
   if (company.length > 20) return company.substring(0, 20) + '...';
   return company;
 };
@@ -451,16 +453,26 @@ function openModal(id) {
   // 处理公司名显示 - 详情页也用相同逻辑
   const modalCompany = formatCompany(job.company);
   
-  // 处理描述：如果是无意义的默认描述，则用标题替代
+  // 处理描述：过滤无意义的默认描述（数据源名称等占位内容）
+  const INVALID_DESCRIPTIONS = [
+    '来自V2EX远程工作社区的招聘帖子',
+    '来自远程中文网的远程工作机会',
+    '来自远程中文网',
+  ];
   const validDescription = (job.description && 
-    job.description !== '来自V2EX远程工作社区的招聘帖子' && 
+    !INVALID_DESCRIPTIONS.some(d => job.description.includes(d)) && 
     job.description.length > 10) 
     ? job.description 
-    : job.title;
+    : '';
   
   const content = document.getElementById('modalContent');
   // 过滤掉不需要展示的标签
   const filteredTags = (job.tags || []).filter(t => !['V2EX', '远程', '社群内推'].includes(t));
+  // 过滤 responsibilities / requirements 中含数据源网站链接的行
+  const filterSourceLines = (arr) => (arr || []).filter(line =>
+    !/https?:\/\/(www\.)?v2ex\.com/i.test(line) &&
+    !/https?:\/\/remote-china\.com/i.test(line)
+  );
   content.innerHTML = `
     <div class="modal-logo">${job.logo}</div>
     <div class="modal-title">${modalTitle} ${sourceLabel} ${referBadge}</div>
@@ -489,13 +501,13 @@ function openModal(id) {
     ${job.responsibilities && job.responsibilities.length ? `
     <div class="modal-section">
       <h4>岗位职责</h4>
-      <ul>${job.responsibilities.map(r => `<li>${r}</li>`).join('')}</ul>
+      <ul>${filterSourceLines(job.responsibilities).map(r => `<li>${r}</li>`).join('')}</ul>
     </div>` : ''}
 
     ${job.requirements && job.requirements.length ? `
     <div class="modal-section">
       <h4>任职要求</h4>
-      <ul>${job.requirements.map(r => `<li>${r}</li>`).join('')}</ul>
+      <ul>${filterSourceLines(job.requirements).map(r => `<li>${r}</li>`).join('')}</ul>
     </div>` : ''}
 
     ${job.benefits && job.benefits.length ? `
