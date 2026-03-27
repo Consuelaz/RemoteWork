@@ -1179,14 +1179,23 @@ existing_global = load_js_array('jobs-global.js')
 
 print(f"现有数据: CN={len(existing_cn)}, Global={len(existing_global)}")
 
-# ========== 合并数据 ==========
+# ========== 合并去重数据 ==========
+def dedup_by_source_url(jobs):
+    """按 sourceUrl 去重，保留最新（即列表靠前的）那条"""
+    seen = {}
+    result = []
+    for job in jobs:
+        key = job.get('sourceUrl', '') or job.get('id', '')
+        if key and key not in seen:
+            seen[key] = True
+            result.append(job)
+    return result
+
 def merge_jobs(old_jobs, new_jobs):
-    existing_ids = set(j['id'] for j in old_jobs)
-    unique_new = [j for j in new_jobs if j['id'] not in existing_ids]
-    # 保留旧的，新的放前面
-    merged = unique_new + old_jobs
-    # 限制数量 - 国内上限2000，海外上限2000，总计上限5000
-    return merged[:5000]
+    """合并新旧数据并按 sourceUrl 全局去重，新数据优先（放前面）"""
+    merged = new_jobs + old_jobs
+    deduped = dedup_by_source_url(merged)
+    return deduped
 
 # V2EX 数据放最前面（最新抓取的社群内推岗位）
 # 国内上限2000条
@@ -1194,7 +1203,7 @@ merged_cn = merge_jobs(existing_cn, v2ex_jobs + remotechina_jobs + dianyu_jobs)[
 # 海外上限2000条（Remote OK + Remotive + 远程岛）
 merged_global = merge_jobs(existing_global, remoteok_jobs + remotive_jobs + yuanchengdao_jobs)[:2000]
 
-print(f"合并后: CN={len(merged_cn)}, Global={len(merged_global)}")
+print(f"合并去重后: CN={len(merged_cn)}, Global={len(merged_global)}")
 
 # ========== 写入 JS 文件 ==========
 def escape_str(s):
