@@ -834,6 +834,57 @@ def parse_v2ex_detail(file_path):
         if '远程' in full_text or '居家' in full_text or '可坐班' in full_text:
             result['work_style'] = '可远程，可坐班' if '可坐班' in full_text else '远程工作'
         
+        # ===== 提取联系方式（邮箱 / 微信 / 其他） =====
+        contact_parts = []
+        # 邮箱
+        email_matches = re.findall(r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}', full_text)
+        if email_matches:
+            contact_parts.append('邮箱: ' + '  /  '.join(email_matches[:2]))
+        # 微信
+        wx_patterns = [
+            r'微信[：:\s]*([A-Za-z0-9_\-\u4e00-\u9fa5]{4,30})',
+            r'wx[：:\s]*([A-Za-z0-9_\-]{4,30})',
+            r'wechat[：:\s]*([A-Za-z0-9_\-]{4,30})',
+        ]
+        for pat in wx_patterns:
+            wx_m = re.search(pat, full_text, re.IGNORECASE)
+            if wx_m:
+                contact_parts.append('微信: ' + wx_m.group(1).strip())
+                break
+        # 电话/手机
+        phone_m = re.search(r'(?:电话|手机|Tel|Phone)[：:\s]*([0-9\-\+\s]{7,15})', full_text, re.IGNORECASE)
+        if phone_m:
+            contact_parts.append('电话: ' + phone_m.group(1).strip())
+        # 其他联系方式关键词
+        other_patterns = [
+            r'(?:简历|投递|联系)[：:]\s*([^\n]{5,80})',
+            r'(?:telegram|tg)[：:\s]*([A-Za-z0-9_@\-]{4,40})',
+        ]
+        for pat in other_patterns:
+            other_m = re.search(pat, full_text, re.IGNORECASE)
+            if other_m:
+                val = other_m.group(1).strip()
+                # 过滤掉含邮箱的（已经单独收集了）
+                if '@' not in val:
+                    contact_parts.append(val[:60])
+                break
+        result['contact'] = '\n'.join(contact_parts) if contact_parts else ''
+
+        # ===== 提取工作职责（去掉联系方式） =====
+        # 把 responsibilities + requirements 合并，过滤掉包含邮箱/微信/电话的行
+        def is_contact_line(line):
+            line_lower = line.lower()
+            if re.search(r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}', line):
+                return True
+            if any(k in line_lower for k in ['微信', 'wx:', 'wechat', '电话', '手机', 'tel:', '简历发', '投递至', 'telegram', ' tg ']):
+                return True
+            return False
+        
+        clean_resp = [l for l in result.get('responsibilities', []) if not is_contact_line(l)]
+        clean_reqs = [l for l in result.get('requirements', []) if not is_contact_line(l)]
+        result['responsibilities'] = clean_resp
+        result['requirements'] = clean_reqs
+
         # 生成description - 只在有实际内容时赋值
         if result['company_info'] and len(result['company_info']) > 10:
             result['description'] = result['company_info'][:200]
@@ -935,7 +986,8 @@ try:
                 "benefits": detail_info.get('benefits', []),
                 "responsibilities": detail_info.get('responsibilities', []),
                 "company_info": detail_info.get('company_info', ''),
-                "work_style": detail_info.get('work_style', '')
+                "work_style": detail_info.get('work_style', ''),
+                "contact": detail_info.get('contact', '')
             }
             v2ex_jobs.append(job)
     print(f"V2EX: {len(v2ex_jobs)} jobs")
@@ -1116,42 +1168,114 @@ print(f"✅ 数据更新完成!")
 try:
     from openpyxl import load_workbook
     from datetime import datetime
+    import re as _re
     
     xlsx_file = 'money.xlsx'
     if os.path.exists(xlsx_file):
         wb = load_workbook(xlsx_file)
         sheet = wb.active
         
-        # V2EX 数据插入表格顶部（表头在第2行，数据从第3行开始）
+        # 数据从第3行开始（第1行标题，第2行表头）
         data_start_row = 3
         
-        # 插入空行给新数据
-        if sheet.cell(data_start_row, 1).value is not None:
+        # 插入空行给新数据（只有 v2ex_jobs 写入表格）
+        if v2ex_jobs and sheet.cell(data_start_row, 1).value is not None:
             sheet.insert_rows(data_start_row, len(v2ex_jobs))
         
-        # 写入 V2EX 新数据到表格
+        def extract_company_from_text(full_text, title):
+            """从帖子正文 + 标题中提取公司名，抓不到返回空字符串"""
+            # 优先从标题提取【公司名】
+            m = _re.search(r'【(.+?)】', title)
+            if m:
+                name = m.group(1).strip()
+                if len(name) >= 2 and name not in ['远程', '全职远程']:
+                    return name
+            # 从正文找"公司：xxx" / "公司名：xxx"
+            m = _re.search(r'(?:公司名?|Company)[：:\s]+([^\n\s]{2,20})', full_text)
+            if m:
+                name = m.group(1).strip()
+                if len(name) >= 2:
+                    return name
+            # 标题里 "公司名 招聘"
+            m2 = _re.search(r'^([A-Za-z\u4e00-\u9fa5][A-Za-z0-9\u4e00-\u9fa5]{1,15})\s*(?:招聘|招|聘|：|:)', title)
+            if m2:
+                name = m2.group(1).strip()
+                if name not in ['远程', '全职远程', '招聘']:
+                    return name
+            return ''
+        
+        def build_job_desc(job):
+            """组合工作职责&任职要求，去掉联系方式"""
+            parts = []
+            if job.get('responsibilities') and len(job['responsibilities']) > 0:
+                parts.append('岗位职责：' + '；'.join(job['responsibilities'][:5]))
+            if job.get('requirements') and len(job['requirements']) > 0:
+                parts.append('任职要求：' + '；'.join(job['requirements'][:5]))
+            if job.get('company_info') and len(job.get('company_info', '')) > 10:
+                parts.append('公司介绍：' + job['company_info'][:200])
+            if not parts and job.get('description') and len(job.get('description', '')) > 10:
+                # 清理 description 中的联系方式行
+                desc_lines = job['description'].split('\n')
+                clean = []
+                for l in desc_lines:
+                    if _re.search(r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}', l):
+                        continue
+                    if any(k in l for k in ['微信', 'wx:', 'wechat', '电话', '手机', 'tel:']):
+                        continue
+                    clean.append(l)
+                parts.append('\n'.join(clean)[:300])
+            return '\n'.join(parts) if parts else '详见原帖'
+        
+        # 写入 V2EX 数据
         for i, job in enumerate(v2ex_jobs):
             row = data_start_row + i
-            sheet.cell(row, 1).value = job['company'] if job.get('company') and job['company'] != '（V2EX用户招聘）' else '待补充'
-            sheet.cell(row, 2).value = "互联网"
-            sheet.cell(row, 3).value = job['category']
-            sheet.cell(row, 4).value = job['title']
-            sheet.cell(row, 5).value = job['location']
-            sheet.cell(row, 6).value = job['sourceUrl']
-            sheet.cell(row, 7).value = "是" if job.get('canRefer') else "否"
-            sheet.cell(row, 8).value = job.get('date', DATE)
-            # 合并 responsibilities 和 requirements 到工作职责&任职要求
-            desc_parts = []
-            if job.get('responsibilities') and len(job['responsibilities']) > 0:
-                desc_parts.append("岗位职责：" + "；".join(job['responsibilities'][:5]))
-            if job.get('requirements') and len(job['requirements']) > 0:
-                desc_parts.append("任职要求：" + "；".join(job['requirements'][:5]))
-            if job.get('description') and len(job['description']) > 10:
-                desc_parts.append(job['description'][:200])
-            sheet.cell(row, 9).value = "\n".join(desc_parts) if desc_parts else "详见原帖"
-            sheet.cell(row, 10).value = job.get('salary', '面议')
-            sheet.cell(row, 11).value = "加入Junes数字游民社群内推" if job.get('canRefer') else "直接投递"
-            sheet.cell(row, 12).value = "V2EX"
+            
+            # 公司：从 job 获取，若为占位值则设空，再看详情页正文能否提取
+            company_val = job.get('company', '')
+            if not company_val or company_val == '（V2EX用户招聘）':
+                company_val = ''
+            # 读取详情页正文尝试再次提取
+            if not company_val:
+                # 从 detail_url_map 找到对应详情文件，读取全文再提取
+                try:
+                    detail_file = None
+                    for url_key, dfile in detail_url_map.items():
+                        if url_key in job.get('sourceUrl', ''):
+                            detail_file = dfile
+                            break
+                    if detail_file and os.path.exists(detail_file):
+                        with open(detail_file, 'r', encoding='utf-8') as _f:
+                            _html = _f.read()
+                        from bs4 import BeautifulSoup as _BS
+                        _soup = _BS(_html, 'html.parser')
+                        _main = _soup.select_one('#Main')
+                        _full = _main.get_text('\n', strip=True) if _main else ''
+                        company_val = extract_company_from_text(_full, job.get('title', ''))
+                except:
+                    pass
+            
+            # 最终兜底
+            final_company = company_val if company_val else '海外公司'
+            
+            # 工作职责（去掉联系方式）
+            job_desc = build_job_desc(job)
+            
+            # 联系方式 → 内推方式列
+            contact_val = job.get('contact', '')
+            infer_method = contact_val if contact_val else '星球同学 私Junes内推'
+            
+            sheet.cell(row, 1).value = final_company          # 公司
+            sheet.cell(row, 2).value = '互联网'                # 行业
+            sheet.cell(row, 3).value = job['category']         # 职位类别
+            sheet.cell(row, 4).value = job['title']            # 职位名称
+            sheet.cell(row, 5).value = 'Remote'                # 地区 → Remote
+            sheet.cell(row, 6).value = '内推岗'                # 申请链接 → 内推岗
+            sheet.cell(row, 7).value = '星球同学 私Junes内推'  # 内推
+            sheet.cell(row, 8).value = job.get('date', DATE)   # 日期
+            sheet.cell(row, 9).value = job_desc                # 工作职责（无联系方式）
+            sheet.cell(row, 10).value = job.get('salary', '面议')  # 薪资
+            sheet.cell(row, 11).value = infer_method           # 内推方式 → 联系方式
+            sheet.cell(row, 12).value = job.get('sourceUrl', '')   # 来源 → 原链接
         
         wb.save(xlsx_file)
         print(f"✅ money.xlsx 已更新，插入 {len(v2ex_jobs)} 条V2EX数据")
