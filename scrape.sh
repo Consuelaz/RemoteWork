@@ -55,6 +55,18 @@ else
     echo "远程岛 下载失败" >> $LOG_FILE
 fi
 
+# ========================================
+# 1.3 抓取 who-is-hiring (Rebase社区) - JSON API
+# ========================================
+echo "正在抓取 who-is-hiring (Rebase)..." >> $LOG_FILE
+curl -s -L -A "Mozilla/5.0" "https://hire.rebase.network/jobs.normalized.json" -o /tmp/rebase_jobs.json
+
+if [ -s /tmp/rebase_jobs.json ]; then
+    echo "who-is-hiring 下载完成" >> $LOG_FILE
+else
+    echo "who-is-hiring 下载失败" >> $LOG_FILE
+fi
+
 # 预下载 Remote OK 详情页（前10个岗位）
 echo "正在预下载Remote OK岗位详情..." >> $LOG_FILE
 python3 << 'PYEOF'
@@ -634,6 +646,91 @@ try:
 except Exception as e:
     print(f"远程岛 解析失败: {e}")
 
+# ========== 处理 who-is-hiring (Rebase社区) ==========
+# 注意：联系方式只写入 money.xlsx，不写入 jobs-cn.js
+rebase_jobs = []
+rebase_jobs_for_excel = []  # 用于写入 money.xlsx 的完整数据（含联系方式）
+try:
+    with open('/tmp/rebase_jobs.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    jobs_list = data.get('jobs', [])[:500]  # 限制500条
+    
+    for item in jobs_list:
+        title = item.get("title", "")
+        company = item.get("company", "")
+        
+        # 跳过非远程岗位
+        remote = item.get("remote", False)
+        work_mode = item.get("work_mode", "")
+        if not remote and "远程" not in work_mode and "remote" not in work_mode.lower():
+            continue
+        
+        # 处理薪资
+        salary = item.get("salary", "面议")
+        salary_min = item.get("salary_min")
+        salary_max = item.get("salary_max")
+        
+        # 处理地点
+        location = item.get("location", "")
+        if not location:
+            location = "远程"
+        
+        # 解析发布时间
+        created_at = item.get("created_at", "")
+        date_str = DATE
+        if created_at:
+            try:
+                from datetime import datetime
+                # 尝试解析时间戳或日期字符串
+                if isinstance(created_at, (int, float)):
+                    dt = datetime.fromtimestamp(created_at)
+                    date_str = dt.strftime('%Y-%m-%d')
+                else:
+                    dt = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                    date_str = dt.strftime('%Y-%m-%d')
+            except:
+                date_str = DATE
+        
+        # 构建职位对象（用于网站展示，不含联系方式）
+        job = {
+            "id": f"cn-rebase-{item.get('id', '')}",
+            "title": title,
+            "company": company,
+            "logo": "🌐",
+            "category": guess_category(title),
+            "tags": ["远程", "Rebase"],
+            "salary": salary,
+            "location": location,
+            "date": date_str,
+            "isNew": True,
+            "isFeatured": False,
+            "canRefer": False,
+            "source": "https://hire.rebase.network",
+            "sourceUrl": item.get("url", ""),
+            "applyUrl": item.get("url", ""),
+            "description": item.get("description", "")[:300] if item.get("description") else f"{company} 招聘 {title}",
+            "requirements": item.get("requirements", []),
+            "benefits": item.get("benefits", [])
+        }
+        
+        # 用于 Excel 的数据（包含联系方式）
+        job_for_excel = {
+            **job,
+            "contact_channels": item.get("contact_channels", []),
+            "original_data": item  # 保存原始数据以便提取更多信息
+        }
+        
+        if job["title"]:
+            rebase_jobs.append(job)
+            rebase_jobs_for_excel.append(job_for_excel)
+    
+    print(f"who-is-hiring: {len(rebase_jobs)} jobs (含联系方式的 {len(rebase_jobs_for_excel)} 条)")
+except Exception as e:
+    print(f"who-is-hiring 解析失败: {e}")
+    import traceback
+    traceback.print_exc()
+
 # ========== 处理远程中文网 ==========
 from bs4 import BeautifulSoup
 
@@ -1198,8 +1295,8 @@ def merge_jobs(old_jobs, new_jobs):
     return deduped
 
 # V2EX 数据放最前面（最新抓取的社群内推岗位）
-# 国内上限2000条
-merged_cn = merge_jobs(existing_cn, v2ex_jobs + remotechina_jobs + dianyu_jobs)[:2000]
+# 国内上限2000条（包含 who-is-hiring 数据）
+merged_cn = merge_jobs(existing_cn, v2ex_jobs + remotechina_jobs + dianyu_jobs + rebase_jobs)[:2000]
 # 海外上限2000条（Remote OK + Remotive + 远程岛）
 merged_global = merge_jobs(existing_global, remoteok_jobs + remotive_jobs + yuanchengdao_jobs)[:2000]
 
@@ -1335,8 +1432,42 @@ try:
             sheet.cell(row, 11).value = infer_method            # 内推方式
             sheet.cell(row, 12).value = job.get('sourceUrl', '')    # 来源
         
+        # 写入 who-is-hiring 数据（在 V2EX 数据之后）
+        rebase_start_row = data_start_row + len(v2ex_jobs)
+        if rebase_jobs_for_excel:
+            sheet.insert_rows(rebase_start_row, len(rebase_jobs_for_excel))
+            
+            for i, job in enumerate(rebase_jobs_for_excel):
+                row = rebase_start_row + i
+                original = job.get('original_data', {})
+                
+                # 提取联系方式（contact_channels 字段）
+                contact_channels = original.get('contact_channels', [])
+                contact_str = ', '.join(contact_channels) if contact_channels else ''
+                
+                # 构建职位描述
+                job_desc = build_job_desc(job)
+                
+                # 如果没有结构化内容，尝试从原始数据构建
+                if job_desc == '详见原帖' and original.get('description'):
+                    job_desc = original.get('description', '')[:500]
+                
+                sheet.cell(row, 1).value = job.get('company', 'Rebase招聘')     # 公司
+                sheet.cell(row, 2).value = '互联网'                              # 行业
+                sheet.cell(row, 3).value = job['category']                       # 职位类别
+                sheet.cell(row, 4).value = job['title']                          # 职位名称
+                sheet.cell(row, 5).value = job.get('location', 'Remote')         # 地区
+                sheet.cell(row, 6).value = '查看原帖'                            # 申请链接
+                sheet.cell(row, 7).value = 'Rebase社区'                          # 内推
+                sheet.cell(row, 8).value = job.get('date', DATE)                 # 日期
+                sheet.cell(row, 9).value = job_desc                              # 工作职责
+                sheet.cell(row, 10).value = job.get('salary', '面议')            # 薪资
+                sheet.cell(row, 11).value = contact_str if contact_str else '详见原帖'  # 内推方式（含联系方式）
+                sheet.cell(row, 12).value = job.get('sourceUrl', '')             # 来源
+        
         wb.save(xlsx_file)
-        print(f"✅ money.xlsx 已更新，插入 {len(v2ex_jobs)} 条V2EX数据")
+        total_inserted = len(v2ex_jobs) + len(rebase_jobs_for_excel)
+        print(f"✅ money.xlsx 已更新，插入 {len(v2ex_jobs)} 条V2EX数据 + {len(rebase_jobs_for_excel)} 条who-is-hiring数据")
 except Exception as e:
     print(f"money.xlsx 更新失败: {e}")
 EOF
