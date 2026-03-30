@@ -6,7 +6,7 @@
 
 const JOBS_CN = [
   {
-    id: 'cn-v2ex-32580',
+    id: 'cn-v2ex-313',
     title: '广告接入技术支持工程师\n30k 在家 办公',
     company: '海外公司',
     logo: '💻',
@@ -29,7 +29,7 @@ const JOBS_CN = [
     contact: '',
   },
   {
-    id: 'cn-v2ex-43648',
+    id: 'cn-v2ex-43057',
     title: '[远程] 招聘航司逆向安全工程师',
     company: '海外公司',
     logo: '💻',
@@ -52,7 +52,7 @@ const JOBS_CN = [
     contact: '',
   },
   {
-    id: 'cn-v2ex-52550',
+    id: 'cn-v2ex-51496',
     title: '[远程长期+合伙人] Go 后端 + WebRTC 技术负责人',
     company: '海外公司',
     logo: '💻',
@@ -75,7 +75,7 @@ const JOBS_CN = [
     contact: 'Telegram: reSQL',
   },
   {
-    id: 'cn-v2ex-65205',
+    id: 'cn-v2ex-65371',
     title: '[远程][外企] Atria 招聘 测试兼职/前端/产品',
     company: 'Atria 是一家基于人工智能的广告创意管理平台',
     logo: '💻',
@@ -98,7 +98,30 @@ const JOBS_CN = [
     contact: '',
   },
   {
-    id: 'cn-remotechina-07286',
+    id: 'cn-v2ex-197243',
+    title: 'golang 后端兼职—跨境电商 SaaS+AI',
+    company: '海外公司',
+    logo: '💻',
+    category: '后端开发',
+    tags: ['远程', 'V2EX', '社群内推'],
+    salary: '固定薪资+ 期权（面议）',
+    location: '全国远程',
+    date: '2026-03-30',
+    isNew: true,
+    isFeatured: false,
+    canRefer: true,
+    source: 'https://www.v2ex.com/go/remote',
+    sourceUrl: 'https://www.v2ex.com/t/1200518#reply8',
+    description: '岗位：Golang 后端工程师 | *工作地点：深圳坂田 | 薪资：固定薪资+ 期权（面议）',
+    requirements: [],
+    benefits: [],
+    responsibilities: ['岗位：Golang 后端工程师', '*工作地点：深圳坂田', '薪资：固定薪资+ 期权（面议）', '团队规模：10 人创业团队，产品/技术/市场/运营齐备', '参与后端架构设计与核心模块开发，保证 API 高可用、高并发。', '负责数据模型、MySQL / Redis / MongoDB 优化和维护。', '搭建并维护基础 AI 推理服务（模型部署、监控、告警）。', '实现多 Agent 协同与任务调度，确保业务流程顺畅。'],
+    company_info: '',
+    work_style: '远程工作',
+    contact: '微信: godhaveajoke\nTelegram: reSQL',
+  },
+  {
+    id: 'cn-remotechina-01087',
     title: '游戏翻译',
     company: '新宇智慧',
     logo: '🌐',
@@ -119,7 +142,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-15313',
+    id: 'cn-remotechina-17363',
     title: '前端开发工程师',
     company: '英普锡数字科技',
     logo: '🌐',
@@ -140,7 +163,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-25031',
+    id: 'cn-remotechina-23167',
     title: '全栈工程师',
     company: '上海横排网络科技有限公司',
     logo: '🌐',
@@ -161,7 +184,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-31752',
+    id: 'cn-remotechina-33145',
     title: '新媒体运营岗',
     company: '中磊信和咨询有限公司',
     logo: '🌐',
@@ -182,7 +205,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-41214',
+    id: 'cn-remotechina-44965',
     title: '招聘专员',
     company: '广州骑仕邦网络科技有限公司',
     logo: '🌐',
@@ -203,7 +226,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-55583',
+    id: 'cn-remotechina-56355',
     title: '物业运营主管',
     company: '',
     logo: '🌐',
@@ -224,7 +247,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-69572',
+    id: 'cn-remotechina-61611',
     title: '产品经理',
     company: '拍活',
     logo: '🌐',
@@ -245,7 +268,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-72528',
+    id: 'cn-remotechina-72562',
     title: '内容剪辑师',
     company: '',
     logo: '🌐',
@@ -266,7 +289,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-87024',
+    id: 'cn-remotechina-89850',
     title: '嵌入式开发工程师',
     company: '德科信息有限公司',
     logo: '🌐',
@@ -287,7 +310,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-95031',
+    id: 'cn-remotechina-93167',
     title: '全栈工程师',
     company: '',
     logo: '🌐',
@@ -308,7 +331,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-105272',
+    id: 'cn-remotechina-106057',
     title: '游戏硬表面枪械',
     company: '上海不拘一格数码科技有限公司',
     logo: '🌐',
@@ -329,7 +352,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-118004',
+    id: 'cn-remotechina-112572',
     title: '商务BD',
     company: '安徽紫约生物科技有限公司',
     logo: '🌐',
@@ -350,7 +373,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-121214',
+    id: 'cn-remotechina-124965',
     title: '招聘专员',
     company: '郑州东大信息工程有限公司',
     logo: '🌐',
@@ -371,7 +394,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-139191',
+    id: 'cn-remotechina-13900',
     title: '留学文案',
     company: '合肥市高新区旺角本尼教育科技经营部',
     logo: '🌐',
@@ -392,7 +415,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-143832',
+    id: 'cn-remotechina-143752',
     title: '全栈研发工程师',
     company: '北京普诺医疗信息科技有限公司',
     logo: '🌐',
@@ -617,7 +640,7 @@ const JOBS_CN = [
     responsibilities: [],
     company_info: '',
     work_style: '远程工作',
-    contact: '微信: godhaveajoke\\\\\\\\nreSQL',
+    contact: '微信: godhaveajoke\\\\\\\\\\\\\\\\nreSQL',
   },
   {
     id: 'cn-v2ex-144493',
@@ -801,7 +824,7 @@ const JOBS_CN = [
     responsibilities: [],
     company_info: '',
     work_style: '远程工作',
-    contact: '微信: base64\\\\\\\\nreSQL',
+    contact: '微信: base64\\\\\\\\\\\\\\\\nreSQL',
   },
   {
     id: 'cn-v2ex-34992',
