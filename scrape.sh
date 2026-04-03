@@ -698,7 +698,7 @@ try:
             "title": title,
             "company": company,
             "logo": "🌐",
-            "category": guess_category(title),
+            "category": guess_category_cn(title),
             "tags": ["远程", "Rebase"],
             "salary": salary,
             "location": location,
