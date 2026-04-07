@@ -486,7 +486,7 @@ try:
             "sourceUrl": item.get("url", "") if item.get("url", "").startswith("http") else "https://remoteok.com" + item.get("url", ""),
             "currency": "USD",
             "companyCountry": "海外",
-            "description": detail_info.get('description', f"{item.get('company', '')} 招聘 {item.get('position', '')}"),
+            "description": (detail_info.get('description') or f"{item.get('company', '')} 招聘 {item.get('position', '')}")[:500],
             "requirements": detail_info.get('requirements', []),
             "benefits": detail_info.get('benefits', []),
             "company_info": detail_info.get('company_info', '')
@@ -657,24 +657,22 @@ try:
     jobs_list = data.get('jobs', [])[:500]  # 限制500条
     
     for item in jobs_list:
-        title = item.get("title", "")
-        company = item.get("company", "")
+        title = item.get("title") or ""
+        company = item.get("company") or ""
         
-        # 跳过非远程岗位
+        # 跳过非远程岗位（work_mode 可能为 None，需做兜底）
         remote = item.get("remote", False)
-        work_mode = item.get("work_mode", "")
+        work_mode = item.get("work_mode") or ""
         if not remote and "远程" not in work_mode and "remote" not in work_mode.lower():
             continue
         
-        # 处理薪资
-        salary = item.get("salary", "面议")
+        # 处理薪资（salary 可能为 None）
+        salary = item.get("salary") or "面议"
         salary_min = item.get("salary_min")
         salary_max = item.get("salary_max")
         
-        # 处理地点
-        location = item.get("location", "")
-        if not location:
-            location = "远程"
+        # 处理地点（location 可能为 None）
+        location = item.get("location") or "远程"
         
         # 解析发布时间
         created_at = item.get("created_at", "")
@@ -692,7 +690,25 @@ try:
             except:
                 date_str = DATE
         
+        # 安全处理可能为 None 的列表字段
+        raw_resp = item.get("responsibilities")
+        raw_reqs = item.get("requirements")
+        raw_benefits = item.get("benefits")
+        raw_contacts = item.get("contact_channels")
+        # responsibilities/benefits 期望是列表
+        resp_list = raw_resp if isinstance(raw_resp, list) else ([] if raw_resp is None else [str(raw_resp)])
+        benefits_list = raw_benefits if isinstance(raw_benefits, list) else ([] if raw_benefits is None else [str(raw_benefits)])
+        # requirements：列表或字符串均支持
+        if isinstance(raw_reqs, list):
+            reqs_list = raw_reqs
+        elif raw_reqs is None:
+            reqs_list = []
+        else:
+            reqs_list = [str(raw_reqs)]
+        contact_list = raw_contacts if isinstance(raw_contacts, list) else ([] if raw_contacts is None else [str(raw_contacts)])
+
         # 构建职位对象（用于网站展示，不含联系方式）
+        desc_text = item.get("description") or ""
         job = {
             "id": f"cn-rebase-{item.get('id', '')}",
             "title": title,
@@ -707,17 +723,18 @@ try:
             "isFeatured": False,
             "canRefer": False,
             "source": "https://hire.rebase.network",
-            "sourceUrl": item.get("url", ""),
-            "applyUrl": item.get("url", ""),
-            "description": item.get("description", "")[:300] if item.get("description") else f"{company} 招聘 {title}",
-            "requirements": item.get("requirements", []),
-            "benefits": item.get("benefits", [])
+            "sourceUrl": item.get("url") or "",
+            "applyUrl": item.get("url") or "",
+            "description": desc_text[:300] if desc_text else f"{company} 招聘 {title}",
+            "responsibilities": resp_list,
+            "requirements": reqs_list,
+            "benefits": benefits_list
         }
         
         # 用于 Excel 的数据（包含联系方式）
         job_for_excel = {
             **job,
-            "contact_channels": item.get("contact_channels", []),
+            "contact_channels": contact_list,
             "original_data": item  # 保存原始数据以便提取更多信息
         }
         
@@ -1393,8 +1410,15 @@ try:
                 return False
             
             parts = []
-            resp = [l for l in job.get('responsibilities', []) if not is_contact(l)]
-            reqs = [l for l in job.get('requirements', [])     if not is_contact(l)]
+            raw_resp = job.get('responsibilities') or []
+            raw_reqs = job.get('requirements') or []
+            # responsibilities/requirements 可能是字符串或列表，统一转成列表
+            if isinstance(raw_resp, str):
+                raw_resp = [l for l in raw_resp.splitlines() if l.strip()]
+            if isinstance(raw_reqs, str):
+                raw_reqs = [l for l in raw_reqs.splitlines() if l.strip()]
+            resp = [l for l in raw_resp if not is_contact(str(l))]
+            reqs = [l for l in raw_reqs if not is_contact(str(l))]
             
             if resp:
                 parts.append('岗位职责：\n' + '\n'.join(resp[:8]))
@@ -1441,9 +1465,11 @@ try:
                 row = rebase_start_row + i
                 original = job.get('original_data', {})
                 
-                # 提取联系方式（contact_channels 字段）
-                contact_channels = original.get('contact_channels', [])
-                contact_str = ', '.join(contact_channels) if contact_channels else ''
+                # 提取联系方式（contact_channels 字段，可能为 None）
+                contact_channels = original.get('contact_channels') or []
+                if not isinstance(contact_channels, list):
+                    contact_channels = [str(contact_channels)]
+                contact_str = ', '.join(str(c) for c in contact_channels)
                 
                 # 构建职位描述
                 job_desc = build_job_desc(job)
