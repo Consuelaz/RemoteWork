@@ -1278,7 +1278,15 @@ def load_js_array(file_path):
                 elif val.startswith('['):
                     job[key] = []
                 elif val.startswith("'"):
-                    job[key] = val[1:-1]
+                    # unescape：读取时还原JS转义，避免写回时二次转义
+                    raw = val[1:-1]
+                    raw = raw.replace("\\'", "'")
+                    raw = raw.replace('\\"', '"')
+                    raw = raw.replace('\\t', '\t')
+                    raw = raw.replace('\\n', '\n')
+                    raw = raw.replace('\\r', '\r')
+                    raw = raw.replace('\\\\', '\\')
+                    job[key] = raw
                 else:
                     job[key] = val
             if job.get('id'):
