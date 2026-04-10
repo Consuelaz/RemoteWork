@@ -2,28 +2,36 @@
 
 ## 最新执行
 
-- **日期**: 2026-04-07
-- **脚本**: `scrape.sh`
-- **抓取结果**:
-  - Remote OK: 97 个岗位（成功）
+- **日期**: 2026-04-09（下午修复）
+- **问题**: 海外岗位显示 0 → `JOBS_GLOBAL` 未定义
+- **根本原因①**: 早晨截断脚本用正则操作 JS 文件，含 `\'` 的 description 导致单引号不闭合，JS 语法出错
+- **根本原因②**: `load_js_array` 读取历史数据时不做 unescape，每次运行多一层转义
+- **修复**: `scrape.sh` load_js_array 第1281行加 unescape；手动修复历史数据转义；恢复 1616 条历史记录重新生成
+- **最终结果**: CN=557, Global=1617，commit `0e4eec1` 已推送
+
+
+  - Remote OK: 96 个岗位（成功）
   - Remotive: 20 个岗位（成功）
   - 远程岛: 150 个岗位（成功）
   - 远程中文网: 15 个岗位（成功）
-  - V2EX: 跳过（代理不可用）
-  - who-is-hiring: **434 个岗位（成功）** —— 之前一直失败，今日修复
-- **数据合并**: CN 95→537（+442），Global 1341→1505（+164）
-- **money.xlsx**: 插入 434 条 who-is-hiring 数据
-- **JS语法验证**: CN ✅，Global ✅
-- **Bug修复**:
-  1. `scrape.sh` who-is-hiring 段：所有可能为 null 的字段加兜底处理
-  2. `jobs-global.js`：远程岛 description 含 HTML 导致文件达 347MB，已截断并重新生成（2.5MB）
-- **Git 提交**: `792b788`，已推送至 `master`
+  - V2EX: 1 条（代理可用，跳过非今日帖子18条）
+  - who-is-hiring: 434 个岗位（成功）
+- **数据合并**: CN 548→557（+9），Global 1566→1616（+50）
+- **money.xlsx**: 插入 1 条 V2EX + 434 条 who-is-hiring 数据
+- **额外处理**: jobs-global.js 历史description超长（11MB），截断1240条 → 2.2MB
+- **Git 提交**: `3cfc175`，已推送至 `master`
+- **依赖**: 首次在此环境运行，已补装 beautifulsoup4/requests/lxml/openpyxl
 
 ## 执行历史
 
 | 日期 | CN岗位数 | Global岗位数 | 状态 |
 |------|----------|--------------|------|
+| 2026-04-09 | 557 | 1616 | ✅ 成功（补装依赖，修复description超长11MB→2.2MB） |
 | 2026-04-07 | 537 | 1505 | ✅ 成功（修复 who-is-hiring NoneType + jobs-global.js 文件过大） |
+| 2026-04-03 | 95 | 1341 | ✅ 成功（V2EX不可用，修复who-is-hiring guess_category Bug） |
+| 2026-03-30 | 80 | 1150 | ✅ 成功（V2EX 5条新帖，代理可用） |
+| 2026-03-28 | 75 | 967 | ✅ 成功（V2EX今日无新帖） |
+| 2026-03-27 | 724 | 2000 | ✅ 成功（含远程岛150条） |
 | 2026-04-03 | 95 | 1341 | ✅ 成功（V2EX不可用，修复who-is-hiring guess_category Bug） |
 | 2026-03-30 | 80 | 1150 | ✅ 成功（V2EX 5条新帖，代理可用） |
 | 2026-03-28 | 75 | 967 | ✅ 成功（V2EX今日无新帖） |
