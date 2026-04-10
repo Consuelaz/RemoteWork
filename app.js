@@ -32,6 +32,7 @@ const formatCompany = (company) => {
 };
 
 // ── 获取当前数据集 ──
+// 排序策略：canRefer=true（内推岗位）永远在最前面，其余按日期倒序
 function getCurrentJobs() {
   if (currentSource === 'cn') {
     // 合并手动维护的精选岗位 + 自动抓取的 CN 岗位
@@ -40,13 +41,24 @@ function getCurrentJobs() {
     // 用 id 去重
     const seen = new Set(mainList.map(j => j.id));
     const unique = cnList.filter(j => !seen.has(j.id));
-    // 合并后按日期倒序排列（最新的在前）
+    // 合并后：内推岗位优先，其余按日期倒序
     const allJobs = [...mainList, ...unique];
-    return allJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
+    return sortWithReferralFirst(allJobs);
   }
-  // 海外岗位也按日期倒序
+  // 海外岗位：内推岗位优先，其余按日期倒序
   const globalList = (typeof JOBS_GLOBAL !== 'undefined') ? JOBS_GLOBAL : [];
-  return globalList.sort((a, b) => new Date(b.date) - new Date(a.date));
+  return sortWithReferralFirst(globalList);
+}
+
+// 通用排序：canRefer=true 置顶，其余按日期倒序
+function sortWithReferralFirst(jobs) {
+  return jobs.sort((a, b) => {
+    // 内推岗位优先
+    if (a.canRefer && !b.canRefer) return -1;
+    if (!a.canRefer && b.canRefer) return 1;
+    // 同类型按日期倒序
+    return new Date(b.date) - new Date(a.date);
+  });
 }
 
 // ── 切换国内/国外 ──
