@@ -56,7 +56,16 @@
 - `description` 字段：一律截断到 500 字符，禁止填占位语
 - `company` 兜底值：V2EX → `"海外公司"`，远程中文网 → `""` 空字符串
 - `sourceUrl`：去重唯一键（不用 id）
-- V2EX 数据：`canRefer: true`，放 `jobs-cn.js` 最顶部
+
+## 列表排序策略（硬性规则）
+**前端展示（`app.js`）**：`sortWithReferralFirst()` 函数统一处理
+1. `canRefer: true` 的内推岗位强制置顶（不受日期影响）
+2. 其余岗位按日期倒序（最新的在前）
+
+**数据写入（`scrape.sh`）**：`merge_jobs()` 函数处理
+- 新数据（V2EX → 远程中文网 → 电鸭 → who-is-hiring → 海外）放在 `jobs-cn.js` / `jobs-global.js` 最前面
+- 现有数据追加在后面
+- 最终文件内顺序与前端展示顺序一致
 
 ## money.xlsx 结构
 - 第1行：标题"数字游民Junes 远程工作共创群"
