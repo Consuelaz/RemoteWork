@@ -7,6 +7,23 @@
 
 ## 已知 Bug 与修复记录
 
+### ✅ 海外岗位显示0 + load_js_array 二次转义（已修复，2026-04-09）
+- **根本原因①**：手工截断脚本用正则操作 JS 文件时，若 description 含 `\'`（转义单引号），正则提前匹配停止，截断后单引号不闭合 → JS 语法错误 → `JOBS_GLOBAL` 变量无法定义 → 海外岗位显示 0
+- **根本原因②**：`load_js_array()` 读取历史 JS 文件时不做 unescape，读出来的值保留 JS 转义状态（如 `\\n`），再经 `escape_str()` 写回时多一层转义，每次运行积累
+- **修复位置**：`scrape.sh` `load_js_array()` 第1281行，读取单引号字符串值后立即做 unescape
+- **教训**：**禁止用正则直接操作 JS 文件中的字符串字段**；description 截断必须在 Python 层面（原始数据阶段）完成，不能事后 patch JS 文件
+
+
+- **根本原因**：Rebase API 返回的 job 数据中，`work_mode/company/salary/location/responsibilities/requirements/benefits/contact_channels` 等字段均可能为 `null`
+- **具体错误**：`argument of type 'NoneType' is not iterable`（`"远程" not in None`）、`'NoneType' object is not iterable`（join/列表推导）
+- **修复方案**：对所有可能为 None 的字段统一用 `or ""` / `or []` 兜底；`requirements` 兼容字符串和列表两种类型
+- **修复位置**：`scrape.sh` who-is-hiring 处理段（第659-730行）、`build_job_desc()` 函数
+
+### ✅ jobs-global.js 超过 GitHub 100MB 限制（已修复，2026-04-07）
+- **根本原因**：远程岛 API 的 `description` 字段包含完整 HTML（单条最大 3.4MB），历史数据累积后文件达 347MB，GitHub 拒绝推送（限制 100MB）
+- **修复方案**：对所有 `description` 字段统一截断到 500 字符；用 Python + Node 脚本重新生成 jobs-global.js；文件从 347MB→2.5MB
+- **教训**：每次生成数据文件后必须检查文件大小；description 字段要严格限长，防止 HTML 内容写入
+
 ### ⚠️ Remote OK URL 重复拼接 Bug（已修复，2026-03-24）
 - **位置**：`scrape.sh` 中 Python 处理 Remote OK 数据段
 - **根本原因**：Remote OK API 返回的 `url` 字段本身已是完整 URL（如 `https://remoteok.com/remote-jobs/...`），但代码里又拼接了 `"https://remoteok.com" + url`，导致生成 `https://remoteok.comhttps://remoteok.com/...` 这样的错误链接

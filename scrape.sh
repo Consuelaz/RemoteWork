@@ -218,7 +218,7 @@ PYEOF
 # ========================================
 # 3. 用 Python 处理数据
 # ========================================
-python3 << 'EOF'
+python3 << 'EOF' 2>&1 | tee -a $LOG_FILE
 import json
 import os
 import re
@@ -1512,3 +1512,32 @@ echo "========================================" >> $LOG_FILE
 # 清理临时文件（保留详情页文件用于调试）
 rm -f /tmp/remoteok.json /tmp/remote-china.html /tmp/v2ex*.html /tmp/v2ex_url_map.txt /tmp/remoteok_url_map.pkl
 # rm -f /tmp/remoteok_detail*.html  # 暂时保留详情页文件
+
+# ========== Git 自动提交推送 ==========
+CN_COUNT=$(python3 -c "
+import re
+try:
+    content = open('jobs-cn.js').read()
+    m = re.search(r'id:', content)
+    # 简单统计 id: 出现次数
+    print(len(re.findall(r\"  id: '\", content)))
+except:
+    print(0)
+" 2>/dev/null || echo 0)
+GLOBAL_COUNT=$(python3 -c "
+import re
+try:
+    content = open('jobs-global.js').read()
+    print(len(re.findall(r\"  id: '\", content)))
+except:
+    print(0)
+" 2>/dev/null || echo 0)
+
+git add jobs-cn.js jobs-global.js money.xlsx scrape.log .codebuddy/automations/automation/memory.md 2>/dev/null
+if ! git diff --cached --quiet; then
+    git commit -m "自动更新: $DATE CN=$CN_COUNT Global=$GLOBAL_COUNT" 2>&1 | tee -a $LOG_FILE
+    git push 2>&1 | tee -a $LOG_FILE
+    echo "✅ Git 推送完成" >> $LOG_FILE
+else
+    echo "ℹ️ 无数据变更，跳过 Git 提交" >> $LOG_FILE
+fi
