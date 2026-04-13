@@ -1,82 +1,248 @@
 #!/usr/bin/env python3
+"""
+AI 资讯生成脚本
+规则：5条X + 3个播客 + 2篇博客 = 10篇
+- X: 按点赞数排序，取前5条
+- 播客: 分段提取精华（每段约1500字符），不足则重复
+- 博客: 分段提取精华（每段约1500字符），不足则重复
+"""
 import json
 import os
+import re
+from datetime import datetime
 
-with open('/Users/qisoong/.workbuddy/skills/follow-builders/feed-x.json') as f:
+# ============ 数据路径 ============
+SKILL_DIR = '/Users/qisoong/.workbuddy/skills/follow-builders'
+
+# 读取数据
+with open(f'{SKILL_DIR}/feed-x.json') as f:
     x_data = json.load(f)
-with open('/Users/qisoong/.workbuddy/skills/follow-builders/feed-podcasts.json') as f:
+with open(f'{SKILL_DIR}/feed-podcasts.json') as f:
     pod_data = json.load(f)
-with open('/Users/qisoong/.workbuddy/skills/follow-builders/feed-blogs.json') as f:
+with open(f'{SKILL_DIR}/feed-blogs.json') as f:
     blog_data = json.load(f)
 
-cards = []
+# ============ 规则配置 ============
+RULE_X_COUNT = 5       # X 推文数量
+RULE_POD_COUNT = 3     # 播客数量
+RULE_BLOG_COUNT = 2    # 博客数量
+RULE_TOTAL = RULE_X_COUNT + RULE_POD_COUNT + RULE_BLOG_COUNT  # 总计10篇
+
+# 内容长度配置
+X_TEXT_MAX = 500        # X 推文截断长度
+POD_SEGMENT_LEN = 1500  # 播客每段长度
+BLOG_SEGMENT_LEN = 1500 # 博客每段长度
+
+# ============ 数据处理函数 ============
+def extract_text_segment(text, start, length):
+    """从文本中提取指定长度的段落"""
+    if len(text) <= start:
+        return None
+    segment = text[start:start + length]
+    # 清理格式
+    segment = segment.replace('\r\n', '\n').replace('\n\n', '\n')
+    # 找句子边界
+    segment = segment.strip()
+    if segment and segment[-1] not in '.。！？!?':
+        # 尝试找到最后一个完整句子
+        for punct in ['. ', '。', '！', '？', '! ', '? ']:
+            last_punct = segment.rfind(punct)
+            if last_punct > len(segment) // 2:
+                segment = segment[:last_punct + 1]
+                break
+    return segment if segment else None
+
+def gen_excerpt(text, max_len=200):
+    """生成简短摘要"""
+    text = text[:max_len].replace('\n', ' ').strip()
+    return text + ('...' if len(text) >= max_len else '')
+
+# ============ 收集内容 ============
+all_items = []
+article_num = 0
+
+# ---------- 1. X 推文 ----------
+tweets = []
 for builder in x_data.get('x', []):
     name = builder.get('name', '')
     handle = builder.get('handle', '')
-    bio = builder.get('bio', '').split('\n')[0][:60]
-    initials = ''.join([n[0] for n in name.split()[:2]])
-    
-    for tweet in builder.get('tweets', [])[:1]:
+    bio = builder.get('bio', '').split('\n')[0][:50]
+    initials = ''.join([n[0] for n in name.split()[:2]]) if name else '??'
+
+    for tweet in builder.get('tweets', [])[:3]:  # 每位开发者取最多3条
         likes = tweet.get('likes', 0)
         url = tweet.get('url', '#')
-        text = tweet.get('text', '')[:300]
-        cards.append({'name': name, 'handle': handle, 'bio': bio, 'initials': initials, 'likes': likes, 'url': url, 'text': text})
+        text = tweet.get('text', '')
+        if text:
+            tweets.append({
+                'type': 'x', 'name': name, 'handle': handle, 'bio': bio,
+                'initials': initials, 'likes': likes, 'url': url, 'text': text
+            })
 
-cards.sort(key=lambda x: x['likes'], reverse=True)
-top_cards = cards[:10]
+# 按点赞排序，取前 RULE_X_COUNT 条
+tweets.sort(key=lambda x: x['likes'], reverse=True)
+for t in tweets[:RULE_X_COUNT]:
+    article_num += 1
+    text = t['text'][:X_TEXT_MAX]
+    all_items.append({
+        'num': article_num, 'type': 'x', 'name': t['name'], 'handle': t['handle'],
+        'bio': t['bio'], 'initials': t['initials'], 'likes': t['likes'],
+        'url': t['url'], 'text': text, 'excerpt': gen_excerpt(t['text'], 100)
+    })
 
-date_en = 'Tuesday, April 14, 2026'
+# ---------- 2. 播客 ----------
+podcasts = pod_data.get('podcasts', [])
+pod_segments = []
 
+# 把单个播客分成多个段落
+for pod in podcasts:
+    transcript = pod.get('transcript', '')
+    if not transcript:
+        continue
+    title = pod.get('title', '')[:70]
+    url = pod.get('url', '#')
+    show = pod.get('show', 'AI Podcast')
+
+    # 分段提取
+    for start_pos in range(0, len(transcript), POD_SEGMENT_LEN):
+        segment = extract_text_segment(transcript, start_pos, POD_SEGMENT_LEN)
+        if segment and len(segment) > 100:
+            pod_segments.append({
+                'title': title,
+                'url': url,
+                'show': f'🎙️ {show}',
+                'segment': segment,
+                'segment_idx': len(pod_segments) + 1
+            })
+
+# 取前 RULE_POD_COUNT 个播客段落
+for i, pod_seg in enumerate(pod_segments[:RULE_POD_COUNT]):
+    article_num += 1
+    excerpt = gen_excerpt(pod_seg['segment'], 120)
+    all_items.append({
+        'num': article_num, 'type': 'podcast',
+        'name': f"{pod_seg['title']} (Part {pod_seg['segment_idx']})",
+        'bio': pod_seg['show'], 'initials': '🎙️',
+        'likes': 0, 'url': pod_seg['url'],
+        'text': pod_seg['segment'],
+        'excerpt': excerpt
+    })
+
+# ---------- 3. 博客 ----------
+blogs = blog_data.get('blogs', [])
+blog_segments = []
+
+for blog in blogs:
+    content = blog.get('transcript', blog.get('content', ''))
+    if not content:
+        continue
+    title = blog.get('title', '')[:70]
+    url = blog.get('url', '#')
+    source = blog.get('source', 'Tech Blog')
+
+    # 分段提取
+    for start_pos in range(0, len(content), BLOG_SEGMENT_LEN):
+        segment = extract_text_segment(content, start_pos, BLOG_SEGMENT_LEN)
+        if segment and len(segment) > 100:
+            blog_segments.append({
+                'title': title,
+                'url': url,
+                'source': f'📝 {source}',
+                'segment': segment,
+                'segment_idx': len(blog_segments) + 1
+            })
+
+# 取前 RULE_BLOG_COUNT 个博客段落
+for i, blog_seg in enumerate(blog_segments[:RULE_BLOG_COUNT]):
+    article_num += 1
+    excerpt = gen_excerpt(blog_seg['segment'], 120)
+    all_items.append({
+        'num': article_num, 'type': 'blog',
+        'name': f"{blog_seg['title']} (Part {blog_seg['segment_idx']})",
+        'bio': blog_seg['source'], 'initials': '📝',
+        'likes': 0, 'url': blog_seg['url'],
+        'text': blog_seg['segment'],
+        'excerpt': excerpt
+    })
+
+# ============ 生成 HTML ============
 articles_html = ''
-for i, card in enumerate(top_cards, 1):
-    zh_title = card['text'][:50] + '...' if len(card['text']) > 50 else card['text']
+for item in all_items:
+    num = item['num']
+    text = item['text']
+    excerpt = item.get('excerpt', gen_excerpt(text, 100))
+    title = excerpt
+
+    badge = {'x': 'X/Twitter', 'podcast': '🎙️ Podcast', 'blog': '📝 Blog'}.get(item['type'], '')
+
     articles_html += f'''
-        <article class="article" data-article="{i}">
+        <article class="article" data-article="{num}">
             <div class="article-header">
                 <div class="article-left">
-                    <span class="article-number">{i:02d}</span>
+                    <span class="article-number">{num:02d}</span>
                     <div class="author-row">
-                        <div class="author-avatar">{card["initials"]}</div>
+                        <div class="author-avatar">{item['initials']}</div>
                         <div class="author-info">
-                            <span class="author-name">{card["name"]}</span>
-                            <span class="author-bio">{card["bio"]}</span>
+                            <span class="author-name">{item['name']}</span>
+                            <span class="author-bio">{item['bio']}</span>
                         </div>
                     </div>
                 </div>
                 <div class="article-actions">
-                    <button class="action-btn" onclick="playArticle({i})">
+                    <button class="action-btn" onclick="playArticle({num})">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         朗读
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh">{zh_title}</h2>
-            <h2 data-lang="en" style="display:none">{card["text"]}</h2>
+            <h2 data-lang="zh">{title}</h2>
+            <h2 data-lang="en" style="display:none">{title}</h2>
             <div class="article-body">
-                <p data-lang="zh">{card["text"]}</p>
-                <p data-lang="en" style="display:none">{card["text"]}</p>
+                <p data-lang="zh">{text}</p>
+                <p data-lang="en" style="display:none">{text}</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>❤️ {card["likes"]:,}</span></div>
-                <a href="{card["url"]}" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats">
+                    <span>{badge}</span>
+                    {f"<span>❤️ {item['likes']:,}</span>" if item['likes'] > 0 else ''}
+                </div>
+                <a href="{item['url']}" class="article-link" target="_blank">查看原文 →</a>
             </div>
         </article>'''
 
-archives = []
-for f in os.listdir('.'):
-    if f.startswith('2026-') and f.endswith('.html') and f != 'index.html' and '2026-04' in f and '04-14' not in f:
-        archives.append(f)
-archives.sort(reverse=True)
-
+# ============ 历史存档 ============
 archive_html = ''
-if archives:
+archive_files = sorted([
+    f for f in os.listdir('.')
+    if re.match(r'^\d{4}-\d{2}-\d{2}\.html$', f)
+    and f != 'index.html'
+], reverse=True)
+
+if archive_files:
+    links = ''
+    for f in archive_files[:5]:
+        date_match = re.search(r'(\d{4})-(\d{2})-(\d{2})', f)
+        if date_match:
+            year, month, day = date_match.groups()
+            date_str = f'{year}年{int(month)}月{int(day)}日'
+            links += f'<a href="{f}" class="archive-item">{date_str}</a>'
     archive_html = f'''
         <div class="archive-section">
             <h3>📅 历史存档</h3>
-            <div class="archive-list">
-                <a href="{archives[0]}" class="archive-item">{archives[0].replace('.html','').replace('2026-','年').replace('-','月')}日</a>
+            <div class="archive-list">{links}
             </div>
         </div>'''
+
+# ============ 页面模板 ============
+today = datetime.now()
+day_names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+date_en = f"{day_names[today.weekday()]}, {month_names[today.month]} {today.day}, {today.year}"
+
+# 统计信息
+x_count = len([i for i in all_items if i['type'] == 'x'])
+pod_count = len([i for i in all_items if i['type'] == 'podcast'])
+blog_count = len([i for i in all_items if i['type'] == 'blog'])
 
 html = f'''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -121,7 +287,7 @@ html = f'''<!DOCTYPE html>
         .action-btn.playing{{background:var(--accent);color:white;border-color:var(--accent)}}
         .article h2{{font-family:'Noto Serif SC',serif;font-size:1.1rem;font-weight:600;line-height:1.4;margin-bottom:12px;margin-left:44px}}
         .article-body{{margin-left:44px}}
-        .article-body p{{font-size:14px;line-height:1.7;margin-bottom:10px}}
+        .article-body p{{font-size:14px;line-height:1.8;margin-bottom:10px}}
         .article-footer{{display:flex;justify-content:space-between;align-items:center;margin-top:14px;margin-left:44px}}
         .article-stats{{display:flex;gap:12px;font-size:12px;color:var(--text-secondary)}}
         .article-link{{color:var(--accent);font-size:13px;font-weight:500;text-decoration:none}}
@@ -156,7 +322,7 @@ html = f'''<!DOCTYPE html>
         <p class="date">{date_en}</p>
         <h1>AI Builders Daily Digest</h1>
         <p class="hero-sub">每日精选 AI 领域最有价值的深度内容</p>
-        <p class="stats">📝 {len(top_cards)} 篇精选</p>
+        <p class="stats">📝 {len(all_items)} 篇精选 ({x_count}条X · {pod_count}个播客 · {blog_count}篇博客)</p>
     </header>
     <main class="articles">
         {articles_html}
@@ -180,7 +346,17 @@ html = f'''<!DOCTYPE html>
 </body>
 </html>'''
 
+# ============ 输出 ============
 with open('index.html', 'w', encoding='utf-8') as f:
     f.write(html)
 
-print(f'Done! {len(top_cards)} articles generated')
+print(f'生成完成！共 {len(all_items)} 篇')
+print(f'  - X 推文: {x_count} 篇')
+print(f'  - 播客: {pod_count} 篇')
+print(f'  - 博客: {blog_count} 篇')
+print()
+print('=== 内容预览 ===')
+for item in all_items:
+    type_icon = {'x': '🐦', 'podcast': '🎙️', 'blog': '📝'}.get(item['type'], '•')
+    print(f"{type_icon} {item['num']:02d}. [{item['type']}] {item['name'][:40]}")
+    print(f"   {item['excerpt'][:80]}...")
