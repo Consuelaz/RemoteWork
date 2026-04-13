@@ -196,10 +196,10 @@ for item in all_items:
                 </div>
             </div>
             <h2 data-lang="zh">{title}</h2>
-            <h2 data-lang="en" style="display:none">{title}</h2>
+            <h2 data-lang="en">{title}</h2>
             <div class="article-body">
                 <p data-lang="zh">{text}</p>
-                <p data-lang="en" style="display:none">{text}</p>
+                <p data-lang="en">{text}</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats">

@@ -53,13 +53,16 @@
         .archive-item:hover{background:var(--accent);color:#fff}
         .footer{text-align:center;padding:40px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border)}
         .footer a{color:var(--accent);text-decoration:none}
+        /* 中英文切换 */
         [data-lang]{display:none}
-        [data-lang].active{display:block}
+        [data-lang].show{display:block}
+        .back-link{color:var(--text-secondary);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:6px}
         @media(max-width:768px){.controls{padding:10px 20px}.hero{padding:30px 20px 20px}.hero h1{font-size:1.4rem}.articles{padding:0 20px 60px}.article h2,.article-body,.article-footer{margin-left:0}}
     </style>
 </head>
 <body>
     <div class="controls">
+        <a href="../index.html" class="back-link">← 返回首页</a>
         <div class="lang-switch">
             <button class="lang-btn active" data-lang-switch="zh">中文</button>
             <button class="lang-btn" data-lang-switch="en">EN</button>
@@ -518,11 +521,13 @@ You know, Ben and I both have computer science degrees. You know, we we both Ben
         let currentLang='zh',voices=[],selectedVoice=null,isPlaying=false;
         function loadVoices(){voices=speechSynthesis.getVoices();const s=document.getElementById('voiceSelect');s.innerHTML='<option value="">选择语音</option>';voices.filter(v=>v.lang.startsWith('zh')).forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name+(v.localService?' ★':'');s.appendChild(o)})}
         document.getElementById('voiceSelect').onchange=e=>{selectedVoice=voices.find(v=>v.name===e.target.value)};
-        document.querySelectorAll('.lang-btn').forEach(btn=>{btn.onclick=()=>{currentLang=btn.dataset.langSwitch;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('[data-lang]').forEach(el=>{el.style.display=el.dataset.lang===currentLang?'block':'none'});if(isPlaying)stopAll()}});
+        document.querySelectorAll('.lang-btn').forEach(btn=>{btn.onclick=()=>{currentLang=btn.dataset.langSwitch;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('[data-lang]').forEach(el=>{el.classList.toggle('show',el.dataset.lang===currentLang)});if(isPlaying)stopAll()}});
         function playArticle(n){const a=document.querySelector(`[data-article="${n}"]`);let t='';a.querySelectorAll(`[data-lang="${currentLang}"]`).forEach(el=>{if(el.tagName==='H2'||el.tagName==='P')t+=el.textContent+'。'});speak(t,a.querySelector('.action-btn'))}
         function playAll(){const btn=document.getElementById('playAllBtn');if(isPlaying){stopAll();return}let t='今天为大家带来 AI 领域的重要资讯。';document.querySelectorAll('.article').forEach((a,i)=>{t+=`第 ${i+1} 篇，`;a.querySelectorAll(`[data-lang="${currentLang}"]`).forEach(el=>{if(el.tagName==='H2'||el.tagName==='P')t+=el.textContent})});speak(t,btn)}
         function speak(text,btn){if(isPlaying){speechSynthesis.cancel();isPlaying=false;document.querySelectorAll('.action-btn,.audio-btn').forEach(b=>b.classList.remove('playing'));return}const u=new SpeechSynthesisUtterance(text.replace(/。/g,'，').replace(/\s+/g,' ').trim());u.lang=currentLang==='zh'?'zh-CN':'en-US';u.rate=0.85;u.pitch=0.95;const v=selectedVoice||voices.find(v=>v.lang.startsWith(currentLang));if(v)u.voice=v;u.onstart=()=>{isPlaying=true;btn.classList.add('playing')};u.onend=u.onerror=()=>{isPlaying=false;document.querySelectorAll('.action-btn,.audio-btn').forEach(b=>b.classList.remove('playing'))};speechSynthesis.cancel();speechSynthesis.speak(u)}
         function stopAll(){speechSynthesis.cancel();isPlaying=false;document.querySelectorAll('.action-btn,.audio-btn').forEach(b=>b.classList.remove('playing'))}
+        // 初始化中文显示
+        document.querySelectorAll('[data-lang="zh"]').forEach(el=>el.classList.add('show'));
         document.querySelector('[data-lang-switch="zh"]').click();
         speechSynthesis.onvoiceschanged=loadVoices;loadVoices();
     </script>
