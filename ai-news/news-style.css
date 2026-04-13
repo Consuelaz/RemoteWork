@@ -1,0 +1,334 @@
+/* AI 资讯页面样式 */
+
+/* 变量 */
+:root {
+    --primary: #4f46e5;
+    --primary-light: #818cf8;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-secondary: #64748b;
+    --border: #e2e8f0;
+    --accent: #06b6d4;
+}
+
+/* 全局 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* 容器 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 头部 */
+.news-header {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    color: white;
+    padding: 40px 0;
+    margin-bottom: 40px;
+}
+
+.news-header h1 {
+    font-size: 2rem;
+    margin: 20px 0 10px;
+}
+
+.news-header .date {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.news-header .stats {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+.back-link {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+}
+.back-link:hover { color: white; text-decoration: none; }
+
+/* 主内容 */
+.news-content {
+    padding-bottom: 60px;
+}
+
+/* 区块 */
+.section {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.section h2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border);
+}
+
+/* 开发者卡片网格 */
+.builders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.builder-card {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    transition: box-shadow 0.2s;
+}
+
+.builder-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.builder-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.builder-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.builder-handle {
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+.builder-bio {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.tweets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tweet-item {
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 3px solid var(--primary-light);
+}
+
+.tweet-item p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.tweet-link {
+    font-size: 0.85rem;
+    color: var(--primary);
+}
+
+/* 播客卡片 */
+.podcasts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.podcast-card, .blog-card {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid var(--border);
+}
+
+.podcast-card h3, .blog-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.podcast-title, .blog-source {
+    color: var(--primary);
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+}
+
+.podcast-desc, .blog-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+/* 博客卡片 */
+.blogs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* 按钮 */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+.btn-primary:hover {
+    background: #4338ca;
+    text-decoration: none;
+}
+
+.btn-secondary {
+    background: var(--bg);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+.btn-secondary:hover {
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+}
+
+/* 数据来源 */
+.source-info {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: none;
+}
+
+.source-info ul {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.source-info li {
+    margin-bottom: 8px;
+}
+
+.update-time {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 15px;
+}
+
+/* 空状态 */
+.empty-state {
+    color: var(--text-secondary);
+    font-style: italic;
+    text-align: center;
+    padding: 40px;
+}
+
+/* Footer */
+.news-footer {
+    background: #1e293b;
+    color: #94a3b8;
+    padding: 30px 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.news-footer a { color: #94a3b8; }
+.news-footer a:hover { color: white; }
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .builders-grid {
+        grid-template-columns: 1fr;
+    }
+    .podcasts-grid, .blogs-grid {
+        grid-template-columns: 1fr;
+    }
+    .news-header h1 {
+        font-size: 1.5rem;
+    }
+}
+
+/* 存档网格 */
+.archive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.archive-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: var(--text);
+    transition: all 0.2s;
+}
+
+.archive-item:hover {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-decoration: none;
+}
+
+.archive-item.today {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+}
+
+.archive-item.today:hover {
+    background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+}
+
+.archive-date {
+    font-weight: 500;
+}
+
+.archive-label {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* 简介区块样式 */
+.feature-list {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.feature-list li {
+    margin-bottom: 8px;
+}
+
+.data-source {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+}

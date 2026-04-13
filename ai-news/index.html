@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 领域最新资讯 - Junes远程</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="stylesheet" href="news-style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <header class="news-header">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回 Junes远程</a>
+            <h1>🤖 AI 领域最新资讯</h1>
+            <p class="date">每日追踪 AI 领域最前沿的开发者动态</p>
+        </div>
+    </header>
+
+    <main class="news-content">
+        <div class="container">
+            <!-- 简介区块 -->
+            <section class="section intro-section">
+                <h2>📡 关于这个栏目</h2>
+                <p>每日自动整理来自 AI 领域顶尖开发者的最新动态，包括：</p>
+                <ul class="feature-list">
+                    <li>🐦 <strong>25+ 位 AI 开发者</strong> 的 X/Twitter 动态（Andrej Karpathy、Sam Altman、Guillermo Rauch 等）</li>
+                    <li>🎙️ <strong>6 个优质 AI 播客</strong> 的最新 episodes（Latent Space、No Priors、Unsupervised Learning 等）</li>
+                    <li>📝 <strong>官方技术博客</strong> 的最新文章（Anthropic Engineering、Claude Blog）</li>
+                </ul>
+                <p class="data-source">数据来源：<a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> 项目</p>
+            </section>
+
+            <!-- 每日资讯列表 -->
+            <section class="section archive-section">
+                <h2>📅 每日资讯存档</h2>
+                <p class="archive-hint">点击日期查看当日完整资讯</p>
+                <div class="archive-grid" id="archiveGrid"></div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="news-footer">
+        <div class="container">
+            <p>由 <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> 提供内容支持 · <a href="../index.html">返回 Junes远程</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // 静态渲染已知页面（避免 fetch 跨域问题）
+        const today = new Date();
+        const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+        const todayDisplay = `${today.getFullYear()}年${String(today.getMonth() + 1).padStart(2, '0')}月${String(today.getDate()).padStart(2, '0')}日`;
+        
+        const grid = document.getElementById('archiveGrid');
+        grid.innerHTML = `
+            <a href="${todayStr}.html" class="archive-item today">
+                <span class="archive-date">${todayDisplay}</span>
+                <span class="archive-label">今日</span>
+            </a>
+        `;
+    </script>
+</body>
+</html>

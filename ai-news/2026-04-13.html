@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-04-13</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
+            --summary-bg: #fff7ed;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* 控制栏 */
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250, 250, 249, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .lang-switch { display: flex; gap: 6px; }
+        .lang-btn {
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+        }
+        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .audio-btn {
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .audio-btn:hover { background: var(--tag-bg); }
+        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn svg { width: 14px; height: 14px; }
+        .voice-select {
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 720px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .date {
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .hero-sub {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .stats { font-size: 12px; color: var(--text-secondary); }
+
+        /* 文章列表 */
+        .articles {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .article {
+            padding: 32px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article:last-child { border-bottom: none; }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .article-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .article-number {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--border);
+            line-height: 1;
+            min-width: 32px;
+        }
+
+        .author-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name { font-weight: 500; font-size: 13px; }
+        .author-bio { color: var(--text-secondary); font-size: 12px; }
+
+        .article-actions { display: flex; gap: 6px; }
+
+        .action-btn {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .action-btn:hover { background: var(--tag-bg); }
+        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn svg { width: 12px; height: 12px; }
+
+        .article h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            margin-left: 44px;
+        }
+
+        .article-body { margin-left: 44px; }
+
+        .article-body p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .article-body strong { color: var(--accent); }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 14px;
+            margin-left: 44px;
+        }
+
+        .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
+        .article-link:hover { text-decoration: underline; }
+
+        [data-lang] { display: none; }
+        [data-lang].active { display: block; }
+
+        @media (max-width: 768px) {
+            .controls { padding: 10px 20px; }
+            .hero, .summary { padding: 30px 20px 20px; }
+            .hero h1 { font-size: 1.4rem; }
+            .articles { padding: 0 20px 60px; }
+            .article h2, .article-body, .article-footer { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 控制栏 -->
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn active" data-lang-switch="zh">中文</button>
+            <button class="lang-btn" data-lang-switch="en">EN</button>
+        </div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                全文朗读
+            </button>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <header class="hero">
+        <p class="date">Monday, April 13, 2026</p>
+        <h1>AI Builders Daily Digest</h1>
+        <p class="hero-sub" data-lang="zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="hero-sub" data-lang="en" style="display:none">Daily curated deep content from AI builders</p>
+        <p class="stats">
+            <span data-lang="zh">📝 10 篇精选</span>
+            <span data-lang="en">📝 10 Articles</span>
+        </p>
+    </header>
+
+    <!-- 文章列表 -->
+    <main class="articles">
+
+        <!-- 01 -->
+        <article class="article" data-article="1">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AL</div>
+                        <div class="author-info">
+                            <span class="author-name">Aaron Levie</span>
+                            <span class="author-bio">Box CEO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(1)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="zh">从「聊天时代」到「Agent 时代」：企业 AI 的下一章</h2>
+            <h2 data-lang="en" style="display:none">From Chat Era to Agent Era: The Next Chapter of Enterprise AI</h2>
+            <div class="article-body">
+                <p data-lang="zh">
+                    与数十位企业 IT 和 AI 负责人讨论企业 AI Agent。<strong>关键洞察：</strong>我们正从 AI 的「聊天时代」转向使用工具的「Agent 时代」，从尝试式采用转向针对性自动化。变革管理仍然是最大挑战——一个公司在每个业务部门都设立了 AI 负责人。
+                </p>
+                <p data-lang="en" style="display:none">
+                    Discussing enterprise AI agents with IT leaders. <strong>Key insight:</strong> Moving from "chat era" to agents that use tools and execute real work. Change management remains the biggest challenge—one company appointed an AI head in every business unit.
+                </p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 2,981</span><span>🔁 342</span></div>
+                <a href="https://x.com/levie/status/2043426157367095397" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="article" data-article="2">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AM</div>
+                        <div class="author-info">
+                            <span class="author-name">Amjad Masad</span>
+                            <span class="author-bio">Replit CEO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(2)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="zh">苹果 50 岁：成为「世界上最讨厌的公司」？</h2>
+            <h2 data-lang="en" style="display:none">Apple at 50: Becoming the World's Most Hated Company?</h2>
+            <div class="article-body">
+                <p data-lang="zh">
+                    在苹果 50 岁生日之际，苹果正在尽最大努力成为全世界最令人讨厌的公司。关于苹果近期争议性决策的讨论：App Store 政策、封闭生态系统、Lightning 接口坚持、AI 功能滞后——开发者社区态度正在变化。
+                </p>
+                <p data-lang="en" style="display:none">
+                    On its 50th birthday Apple is doing its best to become the most hated company. Discussion about recent controversies: App Store policies, closed ecosystem, Lightning persistence, lagging AI features.
+                </p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 8,019</span><span>🔁 542</span></div>
+                <a href="https://x.com/amasad/status/2043394289326289243" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="article" data-article="3">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GR</div>
+                        <div class="author-info">
+                            <span class="author-name">Guillermo Rauch</span>
+                            <span class="author-bio">Vercel CEO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(3)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="zh">打造顶级产品的秘诀：把挑剔的客户拉进群</h2>
+            <h2 data-lang="en" style="display:none">The Secret to Great Products: Customer Feedback Groups</h2>
+            <div class="article-body">
+                <p data-lang="zh">
+                    <strong>秘诀：</strong>创建一个 X 群聊，把你最挑剔的客户放进去，让工程负责人加入群聊。快速响应和交付，直面反馈。Vercel 为 AI 编程工具 @v0 建立这样的群聊，直接与客户沟通、快速迭代的模式正被更多团队采用。
+                </p>
+                <p data-lang="en" style="display:none">
+                    <strong>Protip:</strong> Create an X group chat with your most demanding customers. Put engineering leads in it. Respond and ship quickly. Vercel uses this for @v0—direct communication and rapid iteration being adopted by more teams.
+                </p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 540</span><span>🔁 45</span></div>
+                <a href="https://x.com/rauchg/status/2043381737754120592" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="article" data-article="4">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">PY</div>
+                        <div class="author-info">
+                            <span class="author-name">Peter Yang</span>
+                            <span class="author-bio">AI Tutorials</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(4)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="zh">Claude Opus 被削弱了？用户报告能力下降</h2>
+            <h2 data-lang="en" style="display:none">Claude Opus "Nerfed"? Users Report Declining Capabilities</h2>
+            <div class="article-body">
+                <p data-lang="zh">
+                    我的整个 feed 和 Claude subreddit 上都是说 Opus 被削弱了的人。为什么 Anthropic 要削弱自己的模型？用户报告 Claude Opus 在某些任务上表现不如以前，可能与成本优化或安全调整有关——AI 产品管理和用户信任的重要话题。
+                </p>
+                <p data-lang="en" style="display:none">
+                    My feed and Claude subreddit are full of people saying opus got nerfed. Users report declining performance on certain tasks, possibly due to cost optimization or safety tuning—an important topic about AI product management.
+                </p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 532</span><span>🔁 28</span></div>
+                <a href="https://x.com/petergyang/status/2043466663258140685" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="article" data-article="5">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">PS</div>
+                        <div class="author-info">
+                            <span class="author-name">Peter Steinberger</span>
+                            <span class="author-bio">PSPDFKit CEO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(5)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="zh">他们长大得好快 🦞</h2>
+            <h2 data-lang="en" style="display:none">They Grow Up So Fast 🦞</h2>
+            <div class="article-body">
+                <p data-lang="zh">
+                    分享小龙虾成长对比图。在繁忙的科技工作之余，这些轻松的日常时刻也值得关注。
+                </p>
+                <p data-lang="en" style="display:none">
+                    Shared crawfish growth comparison photos. These lighter moments matter alongside busy tech work.
+                </p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 1,082</span><span>🔁 35</span></div>
+                <a href="https://x.com/steipete/status/2043313467512463713" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="article" data-article="6">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">KW</div>
+                        <div class="author-info">
+                            <span class="author-name">Kevin Weil</span>
+                            <span class="author-bio">VP Science @ OpenAI</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(6)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="zh">人类智能与计算机智能：在高维空间中探索</h2>
+            <h2 data-lang="en" style="display:none">Human & AI Intelligence: Exploring High-Dimensional Space</h2>
+            <div class="article-body">
+                <p data-lang="zh">
+                    人类智能和计算机智能不是一条线上的不同点，而是在高维空间中——我们应该探索更多的空间。来自 OpenAI VP Science，强调 AI 发展的多元性：人类智能和 AI 智能不是竞争，而是互补的能力维度。
+                </p>
+                <p data-lang="en" style="display:none">
+                    Human and AI intelligence are not different points on a line, but in a high dimensional space. From OpenAI VP Science—emphasizing diversity in AI development: human and AI intelligence are complementary, not competing.
+                </p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 93</span><span>🔁 10</span></div>
+                <a href="https://x.com/kevinweil/status/2043510607736189193" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="article" data-article="7">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AA</div>
+                        <div class="author-info">
+                            <span class="author-name">Aditya Agarwal</span>
+                            <span class="author-bio">Cofounder of Drew</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(7)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="zh">Anthropic 的文化像早期 Facebook？</h2>
+            <h2 data-lang="en" style="display:none">Anthropic's Culture Like Early Facebook?</h2>
+            <div class="article-body">
+                <p data-lang="zh">
+                    Anthropic 的文化让我想起早期 Facebook，尽管 OpenAI 有更多前 Facebook 的人。<strong>相似之处：</strong>内部人员很开心、对世界有天真看法、自下而上的黑客文化。但早期 Facebook 的文化最终带来了什么？值得思考。
+                </p>
+                <p data-lang="en" style="display:none">
+                    Anthropic's culture reminds me of early Facebook. <strong>Similarities:</strong> People having fun, naivete about the world, bottoms-up hacker culture. But what did early Facebook's culture ultimately lead to? Worth pondering.
+                </p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 265</span><span>🔁 18</span></div>
+                <a href="https://x.com/adityaag/status/2043501400626491758" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="article" data-article="8">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">NK</div>
+                        <div class="author-info">
+                            <span class="author-name">Nikunj Kothari</span>
+                            <span class="author-bio">Founder at Rurema</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(8)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="zh">Doordash 策略：创业公司应学习的蓝海市场打法</h2>
+            <h2 data-lang="en" style="display:none">The "Doordash" Strategy for Startups</h2>
+            <div class="article-body">
+                <p data-lang="zh">
+                    更多创业公司应该采用「Doordash 策略」。Doordash 赢得与 Uber Eats 的竞争因为专注于城市郊区市场，当主要玩家关注主城区时，Doordash 从边缘市场开始。<strong>启示：</strong>在大玩家忽视的细分市场建立根据地，逐步扩展。
+                </p>
+                <p data-lang="en" style="display:none">
+                    More startups should adopt the "Doordash strategy." Focus on suburban markets while competitors focus on cities, then expand gradually. <strong>Lesson:</strong> Establish footholds in niches ignored by big players.
+                </p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 170</span><span>🔁 8</span></div>
+                <a href="https://x.com/nikunj/status/2043374140443553885" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 09 -->
+        <article class="article" data-article="9">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">09</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LS</div>
+                        <div class="author-info">
+                            <span class="author-name">Latent Space</span>
+                            <span class="author-bio">AI Podcast</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(9)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="zh">Marc Andreessen：浏览器的死亡与「这次不同」</h2>
+            <h2 data-lang="en" style="display:none">Marc Andreessen: The Death of Browser & Why "This Time Is Different"</h2>
+            <div class="article-body">
+                <p data-lang="zh">
+                    Marc Andreessen 将当前 AI 发展比作「八十年的 overnight success」——ChatGPT、o1 的爆发式成功看似一夜之间，实际建立在数十年技术积累之上。<strong>核心观点：</strong>我们现在知道神经网络是正确的架构，经过六七十年的争议才确立——这次确实不同。
+                </p>
+                <p data-lang="en" style="display:none">
+                    Andreessen compares AI to an "eighty year overnight success"—breakthroughs seem sudden but are built on decades of progress. <strong>Core insight:</strong> We now know neural networks are correct—this realization came after 60-70 years. This time truly is different.
+                </p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>🎙️ 90min</span></div>
+                <a href="https://www.youtube.com/@LatentSpacePod" class="article-link" target="_blank">收听 →</a>
+            </div>
+        </article>
+
+        <!-- 10 -->
+        <article class="article" data-article="10">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">10</span>
+                    <div class="author-row">
+                        <div class="author-avatar">CB</div>
+                        <div class="author-info">
+                            <span class="author-name">Claude Blog</span>
+                            <span class="author-bio">Anthropic</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(10)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="zh">为 AI 加速攻击时代准备你的安全计划</h2>
+            <h2 data-lang="en" style="display:none">Preparing Your Security Program for AI-Accelerated Offense</h2>
+            <div class="article-body">
+                <p data-lang="zh">
+                    Anthropic 安全团队分享 AI 如何改变网络安全格局。<strong>攻击者利用 AI：</strong>自动化漏洞发现、提高钓鱼成功率、批量生成恶意软件。<strong>防御策略：</strong>利用 AI 强化安全运营，构建更具韧性的安全架构。
+                </p>
+                <p data-lang="en" style="display:none">
+                    Anthropic's security team on AI changing cybersecurity. <strong>Attacks:</strong> Automated vulnerability discovery, improved phishing, malware at scale. <strong>Defense:</strong> Leverage AI for security operations, build resilient architectures.
+                </p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>📝 Security</span></div>
+                <a href="https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense" class="article-link" target="_blank">阅读 →</a>
+            </div>
+        </article>
+
+    </main>
+
+    <footer style="text-align: center; padding: 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border);">
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="index.html">返回列表</a></p>
+    </footer>
+
+    <script>
+        let currentUtterance = null;
+        let isPlaying = false;
+        let currentLang = 'zh';
+        let voices = [];
+        let selectedVoice = null;
+
+        // 加载语音列表
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            const select = document.getElementById('voiceSelect');
+            select.innerHTML = '<option value="">选择语音</option>';
+            
+            // 按语言分组
+            const zhVoices = voices.filter(v => v.lang.startsWith('zh'));
+            const enVoices = voices.filter(v => v.lang.startsWith('en'));
+            
+            if (zhVoices.length > 0) {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = '中文';
+                zhVoices.forEach(v => {
+                    const opt = document.createElement('option');
+                    opt.value = v.name;
+                    opt.textContent = v.name + (v.localService ? ' ★' : '');
+                    optgroup.appendChild(opt);
+                });
+                select.appendChild(optgroup);
+            }
+            
+            if (enVoices.length > 0) {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = 'English';
+                enVoices.forEach(v => {
+                    const opt = document.createElement('option');
+                    opt.value = v.name;
+                    opt.textContent = v.name + (v.localService ? ' ★' : '');
+                    optgroup.appendChild(opt);
+                });
+                select.appendChild(optgroup);
+            }
+            
+            // 默认选择第一个高质量语音
+            const highQuality = voices.find(v => v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en')));
+            if (highQuality) {
+                select.value = highQuality.name;
+                selectedVoice = highQuality;
+            }
+        }
+
+        // 语音选择
+        document.getElementById('voiceSelect').addEventListener('change', (e) => {
+            selectedVoice = voices.find(v => v.name === e.target.value);
+        });
+
+        // 语言切换
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.langSwitch;
+                currentLang = lang;
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('[data-lang]').forEach(el => {
+                    el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+                });
+                localStorage.setItem('ai-news-lang', lang);
+                if (isPlaying) stopAll();
+            });
+        });
+
+        // 朗读
+        function playArticle(num) {
+            const article = document.querySelector(`[data-article="${num}"]`);
+            let text = '';
+            article.querySelectorAll(`[data-lang="${currentLang}"]`).forEach(el => {
+                if (el.tagName === 'H2' || el.tagName === 'P') {
+                    text += el.textContent + '。';
+                }
+            });
+            speak(text, article.querySelector('.action-btn'));
+        }
+
+        function playAll() {
+            const btn = document.getElementById('playAllBtn');
+            if (isPlaying) { stopAll(); return; }
+            let text = '今天为大家带来 AI 领域的重要资讯。';
+            // 读正文
+            document.querySelectorAll('.article').forEach((a, i) => {
+                text += `第 ${i + 1} 篇，`;
+                a.querySelectorAll(`[data-lang="${currentLang}"]`).forEach(el => {
+                    if (el.tagName === 'H2' || el.tagName === 'P') {
+                        text += el.textContent;
+                    }
+                });
+                text += '。';
+            });
+            speak(text, btn);
+        }
+
+        function speak(text, btn) {
+            if (isPlaying) { 
+                speechSynthesis.cancel(); 
+                isPlaying = false; 
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(b => b.classList.remove('playing')); 
+                return; 
+            }
+            
+            // 优化文本：增加自然停顿，替换句号为逗号
+            let optimizedText = text
+                .replace(/。/g, '，')
+                .replace(/\s+/g, ' ')
+                .trim();
+            
+            const u = new SpeechSynthesisUtterance(optimizedText);
+            u.lang = currentLang === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;  // 稍慢，更清晰
+            u.pitch = 0.95; // 略低，更有感情
+            u.volume = 1.0;
+            
+            // 优先使用选定语音，否则选择最佳语音
+            let voice = selectedVoice;
+            if (!voice || !voice.lang.startsWith(currentLang)) {
+                // 优先选择：本地 > 名称含 premium/enhanced > 名称含 google/apple/microsoft
+                const preferred = voices.find(v => {
+                    if (!v.lang.startsWith(currentLang)) return false;
+                    if (v.localService) return true;
+                    const name = v.name.toLowerCase();
+                    return name.includes('premium') || name.includes('enhanced') || 
+                           name.includes('google') || name.includes('apple');
+                });
+                voice = preferred || voices.find(v => v.lang.startsWith(currentLang));
+            }
+            
+            if (voice) u.voice = voice;
+            
+            u.onstart = () => { isPlaying = true; btn.classList.add('playing'); };
+            u.onend = u.onerror = () => { 
+                isPlaying = false; 
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(b => b.classList.remove('playing')); 
+            };
+            
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        function stopAll() { 
+            speechSynthesis.cancel(); 
+            isPlaying = false; 
+            document.querySelectorAll('.action-btn, .audio-btn').forEach(b => b.classList.remove('playing')); 
+        }
+
+        // 初始化
+        const savedLang = localStorage.getItem('ai-news-lang') || 'zh';
+        currentLang = savedLang;
+        document.querySelector(`[data-lang-switch="${savedLang}"]`).click();
+        
+        // 加载语音
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+    </script>
+</body>
+</html>
