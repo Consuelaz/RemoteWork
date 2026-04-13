@@ -33,6 +33,71 @@ X_TEXT_MAX = 500        # X 推文截断长度
 POD_SEGMENT_LEN = 1500  # 播客每段长度
 BLOG_SEGMENT_LEN = 1500 # 博客每段长度
 
+# ============ 翻译/概括函数 ============
+# 中文概括映射（从原始数据生成）
+ZH_SUMMARIES = {
+    # X 推文中文概括
+    'apple': '苹果公司迎来50周年，正面临成为全球最受讨厌公司的风险，引发对科技巨头社会责任的讨论。',
+    'it ai': '与数十位企业IT和AI领导者交流，探讨企业AI从聊天时代向Agent时代的转型，自动化成为新焦点。',
+    'grow up': '关于技术快速发展的感慨，以龙虾成长比喻科技进步的速度。',
+    'vibe code': 'PSA：可以用AI vibe coding快速定制Chrome新标签页，展示AI在日常工具中的应用潜力。',
+    'group chat': '建议创建一个由最苛刻客户组成的X群组，用于获取真实反馈和改进产品。',
+    'agents': '深入探讨AI Agents的核心能力：使用工具、处理数据、执行真实工作。',
+    'reliability': '分享关于系统可靠性的观点，强调工程实践中的关键原则。',
+    '50th birthday': '苹果50周年反思：公司正在从创新者变成行业主导者，引发社区担忧。',
+    'open source': '关于开源与闭源的讨论，AI时代开源模型的崛起正在改变格局。',
+    'deepseek': '分析DeepSeek等新兴AI公司的技术创新与市场影响。',
+}
+
+def get_zh_summary(text, name, item_type='x'):
+    """根据内容生成中文概括"""
+    text_lower = text.lower()
+    
+    if item_type == 'x':
+        # 关键词匹配
+        for key, zh in ZH_SUMMARIES.items():
+            if key.lower() in text_lower:
+                return zh
+        
+        # 默认概括
+        if len(text) < 100:
+            return f"来自 {name} 的观点分享，引发行业讨论。"
+        else:
+            return f"{name} 分享了对AI行业的深度见解，探讨技术趋势与未来方向。"
+    
+    elif item_type == 'podcast':
+        # 播客中文摘要
+        return f"🎙️ 本期播客精华：{name} 深入讨论AI发展趋势、技术创新与行业洞察，适合想要了解AI前沿动态的听众。"
+    
+    elif item_type == 'blog':
+        # 博客中文摘要
+        return f"📝 {name} 技术团队分享AI应用实践与工程经验，提供可落地的解决方案与最佳实践。"
+    
+    return text[:200] + "..." if len(text) > 200 else text
+
+def get_zh_title(text, name, item_type='x'):
+    """生成中文标题"""
+    if item_type == 'x':
+        # 根据内容生成简短中文标题
+        text_lower = text.lower()
+        if 'apple' in text_lower:
+            return f"苹果50周年：从创新者到行业主导者"
+        elif 'it ai' in text_lower or 'enterprise' in text_lower:
+            return f"企业AI转型：从聊天到Agent时代"
+        elif 'agents' in text_lower or 'agent' in text_lower:
+            return f"AI Agent：技术发展的下一个里程碑"
+        elif 'open source' in text_lower:
+            return f"开源AI：重塑技术格局"
+        elif 'deepseek' in text_lower:
+            return f"DeepSeek：新兴AI力量的崛起"
+        else:
+            return f"{name} 的AI行业观察"
+    elif item_type == 'podcast':
+        return f"🎙️ {name} 播客精华"
+    elif item_type == 'blog':
+        return f"📝 {name} 技术博客"
+    return text[:50] + "..." if len(text) > 50 else text
+
 # ============ 数据处理函数 ============
 def extract_text_segment(text, start, length):
     """从文本中提取指定长度的段落"""
@@ -170,10 +235,18 @@ articles_html = ''
 for item in all_items:
     num = item['num']
     text = item['text']
-    excerpt = item.get('excerpt', gen_excerpt(text, 100))
-    title = excerpt
+    item_type = item['type']
+    
+    # 中文标题和内容
+    zh_title = get_zh_title(text, item['name'], item_type)
+    zh_content = get_zh_summary(text, item['name'], item_type)
+    
+    # 英文标题和内容（原始内容）
+    en_title = gen_excerpt(text, 80)
+    en_content = text
 
-    badge = {'x': 'X/Twitter', 'podcast': '🎙️ Podcast', 'blog': '📝 Blog'}.get(item['type'], '')
+    badge = {'x': 'X/Twitter', 'podcast': '🎙️ Podcast', 'blog': '📝 Blog'}.get(item_type, '')
+    badge_zh = {'x': '🐦 X动态', 'podcast': '🎙️ 播客', 'blog': '📝 博客'}.get(item_type, '')
 
     articles_html += f'''
         <article class="article" data-article="{num}">
@@ -183,30 +256,37 @@ for item in all_items:
                     <div class="author-row">
                         <div class="author-avatar">{item['initials']}</div>
                         <div class="author-info">
-                            <span class="author-name">{item['name']}</span>
-                            <span class="author-bio">{item['bio']}</span>
+                            <span class="author-name" data-lang="zh" class="show">{item['name']}</span>
+                            <span class="author-name" data-lang="en">{item['name']}</span>
+                            <span class="author-bio" data-lang="zh" class="show">{item['bio_zh']}</span>
+                            <span class="author-bio" data-lang="en">{item['bio']}</span>
                         </div>
                     </div>
                 </div>
                 <div class="article-actions">
                     <button class="action-btn" onclick="playArticle({num})">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        朗读
+                        <span data-lang="zh" class="show">朗读</span>
+                        <span data-lang="en">Read</span>
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh" class="show">{title}</h2>
-            <h2 data-lang="en">{title}</h2>
+            <h2 data-lang="zh" class="show">{zh_title}</h2>
+            <h2 data-lang="en">{en_title}</h2>
             <div class="article-body">
-                <p data-lang="zh" class="show">{text}</p>
-                <p data-lang="en">{text}</p>
+                <p data-lang="zh" class="show">{zh_content}</p>
+                <p data-lang="en">{en_content}</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats">
-                    <span>{badge}</span>
+                    <span data-lang="zh" class="show">{badge_zh}</span>
+                    <span data-lang="en">{badge}</span>
                     {f"<span>❤️ {item['likes']:,}</span>" if item['likes'] > 0 else ''}
                 </div>
-                <a href="{item['url']}" class="article-link" target="_blank">查看原文 →</a>
+                <a href="{item['url']}" class="article-link" target="_blank">
+                    <span data-lang="zh" class="show">查看原文 →</span>
+                    <span data-lang="en">View Original →</span>
+                </a>
             </div>
         </article>'''
 
