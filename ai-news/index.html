@@ -53,16 +53,13 @@
         .archive-item:hover{background:var(--accent);color:#fff}
         .footer{text-align:center;padding:40px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border)}
         .footer a{color:var(--accent);text-decoration:none}
-        /* 中英文切换 */
         [data-lang]{display:none}
         [data-lang].show{display:block}
-        .back-link{color:var(--text-secondary);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:6px}
         @media(max-width:768px){.controls{padding:10px 20px}.hero{padding:30px 20px 20px}.hero h1{font-size:1.4rem}.articles{padding:0 20px 60px}.article h2,.article-body,.article-footer{margin-left:0}}
     </style>
 </head>
 <body>
     <div class="controls">
-        <a href="../index.html" class="back-link">← 返回首页</a>
         <div class="lang-switch">
             <button class="lang-btn active" data-lang-switch="zh">中文</button>
             <button class="lang-btn" data-lang-switch="en">EN</button>
@@ -102,11 +99,11 @@
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://...</h2>
-            <h2 data-lang="en" style="display:none">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://...</h2>
+            <h2 data-lang="zh" class="show">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://...</h2>
+            <h2 data-lang="en">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://...</h2>
             <div class="article-body">
-                <p data-lang="zh">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo</p>
-                <p data-lang="en" style="display:none">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo</p>
+                <p data-lang="zh" class="show">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo</p>
+                <p data-lang="en">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats">
@@ -135,15 +132,15 @@
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across...</h2>
-            <h2 data-lang="en" style="display:none">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across...</h2>
+            <h2 data-lang="zh" class="show">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across...</h2>
+            <h2 data-lang="en">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across...</h2>
             <div class="article-body">
-                <p data-lang="zh">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across banking, media, retail, healthcare, consulting, tech, and sports, to discuss agents in the enterprise. 
+                <p data-lang="zh" class="show">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across banking, media, retail, healthcare, consulting, tech, and sports, to discuss agents in the enterprise. 
 
 Some quick takeaways:
 
 * Clear that we’re moving from chat era of AI to agents that use tools, process data, and start to execute real work in the enterprise. Complementing this, enterprises are often evolving from “let a thousand flowers bloom” approach to adoption to targeted automation effo</p>
-                <p data-lang="en" style="display:none">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across banking, media, retail, healthcare, consulting, tech, and sports, to discuss agents in the enterprise. 
+                <p data-lang="en">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across banking, media, retail, healthcare, consulting, tech, and sports, to discuss agents in the enterprise. 
 
 Some quick takeaways:
 
@@ -176,11 +173,11 @@ Some quick takeaways:
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh">They grow up so fast 🦞 https://t.co/5WoQMZPtys</h2>
-            <h2 data-lang="en" style="display:none">They grow up so fast 🦞 https://t.co/5WoQMZPtys</h2>
+            <h2 data-lang="zh" class="show">They grow up so fast 🦞 https://t.co/5WoQMZPtys</h2>
+            <h2 data-lang="en">They grow up so fast 🦞 https://t.co/5WoQMZPtys</h2>
             <div class="article-body">
-                <p data-lang="zh">They grow up so fast 🦞 https://t.co/5WoQMZPtys</p>
-                <p data-lang="en" style="display:none">They grow up so fast 🦞 https://t.co/5WoQMZPtys</p>
+                <p data-lang="zh" class="show">They grow up so fast 🦞 https://t.co/5WoQMZPtys</p>
+                <p data-lang="en">They grow up so fast 🦞 https://t.co/5WoQMZPtys</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats">
@@ -209,10 +206,10 @@ Some quick takeaways:
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh">PSA: You can vibe code your own "New tab" page in Chrome. I have turned mine into the ultimate solut...</h2>
-            <h2 data-lang="en" style="display:none">PSA: You can vibe code your own "New tab" page in Chrome. I have turned mine into the ultimate solut...</h2>
+            <h2 data-lang="zh" class="show">PSA: You can vibe code your own "New tab" page in Chrome. I have turned mine into the ultimate solut...</h2>
+            <h2 data-lang="en">PSA: You can vibe code your own "New tab" page in Chrome. I have turned mine into the ultimate solut...</h2>
             <div class="article-body">
-                <p data-lang="zh">PSA: You can vibe code your own "New tab" page in Chrome. I have turned mine into the ultimate solution to the "too many tabs" problem
+                <p data-lang="zh" class="show">PSA: You can vibe code your own "New tab" page in Chrome. I have turned mine into the ultimate solution to the "too many tabs" problem
 
 - See all your tabs with clear titles, grouped by domain
 - Closing any tab gives you "swoosh" sound and confetti effect 🎊
@@ -221,7 +218,7 @@ Some quick takeaways:
 - For tabs you're not done with, save it for later in a checklist
 
 This is the Marie Kondo</p>
-                <p data-lang="en" style="display:none">PSA: You can vibe code your own "New tab" page in Chrome. I have turned mine into the ultimate solution to the "too many tabs" problem
+                <p data-lang="en">PSA: You can vibe code your own "New tab" page in Chrome. I have turned mine into the ultimate solution to the "too many tabs" problem
 
 - See all your tabs with clear titles, grouped by domain
 - Closing any tab gives you "swoosh" sound and confetti effect 🎊
@@ -258,13 +255,13 @@ This is the Marie Kondo</p>
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh">Protip: Create an X group chat with your best and most demanding customers. Put your engineering lea...</h2>
-            <h2 data-lang="en" style="display:none">Protip: Create an X group chat with your best and most demanding customers. Put your engineering lea...</h2>
+            <h2 data-lang="zh" class="show">Protip: Create an X group chat with your best and most demanding customers. Put your engineering lea...</h2>
+            <h2 data-lang="en">Protip: Create an X group chat with your best and most demanding customers. Put your engineering lea...</h2>
             <div class="article-body">
-                <p data-lang="zh">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.
+                <p data-lang="zh" class="show">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.
 
 We have one going for @v0. DM if you want to be a part of it and are committed to sharing excellent feedback.</p>
-                <p data-lang="en" style="display:none">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.
+                <p data-lang="en">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.
 
 We have one going for @v0. DM if you want to be a part of it and are committed to sharing excellent feedback.</p>
             </div>
@@ -295,10 +292,10 @@ We have one going for @v0. DM if you want to be a part of it and are committed t
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh">Speaker 1 | 00:00 - 00:25 Something about AI that causes the people in the field, I would say, to become both excessivel...</h2>
-            <h2 data-lang="en" style="display:none">Speaker 1 | 00:00 - 00:25 Something about AI that causes the people in the field, I would say, to become both excessivel...</h2>
+            <h2 data-lang="zh" class="show">Speaker 1 | 00:00 - 00:25 Something about AI that causes the people in the field, I would say, to become both excessivel...</h2>
+            <h2 data-lang="en">Speaker 1 | 00:00 - 00:25 Something about AI that causes the people in the field, I would say, to become both excessivel...</h2>
             <div class="article-body">
-                <p data-lang="zh">Speaker 1 | 00:00 - 00:25
+                <p data-lang="zh" class="show">Speaker 1 | 00:00 - 00:25
 Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for example, we now know the neural network is the correct architecture. And I I will tell you, like, was a sixty year run where that was like a, you know, or even seventy years where that was controversial. And so so the way I think about what's happening is basically, think I think about basically the the the period we're in right now is it's I call it eighty year overnight success.
 Speaker 1 | 00:25 - 00:51
 Right? Which is like, it's an overnight success because it's like bam, you know, ChatGPT hits and then then o one hits and then, you know, OpenClaw hits and like, you know, these are open these are these are like overnight, like radical overnight transformative successes, but they're drawing on an eighty year sort of Wellspring backlog, you know, of of ideas and thinking. It's not just that it's all brand new. It's that it's an unlock of all of these decades of, like, very serious hardcore research. If I were 18, like, this is a 100 this is what I would be spending all of my time on.
@@ -306,7 +303,7 @@ Speaker 1 | 00:51 - 00:53
 This is, such an incredible conceptual breakthrough.
 Speaker 2 | 00:53 - 01:19
 Before we get into today's episode, I just have a small message for listeners. Thank you.</p>
-                <p data-lang="en" style="display:none">Speaker 1 | 00:00 - 00:25
+                <p data-lang="en">Speaker 1 | 00:00 - 00:25
 Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for example, we now know the neural network is the correct architecture. And I I will tell you, like, was a sixty year run where that was like a, you know, or even seventy years where that was controversial. And so so the way I think about what's happening is basically, think I think about basically the the the period we're in right now is it's I call it eighty year overnight success.
 Speaker 1 | 00:25 - 00:51
 Right? Which is like, it's an overnight success because it's like bam, you know, ChatGPT hits and then then o one hits and then, you know, OpenClaw hits and like, you know, these are open these are these are like overnight, like radical overnight transformative successes, but they're drawing on an eighty year sort of Wellspring backlog, you know, of of ideas and thinking. It's not just that it's all brand new. It's that it's an unlock of all of these decades of, like, very serious hardcore research. If I were 18, like, this is a 100 this is what I would be spending all of my time on.
@@ -342,10 +339,10 @@ Before we get into today's episode, I just have a small message for listeners. T
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh">uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you did...</h2>
-            <h2 data-lang="en" style="display:none">uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you did...</h2>
+            <h2 data-lang="zh" class="show">uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you did...</h2>
+            <h2 data-lang="en">uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you did...</h2>
             <div class="article-body">
-                <p data-lang="zh">uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you didn't choose to also click in and tune into our content. We've been approached by sponsors on an almost daily basis, but fortunately, enough of you actually subscribed to us to keep all this sustainable without ads, and we wanna keep it that way. But I just have one favor to ask all of you.
+                <p data-lang="zh" class="show">uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you didn't choose to also click in and tune into our content. We've been approached by sponsors on an almost daily basis, but fortunately, enough of you actually subscribed to us to keep all this sustainable without ads, and we wanna keep it that way. But I just have one favor to ask all of you.
 Speaker 2 | 01:19 - 01:39
 The single most powerful, completely free thing you can do is to click that subscribe button. It's the only thing I'll ever ask of you, and it means absolutely everything to me and my team that works so hard to bring latent space to you each and every week. If you do it, I promise you, we'll never stop working to make the show even better. Now let's get into it.
 Speaker 3 | 01:44 - 01:50
@@ -360,7 +357,7 @@ Speaker 2 | 02:02 - 02:04
 You're moving across the road.
 Speaker 1 | 02:04 - 02:12
 We're yeah. We have Olivia, so we have some projects underway. But, yeah, this is actually, although this is the original we're in actually the original office.</p>
-                <p data-lang="en" style="display:none">uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you didn't choose to also click in and tune into our content. We've been approached by sponsors on an almost daily basis, but fortunately, enough of you actually subscribed to us to keep all this sustainable without ads, and we wanna keep it that way. But I just have one favor to ask all of you.
+                <p data-lang="en">uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you didn't choose to also click in and tune into our content. We've been approached by sponsors on an almost daily basis, but fortunately, enough of you actually subscribed to us to keep all this sustainable without ads, and we wanna keep it that way. But I just have one favor to ask all of you.
 Speaker 2 | 01:19 - 01:39
 The single most powerful, completely free thing you can do is to click that subscribe button. It's the only thing I'll ever ask of you, and it means absolutely everything to me and my team that works so hard to bring latent space to you each and every week. If you do it, I promise you, we'll never stop working to make the show even better. Now let's get into it.
 Speaker 3 | 01:44 - 01:50
@@ -403,10 +400,10 @@ We're yeah. We have Olivia, so we have some projects underway. But, yeah, this i
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh">the we're in we're in the where the whole thing It's beautiful. Yeah. Speaker 1 | 02:12 - 02:13 Great. Thank you. Speake...</h2>
-            <h2 data-lang="en" style="display:none">the we're in we're in the where the whole thing It's beautiful. Yeah. Speaker 1 | 02:12 - 02:13 Great. Thank you. Speake...</h2>
+            <h2 data-lang="zh" class="show">the we're in we're in the where the whole thing It's beautiful. Yeah. Speaker 1 | 02:12 - 02:13 Great. Thank you. Speake...</h2>
+            <h2 data-lang="en">the we're in we're in the where the whole thing It's beautiful. Yeah. Speaker 1 | 02:12 - 02:13 Great. Thank you. Speake...</h2>
             <div class="article-body">
-                <p data-lang="zh">the we're in we're in the where the whole thing It's beautiful. Yeah.
+                <p data-lang="zh" class="show">the we're in we're in the where the whole thing It's beautiful. Yeah.
 Speaker 1 | 02:12 - 02:13
 Great. Thank you.
 Speaker 2 | 02:13 - 02:35
@@ -419,7 +416,7 @@ Speaker 1 | 02:50 - 03:02
 Yeah. You know, I mean, look, we've been doing AI our entire existence. I mean, we've been doing AI machine learning deep you know, deep we've been doing this stuff way from the beginning. Obviously, AI is just core to computer science. I I I actually view them as like quite, quite continuous.
 Speaker 1 | 03:02 - 03:22
 You know, Ben and I both have computer science degrees. You know, we we both Ben and I actually both are well enough to remember the actual AI boom in the 1980s.</p>
-                <p data-lang="en" style="display:none">the we're in we're in the where the whole thing It's beautiful. Yeah.
+                <p data-lang="en">the we're in we're in the where the whole thing It's beautiful. Yeah.
 Speaker 1 | 02:12 - 02:13
 Great. Thank you.
 Speaker 2 | 02:13 - 02:35
@@ -460,11 +457,11 @@ You know, Ben and I both have computer science degrees. You know, we we both Ben
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our...</h2>
-            <h2 data-lang="en" style="display:none">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our...</h2>
+            <h2 data-lang="zh" class="show">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our...</h2>
+            <h2 data-lang="en">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our...</h2>
             <div class="article-body">
-                <p data-lang="zh">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly reducing the required resources, time, and skill required to find and exploit vulnerabilities in software. With an eye on the lightning-fast progress of AI, we also noted that it will not be long before models of similar capability levels are widely available. Within the next 24 months, vast numbers of bugs that sat unnoticed in code, possibly for years, will be found by AI models and chained into working exploits. Indeed, it is already the case that publicly available, sub-Mythos-level models can find serious vulnerabilities that traditional reviews have missed for long periods of time. Thankfully, this works both ways: although attackers can use AI to move faster, so can defenders who adopt AI tools to secure themselves. In this post, we offer security recommendations and practical tips based on what our security teams and researchers have observed and learned from using frontier AI models to secure real codebases and systems. We hope security teams and others will find this advice useful as we enter the age of AI-driven cybersecurity.</p>
-                <p data-lang="en" style="display:none">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly reducing the required resources, time, and skill required to find and exploit vulnerabilities in software. With an eye on the lightning-fast progress of AI, we also noted that it will not be long before models of similar capability levels are widely available. Within the next 24 months, vast numbers of bugs that sat unnoticed in code, possibly for years, will be found by AI models and chained into working exploits. Indeed, it is already the case that publicly available, sub-Mythos-level models can find serious vulnerabilities that traditional reviews have missed for long periods of time. Thankfully, this works both ways: although attackers can use AI to move faster, so can defenders who adopt AI tools to secure themselves. In this post, we offer security recommendations and practical tips based on what our security teams and researchers have observed and learned from using frontier AI models to secure real codebases and systems. We hope security teams and others will find this advice useful as we enter the age of AI-driven cybersecurity.</p>
+                <p data-lang="zh" class="show">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly reducing the required resources, time, and skill required to find and exploit vulnerabilities in software. With an eye on the lightning-fast progress of AI, we also noted that it will not be long before models of similar capability levels are widely available. Within the next 24 months, vast numbers of bugs that sat unnoticed in code, possibly for years, will be found by AI models and chained into working exploits. Indeed, it is already the case that publicly available, sub-Mythos-level models can find serious vulnerabilities that traditional reviews have missed for long periods of time. Thankfully, this works both ways: although attackers can use AI to move faster, so can defenders who adopt AI tools to secure themselves. In this post, we offer security recommendations and practical tips based on what our security teams and researchers have observed and learned from using frontier AI models to secure real codebases and systems. We hope security teams and others will find this advice useful as we enter the age of AI-driven cybersecurity.</p>
+                <p data-lang="en">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly reducing the required resources, time, and skill required to find and exploit vulnerabilities in software. With an eye on the lightning-fast progress of AI, we also noted that it will not be long before models of similar capability levels are widely available. Within the next 24 months, vast numbers of bugs that sat unnoticed in code, possibly for years, will be found by AI models and chained into working exploits. Indeed, it is already the case that publicly available, sub-Mythos-level models can find serious vulnerabilities that traditional reviews have missed for long periods of time. Thankfully, this works both ways: although attackers can use AI to move faster, so can defenders who adopt AI tools to secure themselves. In this post, we offer security recommendations and practical tips based on what our security teams and researchers have observed and learned from using frontier AI models to secure real codebases and systems. We hope security teams and others will find this advice useful as we enter the age of AI-driven cybersecurity.</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats">
@@ -493,11 +490,11 @@ You know, Ben and I both have computer science degrees. You know, we we both Ben
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh">ve seen hold and which we have seen degrade. If your organization reports against SOC 2 and ISO 27001, these will map di...</h2>
-            <h2 data-lang="en" style="display:none">ve seen hold and which we have seen degrade. If your organization reports against SOC 2 and ISO 27001, these will map di...</h2>
+            <h2 data-lang="zh" class="show">ve seen hold and which we have seen degrade. If your organization reports against SOC 2 and ISO 27001, these will map di...</h2>
+            <h2 data-lang="en">ve seen hold and which we have seen degrade. If your organization reports against SOC 2 and ISO 27001, these will map di...</h2>
             <div class="article-body">
-                <p data-lang="zh">ve seen hold and which we have seen degrade. If your organization reports against SOC 2 and ISO 27001, these will map directly onto controls you are already tracking. We’ll update this guidance as we and our Project Glasswing partners continue our cybersecurity work. What to do now 1. Close your patch gap AI models are very effective at recognizing the signatures of known, already-patched vulnerabilities in unpatched systems. Reversing a patch into a working exploit is exactly the kind of mechanical analysis at which these models excel. This means that the window between a patch being published and an exploit becoming available is shrinking. Patch everything on the CISA Known Exploited Vulnerabilities (KEV) catalog immediately. This catalog contains vulnerabilities that are confirmed to be under active exploitation. Anything on this list which is reachable from a network should be treated as an emergency. Use EPSS to prioritize the rest. Exploit Prediction Scoring System (EPSS) provides a daily-updated probability that a given Common Vulnerability and Exposure (CVE) will be exploited in the next 30 days. Patching the KEV list first and then everything above a chosen EPSS threshold will help you turn thousands of open CVEs into a manageable queue. Reduce time-to-patch on internet-exposed systems. We recommend patching internet-facing applications within 24 hours of an exploit becoming available, and within days for other vulnerabilities.</p>
-                <p data-lang="en" style="display:none">ve seen hold and which we have seen degrade. If your organization reports against SOC 2 and ISO 27001, these will map directly onto controls you are already tracking. We’ll update this guidance as we and our Project Glasswing partners continue our cybersecurity work. What to do now 1. Close your patch gap AI models are very effective at recognizing the signatures of known, already-patched vulnerabilities in unpatched systems. Reversing a patch into a working exploit is exactly the kind of mechanical analysis at which these models excel. This means that the window between a patch being published and an exploit becoming available is shrinking. Patch everything on the CISA Known Exploited Vulnerabilities (KEV) catalog immediately. This catalog contains vulnerabilities that are confirmed to be under active exploitation. Anything on this list which is reachable from a network should be treated as an emergency. Use EPSS to prioritize the rest. Exploit Prediction Scoring System (EPSS) provides a daily-updated probability that a given Common Vulnerability and Exposure (CVE) will be exploited in the next 30 days. Patching the KEV list first and then everything above a chosen EPSS threshold will help you turn thousands of open CVEs into a manageable queue. Reduce time-to-patch on internet-exposed systems. We recommend patching internet-facing applications within 24 hours of an exploit becoming available, and within days for other vulnerabilities.</p>
+                <p data-lang="zh" class="show">ve seen hold and which we have seen degrade. If your organization reports against SOC 2 and ISO 27001, these will map directly onto controls you are already tracking. We’ll update this guidance as we and our Project Glasswing partners continue our cybersecurity work. What to do now 1. Close your patch gap AI models are very effective at recognizing the signatures of known, already-patched vulnerabilities in unpatched systems. Reversing a patch into a working exploit is exactly the kind of mechanical analysis at which these models excel. This means that the window between a patch being published and an exploit becoming available is shrinking. Patch everything on the CISA Known Exploited Vulnerabilities (KEV) catalog immediately. This catalog contains vulnerabilities that are confirmed to be under active exploitation. Anything on this list which is reachable from a network should be treated as an emergency. Use EPSS to prioritize the rest. Exploit Prediction Scoring System (EPSS) provides a daily-updated probability that a given Common Vulnerability and Exposure (CVE) will be exploited in the next 30 days. Patching the KEV list first and then everything above a chosen EPSS threshold will help you turn thousands of open CVEs into a manageable queue. Reduce time-to-patch on internet-exposed systems. We recommend patching internet-facing applications within 24 hours of an exploit becoming available, and within days for other vulnerabilities.</p>
+                <p data-lang="en">ve seen hold and which we have seen degrade. If your organization reports against SOC 2 and ISO 27001, these will map directly onto controls you are already tracking. We’ll update this guidance as we and our Project Glasswing partners continue our cybersecurity work. What to do now 1. Close your patch gap AI models are very effective at recognizing the signatures of known, already-patched vulnerabilities in unpatched systems. Reversing a patch into a working exploit is exactly the kind of mechanical analysis at which these models excel. This means that the window between a patch being published and an exploit becoming available is shrinking. Patch everything on the CISA Known Exploited Vulnerabilities (KEV) catalog immediately. This catalog contains vulnerabilities that are confirmed to be under active exploitation. Anything on this list which is reachable from a network should be treated as an emergency. Use EPSS to prioritize the rest. Exploit Prediction Scoring System (EPSS) provides a daily-updated probability that a given Common Vulnerability and Exposure (CVE) will be exploited in the next 30 days. Patching the KEV list first and then everything above a chosen EPSS threshold will help you turn thousands of open CVEs into a manageable queue. Reduce time-to-patch on internet-exposed systems. We recommend patching internet-facing applications within 24 hours of an exploit becoming available, and within days for other vulnerabilities.</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats">
@@ -528,7 +525,6 @@ You know, Ben and I both have computer science degrees. You know, we we both Ben
         function stopAll(){speechSynthesis.cancel();isPlaying=false;document.querySelectorAll('.action-btn,.audio-btn').forEach(b=>b.classList.remove('playing'))}
         // 初始化中文显示
         document.querySelectorAll('[data-lang="zh"]').forEach(el=>el.classList.add('show'));
-        document.querySelector('[data-lang-switch="zh"]').click();
         speechSynthesis.onvoiceschanged=loadVoices;loadVoices();
     </script>
 </body>
