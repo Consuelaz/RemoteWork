@@ -24,21 +24,51 @@
         .voice-sel{padding:5px 8px;border:1px solid var(--border);border-radius:12px;font-size:12px;background:#fff;cursor:pointer}
         svg{width:12px;height:12px}
         /* ===头部=== */
-        .hero{padding:40px 40px 28px;max-width:720px;margin:0 auto;border-bottom:1px solid var(--border)}
+        .hero{padding:40px 40px 28px;max-width:800px;margin:0 auto;border-bottom:1px solid var(--border)}
         .date{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
         .hero h1{font-family:'Noto Serif SC',serif;font-size:1.75rem;font-weight:600;margin-bottom:10px}
         .hero-sub{font-size:14px;color:var(--muted);margin-bottom:12px}
         .stats{font-size:12px;color:var(--muted)}
+        /* ===统计栏=== */
+        .stats-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+        .stat-chip{display:inline-flex;align-items:center;gap:6px;background:#EFF6FF;color:#1D4ED8;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:500}
+        .stat-chip.green{background:#ECFDF5;color:#065F46}
+        .stat-chip.purple{background:#F5F3FF;color:#5B21B6}
+        /* ===内容区块=== */
+        .section-title{display:flex;align-items:center;gap:10px;margin:32px 0 16px}
+        .section-title h2{font-size:18px;font-weight:700;color:#111827}
+        .section-title .tag{display:inline-flex;align-items:center;background:#DBEAFE;color:#1D4ED8;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600}
+        .section-title .tag.green{background:#D1FAE5;color:#065F46}
+        .section-title .tag.purple{background:#EDE9FE;color:#5B21B6}
+        .section-title::after{content:'';flex:1;height:1px;background:#E5E7EB;margin-left:12px}
         /* ===文章=== */
-        .articles{max-width:720px;margin:0 auto;padding:0 40px 80px}
+        .articles{max-width:800px;margin:0 auto;padding:0 40px 80px}
+        /* ---建造者卡片--- */
+        .builder-card{background:white;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid #E5E7EB;transition:box-shadow .2s}
+        .builder-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.1)}
+        .builder-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+        .author-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#667EEA,#764BA2);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0}
+        .author-info{flex:1;min-width:0}
+        .author-name{font-size:15px;font-weight:600;color:#111827}
+        .author-handle{font-size:12px;color:#6B7280;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .tweet-list{border-top:1px solid #F3F4F6}
+        .tweet-item{padding:10px 0;border-top:1px solid #F3F4F6}
+        .tweet-item:first-child{border-top:none;padding-top:0}
+        .tweet-text{font-size:14px;color:#111827;line-height:1.65;margin-bottom:6px}
+        .tweet-url{font-size:12px;color:#2563EB;text-decoration:none}
+        .tweet-url:hover{text-decoration:underline}
+        /* ---媒体卡片--- */
+        .media-card{background:white;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid #E5E7EB}
+        .media-card h2{font-family:'Noto Serif SC',serif;font-size:1.05rem;font-weight:600;line-height:1.45;margin-bottom:10px}
+        .media-card h2.zh-text{margin-left:0}
+        .media-summary{font-size:14px;color:#374151;line-height:1.65;background:#FFFBEB;border-left:3px solid #F59E0B;padding:12px 14px;border-radius:0 6px 6px 0;margin-top:10px}
+        /* ---通用文章样式--- */
         .article{padding:28px 0;border-bottom:1px solid var(--border)}
         .article-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
         .article-left{display:flex;align-items:center;gap:10px}
         .article-number{font-size:22px;font-weight:700;color:var(--border);line-height:1;min-width:30px}
         .author-row{display:flex;align-items:center;gap:8px}
-        .author-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#292524,#57534e);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:10px;flex-shrink:0}
         .author-info{display:flex;flex-direction:column}
-        .author-name{font-weight:500;font-size:13px}
         .author-bio{color:var(--muted);font-size:11px}
         .article-actions{flex-shrink:0}
         .action-btn{padding:4px 10px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:12px;border-radius:12px;display:flex;align-items:center;gap:4px}
@@ -46,7 +76,7 @@
         .action-btn.playing{background:var(--accent);color:#fff;border-color:var(--accent)}
         .article h2{font-family:'Noto Serif SC',serif;font-size:1.05rem;font-weight:600;line-height:1.45;margin-bottom:10px;margin-left:42px}
         .article-body{margin-left:42px}
-        .article-body p{font-size:14px;line-height:1.8;margin-bottom:8px;color:#292524}
+        .article-body p,.article-body div{font-size:14px;line-height:1.8;margin-bottom:8px;color:#292524}
         .article-body strong{color:var(--accent)}
         .article-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;margin-left:42px}
         .article-stats{display:flex;gap:10px;font-size:12px;color:var(--muted)}
@@ -66,7 +96,7 @@
             .hero{padding:28px 16px 20px}
             .hero h1{font-size:1.4rem}
             .articles{padding:0 16px 60px}
-            .article h2,.article-body,.article-footer{margin-left:0}
+            .article h2,.article-body,.article-footer,.media-card h2,.media-summary{margin-left:0}
         }
     </style>
 </head>
@@ -88,24 +118,24 @@
 
     <header class="hero">
         <p class="date">Tuesday, April 14, 2026</p>
-        <h1>AI Builders Daily Digest</h1>
-        <p class="hero-sub">每日精选 AI 领域最有价值的深度内容</p>
-        <p class="stats">📝 10 篇精选（🐦 5 条X · 🎙️ 3 个播客 · 📝 2 篇博客）</p>
+        <h1>追踪建造者，而非网红</h1>
+        <p class="hero-sub">每日汇总 AI 领域顶尖建造者的关键观点、播客精华与官方博客更新</p>
+        <div class="stats-row">
+            <span class="stat-chip">&#x1F464; 8 位建造者</span>
+            <span class="stat-chip green">&#x1F426; 15 条推文</span>
+            <span class="stat-chip purple">&#x1F3A4; 3 期播客</span>
+            <span class="stat-chip" style="background:#FFF7ED;color:#EA580C">&#x1F4DD; 2 篇博客</span>
+        </div>
     </header>
 
     <main class="articles">
         
-        <article class="article" data-article="1">
-            <div class="article-header">
-                <div class="article-left">
-                    <span class="article-number">01</span>
-                    <div class="author-row">
-                        <div class="author-avatar">AM</div>
-                        <div class="author-info">
-                            <span class="author-name">Amjad Masad</span>
-                            <span class="author-bio">ceo @replit. civilizationist</span>
-                        </div>
-                    </div>
+        <article class="article builder-card" data-article="1">
+            <div class="builder-header">
+                <div class="author-avatar">AM</div>
+                <div class="author-info">
+                    <span class="author-name">Amjad Masad</span>
+                    <span class="author-handle">@amasad · ceo @replit. civilizationist</span>
                 </div>
                 <div class="article-actions">
                     <button class="action-btn" onclick="playArticle(1)">
@@ -114,35 +144,24 @@
                     </button>
                 </div>
             </div>
-            <h2 class="zh-text">苹果50周年：从创新先锋到「最讨厌公司」？</h2>
-            <h2 class="en-text" style="display:none">On its 50th birthday Apple is doing its best to become the most hated company in the world…</h2>
-            <div class="article-body">
-                <p class="zh-text"><strong>Amjad Masad</strong>：苹果公司迎来50周年，但他认为苹果正努力成为"全球最令人讨厌的公司"。这句话触动了很多人——一家曾经引领创新的公司，如今为何走向了对立面？值得每一位产品人深思。</p>
-                <p class="en-text" style="display:none">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo</p>
-            </div>
-            <div class="article-footer">
-                <div class="article-stats">
-                    <span class="zh-text">🐦 X动态</span>
-                    <span class="en-text" style="display:none">X/Twitter</span>
-                    <span>❤️ 8,019</span>
+            <div class="tweet-list">
+                
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo</div>
+                    <div class="tweet-text en-text" style="display:none">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo</div>
+                    <a class="tweet-url" href="https://x.com/amasad/status/2043394289326289243" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
                 </div>
-                <a href="https://x.com/amasad/status/2043394289326289243" class="article-link" target="_blank">
-                    <span class="zh-text">查看原文 →</span>
-                    <span class="en-text" style="display:none">View Original →</span>
-                </a>
             </div>
         </article>
-        <article class="article" data-article="2">
-            <div class="article-header">
-                <div class="article-left">
-                    <span class="article-number">02</span>
-                    <div class="author-row">
-                        <div class="author-avatar">AL</div>
-                        <div class="author-info">
-                            <span class="author-name">Aaron Levie</span>
-                            <span class="author-bio">ceo @box - your business lives in content. unleash it with A</span>
-                        </div>
-                    </div>
+        <article class="article builder-card" data-article="2">
+            <div class="builder-header">
+                <div class="author-avatar">AL</div>
+                <div class="author-info">
+                    <span class="author-name">Aaron Levie</span>
+                    <span class="author-handle">@levie · ceo @box - your business lives in content. unleash it with AI</span>
                 </div>
                 <div class="article-actions">
                     <button class="action-btn" onclick="playArticle(2)">
@@ -151,39 +170,44 @@
                     </button>
                 </div>
             </div>
-            <h2 class="zh-text">企业AI转型：从ChatBot到Agent自动化时代</h2>
-            <h2 class="en-text" style="display:none">Another week on the road meeting with a couple dozen IT and AI leaders from large enterpri…</h2>
-            <div class="article-body">
-                <p class="zh-text"><strong>Aaron Levie</strong> 连续数周在路上，与数十位企业IT和AI领导者深度交流。核心发现：企业AI正从"聊天时代"快速进入"Agent自动化时代"，自动化流程将成为下一个主战场。</p>
-                <p class="en-text" style="display:none">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across banking, media, retail, healthcare, consulting, tech, and sports, to discuss agents in the enterprise. 
+            <div class="tweet-list">
+                
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across banking, media, retail, healthcare, consulting, tech, and sports, to discuss agents in the enterprise. 
 
 Some quick takeaways:
 
-* Clear that we’re moving from chat era of AI to agents that use tools, process data, and start to execute real work in the enterprise. Complementing this, enterprises are often evolving from “let a thousand flowers bloom” approach to adoption to targeted automation effo</p>
-            </div>
-            <div class="article-footer">
-                <div class="article-stats">
-                    <span class="zh-text">🐦 X动态</span>
-                    <span class="en-text" style="display:none">X/Twitter</span>
-                    <span>❤️ 2,981</span>
+* Clear that we’re moving from chat era of AI to agents that use tools, process data, and start to execute real work in the enterprise.</div>
+                    <div class="tweet-text en-text" style="display:none">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across banking, media, retail, healthcare, consulting, tech, and sports, to discuss agents in the enterprise. 
+
+Some quick takeaways:
+
+* Clear that we’re moving from chat era of AI to agents that use tools, process data, and start to execute real work in the enterprise.</div>
+                    <a class="tweet-url" href="https://x.com/levie/status/2043426157367095397" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
                 </div>
-                <a href="https://x.com/levie/status/2043426157367095397" class="article-link" target="_blank">
-                    <span class="zh-text">查看原文 →</span>
-                    <span class="en-text" style="display:none">View Original →</span>
-                </a>
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">Security another great example of a job category that is about to have its Jevons paradox moment as well. 
+
+“And counterintuitively, I think better AI tooling for security will increase the demand for security talent, not decrease it. Autonomous exploitability automates the proving step, but it doesn't automate the response.</div>
+                    <div class="tweet-text en-text" style="display:none">Security another great example of a job category that is about to have its Jevons paradox moment as well. 
+
+“And counterintuitively, I think better AI tooling for security will increase the demand for security talent, not decrease it. Autonomous exploitability automates the proving step, but it doesn't automate the response.</div>
+                    <a class="tweet-url" href="https://x.com/levie/status/2043318118169354302" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
+                </div>
             </div>
         </article>
-        <article class="article" data-article="3">
-            <div class="article-header">
-                <div class="article-left">
-                    <span class="article-number">03</span>
-                    <div class="author-row">
-                        <div class="author-avatar">PS</div>
-                        <div class="author-info">
-                            <span class="author-name">Peter Steinberger</span>
-                            <span class="author-bio">Polyagentmorous ClawFather. Came back from retirement to mes</span>
-                        </div>
-                    </div>
+        <article class="article builder-card" data-article="3">
+            <div class="builder-header">
+                <div class="author-avatar">PS</div>
+                <div class="author-info">
+                    <span class="author-name">Peter Steinberger</span>
+                    <span class="author-handle">@steipete · Polyagentmorous ClawFather. Came back from retirement to mess with AI and help a</span>
                 </div>
                 <div class="article-actions">
                     <button class="action-btn" onclick="playArticle(3)">
@@ -192,35 +216,24 @@ Some quick takeaways:
                     </button>
                 </div>
             </div>
-            <h2 class="zh-text">它们长得真快——关于技术迭代速度的一点感慨</h2>
-            <h2 class="en-text" style="display:none">They grow up so fast 🦞 https://t.co/5WoQMZPtys</h2>
-            <div class="article-body">
-                <p class="zh-text"><strong>Peter Steinberger</strong> 分享了关于AI行业的深度思考，探讨了技术演进与产品方向。原文见右侧链接，值得一读。</p>
-                <p class="en-text" style="display:none">They grow up so fast 🦞 https://t.co/5WoQMZPtys</p>
-            </div>
-            <div class="article-footer">
-                <div class="article-stats">
-                    <span class="zh-text">🐦 X动态</span>
-                    <span class="en-text" style="display:none">X/Twitter</span>
-                    <span>❤️ 1,082</span>
+            <div class="tweet-list">
+                
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">They grow up so fast 🦞 https://t.co/5WoQMZPtys</div>
+                    <div class="tweet-text en-text" style="display:none">They grow up so fast 🦞 https://t.co/5WoQMZPtys</div>
+                    <a class="tweet-url" href="https://x.com/steipete/status/2043313467512463713" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
                 </div>
-                <a href="https://x.com/steipete/status/2043313467512463713" class="article-link" target="_blank">
-                    <span class="zh-text">查看原文 →</span>
-                    <span class="en-text" style="display:none">View Original →</span>
-                </a>
             </div>
         </article>
-        <article class="article" data-article="4">
-            <div class="article-header">
-                <div class="article-left">
-                    <span class="article-number">04</span>
-                    <div class="author-row">
-                        <div class="author-avatar">ZZ</div>
-                        <div class="author-info">
-                            <span class="author-name">Zara Zhang</span>
-                            <span class="author-bio">Builder. Dangerously skips permissions. Harvard’17. GitHub: </span>
-                        </div>
-                    </div>
+        <article class="article builder-card" data-article="4">
+            <div class="builder-header">
+                <div class="author-avatar">ZZ</div>
+                <div class="author-info">
+                    <span class="author-name">Zara Zhang</span>
+                    <span class="author-handle">@zarazhangrui · Builder. Dangerously skips permissions. Harvard’17. GitHub: https://t.co/KCuEaje</span>
                 </div>
                 <div class="article-actions">
                     <button class="action-btn" onclick="playArticle(4)">
@@ -229,43 +242,48 @@ Some quick takeaways:
                     </button>
                 </div>
             </div>
-            <h2 class="zh-text">用AI vibe coding定制Chrome新标签页，生产力工具秒级生成</h2>
-            <h2 class="en-text" style="display:none">PSA: You can vibe code your own &quot;New tab&quot; page in Chrome. I have turned mine into the ulti…</h2>
-            <div class="article-body">
-                <p class="zh-text"><strong>Zara Zhang</strong>：PSA——你可以用AI vibe coding快速定制Chrome新标签页。她已经把自己的新标签页改造成了一个高效生产力面板，几乎不需要写代码。AI让"为自己造工具"的门槛降到了零。</p>
-                <p class="en-text" style="display:none">PSA: You can vibe code your own &quot;New tab&quot; page in Chrome. I have turned mine into the ultimate solution to the &quot;too many tabs&quot; problem
+            <div class="tweet-list">
+                
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">tabula rasa</div>
+                    <div class="tweet-text en-text" style="display:none">tabula rasa</div>
+                    <a class="tweet-url" href="https://x.com/zarazhangrui/status/2043418831885086911" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
+                </div>
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">Code: https://t.co/VpLLq4W2Yt</div>
+                    <div class="tweet-text en-text" style="display:none">Code: https://t.co/VpLLq4W2Yt</div>
+                    <a class="tweet-url" href="https://x.com/zarazhangrui/status/2043415661528129873" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
+                </div>
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">PSA: You can vibe code your own &quot;New tab&quot; page in Chrome. I have turned mine into the ultimate solution to the &quot;too many tabs&quot; problem
 
 - See all your tabs with clear titles, grouped by domain
 - Closing any tab gives you &quot;swoosh&quot; sound and confetti effect 🎊
-- &quot;Easy wins&quot; grouped together: homepages, localhost tabs... batch-close them with one click
-- Duplicate tabs detected; close duplicates with one click
-- For tabs you're not done with, save it for later in a checklist
+- &quot;Easy wins&quot; grouped together: homepages, localhost tabs... batch-close them with one click</div>
+                    <div class="tweet-text en-text" style="display:none">PSA: You can vibe code your own &quot;New tab&quot; page in Chrome. I have turned mine into the ultimate solution to the &quot;too many tabs&quot; problem
 
-This is the Marie Kondo</p>
-            </div>
-            <div class="article-footer">
-                <div class="article-stats">
-                    <span class="zh-text">🐦 X动态</span>
-                    <span class="en-text" style="display:none">X/Twitter</span>
-                    <span>❤️ 948</span>
+- See all your tabs with clear titles, grouped by domain
+- Closing any tab gives you &quot;swoosh&quot; sound and confetti effect 🎊
+- &quot;Easy wins&quot; grouped together: homepages, localhost tabs... batch-close them with one click</div>
+                    <a class="tweet-url" href="https://x.com/zarazhangrui/status/2043415572688629937" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
                 </div>
-                <a href="https://x.com/zarazhangrui/status/2043415572688629937" class="article-link" target="_blank">
-                    <span class="zh-text">查看原文 →</span>
-                    <span class="en-text" style="display:none">View Original →</span>
-                </a>
             </div>
         </article>
-        <article class="article" data-article="5">
-            <div class="article-header">
-                <div class="article-left">
-                    <span class="article-number">05</span>
-                    <div class="author-row">
-                        <div class="author-avatar">GR</div>
-                        <div class="author-info">
-                            <span class="author-name">Guillermo Rauch</span>
-                            <span class="author-bio">@vercel CEO</span>
-                        </div>
-                    </div>
+        <article class="article builder-card" data-article="5">
+            <div class="builder-header">
+                <div class="author-avatar">GT</div>
+                <div class="author-info">
+                    <span class="author-name">Garry Tan</span>
+                    <span class="author-handle">@garrytan · President &amp; CEO @ycombinator —Founder @garryslist—Creator of GStack &amp; GBrain—des</span>
                 </div>
                 <div class="article-actions">
                     <button class="action-btn" onclick="playArticle(5)">
@@ -274,37 +292,56 @@ This is the Marie Kondo</p>
                     </button>
                 </div>
             </div>
-            <h2 class="zh-text">产品增长秘诀：建一个你最挑剔客户的群聊</h2>
-            <h2 class="en-text" style="display:none">Protip: Create an X group chat with your best and most demanding customers. Put your engin…</h2>
-            <div class="article-body">
-                <p class="zh-text"><strong>Guillermo Rauch</strong> 分享了一个低成本高价值的产品增长技巧：建一个X群聊，拉入你最挑剔、要求最高的用户。把你的最新功能直接扔进去，他们会给你最真实的反馈。</p>
-                <p class="en-text" style="display:none">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.
-
-We have one going for @v0. DM if you want to be a part of it and are committed to sharing excellent feedback.</p>
-            </div>
-            <div class="article-footer">
-                <div class="article-stats">
-                    <span class="zh-text">🐦 X动态</span>
-                    <span class="en-text" style="display:none">X/Twitter</span>
-                    <span>❤️ 540</span>
+            <div class="tweet-list">
+                
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">New item in my SOUL md tonight https://t.co/iAwcQ2QCB7</div>
+                    <div class="tweet-text en-text" style="display:none">New item in my SOUL md tonight https://t.co/iAwcQ2QCB7</div>
+                    <a class="tweet-url" href="https://x.com/garrytan/status/2043581361798500602" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
                 </div>
-                <a href="https://x.com/rauchg/status/2043381737754120592" class="article-link" target="_blank">
-                    <span class="zh-text">查看原文 →</span>
-                    <span class="en-text" style="display:none">View Original →</span>
-                </a>
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">Do the right job at the right layer 
+
+Everything else is architecture astronomy https://t.co/jqiPf14F0B</div>
+                    <div class="tweet-text en-text" style="display:none">Do the right job at the right layer 
+
+Everything else is architecture astronomy https://t.co/jqiPf14F0B</div>
+                    <a class="tweet-url" href="https://x.com/garrytan/status/2043566405862236254" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
+                </div>
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">This is the simplest distillation of what I have learned about agentic engineering this year 
+
+Push smart fuzzy operations humans do into markdown skills. Fat skills. 
+
+Push must-be-perfect deterministic operations into code. Fat code. 
+
+The harness? Keep it thin. https://t.co/3ESkNepZrZ</div>
+                    <div class="tweet-text en-text" style="display:none">This is the simplest distillation of what I have learned about agentic engineering this year 
+
+Push smart fuzzy operations humans do into markdown skills. Fat skills. 
+
+Push must-be-perfect deterministic operations into code. Fat code. 
+
+The harness? Keep it thin. https://t.co/3ESkNepZrZ</div>
+                    <a class="tweet-url" href="https://x.com/garrytan/status/2043566215927328955" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
+                </div>
             </div>
         </article>
-        <article class="article" data-article="6">
-            <div class="article-header">
-                <div class="article-left">
-                    <span class="article-number">06</span>
-                    <div class="author-row">
-                        <div class="author-avatar">🎙</div>
-                        <div class="author-info">
-                            <span class="author-name">Marc Andreessen introspects on The Death…</span>
-                            <span class="author-bio">🎙️ AI Podcast</span>
-                        </div>
-                    </div>
+        <article class="article builder-card" data-article="6">
+            <div class="builder-header">
+                <div class="author-avatar">PY</div>
+                <div class="author-info">
+                    <span class="author-name">Peter Yang</span>
+                    <span class="author-handle">@petergyang · I share extremely practical AI tutorials and interviews | Join 140K+ readers at </span>
                 </div>
                 <div class="article-actions">
                     <button class="action-btn" onclick="playArticle(6)">
@@ -313,46 +350,58 @@ We have one going for @v0. DM if you want to be a part of it and are committed t
                     </button>
                 </div>
             </div>
-            <h2 class="zh-text">🎙️ Marc Andreessen introspects on The Death… 精华节选（第1段）</h2>
-            <h2 class="en-text" style="display:none">Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw (Part 1)</h2>
-            <div class="article-body">
-                <p class="zh-text"><strong>播客精华</strong>：Marc Andreessen introspects on The Death of the Br…<br><br>本段内容涵盖AI领域前沿话题的深度讨论，包括大模型技术趋势、工程实践与行业洞察。以下为原文转录精华片段，建议配合原播客收听以获得完整语境。<br><br><em>Speaker 1 | 00:00 - 00:25
-Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for exam…</em></p>
-                <p class="en-text" style="display:none">Speaker 1 | 00:00 - 00:25
-Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for example, we now know the neural network is the correct architecture. And I I will tell you, like, was a sixty year run where that was like a, you know, or even seventy years where that was controversial. And so so the way I think about what's happening is basically, think I think about basically the the the period we're in right now is it's I call it eighty year overnight success.
-
-Speaker 1 | 00:25 - 00:51
-Right? Which is like, it's an overnight success because it's like bam, you know, ChatGPT hits and then then o one hits and then, you know, OpenClaw hits and like, you know, these are open these are these are like overnight, like radical overnight transformative successes, but they're drawing on an eighty year sort of Wellspring backlog, you know, of of ideas and thinking. It's not just that it's all brand new. It's that it's an unlock of all of these decades of, like, very serious hardcore research. If I were 18, like, this is a 100 this is what I would be spending all of my time on.
-
-Speaker 1 | 00:51 - 00:53
-This is, such an incredible conceptual breakthrough.
-
-Speaker 2 | 00:53 - 01:19
-Before we get into today's episode, I just have a small message for listeners. Thank you.</p>
-            </div>
-            <div class="article-footer">
-                <div class="article-stats">
-                    <span class="zh-text">🎙️ 播客</span>
-                    <span class="en-text" style="display:none">Podcast</span>
-                    
+            <div class="tweet-list">
+                
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">Jet lag is hell</div>
+                    <div class="tweet-text en-text" style="display:none">Jet lag is hell</div>
+                    <a class="tweet-url" href="https://x.com/petergyang/status/2043491799478718953" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
                 </div>
-                <a href="https://www.youtube.com/@LatentSpacePod" class="article-link" target="_blank">
-                    <span class="zh-text">查看原文 →</span>
-                    <span class="en-text" style="display:none">View Original →</span>
-                </a>
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">My entire feed and the Claude subreddit is full of ppl saying opus got nerfed.
+
+Why would Anthropic nerf its own models?</div>
+                    <div class="tweet-text en-text" style="display:none">My entire feed and the Claude subreddit is full of ppl saying opus got nerfed.
+
+Why would Anthropic nerf its own models?</div>
+                    <a class="tweet-url" href="https://x.com/petergyang/status/2043466663258140685" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
+                </div>
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">Also available on:
+
+Spotify:
+https://t.co/70agoA1PHq
+
+Apple: https://t.co/shNRmPP2Wb
+
+Newsletter: https://t.co/azuNUfbjrX</div>
+                    <div class="tweet-text en-text" style="display:none">Also available on:
+
+Spotify:
+https://t.co/70agoA1PHq
+
+Apple: https://t.co/shNRmPP2Wb
+
+Newsletter: https://t.co/azuNUfbjrX</div>
+                    <a class="tweet-url" href="https://x.com/petergyang/status/2043328453181943988" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
+                </div>
             </div>
         </article>
-        <article class="article" data-article="7">
-            <div class="article-header">
-                <div class="article-left">
-                    <span class="article-number">07</span>
-                    <div class="author-row">
-                        <div class="author-avatar">🎙</div>
-                        <div class="author-info">
-                            <span class="author-name">Marc Andreessen introspects on The Death…</span>
-                            <span class="author-bio">🎙️ AI Podcast</span>
-                        </div>
-                    </div>
+        <article class="article builder-card" data-article="7">
+            <div class="builder-header">
+                <div class="author-avatar">GR</div>
+                <div class="author-info">
+                    <span class="author-name">Guillermo Rauch</span>
+                    <span class="author-handle">@rauchg · @vercel CEO</span>
                 </div>
                 <div class="article-actions">
                     <button class="action-btn" onclick="playArticle(7)">
@@ -361,56 +410,28 @@ Before we get into today's episode, I just have a small message for listeners. T
                     </button>
                 </div>
             </div>
-            <h2 class="zh-text">🎙️ Marc Andreessen introspects on The Death… 精华节选（第2段）</h2>
-            <h2 class="en-text" style="display:none">Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw (Part 2)</h2>
-            <div class="article-body">
-                <p class="zh-text"><strong>播客精华</strong>：Marc Andreessen introspects on The Death of the Br…<br><br>本段内容涵盖AI领域前沿话题的深度讨论，包括大模型技术趋势、工程实践与行业洞察。以下为原文转录精华片段，建议配合原播客收听以获得完整语境。<br><br><em>uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you didn't choose to also click in and tune into our content. We've been approached by sponsors on an almost daily basis, but fortunately, enough of you actually subscribed to us to keep…</em></p>
-                <p class="en-text" style="display:none">uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you didn't choose to also click in and tune into our content. We've been approached by sponsors on an almost daily basis, but fortunately, enough of you actually subscribed to us to keep all this sustainable without ads, and we wanna keep it that way. But I just have one favor to ask all of you.
+            <div class="tweet-list">
+                
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.
 
-Speaker 2 | 01:19 - 01:39
-The single most powerful, completely free thing you can do is to click that subscribe button. It's the only thing I'll ever ask of you, and it means absolutely everything to me and my team that works so hard to bring latent space to you each and every week. If you do it, I promise you, we'll never stop working to make the show even better. Now let's get into it.
+We have one going for @v0. DM if you want to be a part of it and are committed to sharing excellent feedback.</div>
+                    <div class="tweet-text en-text" style="display:none">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.
 
-Speaker 3 | 01:44 - 01:50
-Everyone, welcome to the Litin Space pockets. This is Alasio, founder of Kernel Labs, and I'm joined by Squeaks, editor of Litin Space.
-
-Speaker 2 | 01:50 - 01:54
-Hello. And we're in a 16 z with A. Martin Gson, welcome.
-
-Speaker 1 | 01:54 - 01:57
-Yes. Yes. A and what? Half of 16?
-
-Speaker 2 | 01:57 - 02:02
-Of the one. A one. Exactly. Exactly. Apparently, this is the the final few days in your your current office.
-
-Speaker 2 | 02:02 - 02:04
-You're moving across the road.
-
-Speaker 1 | 02:04 - 02:12
-We're yeah. We have Olivia, so we have some projects underway. But, yeah, this is actually, although this is the original we're in actually the original office.</p>
-            </div>
-            <div class="article-footer">
-                <div class="article-stats">
-                    <span class="zh-text">🎙️ 播客</span>
-                    <span class="en-text" style="display:none">Podcast</span>
-                    
+We have one going for @v0. DM if you want to be a part of it and are committed to sharing excellent feedback.</div>
+                    <a class="tweet-url" href="https://x.com/rauchg/status/2043381737754120592" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
                 </div>
-                <a href="https://www.youtube.com/@LatentSpacePod" class="article-link" target="_blank">
-                    <span class="zh-text">查看原文 →</span>
-                    <span class="en-text" style="display:none">View Original →</span>
-                </a>
             </div>
         </article>
-        <article class="article" data-article="8">
-            <div class="article-header">
-                <div class="article-left">
-                    <span class="article-number">08</span>
-                    <div class="author-row">
-                        <div class="author-avatar">🎙</div>
-                        <div class="author-info">
-                            <span class="author-name">Marc Andreessen introspects on The Death…</span>
-                            <span class="author-bio">🎙️ AI Podcast</span>
-                        </div>
-                    </div>
+        <article class="article builder-card" data-article="8">
+            <div class="builder-header">
+                <div class="author-avatar">AA</div>
+                <div class="author-info">
+                    <span class="author-name">Aditya Agarwal</span>
+                    <span class="author-handle">@adityaag · General Partner @SouthPkCommons, Co-Founder @Bevel_Health | Ex: Early Eng @faceb</span>
                 </div>
                 <div class="article-actions">
                     <button class="action-btn" onclick="playArticle(8)">
@@ -419,57 +440,41 @@ We're yeah. We have Olivia, so we have some projects underway. But, yeah, this i
                     </button>
                 </div>
             </div>
-            <h2 class="zh-text">🎙️ Marc Andreessen introspects on The Death… 精华节选（第3段）</h2>
-            <h2 class="en-text" style="display:none">Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw (Part 3)</h2>
-            <div class="article-body">
-                <p class="zh-text"><strong>播客精华</strong>：Marc Andreessen introspects on The Death of the Br…<br><br>本段内容涵盖AI领域前沿话题的深度讨论，包括大模型技术趋势、工程实践与行业洞察。以下为原文转录精华片段，建议配合原播客收听以获得完整语境。<br><br><em>the we're in we're in the where the whole thing It's beautiful. Yeah.
+            <div class="tweet-list">
+                
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">It's interesting...the Anthropic culture reminds me a lot of early Facebook....despite OpenAI having a lot more ex-Facebook people
 
-Speaker 1 | 02:12 - 02:13
-Great. Thank you.
+Similarities:
+--&gt; People within the company are having a lot of fun
+--&gt; There is a lot of naivete about the world
+--&gt; There is a bottoms-up hacker culture
+--&gt; There is insane &quot;mission&quot; alignment
+--&gt; They might be taking themselves just a bit too seriously</div>
+                    <div class="tweet-text en-text" style="display:none">It's interesting...the Anthropic culture reminds me a lot of early Facebook....despite OpenAI having a lot more ex-Facebook people
 
-Speaker 2 | 02:13 - 02:35
-So I have to come out. This is a you know, I wanted to pick a spicy start. In October 2022, I just made friends with Rune, and I wanted to give him something…</em></p>
-                <p class="en-text" style="display:none">the we're in we're in the where the whole thing It's beautiful. Yeah.
-
-Speaker 1 | 02:12 - 02:13
-Great. Thank you.
-
-Speaker 2 | 02:13 - 02:35
-So I have to come out. This is a you know, I wanted to pick a spicy start. In October 2022, I just made friends with Rune, and I wanted to give him something to sort of be spicy about. And I said, it'll never not be funny that a 16 z was constantly going the future is where the smart people choose to spend their time and then going deep into crypto and not in AI. And that was in 10/22/2022.
-
-Speaker 2 | 02:36 - 02:43
-And Rune says there was an internal meeting in a 16 to reorient around Gen AI. Obviously, have, but was there a meeting? What what was that?
-
-Speaker 1 | 02:43 - 02:49
-I mean, I don't look. I've been doing AI since the late eighties. Yeah. So I I don't know, like, all that. As far as I'm concerned, this stuff is all Johnny come lately.
-
-Speaker 1 | 02:50 - 03:02
-Yeah. You know, I mean, look, we've been doing AI our entire existence. I mean, we've been doing AI machine learning deep you know, deep we've been doing this stuff way from the beginning. Obviously, AI is just core to computer science. I I I actually view them as like quite, quite continuous.
-
-Speaker 1 | 03:02 - 03:22
-You know, Ben and I both have computer science degrees. You know, we we both Ben and I actually both are well enough to remember the actual AI boom in the 1980s.</p>
-            </div>
-            <div class="article-footer">
-                <div class="article-stats">
-                    <span class="zh-text">🎙️ 播客</span>
-                    <span class="en-text" style="display:none">Podcast</span>
-                    
+Similarities:
+--&gt; People within the company are having a lot of fun
+--&gt; There is a lot of naivete about the world
+--&gt; There is a bottoms-up hacker culture
+--&gt; There is insane &quot;mission&quot; alignment
+--&gt; They might be taking themselves just a bit too seriously</div>
+                    <a class="tweet-url" href="https://x.com/adityaag/status/2043501400626491758" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
                 </div>
-                <a href="https://www.youtube.com/@LatentSpacePod" class="article-link" target="_blank">
-                    <span class="zh-text">查看原文 →</span>
-                    <span class="en-text" style="display:none">View Original →</span>
-                </a>
             </div>
         </article>
-        <article class="article" data-article="9">
+        <article class="article media-card" data-article="9">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">09</span>
                     <div class="author-row">
-                        <div class="author-avatar">📝</div>
+                        <div class="author-avatar">🎙</div>
                         <div class="author-info">
-                            <span class="author-name">Preparing your security program for AI-a…</span>
-                            <span class="author-bio">📝 blog</span>
+                            <span class="author-name">Marc Andreessen introspects on The Death of the Br</span>
+                            <span class="author-bio">🎙️ podcast</span>
                         </div>
                     </div>
                 </div>
@@ -480,33 +485,36 @@ You know, Ben and I both have computer science degrees. You know, we we both Ben
                     </button>
                 </div>
             </div>
-            <h2 class="zh-text">📝 Preparing your security program for AI-a… 技术要点（第1节）</h2>
-            <h2 class="en-text" style="display:none">Preparing your security program for AI-accelerated offense (Part 1)</h2>
+            <h2 class="zh-text">🎙️ Marc Andreessen introspects on The Death of t…</h2>
+            <h2 class="en-text" style="display:none">Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw</h2>
             <div class="article-body">
-                <p class="zh-text"><strong>博客精华</strong>：Preparing your security program for AI-accelerated…<br><br>本节从技术博客中提取核心内容，涵盖AI安全、工程实践与最佳实践等关键主题。以下为原文精华节选：<br><br><em>Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly…</em></p>
-                <p class="en-text" style="display:none">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly reducing the required resources, time, and skill required to find and exploit vulnerabilities in software. With an eye on the lightning-fast progress of AI, we also noted that it will not be long before models of similar capability levels are widely available. Within the next 24 months, vast numbers of bugs that sat unnoticed in code, possibly for years, will be found by AI models and chained into working exploits. Indeed, it is already the case that publicly available, sub-Mythos-level models can find serious vulnerabilities that traditional reviews have missed for long periods of time. Thankfully, this works both ways: although attackers can use AI to move faster, so can defenders who adopt AI tools to secure themselves. In this post, we offer security recommendations and practical tips based on what our security teams and researchers have observed and learned from using frontier AI models to secure real codebases and systems. We hope security teams and others will find this advice useful as we enter the age of AI-driven cybersecurity.</p>
+                <div class="zh-text"><strong>播客精华</strong>：Marc Andreessen introspects on The Death of the Br…<br><br>本段内容涵盖AI领域前沿话题的深度讨论，包括大模型技术趋势、工程实践与行业洞察。以下为原文转录精华片段，建议配合原播客收听以获得完整语境。<br><br><em>Speaker 1 | 00:00 - 00:25
+Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for exam…</em></div>
+                <div class="en-text" style="display:none">
+                    <div class="media-summary">Speaker 1 | 00:00 - 00:25
+Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for example, we now know the neural network is the correct architecture. And I I will tell you, like, was a sixty year run where that was like a, you know, or even seventy years where that was controversial.</div>
+                </div>
             </div>
             <div class="article-footer">
                 <div class="article-stats">
-                    <span class="zh-text">📝 博客</span>
-                    <span class="en-text" style="display:none">Blog</span>
-                    
+                    <span class="zh-text">🎙️ 播客</span>
+                    <span class="en-text" style="display:none">Podcast</span>
                 </div>
-                <a href="https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense" class="article-link" target="_blank">
-                    <span class="zh-text">查看原文 →</span>
-                    <span class="en-text" style="display:none">View Original →</span>
+                <a href="https://www.youtube.com/@LatentSpacePod" class="article-link" target="_blank">
+                    <span class="zh-text">▶&#xFE0F; 收听节目 →</span>
+                    <span class="en-text" style="display:none">▶&#xFE0F; Listen Now →</span>
                 </a>
             </div>
         </article>
-        <article class="article" data-article="10">
+        <article class="article media-card" data-article="10">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">10</span>
                     <div class="author-row">
-                        <div class="author-avatar">📝</div>
+                        <div class="author-avatar">🎙</div>
                         <div class="author-info">
-                            <span class="author-name">Preparing your security program for AI-a…</span>
-                            <span class="author-bio">📝 blog</span>
+                            <span class="author-name">Marc Andreessen introspects on The Death of the Br</span>
+                            <span class="author-bio">🎙️ podcast</span>
                         </div>
                     </div>
                 </div>
@@ -517,21 +525,150 @@ You know, Ben and I both have computer science degrees. You know, we we both Ben
                     </button>
                 </div>
             </div>
-            <h2 class="zh-text">📝 Preparing your security program for AI-a… 技术要点（第2节）</h2>
-            <h2 class="en-text" style="display:none">Preparing your security program for AI-accelerated offense (Part 2)</h2>
+            <h2 class="zh-text">🎙️ Marc Andreessen introspects on The Death of t…</h2>
+            <h2 class="en-text" style="display:none">Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw</h2>
             <div class="article-body">
-                <p class="zh-text"><strong>博客精华</strong>：Preparing your security program for AI-accelerated…<br><br>本节从技术博客中提取核心内容，涵盖AI安全、工程实践与最佳实践等关键主题。以下为原文精华节选：<br><br><em>ve seen hold and which we have seen degrade. If your organization reports against SOC 2 and ISO 27001, these will map directly onto controls you are already tracking. We’ll update this guidance as we and our Project Glasswing partners continue our cybersecurity work. What to do now 1. Close your pat…</em></p>
-                <p class="en-text" style="display:none">ve seen hold and which we have seen degrade. If your organization reports against SOC 2 and ISO 27001, these will map directly onto controls you are already tracking. We’ll update this guidance as we and our Project Glasswing partners continue our cybersecurity work. What to do now 1. Close your patch gap AI models are very effective at recognizing the signatures of known, already-patched vulnerabilities in unpatched systems. Reversing a patch into a working exploit is exactly the kind of mechanical analysis at which these models excel. This means that the window between a patch being published and an exploit becoming available is shrinking. Patch everything on the CISA Known Exploited Vulnerabilities (KEV) catalog immediately. This catalog contains vulnerabilities that are confirmed to be under active exploitation. Anything on this list which is reachable from a network should be treated as an emergency. Use EPSS to prioritize the rest. Exploit Prediction Scoring System (EPSS) provides a daily-updated probability that a given Common Vulnerability and Exposure (CVE) will be exploited in the next 30 days. Patching the KEV list first and then everything above a chosen EPSS threshold will help you turn thousands of open CVEs into a manageable queue. Reduce time-to-patch on internet-exposed systems. We recommend patching internet-facing applications within 24 hours of an exploit becoming available, and within days for other vulnerabilities.</p>
+                <div class="zh-text"><strong>播客精华</strong>：Marc Andreessen introspects on The Death of the Br…<br><br>本段内容涵盖AI领域前沿话题的深度讨论，包括大模型技术趋势、工程实践与行业洞察。以下为原文转录精华片段，建议配合原播客收听以获得完整语境。<br><br><em>uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you didn't choose to also click in and tune into our content. We've been approached by sponsors on an almost daily basis, but fortunately, enough of you actually subscribed to us to keep…</em></div>
+                <div class="en-text" style="display:none">
+                    <div class="media-summary">uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you didn't choose to also click in and tune into our content. We've been approached by sponsors on an almost daily basis, but fortunately, enough of you actually subscribed to us to keep all this sustainable without ads, and we wanna keep it that way. But I just have one favor to ask all of you.
+
+Speaker 2 | 01:19 - 01:39</div>
+                </div>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats">
+                    <span class="zh-text">🎙️ 播客</span>
+                    <span class="en-text" style="display:none">Podcast</span>
+                </div>
+                <a href="https://www.youtube.com/@LatentSpacePod" class="article-link" target="_blank">
+                    <span class="zh-text">▶&#xFE0F; 收听节目 →</span>
+                    <span class="en-text" style="display:none">▶&#xFE0F; Listen Now →</span>
+                </a>
+            </div>
+        </article>
+        <article class="article media-card" data-article="11">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">11</span>
+                    <div class="author-row">
+                        <div class="author-avatar">🎙</div>
+                        <div class="author-info">
+                            <span class="author-name">Marc Andreessen introspects on The Death of the Br</span>
+                            <span class="author-bio">🎙️ podcast</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(11)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="zh-text">朗读</span><span class="en-text" style="display:none">Read</span>
+                    </button>
+                </div>
+            </div>
+            <h2 class="zh-text">🎙️ Marc Andreessen introspects on The Death of t…</h2>
+            <h2 class="en-text" style="display:none">Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw</h2>
+            <div class="article-body">
+                <div class="zh-text"><strong>播客精华</strong>：Marc Andreessen introspects on The Death of the Br…<br><br>本段内容涵盖AI领域前沿话题的深度讨论，包括大模型技术趋势、工程实践与行业洞察。以下为原文转录精华片段，建议配合原播客收听以获得完整语境。<br><br><em>the we're in we're in the where the whole thing It's beautiful. Yeah.
+
+Speaker 1 | 02:12 - 02:13
+Great. Thank you.
+
+Speaker 2 | 02:13 - 02:35
+So I have to come out. This is a you know, I wanted to pick a spicy start. In October 2022, I just made friends with Rune, and I wanted to give him something…</em></div>
+                <div class="en-text" style="display:none">
+                    <div class="media-summary">the we're in we're in the where the whole thing It's beautiful. Yeah.
+
+Speaker 1 | 02:12 - 02:13
+Great. Thank you.
+
+Speaker 2 | 02:13 - 02:35
+So I have to come out. This is a you know, I wanted to pick a spicy start. In October 2022, I just made friends with Rune, and I wanted to give him something to sort of be spicy about. And I said, it'll never not be funny that a 16 z was constantly going the future is where the smart people choose to spend their time and then going deep into crypto and not in AI.</div>
+                </div>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats">
+                    <span class="zh-text">🎙️ 播客</span>
+                    <span class="en-text" style="display:none">Podcast</span>
+                </div>
+                <a href="https://www.youtube.com/@LatentSpacePod" class="article-link" target="_blank">
+                    <span class="zh-text">▶&#xFE0F; 收听节目 →</span>
+                    <span class="en-text" style="display:none">▶&#xFE0F; Listen Now →</span>
+                </a>
+            </div>
+        </article>
+        <article class="article media-card" data-article="12">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">12</span>
+                    <div class="author-row">
+                        <div class="author-avatar">📝</div>
+                        <div class="author-info">
+                            <span class="author-name">Preparing your security program for AI-accelerated</span>
+                            <span class="author-bio">📝 blog</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(12)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="zh-text">朗读</span><span class="en-text" style="display:none">Read</span>
+                    </button>
+                </div>
+            </div>
+            <h2 class="zh-text">📝 Preparing your security program for AI-accele…</h2>
+            <h2 class="en-text" style="display:none">Preparing your security program for AI-accelerated offense</h2>
+            <div class="article-body">
+                <div class="zh-text"><strong>博客精华</strong>：Preparing your security program for AI-accelerated…<br><br>本节从技术博客中提取核心内容，涵盖AI安全、工程实践与最佳实践等关键主题。以下为原文精华节选：<br><br><em>Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly…</em></div>
+                <div class="en-text" style="display:none">
+                    <div class="media-summary">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly reducing the required resources, time, and skill required to find and exploit vulnerabilities in software.</div>
+                </div>
             </div>
             <div class="article-footer">
                 <div class="article-stats">
                     <span class="zh-text">📝 博客</span>
                     <span class="en-text" style="display:none">Blog</span>
-                    
                 </div>
                 <a href="https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense" class="article-link" target="_blank">
-                    <span class="zh-text">查看原文 →</span>
-                    <span class="en-text" style="display:none">View Original →</span>
+                    <span class="zh-text">&#x1F4D6; 阅读原文 →</span>
+                    <span class="en-text" style="display:none">&#x1F4D6; Read More →</span>
+                </a>
+            </div>
+        </article>
+        <article class="article media-card" data-article="13">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">13</span>
+                    <div class="author-row">
+                        <div class="author-avatar">📝</div>
+                        <div class="author-info">
+                            <span class="author-name">Preparing your security program for AI-accelerated</span>
+                            <span class="author-bio">📝 blog</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(13)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="zh-text">朗读</span><span class="en-text" style="display:none">Read</span>
+                    </button>
+                </div>
+            </div>
+            <h2 class="zh-text">📝 Preparing your security program for AI-accele…</h2>
+            <h2 class="en-text" style="display:none">Preparing your security program for AI-accelerated offense</h2>
+            <div class="article-body">
+                <div class="zh-text"><strong>博客精华</strong>：Preparing your security program for AI-accelerated…<br><br>本节从技术博客中提取核心内容，涵盖AI安全、工程实践与最佳实践等关键主题。以下为原文精华节选：<br><br><em>ve seen hold and which we have seen degrade. If your organization reports against SOC 2 and ISO 27001, these will map directly onto controls you are already tracking. We’ll update this guidance as we and our Project Glasswing partners continue our cybersecurity work. What to do now 1. Close your pat…</em></div>
+                <div class="en-text" style="display:none">
+                    <div class="media-summary">ve seen hold and which we have seen degrade. If your organization reports against SOC 2 and ISO 27001, these will map directly onto controls you are already tracking. We’ll update this guidance as we and our Project Glasswing partners continue our cybersecurity work. What to do now 1. Close your patch gap AI models are very effective at recognizing the signatures of known, already-patched vulnerabilities in unpatched systems.</div>
+                </div>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats">
+                    <span class="zh-text">📝 博客</span>
+                    <span class="en-text" style="display:none">Blog</span>
+                </div>
+                <a href="https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense" class="article-link" target="_blank">
+                    <span class="zh-text">&#x1F4D6; 阅读原文 →</span>
+                    <span class="en-text" style="display:none">&#x1F4D6; Read More →</span>
                 </a>
             </div>
         </article>

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
 AI 资讯生成脚本
-规则：5条X + 3个播客 + 2篇博客 = 10篇
-- X: 按点赞数排序，取前5条
+规则：
+- X: 按建造者分组，每位最多3条推文
 - 播客: 分段提取精华（每段约1500字符），取前3段
 - 博客: 分段提取精华（每段约1500字符），取前2段
 - 中文：人工精炼摘要（关键词匹配）
-- 英文：原始内容
+- 英文：原始内容，智能断句截断
 """
 import json, os, re
 from datetime import datetime
@@ -23,11 +23,8 @@ with open(f'{SKILL_DIR}/feed-blogs.json') as f:
     blog_data = json.load(f)
 
 # ============ 规则配置 ============
-RULE_X     = 5
-RULE_POD   = 3
-RULE_BLOG  = 2
-X_MAX      = 500
-SEG_LEN    = 1500
+MAX_TWEETS_PER_BUILDER = 3   # 每位建造者最多显示推文数
+SEG_LEN    = 1500            # 播客/博客每段长度
 
 # ============ 中文摘要生成 ============
 def zh_title_for_x(text, name):
@@ -158,34 +155,54 @@ def excerpt(text, n=100):
 all_items = []
 num = 0
 
-# --- X 推文 ---
-tweets = []
+# --- X 推文（按建造者分组）---
+builders_data = []  # 存储所有建造者及其推文
 for b in x_data.get('x', []):
     name     = b.get('name', '')
     handle   = b.get('handle', '')
-    bio      = b.get('bio', '').split('\n')[0][:60]
+    bio      = b.get('bio', '').split('\n')[0][:80]
     initials = ''.join(n[0] for n in name.split()[:2]) or '?'
-    for t in b.get('tweets', [])[:3]:
+    tweets = []
+    for t in b.get('tweets', [])[:MAX_TWEETS_PER_BUILDER]:
         txt = t.get('text', '').strip()
         if txt:
             tweets.append({
-                'name': name, 'handle': handle, 'bio': bio,
-                'initials': initials, 'likes': t.get('likes', 0),
-                'url': t.get('url', '#'), 'text': txt
+                'text': txt,
+                'likes': t.get('likes', 0),
+                'url': t.get('url', '#'),
             })
-tweets.sort(key=lambda x: x['likes'], reverse=True)
-for t in tweets[:RULE_X]:
+    if tweets:
+        builders_data.append({
+            'name': name, 'handle': handle, 'bio': bio,
+            'initials': initials, 'tweets': tweets
+        })
+
+# 按总点赞数排序建造者
+builders_data.sort(
+    key=lambda x: sum(t['likes'] for t in x['tweets']),
+    reverse=True
+)
+
+# 生成 X 推文项目（按建造者分组）
+x_items = []
+for builder in builders_data[:8]:  # 最多8位建造者
+    # 取该建造者点赞最高的推文作为代表
+    top_tweet = max(builder['tweets'], key=lambda t: t['likes'])
     num += 1
-    txt = t['text'][:X_MAX]
-    all_items.append({
+    x_items.append({
         'num': num, 'type': 'x',
-        'name': t['name'], 'bio': t['bio'], 'initials': t['initials'],
-        'likes': t['likes'], 'url': t['url'],
-        'en_title': excerpt(txt, 90),
-        'en_content': txt,
-        'zh_title': zh_title_for_x(txt, t['name']),
-        'zh_content': zh_content_for_x(txt, t['name']),
+        'name': builder['name'],
+        'handle': builder['handle'],
+        'bio': builder['bio'],
+        'initials': builder['initials'],
+        'likes': top_tweet['likes'],
+        'url': top_tweet['url'],
+        'all_tweets': builder['tweets'],  # 保存所有推文用于展示
+        'zh_title': zh_title_for_x(top_tweet['text'], builder['name']),
+        'zh_content': zh_content_for_x(top_tweet['text'], builder['name']),
     })
+
+all_items.extend(x_items)
 
 # --- 播客 ---
 pod_segs = []
@@ -196,20 +213,23 @@ for pod in pod_data.get('podcasts', []):
     title = pod.get('title', '')[:70]
     url   = pod.get('url', '#')
     show  = pod.get('show', 'AI Podcast')
+    source = pod.get('source', show)
     for start in range(0, len(transcript), SEG_LEN):
         seg = extract_segment(transcript, start, SEG_LEN)
         if seg:
-            pod_segs.append({'title': title, 'url': url, 'show': show,
-                             'seg': seg, 'part': len(pod_segs)+1})
-for ps in pod_segs[:RULE_POD]:
+            pod_segs.append({
+                'title': title, 'url': url, 'show': show, 'source': source,
+                'seg': seg, 'part': len(pod_segs)+1
+            })
+for ps in pod_segs[:3]:
     num += 1
     all_items.append({
         'num': num, 'type': 'podcast',
-        'name': f"{ps['title'][:40]}…", 'bio': f"🎙️ {ps['show']}",
+        'name': f"{ps['title'][:50]}", 'bio': f"🎙️ {ps['source']}",
         'initials': '🎙', 'likes': 0, 'url': ps['url'],
-        'en_title': f"{ps['title'][:80]} (Part {ps['part']})",
+        'en_title': ps['title'][:80],
         'en_content': ps['seg'],
-        'zh_title': zh_title_for_pod(ps['title'], ps['part']),
+        'zh_title': f"🎙️ {ps['title'][:45]}…",
         'zh_content': zh_content_for_pod(ps['seg'], ps['title']),
     })
 
@@ -225,17 +245,19 @@ for blog in blog_data.get('blogs', []):
     for start in range(0, len(content), SEG_LEN):
         seg = extract_segment(content, start, SEG_LEN)
         if seg:
-            blog_segs.append({'title': title, 'url': url, 'source': source,
-                              'seg': seg, 'part': len(blog_segs)+1})
-for bs in blog_segs[:RULE_BLOG]:
+            blog_segs.append({
+                'title': title, 'url': url, 'source': source,
+                'seg': seg, 'part': len(blog_segs)+1
+            })
+for bs in blog_segs[:2]:
     num += 1
     all_items.append({
         'num': num, 'type': 'blog',
-        'name': f"{bs['title'][:40]}…", 'bio': f"📝 {bs['source']}",
+        'name': f"{bs['title'][:50]}", 'bio': f"📝 {bs['source']}",
         'initials': '📝', 'likes': 0, 'url': bs['url'],
-        'en_title': f"{bs['title'][:80]} (Part {bs['part']})",
+        'en_title': bs['title'][:80],
         'en_content': bs['seg'],
-        'zh_title': zh_title_for_blog(bs['title'], bs['part']),
+        'zh_title': f"📝 {bs['title'][:45]}…",
         'zh_content': zh_content_for_blog(bs['seg'], bs['title']),
     })
 
@@ -246,21 +268,78 @@ BADGE_EN = {'x': 'X/Twitter', 'podcast': 'Podcast', 'blog': 'Blog'}
 def esc(s):
     return str(s).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
 
+def smart_truncate_for_display(text, max_len):
+    """智能截断，确保在自然断点处截断"""
+    if len(text) <= max_len:
+        return text
+    target = max_len
+    min_keep = int(max_len * 0.7)
+    for i in range(target - 1, min_keep - 1, -1):
+        if text[i] in '.!?。！？\n':
+            return text[:i+1].strip()
+    for i in range(target, min(target + 200, len(text))):
+        if text[i] in '.!?。！？\n':
+            return text[:i+1].strip()
+    for i in range(target - 1, min_keep, -1):
+        if text[i].isspace():
+            return text[:i].strip()
+    return text[:max_len].rsplit(' ', 1)[0] + '…'
+
 articles_html = ''
 for item in all_items:
     n = item['num']
-    likes_html = f'<span>❤️ {item["likes"]:,}</span>' if item['likes'] > 0 else ''
-    # 注意：zh_content 可能含 HTML 标签（<strong><em><br>），不要 esc
-    articles_html += f'''
-        <article class="article" data-article="{n}">
+    likes_html = f'<span>&#x2764; {item["likes"]:,}</span>' if item['likes'] > 0 else ''
+    
+    # X 推文特殊处理：可能有多条推文
+    if item['type'] == 'x' and 'all_tweets' in item:
+        tweets_html = ''
+        for tweet in item['all_tweets'][:3]:
+            en_text = smart_truncate_for_display(tweet['text'], 400)
+            tweets_html += f'''
+                <div class="tweet-item">
+                    <div class="tweet-text zh-text">{esc(en_text)}</div>
+                    <div class="tweet-text en-text" style="display:none">{esc(en_text)}</div>
+                    <a class="tweet-url" href="{esc(tweet["url"])}" target="_blank">
+                        <span class="zh-text">&#x1F517; 查看原文</span>
+                        <span class="en-text" style="display:none">&#x1F517; View Original</span>
+                    </a>
+                </div>'''
+        
+        articles_html += f'''
+        <article class="article builder-card" data-article="{n}">
+            <div class="builder-header">
+                <div class="author-avatar">{esc(item["initials"])}</div>
+                <div class="author-info">
+                    <span class="author-name">{esc(item["name"])}</span>
+                    <span class="author-handle">@{esc(item["handle"])} · {esc(item["bio"])}</span>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle({n})">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="zh-text">朗读</span><span class="en-text" style="display:none">Read</span>
+                    </button>
+                </div>
+            </div>
+            <div class="tweet-list">
+                {tweets_html}
+            </div>
+        </article>'''
+    
+    # 播客/博客处理
+    elif item['type'] in ('podcast', 'blog'):
+        en_text = smart_truncate_for_display(item['en_content'], 500)
+        link_label_zh = '▶&#xFE0F; 收听节目 →' if item['type'] == 'podcast' else '&#x1F4D6; 阅读原文 →'
+        link_label_en = '▶&#xFE0F; Listen Now →' if item['type'] == 'podcast' else '&#x1F4D6; Read More →'
+        articles_html += f'''
+        <article class="article media-card" data-article="{n}">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">{n:02d}</span>
                     <div class="author-row">
-                        <div class="author-avatar">{item['initials']}</div>
+                        <div class="author-avatar">{esc(item["initials"])}</div>
                         <div class="author-info">
-                            <span class="author-name">{esc(item['name'])}</span>
-                            <span class="author-bio">{esc(item['bio'])}</span>
+                            <span class="author-name">{esc(item["name"])}</span>
+                            <span class="author-bio">{esc(item["bio"])}</span>
                         </div>
                     </div>
                 </div>
@@ -271,19 +350,62 @@ for item in all_items:
                     </button>
                 </div>
             </div>
-            <h2 class="zh-text">{item['zh_title']}</h2>
-            <h2 class="en-text" style="display:none">{esc(item['en_title'])}</h2>
+            <h2 class="zh-text">{esc(item["zh_title"])}</h2>
+            <h2 class="en-text" style="display:none">{esc(item["en_title"])}</h2>
             <div class="article-body">
-                <p class="zh-text">{item['zh_content']}</p>
-                <p class="en-text" style="display:none">{esc(item['en_content'])}</p>
+                <div class="zh-text">{item["zh_content"]}</div>
+                <div class="en-text" style="display:none">
+                    <div class="media-summary">{esc(en_text)}</div>
+                </div>
             </div>
             <div class="article-footer">
                 <div class="article-stats">
-                    <span class="zh-text">{BADGE.get(item['type'], '')}</span>
-                    <span class="en-text" style="display:none">{BADGE_EN.get(item['type'], '')}</span>
+                    <span class="zh-text">{BADGE.get(item["type"], "")}</span>
+                    <span class="en-text" style="display:none">{BADGE_EN.get(item["type"], "")}</span>
+                </div>
+                <a href="{esc(item["url"])}" class="article-link" target="_blank">
+                    <span class="zh-text">{link_label_zh}</span>
+                    <span class="en-text" style="display:none">{link_label_en}</span>
+                </a>
+            </div>
+        </article>'''
+    
+    # 默认处理（兜底）
+    else:
+        en_text = smart_truncate_for_display(item['en_content'], 400)
+        articles_html += f'''
+        <article class="article" data-article="{n}">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">{n:02d}</span>
+                    <div class="author-row">
+                        <div class="author-avatar">{esc(item["initials"])}</div>
+                        <div class="author-info">
+                            <span class="author-name">{esc(item["name"])}</span>
+                            <span class="author-bio">{esc(item["bio"])}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle({n})">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="zh-text">朗读</span><span class="en-text" style="display:none">Read</span>
+                    </button>
+                </div>
+            </div>
+            <h2 class="zh-text">{esc(item["zh_title"])}</h2>
+            <h2 class="en-text" style="display:none">{esc(item["en_title"])}</h2>
+            <div class="article-body">
+                <p class="zh-text">{item["zh_content"]}</p>
+                <p class="en-text" style="display:none">{esc(en_text)}</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats">
+                    <span class="zh-text">{BADGE.get(item["type"], "")}</span>
+                    <span class="en-text" style="display:none">{BADGE_EN.get(item["type"], "")}</span>
                     {likes_html}
                 </div>
-                <a href="{esc(item['url'])}" class="article-link" target="_blank">
+                <a href="{esc(item["url"])}" class="article-link" target="_blank">
                     <span class="zh-text">查看原文 →</span>
                     <span class="en-text" style="display:none">View Original →</span>
                 </a>
@@ -323,6 +445,10 @@ x_n    = sum(1 for i in all_items if i['type']=='x')
 pod_n  = sum(1 for i in all_items if i['type']=='podcast')
 blog_n = sum(1 for i in all_items if i['type']=='blog')
 
+# 统计建造者和推文总数
+builder_count = len([i for i in all_items if i['type']=='x'])
+tweet_count = sum(len(i.get('all_tweets', [])) for i in all_items if i['type']=='x')
+
 # 朗读文本构建（中英各自取相应文本节点）
 HTML = f'''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -350,21 +476,51 @@ HTML = f'''<!DOCTYPE html>
         .voice-sel{{padding:5px 8px;border:1px solid var(--border);border-radius:12px;font-size:12px;background:#fff;cursor:pointer}}
         svg{{width:12px;height:12px}}
         /* ===头部=== */
-        .hero{{padding:40px 40px 28px;max-width:720px;margin:0 auto;border-bottom:1px solid var(--border)}}
+        .hero{{padding:40px 40px 28px;max-width:800px;margin:0 auto;border-bottom:1px solid var(--border)}}
         .date{{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}}
         .hero h1{{font-family:'Noto Serif SC',serif;font-size:1.75rem;font-weight:600;margin-bottom:10px}}
         .hero-sub{{font-size:14px;color:var(--muted);margin-bottom:12px}}
         .stats{{font-size:12px;color:var(--muted)}}
+        /* ===统计栏=== */
+        .stats-row{{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}}
+        .stat-chip{{display:inline-flex;align-items:center;gap:6px;background:#EFF6FF;color:#1D4ED8;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:500}}
+        .stat-chip.green{{background:#ECFDF5;color:#065F46}}
+        .stat-chip.purple{{background:#F5F3FF;color:#5B21B6}}
+        /* ===内容区块=== */
+        .section-title{{display:flex;align-items:center;gap:10px;margin:32px 0 16px}}
+        .section-title h2{{font-size:18px;font-weight:700;color:#111827}}
+        .section-title .tag{{display:inline-flex;align-items:center;background:#DBEAFE;color:#1D4ED8;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600}}
+        .section-title .tag.green{{background:#D1FAE5;color:#065F46}}
+        .section-title .tag.purple{{background:#EDE9FE;color:#5B21B6}}
+        .section-title::after{{content:'';flex:1;height:1px;background:#E5E7EB;margin-left:12px}}
         /* ===文章=== */
-        .articles{{max-width:720px;margin:0 auto;padding:0 40px 80px}}
+        .articles{{max-width:800px;margin:0 auto;padding:0 40px 80px}}
+        /* ---建造者卡片--- */
+        .builder-card{{background:white;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid #E5E7EB;transition:box-shadow .2s}}
+        .builder-card:hover{{box-shadow:0 4px 12px rgba(0,0,0,.1)}}
+        .builder-header{{display:flex;align-items:center;gap:12px;margin-bottom:12px}}
+        .author-avatar{{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#667EEA,#764BA2);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0}}
+        .author-info{{flex:1;min-width:0}}
+        .author-name{{font-size:15px;font-weight:600;color:#111827}}
+        .author-handle{{font-size:12px;color:#6B7280;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+        .tweet-list{{border-top:1px solid #F3F4F6}}
+        .tweet-item{{padding:10px 0;border-top:1px solid #F3F4F6}}
+        .tweet-item:first-child{{border-top:none;padding-top:0}}
+        .tweet-text{{font-size:14px;color:#111827;line-height:1.65;margin-bottom:6px}}
+        .tweet-url{{font-size:12px;color:#2563EB;text-decoration:none}}
+        .tweet-url:hover{{text-decoration:underline}}
+        /* ---媒体卡片--- */
+        .media-card{{background:white;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid #E5E7EB}}
+        .media-card h2{{font-family:'Noto Serif SC',serif;font-size:1.05rem;font-weight:600;line-height:1.45;margin-bottom:10px}}
+        .media-card h2.zh-text{{margin-left:0}}
+        .media-summary{{font-size:14px;color:#374151;line-height:1.65;background:#FFFBEB;border-left:3px solid #F59E0B;padding:12px 14px;border-radius:0 6px 6px 0;margin-top:10px}}
+        /* ---通用文章样式--- */
         .article{{padding:28px 0;border-bottom:1px solid var(--border)}}
         .article-header{{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}}
         .article-left{{display:flex;align-items:center;gap:10px}}
         .article-number{{font-size:22px;font-weight:700;color:var(--border);line-height:1;min-width:30px}}
         .author-row{{display:flex;align-items:center;gap:8px}}
-        .author-avatar{{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#292524,#57534e);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:10px;flex-shrink:0}}
         .author-info{{display:flex;flex-direction:column}}
-        .author-name{{font-weight:500;font-size:13px}}
         .author-bio{{color:var(--muted);font-size:11px}}
         .article-actions{{flex-shrink:0}}
         .action-btn{{padding:4px 10px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:12px;border-radius:12px;display:flex;align-items:center;gap:4px}}
@@ -372,7 +528,7 @@ HTML = f'''<!DOCTYPE html>
         .action-btn.playing{{background:var(--accent);color:#fff;border-color:var(--accent)}}
         .article h2{{font-family:'Noto Serif SC',serif;font-size:1.05rem;font-weight:600;line-height:1.45;margin-bottom:10px;margin-left:42px}}
         .article-body{{margin-left:42px}}
-        .article-body p{{font-size:14px;line-height:1.8;margin-bottom:8px;color:#292524}}
+        .article-body p,.article-body div{{font-size:14px;line-height:1.8;margin-bottom:8px;color:#292524}}
         .article-body strong{{color:var(--accent)}}
         .article-footer{{display:flex;justify-content:space-between;align-items:center;margin-top:12px;margin-left:42px}}
         .article-stats{{display:flex;gap:10px;font-size:12px;color:var(--muted)}}
@@ -392,7 +548,7 @@ HTML = f'''<!DOCTYPE html>
             .hero{{padding:28px 16px 20px}}
             .hero h1{{font-size:1.4rem}}
             .articles{{padding:0 16px 60px}}
-            .article h2,.article-body,.article-footer{{margin-left:0}}
+            .article h2,.article-body,.article-footer,.media-card h2,.media-summary{{margin-left:0}}
         }}
     </style>
 </head>
@@ -414,9 +570,14 @@ HTML = f'''<!DOCTYPE html>
 
     <header class="hero">
         <p class="date">{date_en}</p>
-        <h1>AI Builders Daily Digest</h1>
-        <p class="hero-sub">每日精选 AI 领域最有价值的深度内容</p>
-        <p class="stats">📝 {len(all_items)} 篇精选（🐦 {x_n} 条X · 🎙️ {pod_n} 个播客 · 📝 {blog_n} 篇博客）</p>
+        <h1>追踪建造者，而非网红</h1>
+        <p class="hero-sub">每日汇总 AI 领域顶尖建造者的关键观点、播客精华与官方博客更新</p>
+        <div class="stats-row">
+            <span class="stat-chip">&#x1F464; {builder_count} 位建造者</span>
+            <span class="stat-chip green">&#x1F426; {tweet_count} 条推文</span>
+            <span class="stat-chip purple">&#x1F3A4; {pod_n} 期播客</span>
+            <span class="stat-chip" style="background:#FFF7ED;color:#EA580C">&#x1F4DD; {blog_n} 篇博客</span>
+        </div>
     </header>
 
     <main class="articles">
@@ -537,8 +698,9 @@ print()
 print('=== 内容预览 ===')
 for item in all_items:
     icon = {'x':'🐦','podcast':'🎙️','blog':'📝'}.get(item['type'],'•')
-    print(f"{icon} {item['num']:02d}. {item['zh_title'][:50]}")
-    print(f"    EN: {item['en_title'][:60]}")
+    print(f"{icon} {item['num']:02d}. {item.get('zh_title', item.get('name', ''))[:50]}")
+    if 'en_title' in item:
+        print(f"    EN: {item['en_title'][:60]}")
 
 # ============ Git 自动提交推送 ============
 import subprocess
