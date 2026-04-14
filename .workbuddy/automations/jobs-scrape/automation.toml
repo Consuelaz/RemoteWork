@@ -1,0 +1,9 @@
+# 每日职位数据更新自动化
+# 每天 7:30 自动抓取职位数据并推送到 GitHub
+
+name = "每日职位数据更新"
+prompt = "在 /Users/qisoong/WorkBuddy/20260317141747 目录下运行 bash scrape.sh，完成职位数据抓取并自动推送到 GitHub。scrape.sh 会抓取 Remote OK、Remotive、远程岛、V2EX、远程中文网、who-is-hiring 等数据源的远程工作职位，更新 jobs-cn.js 和 jobs-global.js 文件，并自动 git commit 和 push。确保代理 http://127.0.0.1:7897 可用。"
+cwds = ["/Users/qisoong/WorkBuddy/20260317141747"]
+status = "ACTIVE"
+scheduleType = "recurring"
+rrule = "FREQ=DAILY;BYHOUR=7;BYMINUTE=30"

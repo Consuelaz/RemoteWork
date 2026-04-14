@@ -99,16 +99,55 @@ def zh_content_for_blog(segment, title):
     )
 
 # ============ 工具函数 ============
+def smart_truncate(text, max_len):
+    """
+    智能截断文本，确保在自然断点（句子/段落边界）处截断
+    而不是从单词中间截断。
+    """
+    if len(text) <= max_len:
+        return text
+    
+    # 目标截断点
+    target = max_len
+    # 最小保留长度（确保不截得太短）
+    min_keep = int(max_len * 0.7)
+    
+    # 向后查找最近的句子结束符
+    sentence_ends = '.!?。！？\n'
+    best_break = -1
+    
+    # 从截断点向前找最近的句子结束符（保留至少 min_keep 长度）
+    for i in range(target - 1, min_keep - 1, -1):
+        if text[i] in sentence_ends:
+            # 跳过末尾的空格/换行
+            end = i
+            while end > i - 3 and text[end].isspace():
+                end -= 1
+            if text[end] in sentence_ends:
+                best_break = end + 1
+                break
+    
+    # 如果找到了合适的断点
+    if best_break > min_keep:
+        return text[:best_break].strip()
+    
+    # 没找到合适断点，向后找下一个完整句子
+    for i in range(target, min(target + 200, len(text))):
+        if text[i] in sentence_ends:
+            return text[:i+1].strip()
+    
+    # 最后手段：找最近的空格断点（不在单词中间）
+    for i in range(target - 1, min_keep, -1):
+        if text[i].isspace():
+            return text[:i].strip()
+    
+    # 最坏情况：直接截断
+    return text[:max_len].rsplit(' ', 1)[0] + '…'
+
 def extract_segment(text, start, length):
     if len(text) <= start:
         return None
-    seg = text[start:start+length].replace('\r\n', '\n').strip()
-    if seg and seg[-1] not in '.。！？!?':
-        for p in ['. ', '。', '！', '？']:
-            idx = seg.rfind(p)
-            if idx > len(seg) // 2:
-                seg = seg[:idx+1]
-                break
+    seg = smart_truncate(text[start:], length)
     return seg if len(seg) > 80 else None
 
 def excerpt(text, n=100):
@@ -500,3 +539,41 @@ for item in all_items:
     icon = {'x':'🐦','podcast':'🎙️','blog':'📝'}.get(item['type'],'•')
     print(f"{icon} {item['num']:02d}. {item['zh_title'][:50]}")
     print(f"    EN: {item['en_title'][:60]}")
+
+# ============ Git 自动提交推送 ============
+import subprocess
+
+def run_git(cmd, cwd):
+    result = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True)
+    return result.returncode, result.stdout, result.stderr
+
+print()
+print('=== Git 自动推送 ===')
+
+# 检查是否有变更
+rc, out, err = run_git('git status --porcelain', OUTPUT_DIR)
+if not out.strip():
+    print('⚪ 没有变更，跳过提交')
+else:
+    print(f'📝 检测到变更:\n{out}')
+    
+    # Git add
+    rc, out, err = run_git('git add -A', OUTPUT_DIR)
+    if rc != 0:
+        print(f'❌ git add 失败: {err}')
+    else:
+        # Git commit
+        commit_msg = f'🤖 AI News 更新 {date_str} ({len(all_items)}篇)'
+        rc, out, err = run_git(f'git commit -m "{commit_msg}"', OUTPUT_DIR)
+        if rc != 0:
+            print(f'❌ git commit 失败: {err}')
+        else:
+            print(f'✅ 已提交: {commit_msg}')
+            
+            # Git push
+            rc, out, err = run_git('git push', OUTPUT_DIR)
+            if rc != 0:
+                print(f'❌ git push 失败: {err}')
+            else:
+                print('✅ 已推送到 GitHub')
+

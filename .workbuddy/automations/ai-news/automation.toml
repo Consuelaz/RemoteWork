@@ -1,0 +1,9 @@
+# 每日AI资讯生成自动化
+# 每天 7:30 自动生成 AI 资讯页面并推送到 GitHub
+
+name = "每日AI资讯生成"
+prompt = "在 /Users/qisoong/WorkBuddy/20260317141747/ai-news 目录下运行 python3 gen-index.py，生成当日 AI 资讯页面。脚本从 ~/.workbuddy/skills/follow-builders/ 读取 feed-x.json、feed-podcasts.json、feed-blogs.json 数据，按规则生成 5 条 X 推文 + 3 篇播客精华 + 2 篇博客精华，更新 index.html 并生成历史存档 YYYY-MM-DD.html，然后 git commit 和 push 到 GitHub。"
+cwds = ["/Users/qisoong/WorkBuddy/20260317141747/ai-news"]
+status = "ACTIVE"
+scheduleType = "recurring"
+rrule = "FREQ=DAILY;BYHOUR=7;BYMINUTE=30"

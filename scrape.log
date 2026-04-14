@@ -415,3 +415,10 @@ V2EX: 1 jobs（跳过非今日帖子: 18）
 ✅ money.xlsx 已更新，插入 1 条V2EX数据 + 434 条who-is-hiring数据
 数据更新完成: 2026-04-14
 ========================================
+[master 80d17d6] 自动更新: 2026-04-14 CN=583 Global=1957
+ 5 files changed, 177 insertions(+), 151 deletions(-)
+ rewrite money.xlsx (79%)
+mux_client_request_session: read from master failed: Broken pipe
+To github.com:Consuelaz/RemoteWork.git
+   b3ff6a2..80d17d6  master -> master
+✅ Git 推送完成

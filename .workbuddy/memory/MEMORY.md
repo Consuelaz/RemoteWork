@@ -111,9 +111,24 @@
 - `index.html` = 当天内容（每天自动更新）
 - `YYYY-MM-DD.html` = 历史存档
 
+## 自动化任务（2026-04-14）
+
+### 每日职位数据更新
+- **ID**: `jobs-scrape`
+- **路径**: `.workbuddy/automations/jobs-scrape/automation.toml`
+- **时间**: 每天 7:30
+- **执行**: 运行 `bash scrape.sh`，抓取所有数据源职位并推送到 GitHub
+
+### 每日AI资讯生成
+- **ID**: `ai-news`
+- **路径**: `.workbuddy/automations/ai-news/automation.toml`
+- **时间**: 每天 7:30
+- **执行**: 运行 `python3 gen-index.py`，生成当日 AI 资讯页面并推送到 GitHub
+
 ## 数据历史（近期）
 | 日期 | CN | Global | 备注 |
 |------|-----|--------|------|
+| 2026-04-14 | 583 | 1957 | V2EX 1条，自动更新 |
 | 2026-04-10 | 566 | 1688 | V2EX 2条，手动触发 |
 | 2026-04-09 | 557 | 1617 | 自动更新，修复海外显示0 |
 | 2026-04-08 | 548 | 1566 | V2EX 3条，手动触发 |
