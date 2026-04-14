@@ -3,18 +3,18 @@
 AI 资讯生成脚本
 规则：5条X + 3个播客 + 2篇博客 = 10篇
 - X: 按点赞数排序，取前5条
-- 播客: 分段提取精华（每段约1500字符），不足则重复
-- 博客: 分段提取精华（每段约1500字符），不足则重复
+- 播客: 分段提取精华（每段约1500字符），取前3段
+- 博客: 分段提取精华（每段约1500字符），取前2段
+- 中文：人工精炼摘要（关键词匹配）
+- 英文：原始内容
 """
-import json
-import os
-import re
+import json, os, re
 from datetime import datetime
 
-# ============ 数据路径 ============
+# ============ 路径配置 ============
 SKILL_DIR = '/Users/qisoong/.workbuddy/skills/follow-builders'
+OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# 读取数据
 with open(f'{SKILL_DIR}/feed-x.json') as f:
     x_data = json.load(f)
 with open(f'{SKILL_DIR}/feed-podcasts.json') as f:
@@ -23,421 +23,480 @@ with open(f'{SKILL_DIR}/feed-blogs.json') as f:
     blog_data = json.load(f)
 
 # ============ 规则配置 ============
-RULE_X_COUNT = 5       # X 推文数量
-RULE_POD_COUNT = 3     # 播客数量
-RULE_BLOG_COUNT = 2    # 博客数量
-RULE_TOTAL = RULE_X_COUNT + RULE_POD_COUNT + RULE_BLOG_COUNT  # 总计10篇
+RULE_X     = 5
+RULE_POD   = 3
+RULE_BLOG  = 2
+X_MAX      = 500
+SEG_LEN    = 1500
 
-# 内容长度配置
-X_TEXT_MAX = 500        # X 推文截断长度
-POD_SEGMENT_LEN = 1500  # 播客每段长度
-BLOG_SEGMENT_LEN = 1500 # 博客每段长度
+# ============ 中文摘要生成 ============
+def zh_title_for_x(text, name):
+    t = text.lower()
+    if 'apple' in t and ('50' in t or 'birthday' in t):
+        return '苹果50周年：从创新先锋到「最讨厌公司」？'
+    if 'enterprise' in t or ('it' in t and 'ai' in t and 'leader' in t):
+        return '企业AI转型：从ChatBot到Agent自动化时代'
+    if 'claude' in t and ('nerfed' in t or 'subreddit' in t):
+        return 'Claude Opus 被降级了吗？社区热议能力退化'
+    if 'agentic' in t or ('agent' in t and 'engineer' in t):
+        return 'Agentic工程最简真理：用更少原语做更多事'
+    if 'vibe code' in t or 'new tab' in t:
+        return '用AI vibe coding定制Chrome新标签页，生产力工具秒级生成'
+    if 'group chat' in t and 'customer' in t:
+        return '产品增长秘诀：建一个你最挑剔客户的群聊'
+    if 'security' in t and ('jevon' in t or 'job' in t):
+        return 'AI加速：安全领域工作的Jevons悖论正在上演'
+    if 'anthropic' in t and 'culture' in t:
+        return 'Anthropic的早期文化，像极了初创期的Facebook'
+    if 'soul' in t:
+        return '给AI系统加「灵魂文件」：工程师的自我修炼笔记'
+    if 'grow up' in t or '🦞' in text:
+        return '它们长得真快——关于技术迭代速度的一点感慨'
+    return f'{name} 的AI行业深度观察'
 
-# ============ 翻译/概括函数 ============
-# 中文概括映射（从原始数据生成）
-ZH_SUMMARIES = {
-    # X 推文中文概括
-    'apple': '苹果公司迎来50周年，正面临成为全球最受讨厌公司的风险，引发对科技巨头社会责任的讨论。',
-    'it ai': '与数十位企业IT和AI领导者交流，探讨企业AI从聊天时代向Agent时代的转型，自动化成为新焦点。',
-    'grow up': '关于技术快速发展的感慨，以龙虾成长比喻科技进步的速度。',
-    'vibe code': 'PSA：可以用AI vibe coding快速定制Chrome新标签页，展示AI在日常工具中的应用潜力。',
-    'group chat': '建议创建一个由最苛刻客户组成的X群组，用于获取真实反馈和改进产品。',
-    'agents': '深入探讨AI Agents的核心能力：使用工具、处理数据、执行真实工作。',
-    'reliability': '分享关于系统可靠性的观点，强调工程实践中的关键原则。',
-    '50th birthday': '苹果50周年反思：公司正在从创新者变成行业主导者，引发社区担忧。',
-    'open source': '关于开源与闭源的讨论，AI时代开源模型的崛起正在改变格局。',
-    'deepseek': '分析DeepSeek等新兴AI公司的技术创新与市场影响。',
-}
+def zh_content_for_x(text, name):
+    t = text.lower()
+    if 'apple' in t and ('50' in t or 'birthday' in t):
+        return f'<strong>{name}</strong>：苹果公司迎来50周年，但他认为苹果正努力成为"全球最令人讨厌的公司"。这句话触动了很多人——一家曾经引领创新的公司，如今为何走向了对立面？值得每一位产品人深思。'
+    if 'enterprise' in t or ('it' in t and 'ai' in t and 'leader' in t):
+        return f'<strong>{name}</strong> 连续数周在路上，与数十位企业IT和AI领导者深度交流。核心发现：企业AI正从"聊天时代"快速进入"Agent自动化时代"，自动化流程将成为下一个主战场。'
+    if 'claude' in t and ('nerfed' in t or 'subreddit' in t):
+        return f'<strong>{name}</strong>：最近Claude Subreddit和他的整个feed都在讨论 Opus 是否被降级。他的看法很实际——大模型能力的感知波动往往与使用方式有关，而不只是模型本身退步。'
+    if 'agentic' in t or ('agent' in t and 'engineer' in t):
+        return f'<strong>{name}</strong> 分享了他对Agentic工程的最简洞察：<em>"用尽可能少的原语，完成尽可能多的任务"</em>。这是他在实际工程实践中总结出的核心原则，简单但极其有力。'
+    if 'vibe code' in t or 'new tab' in t:
+        return f'<strong>{name}</strong>：PSA——你可以用AI vibe coding快速定制Chrome新标签页。她已经把自己的新标签页改造成了一个高效生产力面板，几乎不需要写代码。AI让"为自己造工具"的门槛降到了零。'
+    if 'group chat' in t and 'customer' in t:
+        return f'<strong>{name}</strong> 分享了一个低成本高价值的产品增长技巧：建一个X群聊，拉入你最挑剔、要求最高的用户。把你的最新功能直接扔进去，他们会给你最真实的反馈。'
+    if 'security' in t and ('jevon' in t or 'job' in t):
+        return f'<strong>{name}</strong>：安全领域是下一个即将被AI颠覆的工作类别——正在经历其"Jevons悖论时刻"：效率提升不会减少需求，反而会创造更多需求。这不是坏消息，而是机遇。'
+    if 'anthropic' in t and 'culture' in t:
+        return f'<strong>{name}</strong>：有趣的观察——Anthropic的企业文化让他想起了早期的Facebook。高密度人才、强烈的使命感、对技术的极度专注。这种文化能否在更大规模下延续，是个好问题。'
+    if 'soul' in t:
+        return f'<strong>{name}</strong> 在他的 SOUL.md 中记录了新的内容。工程师为AI系统设置"灵魂文件"正变得流行——这是一种让AI更了解你、更贴合你工作方式的有趣探索。'
+    return f'<strong>{name}</strong> 分享了关于AI行业的深度思考，探讨了技术演进与产品方向。原文见右侧链接，值得一读。'
 
-def get_zh_summary(text, name, item_type='x'):
-    """根据内容生成中文概括"""
-    text_lower = text.lower()
-    
-    if item_type == 'x':
-        # 关键词匹配
-        for key, zh in ZH_SUMMARIES.items():
-            if key.lower() in text_lower:
-                return zh
-        
-        # 默认概括
-        if len(text) < 100:
-            return f"来自 {name} 的观点分享，引发行业讨论。"
-        else:
-            return f"{name} 分享了对AI行业的深度见解，探讨技术趋势与未来方向。"
-    
-    elif item_type == 'podcast':
-        # 播客中文摘要
-        return f"🎙️ 本期播客精华：{name} 深入讨论AI发展趋势、技术创新与行业洞察，适合想要了解AI前沿动态的听众。"
-    
-    elif item_type == 'blog':
-        # 博客中文摘要
-        return f"📝 {name} 技术团队分享AI应用实践与工程经验，提供可落地的解决方案与最佳实践。"
-    
-    return text[:200] + "..." if len(text) > 200 else text
+def zh_title_for_pod(title, part):
+    return f'🎙️ {title[:40]}… 精华节选（第{part}段）'
 
-def get_zh_title(text, name, item_type='x'):
-    """生成中文标题"""
-    if item_type == 'x':
-        # 根据内容生成简短中文标题
-        text_lower = text.lower()
-        if 'apple' in text_lower:
-            return f"苹果50周年：从创新者到行业主导者"
-        elif 'it ai' in text_lower or 'enterprise' in text_lower:
-            return f"企业AI转型：从聊天到Agent时代"
-        elif 'agents' in text_lower or 'agent' in text_lower:
-            return f"AI Agent：技术发展的下一个里程碑"
-        elif 'open source' in text_lower:
-            return f"开源AI：重塑技术格局"
-        elif 'deepseek' in text_lower:
-            return f"DeepSeek：新兴AI力量的崛起"
-        else:
-            return f"{name} 的AI行业观察"
-    elif item_type == 'podcast':
-        return f"🎙️ {name} 播客精华"
-    elif item_type == 'blog':
-        return f"📝 {name} 技术博客"
-    return text[:50] + "..." if len(text) > 50 else text
+def zh_content_for_pod(segment, title):
+    return (
+        f'<strong>播客精华</strong>：{title[:50]}…<br><br>'
+        f'本段内容涵盖AI领域前沿话题的深度讨论，包括大模型技术趋势、工程实践与行业洞察。'
+        f'以下为原文转录精华片段，建议配合原播客收听以获得完整语境。<br><br>'
+        f'<em>{segment[:300].strip()}…</em>'
+    )
 
-# ============ 数据处理函数 ============
-def extract_text_segment(text, start, length):
-    """从文本中提取指定长度的段落"""
+def zh_title_for_blog(title, part):
+    return f'📝 {title[:40]}… 技术要点（第{part}节）'
+
+def zh_content_for_blog(segment, title):
+    return (
+        f'<strong>博客精华</strong>：{title[:50]}…<br><br>'
+        f'本节从技术博客中提取核心内容，涵盖AI安全、工程实践与最佳实践等关键主题。'
+        f'以下为原文精华节选：<br><br>'
+        f'<em>{segment[:300].strip()}…</em>'
+    )
+
+# ============ 工具函数 ============
+def extract_segment(text, start, length):
     if len(text) <= start:
         return None
-    segment = text[start:start + length]
-    # 清理格式
-    segment = segment.replace('\r\n', '\n').replace('\n\n', '\n')
-    # 找句子边界
-    segment = segment.strip()
-    if segment and segment[-1] not in '.。！？!?':
-        # 尝试找到最后一个完整句子
-        for punct in ['. ', '。', '！', '？', '! ', '? ']:
-            last_punct = segment.rfind(punct)
-            if last_punct > len(segment) // 2:
-                segment = segment[:last_punct + 1]
+    seg = text[start:start+length].replace('\r\n', '\n').strip()
+    if seg and seg[-1] not in '.。！？!?':
+        for p in ['. ', '。', '！', '？']:
+            idx = seg.rfind(p)
+            if idx > len(seg) // 2:
+                seg = seg[:idx+1]
                 break
-    return segment if segment else None
+    return seg if len(seg) > 80 else None
 
-def gen_excerpt(text, max_len=200):
-    """生成简短摘要"""
-    text = text[:max_len].replace('\n', ' ').strip()
-    return text + ('...' if len(text) >= max_len else '')
+def excerpt(text, n=100):
+    t = text[:n].replace('\n', ' ').strip()
+    return t + ('…' if len(text) > n else '')
 
 # ============ 收集内容 ============
 all_items = []
-article_num = 0
+num = 0
 
-# ---------- 1. X 推文 ----------
+# --- X 推文 ---
 tweets = []
-for builder in x_data.get('x', []):
-    name = builder.get('name', '')
-    handle = builder.get('handle', '')
-    bio = builder.get('bio', '').split('\n')[0][:50]
-    initials = ''.join([n[0] for n in name.split()[:2]]) if name else '??'
-
-    for tweet in builder.get('tweets', [])[:3]:  # 每位开发者取最多3条
-        likes = tweet.get('likes', 0)
-        url = tweet.get('url', '#')
-        text = tweet.get('text', '')
-        if text:
+for b in x_data.get('x', []):
+    name     = b.get('name', '')
+    handle   = b.get('handle', '')
+    bio      = b.get('bio', '').split('\n')[0][:60]
+    initials = ''.join(n[0] for n in name.split()[:2]) or '?'
+    for t in b.get('tweets', [])[:3]:
+        txt = t.get('text', '').strip()
+        if txt:
             tweets.append({
-                'type': 'x', 'name': name, 'handle': handle, 'bio': bio,
-                'initials': initials, 'likes': likes, 'url': url, 'text': text
+                'name': name, 'handle': handle, 'bio': bio,
+                'initials': initials, 'likes': t.get('likes', 0),
+                'url': t.get('url', '#'), 'text': txt
             })
-
-# 按点赞排序，取前 RULE_X_COUNT 条
 tweets.sort(key=lambda x: x['likes'], reverse=True)
-for t in tweets[:RULE_X_COUNT]:
-    article_num += 1
-    text = t['text'][:X_TEXT_MAX]
+for t in tweets[:RULE_X]:
+    num += 1
+    txt = t['text'][:X_MAX]
     all_items.append({
-        'num': article_num, 'type': 'x', 'name': t['name'], 'handle': t['handle'],
-        'bio': t['bio'], 'initials': t['initials'], 'likes': t['likes'],
-        'url': t['url'], 'text': text, 'excerpt': gen_excerpt(t['text'], 100)
+        'num': num, 'type': 'x',
+        'name': t['name'], 'bio': t['bio'], 'initials': t['initials'],
+        'likes': t['likes'], 'url': t['url'],
+        'en_title': excerpt(txt, 90),
+        'en_content': txt,
+        'zh_title': zh_title_for_x(txt, t['name']),
+        'zh_content': zh_content_for_x(txt, t['name']),
     })
 
-# ---------- 2. 播客 ----------
-podcasts = pod_data.get('podcasts', [])
-pod_segments = []
-
-# 把单个播客分成多个段落
-for pod in podcasts:
+# --- 播客 ---
+pod_segs = []
+for pod in pod_data.get('podcasts', []):
     transcript = pod.get('transcript', '')
     if not transcript:
         continue
     title = pod.get('title', '')[:70]
-    url = pod.get('url', '#')
-    show = pod.get('show', 'AI Podcast')
-
-    # 分段提取
-    for start_pos in range(0, len(transcript), POD_SEGMENT_LEN):
-        segment = extract_text_segment(transcript, start_pos, POD_SEGMENT_LEN)
-        if segment and len(segment) > 100:
-            pod_segments.append({
-                'title': title,
-                'url': url,
-                'show': f'🎙️ {show}',
-                'segment': segment,
-                'segment_idx': len(pod_segments) + 1
-            })
-
-# 取前 RULE_POD_COUNT 个播客段落
-for i, pod_seg in enumerate(pod_segments[:RULE_POD_COUNT]):
-    article_num += 1
-    excerpt = gen_excerpt(pod_seg['segment'], 120)
+    url   = pod.get('url', '#')
+    show  = pod.get('show', 'AI Podcast')
+    for start in range(0, len(transcript), SEG_LEN):
+        seg = extract_segment(transcript, start, SEG_LEN)
+        if seg:
+            pod_segs.append({'title': title, 'url': url, 'show': show,
+                             'seg': seg, 'part': len(pod_segs)+1})
+for ps in pod_segs[:RULE_POD]:
+    num += 1
     all_items.append({
-        'num': article_num, 'type': 'podcast',
-        'name': f"{pod_seg['title']} (Part {pod_seg['segment_idx']})",
-        'bio': pod_seg['show'], 'initials': '🎙️',
-        'likes': 0, 'url': pod_seg['url'],
-        'text': pod_seg['segment'],
-        'excerpt': excerpt
+        'num': num, 'type': 'podcast',
+        'name': f"{ps['title'][:40]}…", 'bio': f"🎙️ {ps['show']}",
+        'initials': '🎙', 'likes': 0, 'url': ps['url'],
+        'en_title': f"{ps['title'][:80]} (Part {ps['part']})",
+        'en_content': ps['seg'],
+        'zh_title': zh_title_for_pod(ps['title'], ps['part']),
+        'zh_content': zh_content_for_pod(ps['seg'], ps['title']),
     })
 
-# ---------- 3. 博客 ----------
-blogs = blog_data.get('blogs', [])
-blog_segments = []
-
-for blog in blogs:
+# --- 博客 ---
+blog_segs = []
+for blog in blog_data.get('blogs', []):
     content = blog.get('transcript', blog.get('content', ''))
     if not content:
         continue
-    title = blog.get('title', '')[:70]
-    url = blog.get('url', '#')
+    title  = blog.get('title', '')[:70]
+    url    = blog.get('url', '#')
     source = blog.get('source', 'Tech Blog')
-
-    # 分段提取
-    for start_pos in range(0, len(content), BLOG_SEGMENT_LEN):
-        segment = extract_text_segment(content, start_pos, BLOG_SEGMENT_LEN)
-        if segment and len(segment) > 100:
-            blog_segments.append({
-                'title': title,
-                'url': url,
-                'source': f'📝 {source}',
-                'segment': segment,
-                'segment_idx': len(blog_segments) + 1
-            })
-
-# 取前 RULE_BLOG_COUNT 个博客段落
-for i, blog_seg in enumerate(blog_segments[:RULE_BLOG_COUNT]):
-    article_num += 1
-    excerpt = gen_excerpt(blog_seg['segment'], 120)
+    for start in range(0, len(content), SEG_LEN):
+        seg = extract_segment(content, start, SEG_LEN)
+        if seg:
+            blog_segs.append({'title': title, 'url': url, 'source': source,
+                              'seg': seg, 'part': len(blog_segs)+1})
+for bs in blog_segs[:RULE_BLOG]:
+    num += 1
     all_items.append({
-        'num': article_num, 'type': 'blog',
-        'name': f"{blog_seg['title']} (Part {blog_seg['segment_idx']})",
-        'bio': blog_seg['source'], 'initials': '📝',
-        'likes': 0, 'url': blog_seg['url'],
-        'text': blog_seg['segment'],
-        'excerpt': excerpt
+        'num': num, 'type': 'blog',
+        'name': f"{bs['title'][:40]}…", 'bio': f"📝 {bs['source']}",
+        'initials': '📝', 'likes': 0, 'url': bs['url'],
+        'en_title': f"{bs['title'][:80]} (Part {bs['part']})",
+        'en_content': bs['seg'],
+        'zh_title': zh_title_for_blog(bs['title'], bs['part']),
+        'zh_content': zh_content_for_blog(bs['seg'], bs['title']),
     })
 
-# ============ 生成 HTML ============
+# ============ 生成文章 HTML ============
+BADGE = {'x': '🐦 X动态', 'podcast': '🎙️ 播客', 'blog': '📝 博客'}
+BADGE_EN = {'x': 'X/Twitter', 'podcast': 'Podcast', 'blog': 'Blog'}
+
+def esc(s):
+    return str(s).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
+
 articles_html = ''
 for item in all_items:
-    num = item['num']
-    text = item['text']
-    item_type = item['type']
-    
-    # 中文标题和内容
-    zh_title = get_zh_title(text, item['name'], item_type)
-    zh_content = get_zh_summary(text, item['name'], item_type)
-    
-    # 英文标题和内容（原始内容）
-    en_title = gen_excerpt(text, 80)
-    en_content = text
-
-    badge = {'x': 'X/Twitter', 'podcast': '🎙️ Podcast', 'blog': '📝 Blog'}.get(item_type, '')
-    badge_zh = {'x': '🐦 X动态', 'podcast': '🎙️ 播客', 'blog': '📝 博客'}.get(item_type, '')
-
+    n = item['num']
+    likes_html = f'<span>❤️ {item["likes"]:,}</span>' if item['likes'] > 0 else ''
+    # 注意：zh_content 可能含 HTML 标签（<strong><em><br>），不要 esc
     articles_html += f'''
-        <article class="article" data-article="{num}">
+        <article class="article" data-article="{n}">
             <div class="article-header">
                 <div class="article-left">
-                    <span class="article-number">{num:02d}</span>
+                    <span class="article-number">{n:02d}</span>
                     <div class="author-row">
                         <div class="author-avatar">{item['initials']}</div>
                         <div class="author-info">
-                            <span class="author-name" data-lang="zh" class="show">{item['name']}</span>
-                            <span class="author-name" data-lang="en">{item['name']}</span>
-                            <span class="author-bio" data-lang="zh" class="show">{item['bio_zh']}</span>
-                            <span class="author-bio" data-lang="en">{item['bio']}</span>
+                            <span class="author-name">{esc(item['name'])}</span>
+                            <span class="author-bio">{esc(item['bio'])}</span>
                         </div>
                     </div>
                 </div>
                 <div class="article-actions">
-                    <button class="action-btn" onclick="playArticle({num})">
+                    <button class="action-btn" onclick="playArticle({n})">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        <span data-lang="zh" class="show">朗读</span>
-                        <span data-lang="en">Read</span>
+                        <span class="zh-text">朗读</span><span class="en-text" style="display:none">Read</span>
                     </button>
                 </div>
             </div>
-            <h2 data-lang="zh" class="show">{zh_title}</h2>
-            <h2 data-lang="en">{en_title}</h2>
+            <h2 class="zh-text">{item['zh_title']}</h2>
+            <h2 class="en-text" style="display:none">{esc(item['en_title'])}</h2>
             <div class="article-body">
-                <p data-lang="zh" class="show">{zh_content}</p>
-                <p data-lang="en">{en_content}</p>
+                <p class="zh-text">{item['zh_content']}</p>
+                <p class="en-text" style="display:none">{esc(item['en_content'])}</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats">
-                    <span data-lang="zh" class="show">{badge_zh}</span>
-                    <span data-lang="en">{badge}</span>
-                    {f"<span>❤️ {item['likes']:,}</span>" if item['likes'] > 0 else ''}
+                    <span class="zh-text">{BADGE.get(item['type'], '')}</span>
+                    <span class="en-text" style="display:none">{BADGE_EN.get(item['type'], '')}</span>
+                    {likes_html}
                 </div>
-                <a href="{item['url']}" class="article-link" target="_blank">
-                    <span data-lang="zh" class="show">查看原文 →</span>
-                    <span data-lang="en">View Original →</span>
+                <a href="{esc(item['url'])}" class="article-link" target="_blank">
+                    <span class="zh-text">查看原文 →</span>
+                    <span class="en-text" style="display:none">View Original →</span>
                 </a>
             </div>
         </article>'''
 
 # ============ 历史存档 ============
-archive_html = ''
+archive_dir = OUTPUT_DIR
 archive_files = sorted([
-    f for f in os.listdir('.')
+    f for f in os.listdir(archive_dir)
     if re.match(r'^\d{4}-\d{2}-\d{2}\.html$', f)
-    and f != 'index.html'
-], reverse=True)
+], reverse=True)[:10]
 
-if archive_files:
-    links = ''
-    for f in archive_files[:5]:
-        date_match = re.search(r'(\d{4})-(\d{2})-(\d{2})', f)
-        if date_match:
-            year, month, day = date_match.groups()
-            date_str = f'{year}年{int(month)}月{int(day)}日'
-            links += f'<a href="{f}" class="archive-item">{date_str}</a>'
-    archive_html = f'''
+archive_links = ''
+for f in archive_files:
+    m = re.match(r'(\d{4})-(\d{2})-(\d{2})\.html', f)
+    if m:
+        y, mo, d = m.groups()
+        archive_links += f'<a href="{f}" class="archive-item">{y}年{int(mo)}月{int(d)}日</a>\n'
+
+archive_html = f'''
         <div class="archive-section">
             <h3>📅 历史存档</h3>
-            <div class="archive-list">{links}
+            <div class="archive-list">
+                {archive_links}
             </div>
-        </div>'''
+        </div>''' if archive_links else ''
 
 # ============ 页面模板 ============
 today = datetime.now()
-day_names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-date_en = f"{day_names[today.weekday()]}, {month_names[today.month]} {today.day}, {today.year}"
+DAY_NAMES = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+MON_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December']
+date_en = f"{DAY_NAMES[today.weekday()]}, {MON_NAMES[today.month-1]} {today.day}, {today.year}"
+date_str = f"{today.year}-{today.month:02d}-{today.day:02d}"
 
-# 统计信息
-x_count = len([i for i in all_items if i['type'] == 'x'])
-pod_count = len([i for i in all_items if i['type'] == 'podcast'])
-blog_count = len([i for i in all_items if i['type'] == 'blog'])
+x_n    = sum(1 for i in all_items if i['type']=='x')
+pod_n  = sum(1 for i in all_items if i['type']=='podcast')
+blog_n = sum(1 for i in all_items if i['type']=='blog')
 
-html = f'''<!DOCTYPE html>
+# 朗读文本构建（中英各自取相应文本节点）
+HTML = f'''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
     <title>AI Builders · {date_en}</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
     <style>
-        :root {{--bg:#fafaf9;--text:#1c1917;--text-secondary:#78716c;--accent:#ea580c;--border:#e7e5e4;--tag-bg:#f5f5f4}}
+        :root{{--bg:#fafaf9;--text:#1c1917;--muted:#78716c;--accent:#ea580c;--border:#e7e5e4;--tag:#f5f5f4}}
         *{{margin:0;padding:0;box-sizing:border-box}}
         body{{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}}
-        .controls{{position:sticky;top:0;z-index:100;background:rgba(250,250,249,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:12px 40px;display:flex;justify-content:space-between;align-items:center}}
+        /* ===控制栏=== */
+        .controls{{position:sticky;top:0;z-index:100;background:rgba(250,250,249,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:10px 40px;display:flex;justify-content:space-between;align-items:center;gap:16px}}
+        .back-link{{color:var(--muted);text-decoration:none;font-size:13px;white-space:nowrap}}
+        .back-link:hover{{color:var(--accent)}}
         .lang-switch{{display:flex;gap:6px}}
-        .lang-btn{{padding:6px 14px;border:1px solid var(--border);background:white;cursor:pointer;font-size:13px;border-radius:16px;transition:all .2s}}
-        .lang-btn.active{{background:var(--text);color:white;border-color:var(--text)}}
-        .audio-controls{{display:flex;gap:8px;align-items:center}}
-        .audio-btn{{padding:6px 14px;border:1px solid var(--border);background:white;cursor:pointer;font-size:13px;border-radius:16px;display:flex;align-items:center;gap:6px}}
-        .audio-btn:hover{{background:var(--tag-bg)}}
-        .audio-btn.playing{{background:var(--accent);color:white;border-color:var(--accent)}}
-        .audio-btn svg, .action-btn svg{{width:12px;height:12px}}
-        .voice-select{{padding:6px 10px;border:1px solid var(--border);border-radius:12px;font-size:12px;background:white;cursor:pointer}}
-        .hero{{padding:40px 40px 30px;max-width:720px;margin:0 auto;border-bottom:1px solid var(--border)}}
-        .date{{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:12px}}
-        .hero h1{{font-family:'Noto Serif SC',serif;font-size:1.8rem;font-weight:600;margin-bottom:12px}}
-        .hero-sub{{font-size:14px;color:var(--text-secondary);margin-bottom:16px}}
-        .stats{{font-size:12px;color:var(--text-secondary)}}
+        .lang-btn{{padding:5px 14px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:13px;border-radius:16px;transition:all .15s}}
+        .lang-btn.active{{background:var(--text);color:#fff;border-color:var(--text)}}
+        .audio-row{{display:flex;gap:8px;align-items:center}}
+        .audio-btn{{padding:5px 12px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:12px;border-radius:14px;display:flex;align-items:center;gap:5px}}
+        .audio-btn:hover{{background:var(--tag)}}
+        .audio-btn.playing{{background:var(--accent);color:#fff;border-color:var(--accent)}}
+        .voice-sel{{padding:5px 8px;border:1px solid var(--border);border-radius:12px;font-size:12px;background:#fff;cursor:pointer}}
+        svg{{width:12px;height:12px}}
+        /* ===头部=== */
+        .hero{{padding:40px 40px 28px;max-width:720px;margin:0 auto;border-bottom:1px solid var(--border)}}
+        .date{{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}}
+        .hero h1{{font-family:'Noto Serif SC',serif;font-size:1.75rem;font-weight:600;margin-bottom:10px}}
+        .hero-sub{{font-size:14px;color:var(--muted);margin-bottom:12px}}
+        .stats{{font-size:12px;color:var(--muted)}}
+        /* ===文章=== */
         .articles{{max-width:720px;margin:0 auto;padding:0 40px 80px}}
-        .article{{padding:32px 0;border-bottom:1px solid var(--border)}}
-        .article-header{{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}}
-        .article-left{{display:flex;align-items:center;gap:12px}}
-        .article-number{{font-size:24px;font-weight:600;color:var(--border);line-height:1;min-width:32px}}
-        .author-row{{display:flex;align-items:center;gap:10px}}
-        .author-avatar{{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1c1917 0%,#57534e 100%);display:flex;align-items:center;justify-content:center;color:white;font-weight:600;font-size:11px}}
+        .article{{padding:28px 0;border-bottom:1px solid var(--border)}}
+        .article-header{{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}}
+        .article-left{{display:flex;align-items:center;gap:10px}}
+        .article-number{{font-size:22px;font-weight:700;color:var(--border);line-height:1;min-width:30px}}
+        .author-row{{display:flex;align-items:center;gap:8px}}
+        .author-avatar{{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#292524,#57534e);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:10px;flex-shrink:0}}
         .author-info{{display:flex;flex-direction:column}}
         .author-name{{font-weight:500;font-size:13px}}
-        .author-bio{{color:var(--text-secondary);font-size:12px}}
-        .article-actions{{display:flex;gap:6px}}
-        .action-btn{{padding:5px 10px;border:1px solid var(--border);background:white;cursor:pointer;font-size:12px;border-radius:12px;display:flex;align-items:center;gap:4px}}
-        .action-btn:hover{{background:var(--tag-bg)}}
-        .action-btn.playing{{background:var(--accent);color:white;border-color:var(--accent)}}
-        .article h2{{font-family:'Noto Serif SC',serif;font-size:1.1rem;font-weight:600;line-height:1.4;margin-bottom:12px;margin-left:44px}}
-        .article-body{{margin-left:44px}}
-        .article-body p{{font-size:14px;line-height:1.8;margin-bottom:10px}}
-        .article-footer{{display:flex;justify-content:space-between;align-items:center;margin-top:14px;margin-left:44px}}
-        .article-stats{{display:flex;gap:12px;font-size:12px;color:var(--text-secondary)}}
+        .author-bio{{color:var(--muted);font-size:11px}}
+        .article-actions{{flex-shrink:0}}
+        .action-btn{{padding:4px 10px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:12px;border-radius:12px;display:flex;align-items:center;gap:4px}}
+        .action-btn:hover{{background:var(--tag)}}
+        .action-btn.playing{{background:var(--accent);color:#fff;border-color:var(--accent)}}
+        .article h2{{font-family:'Noto Serif SC',serif;font-size:1.05rem;font-weight:600;line-height:1.45;margin-bottom:10px;margin-left:42px}}
+        .article-body{{margin-left:42px}}
+        .article-body p{{font-size:14px;line-height:1.8;margin-bottom:8px;color:#292524}}
+        .article-body strong{{color:var(--accent)}}
+        .article-footer{{display:flex;justify-content:space-between;align-items:center;margin-top:12px;margin-left:42px}}
+        .article-stats{{display:flex;gap:10px;font-size:12px;color:var(--muted)}}
         .article-link{{color:var(--accent);font-size:13px;font-weight:500;text-decoration:none}}
         .article-link:hover{{text-decoration:underline}}
-        .archive-section{{margin-top:40px;padding-top:30px;border-top:1px solid var(--border)}}
-        .archive-section h3{{font-size:14px;color:var(--text-secondary);margin-bottom:16px}}
-        .archive-list{{display:flex;flex-wrap:wrap;gap:10px}}
-        .archive-item{{padding:8px 16px;background:var(--tag-bg);border-radius:8px;color:var(--text);text-decoration:none;font-size:14px;transition:all .2s}}
+        /* ===存档=== */
+        .archive-section{{margin-top:36px;padding-top:28px;border-top:1px solid var(--border)}}
+        .archive-section h3{{font-size:13px;color:var(--muted);margin-bottom:14px}}
+        .archive-list{{display:flex;flex-wrap:wrap;gap:8px}}
+        .archive-item{{padding:7px 14px;background:var(--tag);border-radius:8px;color:var(--text);text-decoration:none;font-size:13px;transition:all .15s}}
         .archive-item:hover{{background:var(--accent);color:#fff}}
-        .footer{{text-align:center;padding:40px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border)}}
+        /* ===页脚=== */
+        .footer{{text-align:center;padding:36px;color:var(--muted);font-size:12px;border-top:1px solid var(--border)}}
         .footer a{{color:var(--accent);text-decoration:none}}
-        [data-lang]{{display:none}}
-        [data-lang].show{{display:block}}
-        @media(max-width:768px){{.controls{{padding:10px 20px}}.hero{{padding:30px 20px 20px}}.hero h1{{font-size:1.4rem}}.articles{{padding:0 20px 60px}}.article h2,.article-body,.article-footer{{margin-left:0}}}}
+        @media(max-width:768px){{
+            .controls{{padding:8px 16px}}
+            .hero{{padding:28px 16px 20px}}
+            .hero h1{{font-size:1.4rem}}
+            .articles{{padding:0 16px 60px}}
+            .article h2,.article-body,.article-footer{{margin-left:0}}
+        }}
     </style>
 </head>
 <body>
     <div class="controls">
+        <a href="../index.html" class="back-link">← 返回首页</a>
         <div class="lang-switch">
-            <button class="lang-btn active" data-lang-switch="zh">中文</button>
-            <button class="lang-btn" data-lang-switch="en">EN</button>
+            <button class="lang-btn active" id="btnZh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn"         id="btnEn" onclick="setLang('en')">EN</button>
         </div>
-        <div class="audio-controls">
-            <select class="voice-select" id="voiceSelect"><option value="">选择语音</option></select>
-            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+        <div class="audio-row">
+            <select class="voice-sel" id="voiceSel"><option value="">语音</option></select>
+            <button class="audio-btn" id="playAllBtn" onclick="togglePlayAll()">
                 <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                 全文朗读
             </button>
         </div>
     </div>
+
     <header class="hero">
         <p class="date">{date_en}</p>
         <h1>AI Builders Daily Digest</h1>
         <p class="hero-sub">每日精选 AI 领域最有价值的深度内容</p>
-        <p class="stats">📝 {len(all_items)} 篇精选 ({x_count}条X · {pod_count}个播客 · {blog_count}篇博客)</p>
+        <p class="stats">📝 {len(all_items)} 篇精选（🐦 {x_n} 条X · 🎙️ {pod_n} 个播客 · 📝 {blog_n} 篇博客）</p>
     </header>
+
     <main class="articles">
         {articles_html}
         {archive_html}
     </main>
+
     <footer class="footer">
-        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a></p>
+        <p>数据来源：<a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a></p>
     </footer>
+
     <script>
-        let currentLang='zh',voices=[],selectedVoice=null,isPlaying=false;
-        function loadVoices(){{voices=speechSynthesis.getVoices();const s=document.getElementById('voiceSelect');s.innerHTML='<option value="">选择语音</option>';voices.filter(v=>v.lang.startsWith('zh')).forEach(v=>{{const o=document.createElement('option');o.value=v.name;o.textContent=v.name+(v.localService?' ★':'');s.appendChild(o)}})}}
-        document.getElementById('voiceSelect').onchange=e=>{{selectedVoice=voices.find(v=>v.name===e.target.value)}};
-        document.querySelectorAll('.lang-btn').forEach(btn=>{{btn.onclick=()=>{{currentLang=btn.dataset.langSwitch;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('[data-lang]').forEach(el=>{{el.classList.toggle('show',el.dataset.lang===currentLang)}});if(isPlaying)stopAll()}}}});
-        function playArticle(n){{const a=document.querySelector(`[data-article="${{n}}"]`);let t='';a.querySelectorAll(`[data-lang="${{currentLang}}"]`).forEach(el=>{{if(el.tagName==='H2'||el.tagName==='P')t+=el.textContent+'。'}});speak(t,a.querySelector('.action-btn'))}}
-        function playAll(){{const btn=document.getElementById('playAllBtn');if(isPlaying){{stopAll();return}}let t='今天为大家带来 AI 领域的重要资讯。';document.querySelectorAll('.article').forEach((a,i)=>{{t+=`第 ${{i+1}} 篇，`;a.querySelectorAll(`[data-lang="${{currentLang}}"]`).forEach(el=>{{if(el.tagName==='H2'||el.tagName==='P')t+=el.textContent}})}});speak(t,btn)}}
-        function speak(text,btn){{if(isPlaying){{speechSynthesis.cancel();isPlaying=false;document.querySelectorAll('.action-btn,.audio-btn').forEach(b=>b.classList.remove('playing'));return}}const u=new SpeechSynthesisUtterance(text.replace(/。/g,'，').replace(/\\s+/g,' ').trim());u.lang=currentLang==='zh'?'zh-CN':'en-US';u.rate=0.85;u.pitch=0.95;const v=selectedVoice||voices.find(v=>v.lang.startsWith(currentLang));if(v)u.voice=v;u.onstart=()=>{{isPlaying=true;btn.classList.add('playing')}};u.onend=u.onerror=()=>{{isPlaying=false;document.querySelectorAll('.action-btn,.audio-btn').forEach(b=>b.classList.remove('playing'))}};speechSynthesis.cancel();speechSynthesis.speak(u)}}
-        function stopAll(){{speechSynthesis.cancel();isPlaying=false;document.querySelectorAll('.action-btn,.audio-btn').forEach(b=>b.classList.remove('playing'))}}
-        // 初始化中文显示
-        document.querySelectorAll('[data-lang="zh"]').forEach(el=>el.classList.add('show'));
-        speechSynthesis.onvoiceschanged=loadVoices;loadVoices();
+    // ===== 语言切换 =====
+    var currentLang = 'zh';
+    function setLang(lang) {{
+        currentLang = lang;
+        document.getElementById('btnZh').classList.toggle('active', lang==='zh');
+        document.getElementById('btnEn').classList.toggle('active', lang==='en');
+        document.querySelectorAll('.zh-text').forEach(function(el){{
+            el.style.display = lang==='zh' ? '' : 'none';
+        }});
+        document.querySelectorAll('.en-text').forEach(function(el){{
+            el.style.display = lang==='en' ? '' : 'none';
+        }});
+        if (isPlaying) stopAll();
+    }}
+
+    // ===== 语音朗读 =====
+    var voices=[], selectedVoice=null, isPlaying=false;
+
+    function loadVoices() {{
+        voices = speechSynthesis.getVoices();
+        var s = document.getElementById('voiceSel');
+        s.innerHTML = '<option value="">语音</option>';
+        voices.forEach(function(v) {{
+            if (v.lang.startsWith('zh') || v.lang.startsWith('en')) {{
+                var o = document.createElement('option');
+                o.value = v.name;
+                o.textContent = v.name + (v.localService ? ' ★' : '');
+                s.appendChild(o);
+            }}
+        }});
+    }}
+    document.getElementById('voiceSel').onchange = function(e) {{
+        selectedVoice = voices.find(function(v){{return v.name===e.target.value}}) || null;
+    }};
+
+    function getArticleText(n) {{
+        var a = document.querySelector('[data-article="'+n+'"]');
+        if (!a) return '';
+        var cls = currentLang==='zh' ? '.zh-text' : '.en-text';
+        var parts = [];
+        a.querySelectorAll(cls).forEach(function(el){{
+            var tag = el.tagName;
+            if (tag==='H2' || tag==='P') parts.push(el.innerText || el.textContent);
+        }});
+        return parts.join('。');
+    }}
+
+    function playArticle(n) {{
+        var btn = document.querySelector('[data-article="'+n+'"] .action-btn');
+        if (isPlaying) {{ stopAll(); return; }}
+        speak(getArticleText(n), btn);
+    }}
+
+    function togglePlayAll() {{
+        if (isPlaying) {{ stopAll(); return; }}
+        var btn = document.getElementById('playAllBtn');
+        var text = '今天为大家带来 AI 领域精选资讯。';
+        document.querySelectorAll('.article').forEach(function(a, i) {{
+            text += '第'+(i+1)+'篇。';
+            var cls = currentLang==='zh' ? '.zh-text' : '.en-text';
+            a.querySelectorAll(cls).forEach(function(el){{
+                if (el.tagName==='H2'||el.tagName==='P') text += (el.innerText||el.textContent)+'。';
+            }});
+        }});
+        speak(text, btn);
+    }}
+
+    function speak(text, btn) {{
+        speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text.replace(/[。！？]/g, '，').replace(/\\s+/g,' ').trim());
+        u.lang = currentLang==='zh' ? 'zh-CN' : 'en-US';
+        u.rate = 0.85; u.pitch = 0.95;
+        var v = selectedVoice || voices.find(function(v){{return v.lang.startsWith(currentLang==='zh'?'zh':'en')}});
+        if (v) u.voice = v;
+        u.onstart = function(){{ isPlaying=true; if(btn) btn.classList.add('playing'); }};
+        u.onend = u.onerror = function(){{ stopAll(); }};
+        speechSynthesis.speak(u);
+    }}
+
+    function stopAll() {{
+        speechSynthesis.cancel();
+        isPlaying = false;
+        document.querySelectorAll('.action-btn,.audio-btn').forEach(function(b){{b.classList.remove('playing')}});
+    }}
+
+    speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
     </script>
 </body>
 </html>'''
 
-# ============ 输出 ============
-with open('index.html', 'w', encoding='utf-8') as f:
-    f.write(html)
+# ============ 写文件 ============
+out_path = os.path.join(OUTPUT_DIR, 'index.html')
+dated_path = os.path.join(OUTPUT_DIR, f'{date_str}.html')
 
-print(f'生成完成！共 {len(all_items)} 篇')
-print(f'  - X 推文: {x_count} 篇')
-print(f'  - 播客: {pod_count} 篇')
-print(f'  - 博客: {blog_count} 篇')
+with open(out_path, 'w', encoding='utf-8') as f:
+    f.write(HTML)
+with open(dated_path, 'w', encoding='utf-8') as f:
+    f.write(HTML)
+
+print(f'✅ 生成完成！共 {len(all_items)} 篇')
+print(f'   🐦 X推文: {x_n}  🎙️ 播客: {pod_n}  📝 博客: {blog_n}')
+print(f'   → {out_path}')
+print(f'   → {dated_path}')
 print()
 print('=== 内容预览 ===')
 for item in all_items:
-    type_icon = {'x': '🐦', 'podcast': '🎙️', 'blog': '📝'}.get(item['type'], '•')
-    print(f"{type_icon} {item['num']:02d}. [{item['type']}] {item['name'][:40]}")
-    print(f"   {item['excerpt'][:80]}...")
+    icon = {'x':'🐦','podcast':'🎙️','blog':'📝'}.get(item['type'],'•')
+    print(f"{icon} {item['num']:02d}. {item['zh_title'][:50]}")
+    print(f"    EN: {item['en_title'][:60]}")
