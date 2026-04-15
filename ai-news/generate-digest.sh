@@ -43,6 +43,7 @@ BLOG_COUNT=$(python3 -c "import json; print(len(json.load(open('$BLOG_DATA')).ge
 log "数据统计: X=$X_COUNT, Podcasts=$POD_COUNT, Blogs=$BLOG_COUNT"
 
 # 用 Python 生成完整 HTML
+export TODAY TODAY_CN TODAY_DISPLAY ARCHIVE_FILE
 python3 << 'PYEOF'
 import json
 import os
