@@ -1799,7 +1799,7 @@ def generate_html(day_key, day_data, all_dates):
 <body>
 
     <div class="controls">
-        <a href="../index.html" class="back-home">返回</a>
+        <a href="../index.html" class="back-home">首页</a>
         <div class="lang-switch">
             <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
