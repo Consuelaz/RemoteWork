@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-active="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,7 +14,6 @@
             --accent: #ea580c;
             --border: #e7e5e4;
             --tag-bg: #f5f5f4;
-            --summary-bg: #fff7ed;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -42,37 +41,40 @@
         }
         .lang-switch { display: flex; gap: 6px; }
         .lang-btn {
-            padding: 6px 14px;
+            padding: 6px 16px;
             border: 1px solid var(--border);
             background: white;
             cursor: pointer;
             font-size: 13px;
-            border-radius: 16px;
+            border-radius: 20px;
+            font-family: inherit;
             transition: all 0.2s;
         }
-        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .lang-btn:hover { background: var(--tag-bg); }
+        .lang-btn.on { background: var(--text); color: white; border-color: var(--text); }
         .audio-controls { display: flex; gap: 8px; align-items: center; }
         .audio-btn {
-            padding: 6px 14px;
+            padding: 6px 16px;
             border: 1px solid var(--border);
             background: white;
             cursor: pointer;
             font-size: 13px;
-            border-radius: 16px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             gap: 6px;
+            font-family: inherit;
         }
         .audio-btn:hover { background: var(--tag-bg); }
-        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn.on { background: var(--accent); color: white; border-color: var(--accent); }
         .audio-btn svg { width: 14px; height: 14px; }
         .voice-select {
             padding: 6px 10px;
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 16px;
             font-size: 12px;
             background: white;
-            cursor: pointer;
+            font-family: inherit;
         }
 
         /* 头部 */
@@ -82,169 +84,62 @@
             margin: 0 auto;
             border-bottom: 1px solid var(--border);
         }
-        .date {
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 12px;
-        }
-        .hero h1 {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-        .hero-sub {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-        }
+        .date { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 12px; }
+        .hero-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
         .stats { font-size: 12px; color: var(--text-secondary); }
 
         /* 文章列表 */
-        .articles {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 0 40px 80px;
-        }
+        .articles { max-width: 720px; margin: 0 auto; padding: 0 40px 80px; }
 
-        .article {
-            padding: 32px 0;
-            border-bottom: 1px solid var(--border);
-        }
+        .article { padding: 32px 0; border-bottom: 1px solid var(--border); }
         .article:last-child { border-bottom: none; }
-
-        .article-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
-        }
-
-        .article-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .article-number {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--border);
-            line-height: 1;
-            min-width: 32px;
-        }
-
-        .author-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .article-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+        .article-left { display: flex; align-items: center; gap: 12px; }
+        .article-number { font-size: 24px; font-weight: 600; color: var(--border); line-height: 1; min-width: 32px; }
+        .author-row { display: flex; align-items: center; gap: 10px; }
         .author-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            width: 32px; height: 32px; border-radius: 50%;
             background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 11px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 600; font-size: 11px;
         }
-
-        .author-info {
-            display: flex;
-            flex-direction: column;
-        }
+        .author-info { display: flex; flex-direction: column; }
         .author-name { font-weight: 500; font-size: 13px; }
         .author-bio { color: var(--text-secondary); font-size: 12px; }
-
         .article-actions { display: flex; gap: 6px; }
-
         .action-btn {
-            padding: 5px 10px;
-            border: 1px solid var(--border);
-            background: white;
-            cursor: pointer;
-            font-size: 12px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            padding: 5px 10px; border: 1px solid var(--border);
+            background: white; cursor: pointer; font-size: 12px;
+            border-radius: 12px; display: flex; align-items: center; gap: 4px;
+            font-family: inherit;
         }
         .action-btn:hover { background: var(--tag-bg); }
-        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn.on { background: var(--accent); color: white; border-color: var(--accent); }
         .action-btn svg { width: 12px; height: 12px; }
-
-        .article h2 {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: 12px;
-            margin-left: 44px;
-        }
-
-        .article-body { margin-left: 44px; }
-
-        .article-body p {
-            font-size: 14px;
-            line-height: 1.7;
-            color: var(--text);
-            margin-bottom: 10px;
-        }
-
-        .article-body strong { color: var(--accent); }
+        .article-body p { font-size: 14px; line-height: 1.75; color: var(--text); margin-bottom: 10px; }
         .article-body em { color: var(--text-secondary); font-style: normal; font-size: 13px; }
-
-        .article-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 14px;
-            margin-left: 44px;
-        }
-
+        .article-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
         .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
         .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
         .article-link:hover { text-decoration: underline; }
 
-        html[data-active="zh"] [data-lang="en"] { display: none !important; }
-        html[data-active="en"] [data-lang="zh"] { display: none !important; }
-
         /* 历史存档 */
-        .archive-section {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 32px 40px;
-            border-top: 1px solid var(--border);
-        }
+        .archive-section { max-width: 720px; margin: 0 auto; padding: 32px 40px; border-top: 1px solid var(--border); }
         .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
         .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
         .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
         .archive-item:hover { background: var(--accent); color: white; }
 
-        /* 页脚 */
-        footer {
-            text-align: center;
-            padding: 32px 40px;
-            color: var(--text-secondary);
-            font-size: 12px;
-            border-top: 1px solid var(--border);
-        }
+        footer { text-align: center; padding: 32px 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border); }
         footer a { color: var(--text-secondary); text-decoration: none; }
         footer a:hover { color: var(--accent); }
 
-        /* 响应式 */
         @media (max-width: 768px) {
-            .controls { padding: 10px 20px; }
+            .controls { padding: 10px 20px; flex-wrap: wrap; gap: 8px; }
             .hero, .archive-section { padding: 30px 20px 20px; }
             .hero h1 { font-size: 1.4rem; }
             .articles { padding: 0 20px 60px; }
-            .article h2, .article-body, .article-footer { margin-left: 0; }
         }
     </style>
 </head>
@@ -253,36 +148,30 @@
     <!-- 控制栏 -->
     <div class="controls">
         <div class="lang-switch">
-            <button class="lang-btn active" data-lang-switch="zh">中文</button>
-            <button class="lang-btn" data-lang-switch="en">EN</button>
+            <button class="lang-btn on" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
         </div>
         <div class="audio-controls">
-            <select class="voice-select" id="voiceSelect" title="选择语音">
-                <option value="">默认语音</option>
-            </select>
-            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+            <select class="voice-select" id="voiceSelect"><option value="">选择语音</option></select>
+            <button class="audio-btn" id="playAllBtn" onclick="togglePlayAll()">
                 <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                全文朗读
+                <span id="playAllLabel">全文朗读</span>
             </button>
         </div>
     </div>
 
     <!-- 头部 -->
     <header class="hero">
-        <p class="date">Wednesday, April 15, 2026</p>
-        <h1>AI Builders Daily Digest</h1>
-        <p class="hero-sub" data-lang="zh">每日精选 AI 领域最有价值的深度内容</p>
-        <p class="hero-sub" data-lang="en" style="display:none">Daily curated deep content from AI builders</p>
-        <p class="stats">
-            <span data-lang="zh">📝 10 篇精选</span>
-            <span data-lang="en">📝 10 Articles</span>
-        </p>
+        <p class="date" id="date-en">Wednesday, April 15, 2026</p>
+        <h1 id="title-zh">AI Builders 每日精选</h1>
+        <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="stats" id="stats-zh">📝 10 篇精选</p>
     </header>
 
     <!-- 文章列表 -->
     <main class="articles">
         <!-- 01 -->
-        <article class="article" data-article="1">
+        <article class="article" id="article-1">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">01</span>
@@ -295,15 +184,14 @@
                     </div>
                 </div>
                 <div class="article-actions">
-                    <button class="action-btn" onclick="playArticle(1)">
+                    <button class="action-btn" id="play-btn-1" onclick="togglePlay(1)">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         朗读
                     </button>
                 </div>
             </div>
-            <h2 data-lang="en"></h2>
             <div class="article-body">
-<p data-lang="en">raw recording with some INSANE performances from my new friends https://t.co/0lDxUiVrsc</p>
+                <p>raw recording with some INSANE performances from my new friends https://t.co/0lDxUiVrsc</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats"><span>❤️ 1</span><span>🔁 0</span></div>
@@ -311,7 +199,7 @@
             </div>
         </article>
         <!-- 02 -->
-        <article class="article" data-article="2">
+        <article class="article" id="article-2">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">02</span>
@@ -324,15 +212,14 @@
                     </div>
                 </div>
                 <div class="article-actions">
-                    <button class="action-btn" onclick="playArticle(2)">
+                    <button class="action-btn" id="play-btn-2" onclick="togglePlay(2)">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         朗读
                     </button>
                 </div>
             </div>
-            <h2 data-lang="en"></h2>
             <div class="article-body">
-<p data-lang="en">This is a great take. Human intelligence and computer intelligence are not different points on a line, but in a high dimensional space—and we should explore more of the space. https://t.co/BdIX5OWR0H</p>
+                <p>This is a great take. Human intelligence and computer intelligence are not different points on a line, but in a high dimensional space—and we should explore more of the space. https://t.co/BdIX5OWR0H</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats"><span>❤️ 93</span><span>🔁 10</span></div>
@@ -340,7 +227,7 @@
             </div>
         </article>
         <!-- 03 -->
-        <article class="article" data-article="3">
+        <article class="article" id="article-3">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">03</span>
@@ -353,15 +240,14 @@
                     </div>
                 </div>
                 <div class="article-actions">
-                    <button class="action-btn" onclick="playArticle(3)">
+                    <button class="action-btn" id="play-btn-3" onclick="togglePlay(3)">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         朗读
                     </button>
                 </div>
             </div>
-            <h2 data-lang="en"></h2>
             <div class="article-body">
-<p data-lang="en">Jet lag is hell</p>
+                <p>Jet lag is hell</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats"><span>❤️ 24</span><span>🔁 0</span></div>
@@ -369,7 +255,7 @@
             </div>
         </article>
         <!-- 04 -->
-        <article class="article" data-article="4">
+        <article class="article" id="article-4">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">04</span>
@@ -382,15 +268,14 @@
                     </div>
                 </div>
                 <div class="article-actions">
-                    <button class="action-btn" onclick="playArticle(4)">
+                    <button class="action-btn" id="play-btn-4" onclick="togglePlay(4)">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         朗读
                     </button>
                 </div>
             </div>
-            <h2 data-lang="en"></h2>
             <div class="article-body">
-<p data-lang="en">My entire feed and the Claude subreddit is full of ppl saying opus got nerfed.
+                <p>My entire feed and the Claude subreddit is full of ppl saying opus got nerfed.
 
 Why would Anthropic nerf its own models?</p>
             </div>
@@ -400,7 +285,7 @@ Why would Anthropic nerf its own models?</p>
             </div>
         </article>
         <!-- 05 -->
-        <article class="article" data-article="5">
+        <article class="article" id="article-5">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">05</span>
@@ -413,15 +298,14 @@ Why would Anthropic nerf its own models?</p>
                     </div>
                 </div>
                 <div class="article-actions">
-                    <button class="action-btn" onclick="playArticle(5)">
+                    <button class="action-btn" id="play-btn-5" onclick="togglePlay(5)">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         朗读
                     </button>
                 </div>
             </div>
-            <h2 data-lang="en"></h2>
             <div class="article-body">
-<p data-lang="en">Also available on:
+                <p>Also available on:
 
 Spotify:
 https://t.co/70agoA1PHq
@@ -436,7 +320,7 @@ Newsletter: https://t.co/azuNUfbjrX</p>
             </div>
         </article>
         <!-- 06 -->
-        <article class="article" data-article="6">
+        <article class="article" id="article-6">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">06</span>
@@ -449,15 +333,14 @@ Newsletter: https://t.co/azuNUfbjrX</p>
                     </div>
                 </div>
                 <div class="article-actions">
-                    <button class="action-btn" onclick="playArticle(6)">
+                    <button class="action-btn" id="play-btn-6" onclick="togglePlay(6)">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         朗读
                     </button>
                 </div>
             </div>
-            <h2 data-lang="en"></h2>
             <div class="article-body">
-<p data-lang="en">And regular expressions. https://t.co/GRmYQvX7Ox</p>
+                <p>And regular expressions. https://t.co/GRmYQvX7Ox</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats"><span>❤️ 16</span><span>🔁 0</span></div>
@@ -465,7 +348,7 @@ Newsletter: https://t.co/azuNUfbjrX</p>
             </div>
         </article>
         <!-- 07 -->
-        <article class="article" data-article="7">
+        <article class="article" id="article-7">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">07</span>
@@ -478,15 +361,14 @@ Newsletter: https://t.co/azuNUfbjrX</p>
                     </div>
                 </div>
                 <div class="article-actions">
-                    <button class="action-btn" onclick="playArticle(7)">
+                    <button class="action-btn" id="play-btn-7" onclick="togglePlay(7)">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         朗读
                     </button>
                 </div>
             </div>
-            <h2 data-lang="en"></h2>
             <div class="article-body">
-<p data-lang="en">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo</p>
+                <p>On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats"><span>❤️ 8,019</span><span>🔁 1,251</span></div>
@@ -494,7 +376,7 @@ Newsletter: https://t.co/azuNUfbjrX</p>
             </div>
         </article>
         <!-- 08 -->
-        <article class="article" data-article="8">
+        <article class="article" id="article-8">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">08</span>
@@ -507,15 +389,14 @@ Newsletter: https://t.co/azuNUfbjrX</p>
                     </div>
                 </div>
                 <div class="article-actions">
-                    <button class="action-btn" onclick="playArticle(8)">
+                    <button class="action-btn" id="play-btn-8" onclick="togglePlay(8)">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         朗读
                     </button>
                 </div>
             </div>
-            <h2 data-lang="en"></h2>
             <div class="article-body">
-<p data-lang="en">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.
+                <p>Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.
 
 We have one going for @v0. DM if you want to be a part of it and are committed to sharing excellent feedback.</p>
             </div>
@@ -525,7 +406,7 @@ We have one going for @v0. DM if you want to be a part of it and are committed t
             </div>
         </article>
         <!-- 09 -->
-        <article class="article" data-article="9">
+        <article class="article" id="article-9">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">09</span>
@@ -538,17 +419,14 @@ We have one going for @v0. DM if you want to be a part of it and are committed t
                     </div>
                 </div>
                 <div class="article-actions">
-                    <button class="action-btn" onclick="playArticle(9)">
+                    <button class="action-btn" id="play-btn-9" onclick="togglePlay(9)">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         朗读
                     </button>
                 </div>
             </div>
-            <h2 data-lang="en">Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw, and Why </h2>
             <div class="article-body">
-<p data-lang="zh">Speaker 1 | 00:00 - 00:25
-Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for example, we now know the neural network is the correct architecture. And I I will tell you, like, was a sixty year run where that was like a, you know, or even seventy years where that was controversial.<br><br><em>…（更多内容见原文）</em></p>
-                <p data-lang="en" style="display:none">Speaker 1 | 00:00 - 00:25
+                <p>Speaker 1 | 00:00 - 00:25
 Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for example, we now know the neural network is the correct architecture. And I I will tell you, like, was a sixty year run where that was like a, you know, or even seventy years where that was controversial.<br><br><em>...(see original for more)</em></p>
             </div>
             <div class="article-footer">
@@ -557,7 +435,7 @@ Something about AI that causes the people in the field, I would say, to become b
             </div>
         </article>
         <!-- 10 -->
-        <article class="article" data-article="10">
+        <article class="article" id="article-10">
             <div class="article-header">
                 <div class="article-left">
                     <span class="article-number">10</span>
@@ -570,24 +448,24 @@ Something about AI that causes the people in the field, I would say, to become b
                     </div>
                 </div>
                 <div class="article-actions">
-                    <button class="action-btn" onclick="playArticle(10)">
+                    <button class="action-btn" id="play-btn-10" onclick="togglePlay(10)">
                         <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         朗读
                     </button>
                 </div>
             </div>
-            <h2 data-lang="en">Preparing your security program for AI-accelerated offense</h2>
             <div class="article-body">
-<p data-lang="en">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly reducing the required resources, time, and skill required to find and exploit vulnerabilities in software. With an eye on the lightning-fast progress of AI, we also noted that it will not be long before models of similar capability levels are widely available.<br><br><em>...(read full article)</em></p>
+                <p>Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly reducing the required resources, time, and skill required to find and exploit vulnerabilities in software. With an eye on the lightning-fast progress of AI, we also noted that it will not be long before models of similar capability levels are widely available.<br><br><em>...(read full article)</em></p>
             </div>
             <div class="article-footer">
                 <div class="article-stats"><span>📝 Blog</span></div>
                 <a href="https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense" class="article-link" target="_blank">阅读 →</a>
             </div>
         </article>
+
     </main>
 
-        <!-- 历史存档 -->
+    <!-- 历史存档 -->
     <div class="archive-section">
         <h3>📅 历史存档</h3>
         <div class="archive-list">
@@ -602,165 +480,160 @@ Something about AI that causes the people in the field, I would say, to become b
     </footer>
 
     <script>
-        let currentUtterance = null;
-        let isPlaying = false;
-        let currentLang = 'zh';
-        let voices = [];
-        let selectedVoice = null;
+        // ====== 语言切换 ======
+        var LANG = 'zh';
+        var LABELS = {
+            'zh': {'title':'AI Builders 每日精选','subtitle':'每日精选 AI 领域最有价值的深度内容','stats':'📝 10 篇精选','playBtn':'朗读','playAll':'全文朗读','stopAll':'停止','voicePrompt':'选择语音'},
+            'en': {'title':'AI Builders Daily Digest','subtitle':'Daily curated deep content from AI builders','stats':'📝 10 Articles','playBtn':'Read','playAll':'Read All','stopAll':'Stop','voicePrompt':'Select Voice'}
+        };
 
-        // 加载语音列表（按语言分组）
-        // 初始化：恢复语言偏好
-        (function initLang() {
-            const savedLang = localStorage.getItem('ai-news-lang') || 'zh';
-            document.documentElement.setAttribute('data-active', savedLang);
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            const activeBtn = document.querySelector(`[data-lang-switch="${savedLang}"]`);
-            if (activeBtn) activeBtn.classList.add('active');
-            currentLang = savedLang;
-        })();
+        function setLang(lang) {
+            LANG = lang;
+            var ls = LABELS[lang];
 
-        // 语音加载
+            // 更新按钮高亮
+            document.getElementById('btn-zh').className = 'lang-btn' + (lang === 'zh' ? ' on' : '');
+            document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' on' : '');
+
+            // 更新头部文本
+            document.getElementById('title-zh').textContent = ls.title;
+            document.getElementById('subtitle-zh').textContent = ls.subtitle;
+            document.getElementById('stats-zh').textContent = ls.stats;
+            document.getElementById('playAllLabel').textContent = isPlaying ? ls.stopAll : ls.playAll;
+            document.getElementById('voiceSelect').options[0].textContent = ls.voicePrompt;
+
+            // 更新每篇文章的朗读按钮
+            var btns = document.querySelectorAll('.action-btn');
+            btns.forEach(function(btn) {
+                var playing = btn.classList.contains('on');
+                btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>' + (playing ? ls.stopAll : ls.playBtn);
+            });
+
+            // 保存偏好
+            try { localStorage.setItem('ai-news-lang', lang); } catch(e) {}
+        }
+
+        // ====== 语音朗读 ======
+        var voices = [];
+        var isPlaying = false;
+        var currentUtterance = null;
+
         function loadVoices() {
             voices = speechSynthesis.getVoices();
-            const select = document.getElementById('voiceSelect');
-            select.innerHTML = '<option value="">选择语音</option>';
-
-            const zhVoices = voices.filter(v => v.lang.startsWith('zh'));
-            const enVoices = voices.filter(v => v.lang.startsWith('en'));
-
-            if (zhVoices.length > 0) {
-                const og = document.createElement('optgroup');
-                og.label = '中文';
-                zhVoices.forEach(v => {
-                    const opt = document.createElement('option');
-                    opt.value = v.name;
-                    opt.textContent = v.name + (v.localService ? ' ★' : '');
-                    og.appendChild(opt);
-                });
-                select.appendChild(og);
+            var sel = document.getElementById('voiceSelect');
+            sel.innerHTML = '<option value="">' + LABELS[LANG].voicePrompt + '</option>';
+            var zhList = [], enList = [];
+            voices.forEach(function(v) {
+                if (v.lang.startsWith('zh')) zhList.push(v);
+                else if (v.lang.startsWith('en')) enList.push(v);
+            });
+            if (zhList.length) {
+                var og = document.createElement('optgroup'); og.label = '中文';
+                zhList.forEach(function(v) { var o = document.createElement('option'); o.value = v.name; o.textContent = v.name + (v.localService ? ' ★' : ''); og.appendChild(o); });
+                sel.appendChild(og);
             }
-
-            if (enVoices.length > 0) {
-                const og = document.createElement('optgroup');
-                og.label = 'English';
-                enVoices.forEach(v => {
-                    const opt = document.createElement('option');
-                    opt.value = v.name;
-                    opt.textContent = v.name + (v.localService ? ' ★' : '');
-                    og.appendChild(opt);
-                });
-                select.appendChild(og);
-            }
-
-            // 默认选择高质量本地语音
-            const highQuality = voices.find(v => v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en')));
-            if (highQuality) {
-                select.value = highQuality.name;
-                selectedVoice = highQuality;
+            if (enList.length) {
+                var og = document.createElement('optgroup'); og.label = 'English';
+                enList.forEach(function(v) { var o = document.createElement('option'); o.value = v.name; o.textContent = v.name + (v.localService ? ' ★' : ''); og.appendChild(o); });
+                sel.appendChild(og);
             }
         }
 
-        document.getElementById('voiceSelect').addEventListener('change', (e) => {
-            selectedVoice = voices.find(v => v.name === e.target.value);
-        });
+        document.getElementById('voiceSelect').addEventListener('change', function(e) {});
 
-        // 语言切换（点击按钮）
-        function setLang(lang) {
-            if (currentLang === lang) return;
-            currentLang = lang;
-            document.documentElement.setAttribute('data-active', lang);
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector(`[data-lang-switch="${lang}"]`).classList.add('active');
-            localStorage.setItem('ai-news-lang', lang);
+        function getVoice() {
+            var sel = document.getElementById('voiceSelect');
+            if (sel.value) return voices.find(function(v) { return v.name === sel.value; });
+            var pref = voices.find(function(v) { return v.localService && v.lang.startsWith(LANG); });
+            if (pref) return pref;
+            return voices.find(function(v) { return v.lang.startsWith(LANG); });
+        }
+
+        function buildText(num) {
+            var art = document.getElementById('article-' + num);
+            var parts = [];
+            var ps = art.querySelectorAll('p');
+            ps.forEach(function(p) { parts.push(p.textContent); });
+            return parts.join('。');
+        }
+
+        function togglePlay(num) {
+            if (isPlaying && currentBtn && currentBtnNum === num) {
+                stopAll(); return;
+            }
             if (isPlaying) stopAll();
-        }
-
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => setLang(btn.dataset.langSwitch));
-        });
-
-        // 语音预加载
-        speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices();
-
-        // 单篇朗读
-        function playArticle(num) {
-            const article = document.querySelector(`[data-article="${num}"]`);
-            let text = '';
-            article.querySelectorAll(`[data-lang="${currentLang}"]`).forEach(el => {
-                if (el.tagName === 'H2' || el.tagName === 'P') {
-                    text += el.textContent + '。';
-                }
-            });
-            speak(text, article.querySelector('.action-btn'));
-        }
-
-        // 全文朗读
-        function playAll() {
-            const btn = document.getElementById('playAllBtn');
-            if (isPlaying) { stopAll(); return; }
-            let text = currentLang === 'zh' ? '今天为大家带来 AI 领域的重要资讯。' : 'Here is today's AI builders digest.';
-            document.querySelectorAll('.article').forEach((a, i) => {
-                text += `第 ${i + 1} 篇，`;
-                a.querySelectorAll(`[data-lang="${currentLang}"]`).forEach(el => {
-                    if (el.tagName === 'H2' || el.tagName === 'P') {
-                        text += el.textContent;
-                    }
-                });
-                text += '。';
-            });
-            speak(text, btn);
-        }
-
-        function speak(text, btn) {
-            if (isPlaying) {
-                speechSynthesis.cancel();
-                isPlaying = false;
-                document.querySelectorAll('.action-btn, .audio-btn').forEach(b => b.classList.remove('playing'));
-                return;
-            }
-
-            let optimizedText = text
-                .replace(/。/g, '，')
-                .replace(/\s+/g, ' ')
-                .trim();
-
-            const u = new SpeechSynthesisUtterance(optimizedText);
-            u.lang = currentLang === 'zh' ? 'zh-CN' : 'en-US';
-            u.rate = 0.85;
-            u.pitch = 0.95;
-            u.volume = 1.0;
-
-            let voice = selectedVoice;
-            if (!voice || !voice.lang.startsWith(currentLang)) {
-                const preferred = voices.find(v => {
-                    if (!v.lang.startsWith(currentLang)) return false;
-                    if (v.localService) return true;
-                    const n = v.name.toLowerCase();
-                    return n.includes('premium') || n.includes('enhanced') ||
-                           n.includes('google') || n.includes('apple');
-                });
-                voice = preferred || voices.find(v => v.lang.startsWith(currentLang));
-            }
-
-            if (voice) u.voice = voice;
-
-            u.onstart = () => { isPlaying = true; btn.classList.add('playing'); };
-            u.onend = u.onerror = () => {
-                isPlaying = false;
-                document.querySelectorAll('.action-btn, .audio-btn').forEach(b => b.classList.remove('playing'));
+            var text = buildText(num);
+            var btn = document.getElementById('play-btn-' + num);
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'en-US';
+            u.rate = 0.85; u.pitch = 0.95; u.volume = 1.0;
+            var v = getVoice();
+            if (v) u.voice = v;
+            u.onstart = function() {
+                isPlaying = true; currentBtn = btn; currentBtnNum = num;
+                btn.classList.add('on');
+                btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>' + LABELS[LANG].stopAll;
             };
+            u.onend = u.onerror = function() {
+                isPlaying = false; currentBtn = null; currentBtnNum = null;
+                btn.classList.remove('on');
+                btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>' + LABELS[LANG].playBtn;
+                document.getElementById('playAllBtn').classList.remove('on');
+                document.getElementById('playAllLabel').textContent = LABELS[LANG].playAll;
+            };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
 
+        function togglePlayAll() {
+            if (isPlaying) { stopAll(); return; }
+            var allText = 'Here is today AI builders digest. ';
+            var arts = document.querySelectorAll('.article');
+            arts.forEach(function(art, i) {
+                allText += 'Article ' + (i+1) + '. ';
+                var ps = art.querySelectorAll('p');
+                ps.forEach(function(p) { allText += p.textContent + '. '; });
+            });
+            var u = new SpeechSynthesisUtterance(allText);
+            u.lang = 'en-US'; u.rate = 0.85; u.pitch = 0.95; u.volume = 1.0;
+            var v = getVoice();
+            if (v) u.voice = v;
+            u.onstart = function() {
+                isPlaying = true;
+                document.getElementById('playAllBtn').classList.add('on');
+                document.getElementById('playAllLabel').textContent = LABELS[LANG].stopAll;
+            };
+            u.onend = u.onerror = function() {
+                isPlaying = false;
+                document.getElementById('playAllBtn').classList.remove('on');
+                document.getElementById('playAllLabel').textContent = LABELS[LANG].playAll;
+                document.querySelectorAll('.action-btn.on').forEach(function(b) { b.classList.remove('on'); });
+                document.querySelectorAll('.action-btn').forEach(function(btn) {
+                    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>' + LABELS[LANG].playBtn;
+                });
+            };
             speechSynthesis.cancel();
             speechSynthesis.speak(u);
         }
 
         function stopAll() {
             speechSynthesis.cancel();
-            isPlaying = false;
-            document.querySelectorAll('.action-btn, .audio-btn').forEach(b => b.classList.remove('playing'));
+            isPlaying = false; currentBtn = null; currentBtnNum = null;
+            document.getElementById('playAllBtn').classList.remove('on');
+            document.getElementById('playAllLabel').textContent = LABELS[LANG].playAll;
+            document.querySelectorAll('.action-btn').forEach(function(btn) {
+                btn.classList.remove('on');
+                btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>' + LABELS[LANG].playBtn;
+            });
         }
 
+        // 初始化
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+        try {
+            var saved = localStorage.getItem('ai-news-lang');
+            if (saved === 'en') setLang('en');
+        } catch(e) {}
     </script>
 </body>
 </html>
