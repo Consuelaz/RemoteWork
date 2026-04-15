@@ -81,8 +81,8 @@
 | 内容类型 | 数量 | 来源 | 处理方式 |
 |----------|------|------|----------|
 | **X 推文** | 最多8位建造者 | Follow Builders | 按总点赞数排序，每位最多3条推文 |
-| **播客** | 3 段 | Follow Builders | 分段提取精华（每段1500字符） |
-| **博客** | 2 段 | Follow Builders | 分段提取精华（每段1500字符） |
+| **播客** | 1 段 | Follow Builders | 分段提取精华（1500字符） |
+| **博客** | 1 篇 | Follow Builders | 分段提取精华（1500字符） |
 
 ### 数据源
 - **数据源项目**：[Follow Builders](https://github.com/zarazhangrui/follow-builders)
@@ -92,9 +92,10 @@
   - `feed-blogs.json` - 技术博客文章
 
 ### 技术实现（2026-04-15 定型版本）
-- **生成脚本**：`ai-news/gen-index.py`
-- **参考样式**：`/Users/qisoong/work/Work/remotework/ai-news/2026-04-13.html`（此为标准设计稿）
-- **自动化任务**：每天 7:30 自动执行（Automation ID: `ai`）
+- **生成脚本**：`ai-news/gen-all.py`
+- **执行参数**：`python3 gen-all.py 1`（生成单日）
+- **参考样式**：`ai-news/2026-04-13.html`（此为标准设计稿）
+- **自动化任务**：每天 7:30 自动执行（Automation ID: `ai-news`）
 
 ### 页面结构（对标 2026-04-13.html，硬性规范）
 1. **Navbar**：白色顶栏，含"远程岗位 / 科技公司 / AI资讯"链接 + 中英切换按钮 + 全文朗读
@@ -105,11 +106,17 @@
 6. **历史存档**：底部 archive-list 展示最近10个日期
 7. **页脚**：数据来源 + 主站链接
 
+### 语音朗读参数
+- **语速**：0.5~1.5，默认 0.9，步长 0.05
+- **音调**：1.1（听起来更自然柔和）
+- **高质量语音筛选**：优先 `localService` + 关键词（google/microsoft/samantha/daniel/enhanced/natural/british/australian 等）
+- **偏好持久化**：`localStorage` 保存语速偏好
+
 ### 中英文切换规范
 - 所有中文内容包裹 `<span class="zh-text">` 或带 class `zh-text`
 - 所有英文内容包裹 `<span class="en-text" style="display:none">`
 - 切换逻辑：`setLang('zh'/'en')` 批量切换所有 `.zh-text` / `.en-text` 的 `display`
-- 语音朗读按当前语言选读对应文本，语速 0.85x，音调 0.95
+- 语音朗读按当前语言选读对应文本
 
 ### 入口逻辑
 - 首页导航 → AI资讯 → 直接进入当天资讯详情页
@@ -128,7 +135,7 @@
 - **ID**: `ai-news`
 - **路径**: `.workbuddy/automations/ai-news/automation.toml`
 - **时间**: 每天 7:30
-- **执行**: 运行 `python3 gen-index.py`，生成当日 AI 资讯页面并推送到 GitHub
+- **执行**: 运行 `python3 gen-all.py 1`，生成当日 AI 资讯页面并推送到 GitHub
 
 ## 数据历史（近期）
 | 日期 | CN | Global | 备注 |

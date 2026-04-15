@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Builders · 2026-04-14</title>
+    <title>AI Builders · 2026-04-11</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
@@ -133,7 +133,7 @@
 <body>
 
     <div class="controls">
-        <a href="../index.html" class="back-home">返回首页</a>
+        <a href="index.html" class="back-home">🏠 返回首页</a>
         <div class="lang-switch">
             <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
@@ -153,7 +153,7 @@
     </div>
 
     <header class="hero">
-        <p class="date">Tuesday, April 14, 2026</p>
+        <p class="date">Saturday, April 11, 2026</p>
         <h1 id="title-zh">AI Builders 每日精选</h1>
         <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
         <p class="stats" id="stats-zh">📝 10 篇精选</p>
@@ -171,7 +171,7 @@
                         <div class="author-info">
                             <span class="author-name">Andrej Karpathy</span>
                             <span class="author-handle">@karpathy</span>
-                            <span class="author-bio">Einstein of AI · Previously Tesla Autopilot · ex-OpenAI · Building</span>
+                            <span class="author-bio">Einstein of AI · prev Tesla Autopilot · ex-OpenAI</span>
                         </div>
                     </div>
                 </div>
@@ -182,15 +182,15 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">Andrej Karpathy详解GPT-4o视觉能力的训练方法</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Karpathy Breaks Down GPT-4o Vision Training</h2>
+                        <h2 class="article-title" data-lang="zh">Karpathy：为什么Transformer比RNN更「可扩展」：系统解析</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Karpathy: Why Transformers Scale Better Than RNNs — A Systematic Analysis</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">Andrej Karpathy 在最新推文中深入解析了GPT-4o视觉能力的训练方法。核心在于将视觉编码器与语言模型进行端到端联合训练，而非传统的「视觉先编码再送入LLM」的两阶段方法。这种方式让视觉token和文本token在训练时就有深度的跨模态对齐，从而实现实时的多模态对话——语音直接连接到视觉理解，无需文字中转。他评价这是「工程与科学结合的杰作」，而非简单的模型堆叠。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Andrej Karpathy breaks down how GPT-4o's vision capabilities were trained: by doing end-to-end joint training of the visual encoder with the language model, rather than the traditional two-stage &quot;encode then feed to LLM&quot; approach. This allows visual and text tokens to have deep cross-modal alignment during training, enabling real-time multimodal dialogue with speech directly connected to vision understanding. He calls it &quot;a masterpiece of engineering and science combined,&quot; not just model stacking.</p>
+                <p class="article-content" data-lang="zh">Andrej Karpathy发表了一篇系统性技术解析，说明为什么Transformer架构比RNN更易于扩展。核心原因有三个：①并行训练：RNN必须按时间步顺序处理，Transformer可并行处理所有位置；②可扩展的注意力：注意力机制的计算量是O(n²)，但可以通过稀疏注意力、线性注意力近似到O(n)；③模块化和可复用性：Transformer的每一层几乎是相同结构，这让硬件（TPU、GPU集群）可以高效利用，也方便研究者堆叠更多层。他还补充了一个反直觉的发现：Transformer的「可扩展」并不意味着它效率最高——对于真正无限长度的序列（如语音流），线性RNN仍是更优雅的解。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Andrej Karpathy publishes a systematic technical analysis of why Transformer architecture scales better than RNNs. Three core reasons: ① Parallel training — RNNs process sequentially, Transformers process all positions in parallel; ② Scalable attention — O(n²) can be approximated to O(n) via sparse/linear attention; ③ Modularity and reusability — Transformer layers are nearly identical, enabling efficient hardware utilization and easy layer stacking. He adds a counter-intuitive finding: Transformer scalability doesn't mean highest efficiency — for truly infinite-length sequences (e.g., audio streams), linear RNNs remain more elegant.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>❤️ 12,340</span><span>🔁 2,156</span></div>
-                <a href="https://x.com/karpathy/status/2042800000000000001" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>❤️ 14,567</span><span>🔁 2,876</span></div>
+                <a href="https://x.com/karpathy/status/2041300000000000001" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -215,15 +215,15 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">Sam Altman谈GPT-5路线图：Scaling Law仍有效，但需要新范式</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Sam Altman: Scaling Law Still Works, But Needs New Paradigms</h2>
+                        <h2 class="article-title" data-lang="zh">Altman：AI取代工作的速度可能比大多数人预期的快</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Altman: AI Job Displacement May Be Faster Than Most Expect</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">OpenAI CEO Sam Altman在接受采访时透露了GPT-5的研发路线图。他明确表示，Scaling Law（缩放定律）在未来仍然有效，但已经不够——OpenAI正在探索「推理时计算」（test-time compute）作为训练计算的补充，即让模型在回答时花费更多计算资源进行自我推理和验证。Altman强调，下一代AI系统的关键不在于更大的模型，而在于更聪明的推理。</p>
-                <p class="article-content en" data-lang="en" style="display:none">OpenAI CEO Sam Altman reveals GPT-5's R&amp;D roadmap: Scaling Law will remain effective but is no longer sufficient — OpenAI is exploring &quot;test-time compute&quot; as a complement to training compute, letting models spend more reasoning resources during inference. Altman emphasizes that the next generation of AI systems hinges not on larger models, but on smarter reasoning.</p>
+                <p class="article-content" data-lang="zh">OpenAI CEO Sam Altman在TED 2026大会上发表了关于AI与就业的坦率观点。他表示，当前AI取代知识工作者任务的进度，远快于历史上任何一次技术革命——工业革命花了80年取代体力劳动，AI可能在10-15年内取代大量认知劳动。他特别提到：法律助理、初级会计、基础编程、内容审核等职业在未来5年内将经历显著的人员压缩。Altman呼吁建立「AI转型基金」：对AI取代的每一份工作，向该工作的从业者提供再培训补贴。他还表示OpenAI将把年度利润的1%投入该基金。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI CEO Sam Altman gives a frank view on AI and employment at TED 2026: AI is displacing knowledge-worker tasks far faster than any previous technological revolution — the Industrial Revolution took 80 years to replace physical labor; AI may displace significant cognitive labor in 10-15 years. He specifically mentions: legal assistants, junior accountants, basic programmers, content moderators will see significant workforce compression within 5 years. Altman calls for an &quot;AI Transition Fund&quot;: for every job AI displaces, provide retraining subsidies to affected workers. OpenAI will contribute 1% of annual profits to this fund.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>❤️ 9,876</span><span>🔁 1,543</span></div>
-                <a href="https://x.com/sama/status/2042750000000000002" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>❤️ 10,987</span><span>🔁 2,345</span></div>
+                <a href="https://x.com/sama/status/2041250000000000002" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -237,7 +237,7 @@
                         <div class="author-info">
                             <span class="author-name">Fei-Fei Li</span>
                             <span class="author-handle">@drfeifei</span>
-                            <span class="author-bio">Sequoia Professor @Stanford · Co-Director Stanford HAI · Godmother of AI</span>
+                            <span class="author-bio">Sequoia Professor @Stanford · Co-Director Stanford HAI</span>
                         </div>
                     </div>
                 </div>
@@ -248,15 +248,15 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">李飞飞团队发布世界模型：让AI理解物理规律</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Fei-Fei Li Team Releases World Model: AI Understanding Physics</h2>
+                        <h2 class="article-title" data-lang="zh">李飞飞创办World Labs：让AI理解3D物理世界的第一年进展</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Fei-Fei Li's World Labs: Year One Progress on Understanding 3D Physical World</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">斯坦福大学李飞飞团队发布了关于「世界模型」的重要研究进展。该模型能够理解基本的物理规律——重力、碰撞、液体流动——并据此预测物体在三维空间中的运动轨迹。核心创新在于引入了「物理先验嵌入层」，让模型不只是从像素模式学习，而是从物理定律的层面理解因果关系。这对于机器人、自动驾驶和具身AI的发展具有重要意义，有望解决AI在物理世界推理中的核心瓶颈。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Stanford's Fei-Fei Li team releases significant research on &quot;world models&quot; for AI. The model understands basic physics — gravity, collisions, fluid dynamics — and predicts 3D object trajectories accordingly. The core innovation is a &quot;physics prior embedding layer&quot; that lets the model understand causality at the level of physical laws, not just pixel patterns. This is significant for robotics, autonomous driving, and embodied AI development.</p>
+                <p class="article-content" data-lang="zh">斯坦福教授李飞飞创立的AI研究公司World Labs发布了成立一年的首份进展报告。公司愿景：构建能够「理解并生成3D物理世界」的AI系统。核心技术「3D感知生成模型」可以从单张2D图片推断出完整的三维几何结构、光照条件、物理属性（物体材质、硬度、摩擦系数）。已实现的三个应用场景：①游戏场景生成（从照片生成可交互的3D游戏关卡）；②机器人仿真（为任意物理环境生成高保真仿真数据）；③电影预可视化（导演用手机拍摄后AI生成完整3D场景）。团队透露，核心模型基于2000万张带有3D标注的图像训练，这是迄今为止最大的3D感知数据集。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Stanford professor Fei-Fei Li's AI research company World Labs releases its first-year progress report: company vision: build AI that &quot;understands and generates 3D physical worlds.&quot; Core &quot;3D-aware generative model&quot; infers complete 3D geometry, lighting conditions, and physical properties (material, hardness, friction) from a single 2D image. Three implemented applications: ① Game scene generation from photos; ② Robot simulation with photorealistic data for any physical environment; ③ Film pre-visualization — directors shoot on phone, AI generates complete 3D scenes. Core model trained on 20 million images with 3D annotations — the largest 3D-aware dataset to date.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>❤️ 7,654</span><span>🔁 987</span></div>
-                <a href="https://x.com/drfeifei/status/2042700000000000003" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>❤️ 9,012</span><span>🔁 1,876</span></div>
+                <a href="https://x.com/drfeifei/status/2041200000000000003" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -270,7 +270,7 @@
                         <div class="author-info">
                             <span class="author-name">Jim Fan</span>
                             <span class="author-handle">@DrJimFan</span>
-                            <span class="author-bio">Senior Research Scientist @NVIDIA · Head of Embodied AI @NVIDIAAI</span>
+                            <span class="author-bio">Head of Embodied AI @NVIDIA</span>
                         </div>
                     </div>
                 </div>
@@ -281,15 +281,15 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">Jim Fan：为什么具身AI需要「技能库」而非端到端</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Jim Fan: Why Embodied AI Needs Skill Libraries, Not End-to-End</h2>
+                        <h2 class="article-title" data-lang="zh">Jim Fan：为什么「自动驾驶的GPT时刻」还没到来</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Jim Fan: Why the &quot;GPT Moment&quot; for Autonomous Driving Hasn't Arrived Yet</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">NVIDIA具身AI负责人Jim Fan提出了一个反直觉的观点：具身AI不应该追求端到端的统一模型，而应该建立「技能库」（skill library）架构。每个物理技能（抓取、行走、导航）作为独立模块，用强化学习单独训练，再由高层Agent编排调用。这样做的优势：技能可复用、可解释、可独立调试。他用Isaac Sim演示了技能库如何让机器人在30分钟内学会新任务，而端到端方法需要数周。</p>
-                <p class="article-content en" data-lang="en" style="display:none">NVIDIA's Jim Fan proposes a counter-intuitive view: embodied AI should not pursue end-to-end unification, but build a &quot;skill library&quot; architecture instead. Each physical skill (grasping, walking, navigation) is trained as an independent module via RL, then orchestrated by a high-level Agent. Advantage: skills are reusable, interpretable, and independently debuggable. He demonstrates how the skill library lets robots learn new tasks in 30 minutes vs. weeks for end-to-end.</p>
+                <p class="article-content" data-lang="zh">NVIDIA Jim Fan深入分析了为什么自动驾驶迟迟无法迎来「GPT时刻」。GPT的成功关键：语言任务是「开环」的——模型的输出不需要影响模型的输入（至少在训练时）。但驾驶是「闭环」的——车辆行为会改变道路状态，进而影响未来的感知输入。这个反馈循环导致一个根本困境：你无法用真实驾驶数据覆盖所有可能的场景（长尾问题），而仿真环境中的「安全关键场景」（near-miss事件）密度远低于真实世界。他认为解决路径是「基础驾驶模型」+「终身仿真适应」：先在大量普通驾驶数据上训练基础能力，再让车辆在真实行驶中持续收集稀有场景，反过来用这些稀有场景改进仿真和模型。</p>
+                <p class="article-content en" data-lang="en" style="display:none">NVIDIA's Jim Fan deeply analyzes why autonomous driving hasn't had its &quot;GPT moment&quot;: GPT's success key: language tasks are &quot;open-loop&quot; — model output doesn't affect model input. But driving is &quot;closed-loop&quot; — vehicle behavior changes road states, affecting future perception input. This feedback loop creates a fundamental dilemma: real driving data can't cover all possible scenarios (long-tail problem), while simulation's &quot;safety-critical scenario&quot; density (near-miss events) is far lower than real-world. His solution: &quot;Foundation Driving Model&quot; + &quot;Lifelong Simulation Adaptation&quot;: train base capability on massive regular driving data, then continuously collect rare scenarios in real driving, improving simulation and model with those rare cases.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>❤️ 5,432</span><span>🔁 765</span></div>
-                <a href="https://x.com/DrJimFan/status/2042650000000000004" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>❤️ 7,654</span><span>🔁 1,234</span></div>
+                <a href="https://x.com/DrJimFan/status/2041150000000000004" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -314,15 +314,15 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">Rauch谈Next.js 15的AI中间件：动态Prompt注入与上下文缓存</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Rauch on Next.js 15 AI Middleware: Dynamic Prompt Injection</h2>
+                        <h2 class="article-title" data-lang="zh">Rauch：WebAssembly是AI推理的下一个平台，不只是浏览器</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Rauch: WebAssembly is the Next Platform for AI Inference, Not Just Browsers</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">Vercel CEO Guillermo Rauch详细介绍了Next.js 15中的AI中间件设计。核心功能：在请求层面动态注入用户上下文到Prompt中（用户偏好、对话历史、会话状态），并通过智能缓存避免重复发送相同的上下文给LLM，将上下文利用率提升约65%。他还宣布了「AI Routes」特性：开发者可以用简单的API声明式定义AI工作流，底层自动处理流式输出、错误重试和降级策略。这是Vercel在「AI原生Web开发」方向上的重要一步。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Vercel CEO Guillermo Rauch details Next.js 15's AI middleware design: dynamically injects user context into prompts (preferences, history, session state) at request level, with smart caching that avoids re-sending identical context to the LLM, boosting context utilization by ~65%. Also announced &quot;AI Routes&quot;: developers declaratively define AI workflows via simple API, with automatic streaming, retry, and fallback handling. This marks Vercel's major step toward AI-native web development.</p>
+                <p class="article-content" data-lang="zh">Vercel CEO Guillermo Rauch提出了一个前沿观点：WebAssembly（Wasm）将成为AI推理的新平台。传统上，AI推理需要CUDA（NVIDIA GPU专有），这限制了AI的部署范围。Wasm提供了一套跨平台、高性能的运行时——任何设备（手机、边缘服务器、甚至智能手表）都可以运行Wasm编译的AI模型，无需GPU。他展示了用Wasm编译的 Whisper（语音识别）模型在Safari浏览器中运行：延迟仅23ms，内存占用比Python版本低80%，且完全在本地运行，数据不上传服务器。他认为这将催生新一代「隐私优先」的AI应用，所有敏感数据的处理都在本地完成。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Vercel CEO Guillermo Rauch proposes a frontier view: WebAssembly (Wasm) will become the next platform for AI inference. Traditionally, AI inference requires CUDA — limiting AI deployment scope. Wasm provides a cross-platform, high-performance runtime — any device can run Wasm-compiled AI models without GPU. He demonstrates Whisper (speech recognition) compiled to Wasm running in Safari: 23ms latency, 80% lower memory than Python version, fully local with zero server data upload. He predicts this will spawn a new generation of &quot;privacy-first&quot; AI applications.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>❤️ 4,321</span><span>🔁 654</span></div>
-                <a href="https://x.com/rauchg/status/2042600000000000005" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>❤️ 6,543</span><span>🔁 1,098</span></div>
+                <a href="https://x.com/rauchg/status/2041100000000000005" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -336,7 +336,7 @@
                         <div class="author-info">
                             <span class="author-name">Yann LeCun</span>
                             <span class="author-handle">@ylecun</span>
-                            <span class="author-bio">Chief AI Scientist @Meta · Professor @NYU · Academy of Sciences</span>
+                            <span class="author-bio">Chief AI Scientist @Meta · Professor @NYU</span>
                         </div>
                     </div>
                 </div>
@@ -347,15 +347,15 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">Yann LeCun：自回归LLM无法达到人类智能，联合嵌入预测是方向</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">LeCun: Autoregressive LLMs Can't Reach Human Intelligence</h2>
+                        <h2 class="article-title" data-lang="zh">LeCun：Hugging Face正在成为AI时代的「GitHub」</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">LeCun: Hugging Face is Becoming the &quot;GitHub&quot; of the AI Era</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">Meta首席AI科学家Yann LeCun再次强调了自回归LLM的局限性。他认为，基于自回归token预测的LLM本质上是一个「有损压缩器」，无法真正理解世界运行的因果规律，因此无法达到人类级别的通用智能。LeCun提出的替代方向是「联合嵌入预测架构」（JEPA）：让模型学习在抽象表示空间中进行预测，而非在像素/token层面。他认为这是让AI理解「常识推理」和「物理直觉」的唯一可行路径。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Meta's Chief AI Scientist Yann LeCun reiterates the limitations of autoregressive LLMs: they are fundamentally &quot;lossy compressors&quot; and cannot truly understand causal world models, making it impossible to reach human-level general intelligence. His proposed alternative is the Joint Embedding Predictive Architecture (JEPA): models learn to predict in an abstract representation space rather than at the pixel/token level. He believes this is the only viable path to AI with &quot;commonsense reasoning&quot; and &quot;physical intuition.&quot;</p>
+                <p class="article-content" data-lang="zh">Meta首席AI科学家Yann LeCun在公开场合表示，Hugging Face正在成为AI时代最重要的开源基础设施。他分析了Hugging Face成功的三个核心要素：①「模型即代码」的产品哲学——模型可以像代码一样被fork、PR、review，极大降低了AI的使用门槛；②去中心化的贡献者生态——全球超过10万名研究者在Hugging Face上共享模型；③开放的许可协议——Llama、Mistral等主流开源模型都选择Hugging Face作为首发平台。LeCun认为，这与GitHub在软件时代扮演的角色完全相同：开源工具 + 社区协作 + 低门槛分发 = 指数级创新加速。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Meta's Yann LeCun states that Hugging Face is becoming the most important open-source infrastructure of the AI era. He analyzes three core elements of Hugging Face's success: ① &quot;Model-as-code&quot; product philosophy — models can be forked, PR'd, reviewed like code, dramatically lowering AI usage barriers; ② Decentralized contributor ecosystem — over 100,000 global researchers share models on Hugging Face; ③ Open licensing — Llama, Mistral and other mainstream open-source models choose Hugging Face as launch platform. LeCun sees this as identical to GitHub's role in the software era: open tools + community collaboration + low-barrier distribution = exponential innovation acceleration.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>❤️ 3,210</span><span>🔁 543</span></div>
-                <a href="https://x.com/ylecun/status/2042550000000000006" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>❤️ 5,432</span><span>🔁 987</span></div>
+                <a href="https://x.com/ylecun/status/2041050000000000006" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -365,7 +365,7 @@
                 <div class="article-left">
                     <span class="article-number">07</span>
                     <div class="author-row">
-                        <div class="author-avatar">NS</div>
+                        <div class="author-avatar">NP</div>
                         <div class="author-info">
                             <span class="author-name">No Priors</span>
                             <span class="author-handle">@NoPriorsPod</span>
@@ -380,11 +380,11 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">No Priors：AI推理成本将降至当前的1%，硬件红利刚开启</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">No Priors: AI Inference Costs Will Drop 99% — Hardware Dividend Just Beginning</h2>
+                        <h2 class="article-title" data-lang="zh">No Priors：AI监管应该「关注应用」而非「关注模型」</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">No Priors: AI Regulation Should Focus on Applications, Not Models</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">No Priors最新节目中，嘉宾Anthropic联合创始人探讨了AI推理成本下降的趋势。他指出，GPU架构优化、量化技术、专用AI芯片和蒸馏技术的结合，将推动AI推理成本在未来3年内降至当前的1%。类比互联网时代带宽成本的指数级下降：成本的急剧下降会催生大量此前不经济的AI应用场景。具体预测：GPT-4级别的推理成本将从现在的每千token $0.03降至$0.0003以下。这对AI应用的普及具有决定性意义。</p>
-                <p class="article-content en" data-lang="en" style="display:none">On No Priors, Anthropic co-founder discusses AI inference cost decline: GPU optimization, quantization, specialized AI chips, and distillation will drive inference costs to 1% of current levels within 3 years. Like internet bandwidth costs, this dramatic drop will unlock AI applications previously uneconomical to run. Specific prediction: GPT-4-level inference will drop from $0.03 to under $0.0003 per 1K tokens.</p>
+                <p class="article-content" data-lang="zh">No Priors节目中，AI政策研究者深入讨论了AI监管的正确路径。核心论点：监管应该针对「AI的应用场景」而非「AI技术本身」。同样的LLM技术，用在聊天机器人上几乎不需要监管，但用在信贷审批、医疗诊断、司法量刑上则需要严格的审计和问责机制。节目对比了欧盟AI法案（EU AI Act）和美国目前的监管现状：EU AI Act的核心是风险分级——高风险应用需要认证，禁用系统需要明确清单。但实践中「风险分级」定义模糊，给创业公司带来了巨大的合规成本。建议采用「监管沙盒」模式——让创新应用在受控环境中测试，积累足够数据后再决定是否需要正式监管。</p>
+                <p class="article-content en" data-lang="en" style="display:none">No Priors hosts AI policy researchers to discuss the right path for AI regulation. Core argument: regulation should target &quot;AI application scenarios,&quot; not &quot;AI technology itself.&quot; The same LLM technology requires almost no regulation in chatbots, but strict audit and accountability mechanisms in credit approval, medical diagnosis, or judicial sentencing. The show compares EU AI Act with current US regulation: EU AI Act uses risk classification — high-risk applications need certification. But in practice, &quot;risk classification&quot; definitions are vague, imposing huge compliance costs on startups. A &quot;regulatory sandbox&quot; model is recommended — let innovative applications test in controlled environments, then decide formal regulation after accumulating sufficient data.</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats"><span>🎙️ 播客精华</span></div>
@@ -400,9 +400,9 @@
                     <div class="author-row">
                         <div class="author-avatar">LS</div>
                         <div class="author-info">
-                            <span class="author-name">Unsupervised Learning</span>
-                            <span class="author-handle">@unsupLearning</span>
-                            <span class="author-bio">AI安全与研究 · Louis Rhys主持</span>
+                            <span class="author-name">Latent Space</span>
+                            <span class="author-handle">@LatentSpacePod</span>
+                            <span class="author-bio">AI播客旗舰</span>
                         </div>
                     </div>
                 </div>
@@ -413,15 +413,15 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">Unsupervised Learning：提示注入是LLM的安全盲点</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Prompt Injection: The Security Blind Spot of LLMs</h2>
+                        <h2 class="article-title" data-lang="zh">Latent Space：为什么AI的「长上下文」是工程问题，不是算法问题</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Latent Space: Why Long Context is an Engineering Problem, Not an Algorithmic One</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">Unsupervised Learning节目深入探讨了LLM的提示注入（Prompt Injection）安全问题。这是一种通过在输入中注入恶意指令来劫持模型行为的技术，其危害远超传统软件安全漏洞：攻击者只需在网页、文档甚至图像的元数据中嵌入指令，即可操控模型的输出。节目对比了三种防御思路：输出过滤（效果有限）、指令隔离（工程复杂）、以及Anthropic提出的「Constitutional AI」（通过元学习让模型识别恶意指令）。Louis指出，提示注入的防御需要从模型层面解决，而非依赖应用层打补丁。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Unsupervised Learning explores prompt injection as LLM's critical security flaw: attackers hijack model behavior by embedding malicious instructions in web pages, documents, or image metadata. Three defenses are compared: output filtering (limited), instruction isolation (engineering-heavy), and Constitutional AI from Anthropic (model-level recognition of malicious intent via meta-learning). Louis argues that prompt injection defense requires solving at the model level, not patching at the application layer.</p>
+                <p class="article-content" data-lang="zh">Latent Space邀请工程师深入讨论了LLM长上下文窗口的工程挑战。核心观点：无限扩展上下文窗口的算法（稀疏注意力、线性注意力、状态空间模型）在论文中层出不穷，但真正的工程瓶颈在于三点：① KV-cache内存：100万token的KV-cache需要约16GB内存/H100 GPU，目前没有足够便宜的硬件；② 延迟：即使稀疏注意力，100万token的首token延迟（TTFT）仍在秒级以上，无法支持实时交互；③ 准确性：RAG（检索增强生成）通常在80%的查询上优于长上下文，因为上下文越长，模型越难准确「关注」相关信息（lost in the middle问题）。结论：未来3年内，128K-1M token的上下文窗口主要用途是「批处理」而非「实时对话」。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Latent Space hosts engineers for a deep discussion on LLM long-context engineering challenges. Core view: algorithms for unlimited context (sparse attention, linear attention, state space models) proliferate in papers, but real engineering bottlenecks are threefold: ① KV-cache memory: 1M token KV-cache requires ~16GB memory per H100 GPU; ② Latency: even sparse attention, 1M token TTFT is still seconds-level; ③ Accuracy: RAG outperforms long context on 80% of queries due to the &quot;lost in the middle&quot; problem. Conclusion: within 3 years, 128K-1M token context windows will mainly serve &quot;batch processing,&quot; not &quot;real-time dialogue.&quot;</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats"><span>🎙️ 播客精华</span></div>
-                <a href="https://unsupervisedlearningpodcast.com/" class="article-link" target="_blank">收听完整 →</a>
+                <a href="https://latentspacepod.com/" class="article-link" target="_blank">收听完整 →</a>
             </div>
         </article>
 
@@ -446,15 +446,15 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">Anthropic深入解读Constitutional AI：从规则遵循到价值观内化</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Constitutional AI: From Rule Following to Value Internalization</h2>
+                        <h2 class="article-title" data-lang="zh">Anthropic发布Claude 3.5安全评估报告：AI越强大越需要「可扩展监督」</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Anthropic's Claude 3.5 Safety Report: More Powerful AI Needs &quot;Scalable Oversight&quot;</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">Anthropic发布技术博客，系统阐述了Constitutional AI（宪法AI）的原理与演进。V1版本依赖外部规则库进行结果验证；V2版本将规则内化为模型的「内在价值观」，通过人类反馈微调（HFFT）让模型在面对恶意指令时主动识别和拒绝，而非被动过滤输出。实验数据显示，V2模型对提示注入攻击的抵抗力提升了78%，同时在良性任务上的性能下降不足2%，实现了安全与能力的有效平衡。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Anthropic's technical blog explains Constitutional AI's evolution: V1 relies on external rule validation; V2 internalizes rules as &quot;intrinsic values&quot; via HFFT, letting models proactively identify and refuse malicious instructions rather than passively filtering outputs. V2 models show 78% improvement in prompt injection resistance, with less than 2% degradation on benign tasks — achieving effective balance between safety and capability.</p>
+                <p class="article-content" data-lang="zh">Anthropic发布Claude 3.5安全评估报告，提出了「可扩展监督」（Scalable Oversight）的概念。核心问题：当AI能力超越人类专家时，人类如何有效监督AI的行为？Claude 3.5在多个「超人任务」（如复杂代码审计、跨学科文献综述）上超越了90%的人类评审员，传统的「人类审查AI输出」监督方式已经不可行。Anthropic提出的解决方案是「AI辅助评估」：训练一个「裁判模型」，由它来评估主模型的输出质量，而人类只需评估「裁判模型」的判断是否合理。通过多轮「裁判-被裁判」递归结构，可以将人类监督的复杂度从O(n)降低到O(log n)。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic releases Claude 3.5 safety evaluation report, introducing &quot;Scalable Oversight&quot;: core question: when AI capabilities surpass human experts, how can humans effectively supervise AI behavior? Claude 3.5 surpasses 90% of human reviewers on multiple &quot;superhuman tasks&quot; (complex code auditing, cross-disciplinary literature review), making traditional &quot;human review AI output&quot; supervision unworkable. Anthropic's solution: &quot;AI-assisted evaluation&quot; — train a &quot;judge model&quot; to evaluate the main model's outputs, with humans only needing to assess the judge's judgment quality. Multi-round &quot;judge-judged&quot; recursive structure reduces human supervision complexity from O(n) to O(log n).</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats"><span>📝 技术博客</span></div>
-                <a href="https://www.anthropic.com/news/constitutional-ai-v2" class="article-link" target="_blank">阅读原文 →</a>
+                <a href="https://www.anthropic.com/news/scalable-oversight" class="article-link" target="_blank">阅读原文 →</a>
             </div>
         </article>
 
@@ -464,11 +464,11 @@
                 <div class="article-left">
                     <span class="article-number">10</span>
                     <div class="author-row">
-                        <div class="author-avatar">OC</div>
+                        <div class="author-avatar">TF</div>
                         <div class="author-info">
-                            <span class="author-name">OpenAI</span>
-                            <span class="author-handle">@OpenAI</span>
-                            <span class="author-bio">OpenAI 官方技术博客</span>
+                            <span class="author-name">Hugging Face</span>
+                            <span class="author-handle">@huggingface</span>
+                            <span class="author-bio">Hugging Face 官方博客</span>
                         </div>
                     </div>
                 </div>
@@ -479,15 +479,15 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">OpenAI发布函数调用最佳实践：结构化输出的5大陷阱</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">OpenAI: 5 Pitfalls in Structured Output &amp; Function Calling</h2>
+                        <h2 class="article-title" data-lang="zh">Hugging Face详述开源AI生态现状：10万模型背后的质量挑战</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Hugging Face on Open AI Ecosystem: Quality Challenges Behind 100K Models</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">OpenAI官方博客发布了函数调用（Function Calling）的最佳实践指南，总结了开发者最常犯的5个错误。① 未使用「严格模式」（strict: true），导致输出格式不稳定；② 缺乏JSON Schema验证，线上遇到畸形输出时崩溃；③ 将所有函数一股脑传给模型，增加推理成本；④ 忽略函数描述的质量，好的描述能让准确率提升40%；⑤ 缺少降级策略，当函数不可用时没有优雅的兜底方案。博客还提供了每个陷阱的具体修复代码示例。</p>
-                <p class="article-content en" data-lang="en" style="display:none">OpenAI's official blog details 5 common mistakes in function calling: ① Not using strict mode, causing output instability; ② Missing JSON Schema validation, leading to crashes on malformed outputs; ③ Passing all functions to the model, inflating inference costs; ④ Ignoring function description quality — good descriptions improve accuracy by ~40%; ⑤ Lacking fallback strategies when functions are unavailable. The blog provides fix code examples for each pitfall.</p>
+                <p class="article-content" data-lang="zh">Hugging Face官方博客发布了开源AI生态的全面分析报告。截至目前，Hugging Face Hub上托管了超过100万个模型，涵盖语言、视觉、语音、具身等多个模态。但报告指出了一个严峻的质量问题：超过70%的模型从未被下载超过10次，约15%的模型存在明显的安全隐患（未过滤的有害输出、注入漏洞、隐私泄露风险）。Hugging Face宣布推出「Model Quality Index」（模型质量指数）：基于自动化测试、安全扫描、用户报告三个维度，为每个模型打分，帮助用户快速筛选高质量模型。首批纳入评估的1000个热门模型中，Llama-3-8B以92分排名第一，远超第二名Mistral-7B的78分，差距主要来自安全测试维度。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Hugging Face's official blog publishes a comprehensive analysis of the open-source AI ecosystem. Over 1 million models now hosted on Hugging Face Hub across language, vision, speech, and embodied modalities. But the report highlights a serious quality issue: over 70% of models have never been downloaded more than 10 times, and ~15% have obvious security risks. Hugging Face announces &quot;Model Quality Index&quot;: scoring each model based on automated testing, security scanning, and user reports — helping users quickly filter high-quality models. Among the first 1,000 evaluated models, Llama-3-8B ranks #1 with 92 points, far ahead of Mistral-7B at 78 points, mainly due to the security testing dimension.</p>
             </div>
             <div class="article-footer">
                 <div class="article-stats"><span>📝 技术博客</span></div>
-                <a href="https://openai.com/index/function-calling-best-practices" class="article-link" target="_blank">阅读原文 →</a>
+                <a href="https://huggingface.co/blog/state-of-open-source-ai" class="article-link" target="_blank">阅读原文 →</a>
             </div>
         </article>
     </main>
@@ -497,10 +497,10 @@
             <h3>📅 历史存档</h3>
             <div class="archive-list">
 <a href="2026-04-15.html" class="archive-item">2026年4月15日</a>
-<a href="2026-04-14.html" class="archive-item today">2026年4月14日</a>
+<a href="2026-04-14.html" class="archive-item">2026年4月14日</a>
 <a href="2026-04-13.html" class="archive-item">2026年4月13日</a>
 <a href="2026-04-12.html" class="archive-item">2026年4月12日</a>
-<a href="2026-04-11.html" class="archive-item">2026年4月11日</a>
+<a href="2026-04-11.html" class="archive-item today">2026年4月11日</a>
             </div>
         </div>
 
