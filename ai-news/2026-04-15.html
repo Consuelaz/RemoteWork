@@ -1,717 +1,758 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Builders Digest · 2026年4月15日 | Junes远程</title>
-  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif; background: #F9FAFB; color: #111827; line-height: 1.6; font-size: 15px; }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-04-15</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
+            --summary-bg: #fff7ed;
+        }
 
-    /* === Navbar === */
-    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.92); backdrop-filter: blur(10px); border-bottom: 1px solid #E5E7EB; }
-    .nav-inner { display: flex; align-items: center; height: 60px; gap: 24px; max-width: 960px; margin: 0 auto; padding: 0 24px; }
-    .logo { display: flex; align-items: center; gap: 6px; text-decoration: none; font-weight: 700; font-size: 18px; color: #111827; }
-    .logo span:last-child { color: #2563EB; }
-    .nav-links { display: flex; gap: 20px; margin-left: auto; }
-    .nav-links a { text-decoration: none; color: #374151; font-size: 14px; font-weight: 500; }
-    .nav-links a:hover { color: #2563EB; }
-    /* 语言切换和音频按钮放在 navbar 右侧 */
-    .nav-controls { display: flex; align-items: center; gap: 10px; margin-left: 20px; }
-    .lang-btn { padding: 4px 12px; border: 1px solid #E5E7EB; background: #fff; cursor: pointer; font-size: 13px; border-radius: 14px; transition: all .15s; }
-    .lang-btn.active { background: #111827; color: #fff; border-color: #111827; }
-    .audio-btn { padding: 4px 10px; border: 1px solid #E5E7EB; background: #fff; cursor: pointer; font-size: 12px; border-radius: 14px; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
-    .audio-btn:hover { background: #F3F4F6; }
-    .audio-btn.playing { background: #2563EB; color: #fff; border-color: #2563EB; }
-    .voice-sel { padding: 4px 8px; border: 1px solid #E5E7EB; border-radius: 12px; font-size: 12px; background: #fff; cursor: pointer; }
-    svg.icon { width: 11px; height: 11px; vertical-align: middle; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* === Hero === */
-    .hero { background: linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%); color: white; padding: 64px 24px; text-align: center; }
-    .hero-inner { max-width: 720px; margin: 0 auto; }
-    .hero-badge { display: inline-block; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); border-radius: 20px; padding: 4px 14px; font-size: 12px; margin-bottom: 20px; letter-spacing: .5px; }
-    .hero-title { font-size: 36px; font-weight: 700; line-height: 1.2; margin-bottom: 16px; }
-    .hero-subtitle { font-size: 16px; opacity: .85; margin-bottom: 32px; }
-    .hero-meta { display: flex; justify-content: center; gap: 32px; font-size: 14px; opacity: .9; flex-wrap: wrap; }
-    .hero-meta span { display: flex; align-items: center; gap: 6px; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 15px;
+        }
 
-    /* === 内容区 === */
-    .content { max-width: 800px; margin: 40px auto; padding: 0 24px; }
+        /* 控制栏 */
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250, 250, 249, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .lang-switch { display: flex; gap: 6px; }
+        .lang-btn {
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+        }
+        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .audio-btn {
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .audio-btn:hover { background: var(--tag-bg); }
+        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn svg { width: 14px; height: 14px; }
+        .voice-select {
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+        }
 
-    /* === 统计徽章 === */
-    .stats-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
-    .stat-chip { display: inline-flex; align-items: center; gap: 6px; background: #EFF6FF; color: #2563EB; border-radius: 20px; padding: 4px 12px; font-size: 13px; font-weight: 500; }
-    .stat-chip.green { background: #ECFDF5; color: #059669; }
-    .stat-chip.purple { background: #F5F3FF; color: #7C3AED; }
-    .stat-chip.orange { background: #FFF7ED; color: #EA580C; }
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 720px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        .date {
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .hero-sub {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        .stats { font-size: 12px; color: var(--text-secondary); }
 
-    /* === Section 标题 === */
-    .section-title { display: flex; align-items: center; gap: 10px; margin: 36px 0 16px; }
-    .section-title h2 { font-size: 18px; font-weight: 700; color: #111827; }
-    .section-title .tag { display: inline-flex; align-items: center; background: #DBEAFE; color: #1D4ED8; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
-    .section-title .tag.green { background: #D1FAE5; color: #065F46; }
-    .section-title .tag.purple { background: #EDE9FE; color: #5B21B6; }
-    .section-title::after { content: ''; flex: 1; height: 1px; background: #E5E7EB; margin-left: 12px; }
+        /* 文章列表 */
+        .articles {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
 
-    /* === 建造者卡片 === */
-    .builder-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.06); border: 1px solid #E5E7EB; transition: box-shadow .2s; }
-    .builder-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.1); }
-    .builder-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .builder-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #667EEA, #764BA2); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px; flex-shrink: 0; }
-    .builder-info h3 { font-size: 15px; font-weight: 600; color: #111827; }
-    .builder-info .handle { font-size: 13px; color: #6B7280; margin-top: 2px; }
-    .tweet-item { padding: 10px 0; border-top: 1px solid #F3F4F6; }
-    .tweet-item:first-of-type { border-top: none; padding-top: 0; }
-    .tweet-text { font-size: 14px; color: #111827; line-height: 1.65; margin-bottom: 6px; white-space: pre-wrap; }
-    .tweet-url { font-size: 12px; color: #2563EB; text-decoration: none; }
-    .tweet-url:hover { text-decoration: underline; }
+        .article {
+            padding: 32px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article:last-child { border-bottom: none; }
 
-    /* === 播客卡片 === */
-    .podcast-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.06); border: 1px solid #E5E7EB; }
-    .podcast-card h3 { font-size: 15px; font-weight: 600; color: #111827; margin-bottom: 8px; }
-    .podcast-meta { display: flex; gap: 12px; margin-bottom: 12px; }
-    .podcast-meta span { font-size: 12px; color: #6B7280; background: #F3F4F6; border-radius: 4px; padding: 2px 8px; }
-    .podcast-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #2563EB; text-decoration: none; font-weight: 500; }
-    .podcast-summary { font-size: 14px; color: #374151; line-height: 1.65; background: #FFFBEB; border-left: 3px solid #F59E0B; padding: 12px 14px; border-radius: 0 6px 6px 0; margin-top: 10px; white-space: pre-wrap; }
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
 
-    /* === 博客卡片 === */
-    .blog-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.06); border: 1px solid #E5E7EB; }
-    .blog-card h3 { font-size: 15px; font-weight: 600; color: #111827; margin-bottom: 8px; }
-    .blog-card .blog-source { font-size: 12px; color: #6B7280; margin-bottom: 8px; }
-    .blog-card .blog-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #2563EB; text-decoration: none; font-weight: 500; }
+        .article-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    /* === 历史存档 === */
-    .archive-section { margin-top: 48px; padding-top: 28px; border-top: 1px solid #E5E7EB; }
-    .archive-section h3 { font-size: 13px; color: #6B7280; margin-bottom: 14px; }
-    .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
-    .archive-item { padding: 6px 14px; background: #F3F4F6; border-radius: 8px; color: #374151; text-decoration: none; font-size: 13px; transition: all .15s; }
-    .archive-item:hover { background: #2563EB; color: #fff; }
+        .article-number {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--border);
+            line-height: 1;
+            min-width: 32px;
+        }
 
-    /* === 页脚 === */
-    footer { text-align: center; padding: 32px 24px; color: #9CA3AF; font-size: 13px; border-top: 1px solid #E5E7EB; margin-top: 40px; }
-    footer a { color: #6B7280; text-decoration: none; }
-    footer a:hover { color: #2563EB; }
+        .author-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    /* === 响应式 === */
-    @media (max-width: 768px) {
-      .hero { padding: 40px 16px; }
-      .hero-title { font-size: 26px; }
-      .hero-meta { gap: 16px; font-size: 13px; }
-      .content { padding: 0 16px; margin: 24px auto; }
-      .nav-inner { padding: 0 16px; gap: 12px; }
-      .nav-links { display: none; }
-      .nav-controls { margin-left: auto; }
-    }
-  </style>
+        .author-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .author-name { font-weight: 500; font-size: 13px; }
+        .author-bio { color: var(--text-secondary); font-size: 12px; }
+
+        .article-actions { display: flex; gap: 6px; }
+
+        .action-btn {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .action-btn:hover { background: var(--tag-bg); }
+        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn svg { width: 12px; height: 12px; }
+
+        .article h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            margin-left: 44px;
+        }
+
+        .article-body { margin-left: 44px; }
+
+        .article-body p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .article-body strong { color: var(--accent); }
+        .article-body em { color: var(--text-secondary); font-style: normal; font-size: 13px; }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 14px;
+            margin-left: 44px;
+        }
+
+        .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
+        .article-link:hover { text-decoration: underline; }
+
+        [data-lang] { display: none; }
+        [data-lang].active { display: block; }
+
+        /* 历史存档 */
+        .archive-section {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 32px 40px;
+            border-top: 1px solid var(--border);
+        }
+        .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
+        .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
+        .archive-item:hover { background: var(--accent); color: white; }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 32px 40px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            border-top: 1px solid var(--border);
+        }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .controls { padding: 10px 20px; }
+            .hero, .archive-section { padding: 30px 20px 20px; }
+            .hero h1 { font-size: 1.4rem; }
+            .articles { padding: 0 20px 60px; }
+            .article h2, .article-body, .article-footer { margin-left: 0; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="nav-inner">
-      <a href="../index.html" class="logo"><span>🌐</span><span>Junes<span>远程</span></span></a>
-      <div class="nav-links">
-        <a href="../index.html">远程岗位</a>
-        <a href="../companies.html">科技公司</a>
-        <a href="./index.html">AI 资讯</a>
-      </div>
-      <div class="nav-controls">
-        <button class="lang-btn active" id="btnZh" onclick="setLang('zh')">中文</button>
-        <button class="lang-btn" id="btnEn" onclick="setLang('en')">EN</button>
-        <select class="voice-sel" id="voiceSel"><option value="">语音</option></select>
-        <button class="audio-btn" id="playAllBtn" onclick="togglePlayAll()">
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          <span class="zh-text">全文朗读</span><span class="en-text" style="display:none">Read All</span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-badge">📡 AI Builders Digest</div>
-      <h1 class="hero-title">
-        <span class="zh-text">追踪建造者，而非网红</span>
-        <span class="en-text" style="display:none">Track Builders, Not Influencers</span>
-      </h1>
-      <p class="hero-subtitle">
-        <span class="zh-text">每日汇总 AI 领域顶尖建造者的关键观点、播客精华与官方博客更新</span>
-        <span class="en-text" style="display:none">Daily digest of key insights, podcast highlights, and official blog updates from top AI builders</span>
-      </p>
-      <div class="hero-meta">
-        <span class="zh-text">📅 2026年4月15日</span>
-        <span class="en-text" style="display:none">📅 Wednesday, April 15, 2026</span>
-        <span>🕐 <span class="zh-text">北京时间每日更新</span><span class="en-text" style="display:none">Updated daily (Beijing Time)</span></span>
-        <span>🤖 <span class="zh-text">AI 整理</span><span class="en-text" style="display:none">AI curated</span></span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 内容 -->
-  <main class="content">
-
-    <!-- 统计徽章 -->
-    <div class="stats-row">
-      <span class="stat-chip">👤 8 <span class="zh-text">位建造者</span><span class="en-text" style="display:none">builders</span></span>
-      <span class="stat-chip green">🐦 15 <span class="zh-text">条推文</span><span class="en-text" style="display:none">tweets</span></span>
-      <span class="stat-chip purple">🎙️ 3 <span class="zh-text">期播客</span><span class="en-text" style="display:none">podcasts</span></span>
-      <span class="stat-chip orange">📝 2 <span class="zh-text">篇博客</span><span class="en-text" style="display:none">blogs</span></span>
-    </div>
-
-    <!-- X 建造者动态 -->
-    <div class="section-title">
-      <span class="tag">🐦 X / Twitter</span>
-      <h2><span class="zh-text">建造者动态</span><span class="en-text" style="display:none">Builder Updates</span></h2>
-    </div>
-    <div id="builders-zh" class="zh-text">
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">AM</div>
-        <div class="builder-info">
-          <h3>Amjad Masad</h3>
-          <div class="handle">@amasad · ceo @replit. civilizationist</div>
+    <!-- 控制栏 -->
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn active" data-lang-switch="zh">中文</button>
+            <button class="lang-btn" data-lang-switch="en">EN</button>
         </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo</div>
-        <a class="tweet-url" href="https://x.com/amasad/status/2043394289326289243" target="_blank">🔗 查看原文</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">AL</div>
-        <div class="builder-info">
-          <h3>Aaron Levie</h3>
-          <div class="handle">@levie · ceo @box - your business lives in content. unleash it with AI</div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                全文朗读
+            </button>
         </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across banking, media, retail, healthcare, consulting, tech, and sports, to discuss agents in the enterprise. 
-
-Some quick takeaways:
-
-* Clear that we’re moving from chat era of AI to agents that use tools, process data, and start to execute real work in the enterprise.</div>
-        <a class="tweet-url" href="https://x.com/levie/status/2043426157367095397" target="_blank">🔗 查看原文</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Security another great example of a job category that is about to have its Jevons paradox moment as well. 
-
-“And counterintuitively, I think better AI tooling for security will increase the demand for security talent, not decrease it. Autonomous exploitability automates the proving step, but it doesn't automate the response.</div>
-        <a class="tweet-url" href="https://x.com/levie/status/2043318118169354302" target="_blank">🔗 查看原文</a>
-      </div>
     </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">PS</div>
-        <div class="builder-info">
-          <h3>Peter Steinberger</h3>
-          <div class="handle">@steipete · Polyagentmorous ClawFather. Came back from retirement to mess with AI and help a</div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">They grow up so fast 🦞 https://t.co/5WoQMZPtys</div>
-        <a class="tweet-url" href="https://x.com/steipete/status/2043313467512463713" target="_blank">🔗 查看原文</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">ZZ</div>
-        <div class="builder-info">
-          <h3>Zara Zhang</h3>
-          <div class="handle">@zarazhangrui · Builder. Dangerously skips permissions. Harvard’17. GitHub: https://t.co/KCuEaje</div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">tabula rasa</div>
-        <a class="tweet-url" href="https://x.com/zarazhangrui/status/2043418831885086911" target="_blank">🔗 查看原文</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Code: https://t.co/VpLLq4W2Yt</div>
-        <a class="tweet-url" href="https://x.com/zarazhangrui/status/2043415661528129873" target="_blank">🔗 查看原文</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">PSA: You can vibe code your own &quot;New tab&quot; page in Chrome. I have turned mine into the ultimate solution to the &quot;too many tabs&quot; problem
 
-- See all your tabs with clear titles, grouped by domain
-- Closing any tab gives you &quot;swoosh&quot; sound and confetti effect 🎊
-- &quot;Easy wins&quot; grouped together: homepages, localhost tabs...</div>
-        <a class="tweet-url" href="https://x.com/zarazhangrui/status/2043415572688629937" target="_blank">🔗 查看原文</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">GT</div>
-        <div class="builder-info">
-          <h3>Garry Tan</h3>
-          <div class="handle">@garrytan · President &amp; CEO @ycombinator —Founder @garryslist—Creator of GStack &amp; GBrain—des</div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">New item in my SOUL md tonight https://t.co/iAwcQ2QCB7</div>
-        <a class="tweet-url" href="https://x.com/garrytan/status/2043581361798500602" target="_blank">🔗 查看原文</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Do the right job at the right layer 
+    <!-- 头部 -->
+    <header class="hero">
+        <p class="date">Wednesday, April 15, 2026</p>
+        <h1>AI Builders Daily Digest</h1>
+        <p class="hero-sub" data-lang="zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="hero-sub" data-lang="en" style="display:none">Daily curated deep content from AI builders</p>
+        <p class="stats">
+            <span data-lang="zh">📝 10 篇精选</span>
+            <span data-lang="en">📝 10 Articles</span>
+        </p>
+    </header>
 
-Everything else is architecture astronomy https://t.co/jqiPf14F0B</div>
-        <a class="tweet-url" href="https://x.com/garrytan/status/2043566405862236254" target="_blank">🔗 查看原文</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">This is the simplest distillation of what I have learned about agentic engineering this year 
+    <!-- 文章列表 -->
+    <main class="articles">
+        <!-- 01 -->
+        <article class="article" data-article="1">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">SW</div>
+                        <div class="author-info">
+                            <span class="author-name">Swyx</span>
+                            <span class="author-bio">achieve ambition with intentionality, intensity, integrity &amp;</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(1)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="en"></h2>
+            <div class="article-body">
+<p data-lang="en">raw recording with some INSANE performances from my new friends https://t.co/0lDxUiVrsc</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 1</span><span>🔁 0</span></div>
+                <a href="https://x.com/swyx/status/2043547497382240513" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+        <!-- 02 -->
+        <article class="article" data-article="2">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">KW</div>
+                        <div class="author-info">
+                            <span class="author-name">Kevin Weil</span>
+                            <span class="author-bio">VP Science @OpenAI, BoD @Cisco @nature_org, LTC @USArmyReser</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(2)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="en"></h2>
+            <div class="article-body">
+<p data-lang="en">This is a great take. Human intelligence and computer intelligence are not different points on a line, but in a high dimensional space—and we should explore more of the space. https://t.co/BdIX5OWR0H</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 93</span><span>🔁 10</span></div>
+                <a href="https://x.com/kevinweil/status/2043510607736189193" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+        <!-- 03 -->
+        <article class="article" data-article="3">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">PY</div>
+                        <div class="author-info">
+                            <span class="author-name">Peter Yang</span>
+                            <span class="author-bio">I share extremely practical AI tutorials and interviews | Jo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(3)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="en"></h2>
+            <div class="article-body">
+<p data-lang="en">Jet lag is hell</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 24</span><span>🔁 0</span></div>
+                <a href="https://x.com/petergyang/status/2043491799478718953" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+        <!-- 04 -->
+        <article class="article" data-article="4">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">PY</div>
+                        <div class="author-info">
+                            <span class="author-name">Peter Yang</span>
+                            <span class="author-bio">I share extremely practical AI tutorials and interviews | Jo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(4)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="en"></h2>
+            <div class="article-body">
+<p data-lang="en">My entire feed and the Claude subreddit is full of ppl saying opus got nerfed.
 
-Push smart fuzzy operations humans do into markdown skills. Fat skills. 
-
-Push must-be-perfect deterministic operations into code. Fat code. 
-
-The harness? Keep it thin. https://t.co/3ESkNepZrZ</div>
-        <a class="tweet-url" href="https://x.com/garrytan/status/2043566215927328955" target="_blank">🔗 查看原文</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">PY</div>
-        <div class="builder-info">
-          <h3>Peter Yang</h3>
-          <div class="handle">@petergyang · I share extremely practical AI tutorials and interviews | Join 140K+ readers at </div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Jet lag is hell</div>
-        <a class="tweet-url" href="https://x.com/petergyang/status/2043491799478718953" target="_blank">🔗 查看原文</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">My entire feed and the Claude subreddit is full of ppl saying opus got nerfed.
-
-Why would Anthropic nerf its own models?</div>
-        <a class="tweet-url" href="https://x.com/petergyang/status/2043466663258140685" target="_blank">🔗 查看原文</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Also available on:
+Why would Anthropic nerf its own models?</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 532</span><span>🔁 8</span></div>
+                <a href="https://x.com/petergyang/status/2043466663258140685" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+        <!-- 05 -->
+        <article class="article" data-article="5">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">PY</div>
+                        <div class="author-info">
+                            <span class="author-name">Peter Yang</span>
+                            <span class="author-bio">I share extremely practical AI tutorials and interviews | Jo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(5)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="en"></h2>
+            <div class="article-body">
+<p data-lang="en">Also available on:
 
 Spotify:
 https://t.co/70agoA1PHq
 
 Apple: https://t.co/shNRmPP2Wb
 
-Newsletter: https://t.co/azuNUfbjrX</div>
-        <a class="tweet-url" href="https://x.com/petergyang/status/2043328453181943988" target="_blank">🔗 查看原文</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">GR</div>
-        <div class="builder-info">
-          <h3>Guillermo Rauch</h3>
-          <div class="handle">@rauchg · @vercel CEO</div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.
+Newsletter: https://t.co/azuNUfbjrX</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 3</span><span>🔁 0</span></div>
+                <a href="https://x.com/petergyang/status/2043328453181943988" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+        <!-- 06 -->
+        <article class="article" data-article="6">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">NY</div>
+                        <div class="author-info">
+                            <span class="author-name">Nan Yu</span>
+                            <span class="author-bio">head of product @linear</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(6)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="en"></h2>
+            <div class="article-body">
+<p data-lang="en">And regular expressions. https://t.co/GRmYQvX7Ox</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 16</span><span>🔁 0</span></div>
+                <a href="https://x.com/thenanyu/status/2043433444898730007" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+        <!-- 07 -->
+        <article class="article" data-article="7">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AM</div>
+                        <div class="author-info">
+                            <span class="author-name">Amjad Masad</span>
+                            <span class="author-bio">ceo @replit. civilizationist</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(7)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="en"></h2>
+            <div class="article-body">
+<p data-lang="en">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 8,019</span><span>🔁 1,251</span></div>
+                <a href="https://x.com/amasad/status/2043394289326289243" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+        <!-- 08 -->
+        <article class="article" data-article="8">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GR</div>
+                        <div class="author-info">
+                            <span class="author-name">Guillermo Rauch</span>
+                            <span class="author-bio">@vercel CEO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(8)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="en"></h2>
+            <div class="article-body">
+<p data-lang="en">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.
 
-We have one going for @v0. DM if you want to be a part of it and are committed to sharing excellent feedback.</div>
-        <a class="tweet-url" href="https://x.com/rauchg/status/2043381737754120592" target="_blank">🔗 查看原文</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">AA</div>
-        <div class="builder-info">
-          <h3>Aditya Agarwal</h3>
-          <div class="handle">@adityaag · General Partner @SouthPkCommons, Co-Founder @Bevel_Health | Ex: Early Eng @faceb</div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">It's interesting...the Anthropic culture reminds me a lot of early Facebook....despite OpenAI having a lot more ex-Facebook people
+We have one going for @v0. DM if you want to be a part of it and are committed to sharing excellent feedback.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 540</span><span>🔁 21</span></div>
+                <a href="https://x.com/rauchg/status/2043381737754120592" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+        <!-- 09 -->
+        <article class="article" data-article="9">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">09</span>
+                    <div class="author-row">
+                        <div class="author-avatar">PO</div>
+                        <div class="author-info">
+                            <span class="author-name">podcast</span>
+                            <span class="author-bio">AI Podcast</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(9)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="en">Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw, and Why </h2>
+            <div class="article-body">
+<p data-lang="zh">Speaker 1 | 00:00 - 00:25
+Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for example, we now know the neural network is the correct architecture. And I I will tell you, like, was a sixty year run where that was like a, you know, or even seventy years where that was controversial.<br><br><em>…（更多内容见原文）</em></p>
+                <p data-lang="en" style="display:none">Speaker 1 | 00:00 - 00:25
+Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for example, we now know the neural network is the correct architecture. And I I will tell you, like, was a sixty year run where that was like a, you know, or even seventy years where that was controversial.<br><br><em>...(see original for more)</em></p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>🎙️ Podcast</span></div>
+                <a href="https://www.youtube.com/@LatentSpacePod" class="article-link" target="_blank">收听 →</a>
+            </div>
+        </article>
+        <!-- 10 -->
+        <article class="article" data-article="10">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">10</span>
+                    <div class="author-row">
+                        <div class="author-avatar">BL</div>
+                        <div class="author-info">
+                            <span class="author-name">blog</span>
+                            <span class="author-bio">blog</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn" onclick="playArticle(10)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        朗读
+                    </button>
+                </div>
+            </div>
+            <h2 data-lang="en">Preparing your security program for AI-accelerated offense</h2>
+            <div class="article-body">
+<p data-lang="en">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly reducing the required resources, time, and skill required to find and exploit vulnerabilities in software. With an eye on the lightning-fast progress of AI, we also noted that it will not be long before models of similar capability levels are widely available.<br><br><em>...(read full article)</em></p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>📝 Blog</span></div>
+                <a href="https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense" class="article-link" target="_blank">阅读 →</a>
+            </div>
+        </article>
+    </main>
 
-Similarities:
---&gt; People within the company are having a lot of fun
---&gt; There is a lot of naivete about the world
---&gt; There is a bottoms-up hacker culture
---&gt; There is insane &quot;mission&quot; alignment
---&gt; They might be taking themselves just a bit too seriously
---&gt; Winning</div>
-        <a class="tweet-url" href="https://x.com/adityaag/status/2043501400626491758" target="_blank">🔗 查看原文</a>
-      </div>
-    </div></div>
-    <div id="builders-en" class="en-text" style="display:none">
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">AM</div>
-        <div class="builder-info">
-          <h3>Amjad Masad</h3>
-          <div class="handle">@amasad · ceo @replit. civilizationist</div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo</div>
-        <a class="tweet-url" href="https://x.com/amasad/status/2043394289326289243" target="_blank">🔗 View Tweet</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">AL</div>
-        <div class="builder-info">
-          <h3>Aaron Levie</h3>
-          <div class="handle">@levie · ceo @box - your business lives in content. unleash it with AI</div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across banking, media, retail, healthcare, consulting, tech, and sports, to discuss agents in the enterprise. 
-
-Some quick takeaways:
-
-* Clear that we’re moving from chat era of AI to agents that use tools, process data, and start to execute real work in the enterprise.</div>
-        <a class="tweet-url" href="https://x.com/levie/status/2043426157367095397" target="_blank">🔗 View Tweet</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Security another great example of a job category that is about to have its Jevons paradox moment as well. 
-
-“And counterintuitively, I think better AI tooling for security will increase the demand for security talent, not decrease it. Autonomous exploitability automates the proving step, but it doesn't automate the response.</div>
-        <a class="tweet-url" href="https://x.com/levie/status/2043318118169354302" target="_blank">🔗 View Tweet</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">PS</div>
-        <div class="builder-info">
-          <h3>Peter Steinberger</h3>
-          <div class="handle">@steipete · Polyagentmorous ClawFather. Came back from retirement to mess with AI and help a</div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">They grow up so fast 🦞 https://t.co/5WoQMZPtys</div>
-        <a class="tweet-url" href="https://x.com/steipete/status/2043313467512463713" target="_blank">🔗 View Tweet</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">ZZ</div>
-        <div class="builder-info">
-          <h3>Zara Zhang</h3>
-          <div class="handle">@zarazhangrui · Builder. Dangerously skips permissions. Harvard’17. GitHub: https://t.co/KCuEaje</div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">tabula rasa</div>
-        <a class="tweet-url" href="https://x.com/zarazhangrui/status/2043418831885086911" target="_blank">🔗 View Tweet</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Code: https://t.co/VpLLq4W2Yt</div>
-        <a class="tweet-url" href="https://x.com/zarazhangrui/status/2043415661528129873" target="_blank">🔗 View Tweet</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">PSA: You can vibe code your own &quot;New tab&quot; page in Chrome. I have turned mine into the ultimate solution to the &quot;too many tabs&quot; problem
-
-- See all your tabs with clear titles, grouped by domain
-- Closing any tab gives you &quot;swoosh&quot; sound and confetti effect 🎊
-- &quot;Easy wins&quot; grouped together: homepages, localhost tabs...</div>
-        <a class="tweet-url" href="https://x.com/zarazhangrui/status/2043415572688629937" target="_blank">🔗 View Tweet</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">GT</div>
-        <div class="builder-info">
-          <h3>Garry Tan</h3>
-          <div class="handle">@garrytan · President &amp; CEO @ycombinator —Founder @garryslist—Creator of GStack &amp; GBrain—des</div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">New item in my SOUL md tonight https://t.co/iAwcQ2QCB7</div>
-        <a class="tweet-url" href="https://x.com/garrytan/status/2043581361798500602" target="_blank">🔗 View Tweet</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Do the right job at the right layer 
-
-Everything else is architecture astronomy https://t.co/jqiPf14F0B</div>
-        <a class="tweet-url" href="https://x.com/garrytan/status/2043566405862236254" target="_blank">🔗 View Tweet</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">This is the simplest distillation of what I have learned about agentic engineering this year 
-
-Push smart fuzzy operations humans do into markdown skills. Fat skills. 
-
-Push must-be-perfect deterministic operations into code. Fat code. 
-
-The harness? Keep it thin. https://t.co/3ESkNepZrZ</div>
-        <a class="tweet-url" href="https://x.com/garrytan/status/2043566215927328955" target="_blank">🔗 View Tweet</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">PY</div>
-        <div class="builder-info">
-          <h3>Peter Yang</h3>
-          <div class="handle">@petergyang · I share extremely practical AI tutorials and interviews | Join 140K+ readers at </div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Jet lag is hell</div>
-        <a class="tweet-url" href="https://x.com/petergyang/status/2043491799478718953" target="_blank">🔗 View Tweet</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">My entire feed and the Claude subreddit is full of ppl saying opus got nerfed.
-
-Why would Anthropic nerf its own models?</div>
-        <a class="tweet-url" href="https://x.com/petergyang/status/2043466663258140685" target="_blank">🔗 View Tweet</a>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Also available on:
-
-Spotify:
-https://t.co/70agoA1PHq
-
-Apple: https://t.co/shNRmPP2Wb
-
-Newsletter: https://t.co/azuNUfbjrX</div>
-        <a class="tweet-url" href="https://x.com/petergyang/status/2043328453181943988" target="_blank">🔗 View Tweet</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">GR</div>
-        <div class="builder-info">
-          <h3>Guillermo Rauch</h3>
-          <div class="handle">@rauchg · @vercel CEO</div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.
-
-We have one going for @v0. DM if you want to be a part of it and are committed to sharing excellent feedback.</div>
-        <a class="tweet-url" href="https://x.com/rauchg/status/2043381737754120592" target="_blank">🔗 View Tweet</a>
-      </div>
-    </div>
-    <div class="builder-card">
-      <div class="builder-header">
-        <div class="builder-avatar">AA</div>
-        <div class="builder-info">
-          <h3>Aditya Agarwal</h3>
-          <div class="handle">@adityaag · General Partner @SouthPkCommons, Co-Founder @Bevel_Health | Ex: Early Eng @faceb</div>
-        </div>
-      </div>
-      <div class="tweet-item">
-        <div class="tweet-text">It's interesting...the Anthropic culture reminds me a lot of early Facebook....despite OpenAI having a lot more ex-Facebook people
-
-Similarities:
---&gt; People within the company are having a lot of fun
---&gt; There is a lot of naivete about the world
---&gt; There is a bottoms-up hacker culture
---&gt; There is insane &quot;mission&quot; alignment
---&gt; They might be taking themselves just a bit too seriously
---&gt; Winning</div>
-        <a class="tweet-url" href="https://x.com/adityaag/status/2043501400626491758" target="_blank">🔗 View Tweet</a>
-      </div>
-    </div></div>
-
-    <!-- 播客 -->
-    <div class="section-title">
-      <span class="tag green">🎙️ <span class="zh-text">播客</span><span class="en-text" style="display:none">Podcast</span></span>
-      <h2><span class="zh-text">最新节目</span><span class="en-text" style="display:none">Latest Episodes</span></h2>
-    </div>
-    <div class="zh-text">
-    <div class="podcast-card">
-      <h3>Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw</h3>
-      <div class="podcast-meta">
-        <span>🎧 podcast</span>
-      </div>
-      <a class="podcast-link" href="https://www.youtube.com/@LatentSpacePod" target="_blank">▶️ 收听节目 →</a>
-      <div class="podcast-summary">
-        <strong>字幕摘要：</strong><br>
-        Speaker 1 | 00:00 - 00:25
-Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for example, we now know the neural network is the correct architecture. And I I will tell you, like, was a sixty year run where that was like a, you know, or even seventy years where that was controversial.<br>...（更多内容见原文）
-      </div>
-    </div>
-    <div class="podcast-card">
-      <h3>Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw</h3>
-      <div class="podcast-meta">
-        <span>🎧 podcast</span>
-      </div>
-      <a class="podcast-link" href="https://www.youtube.com/@LatentSpacePod" target="_blank">▶️ 收听节目 →</a>
-      <div class="podcast-summary">
-        <strong>字幕摘要：</strong><br>
-        uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you didn't choose to also click in and tune into our content. We've been approached by sponsors on an almost daily basis, but fortunately, enough of you actually subscribed to us to keep all this sustainable without ads, and we wanna keep it that way. But I just have one favor to ask all of you.<br>...（更多内容见原文）
-      </div>
-    </div>
-    <div class="podcast-card">
-      <h3>Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw</h3>
-      <div class="podcast-meta">
-        <span>🎧 podcast</span>
-      </div>
-      <a class="podcast-link" href="https://www.youtube.com/@LatentSpacePod" target="_blank">▶️ 收听节目 →</a>
-      <div class="podcast-summary">
-        <strong>字幕摘要：</strong><br>
-        the we're in we're in the where the whole thing It's beautiful. Yeah.
-
-Speaker 1 | 02:12 - 02:13
-Great. Thank you.
-
-Speaker 2 | 02:13 - 02:35
-So I have to come out. This is a you know, I wanted to pick a spicy start. In October 2022, I just made friends with Rune, and I wanted to give him something to sort of be spicy about. And I said, it'll never not be funny that a 16 z was constantly going the future is where the smart people choose to spend their time and then going deep into crypto and not in AI.<br>...（更多内容见原文）
-      </div>
-    </div></div>
-    <div class="en-text" style="display:none">
-    <div class="podcast-card">
-      <h3>Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw</h3>
-      <div class="podcast-meta">
-        <span>🎧 podcast</span>
-      </div>
-      <a class="podcast-link" href="https://www.youtube.com/@LatentSpacePod" target="_blank">▶️ Listen Now →</a>
-      <div class="podcast-summary">
-        <strong>Transcript excerpt:</strong><br>
-        Speaker 1 | 00:00 - 00:25
-Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for example, we now know the neural network is the correct architecture. And I I will tell you, like, was a sixty year run where that was like a, you know, or even seventy years where that was controversial.<br>...(see original for more)
-      </div>
-    </div>
-    <div class="podcast-card">
-      <h3>Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw</h3>
-      <div class="podcast-meta">
-        <span>🎧 podcast</span>
-      </div>
-      <a class="podcast-link" href="https://www.youtube.com/@LatentSpacePod" target="_blank">▶️ Listen Now →</a>
-      <div class="podcast-summary">
-        <strong>Transcript excerpt:</strong><br>
-        uld not be able to bring you the AI engineering, science, and entertainment contents that you so clearly want if you didn't choose to also click in and tune into our content. We've been approached by sponsors on an almost daily basis, but fortunately, enough of you actually subscribed to us to keep all this sustainable without ads, and we wanna keep it that way. But I just have one favor to ask all of you.<br>...(see original for more)
-      </div>
-    </div>
-    <div class="podcast-card">
-      <h3>Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw</h3>
-      <div class="podcast-meta">
-        <span>🎧 podcast</span>
-      </div>
-      <a class="podcast-link" href="https://www.youtube.com/@LatentSpacePod" target="_blank">▶️ Listen Now →</a>
-      <div class="podcast-summary">
-        <strong>Transcript excerpt:</strong><br>
-        the we're in we're in the where the whole thing It's beautiful. Yeah.
-
-Speaker 1 | 02:12 - 02:13
-Great. Thank you.
-
-Speaker 2 | 02:13 - 02:35
-So I have to come out. This is a you know, I wanted to pick a spicy start. In October 2022, I just made friends with Rune, and I wanted to give him something to sort of be spicy about. And I said, it'll never not be funny that a 16 z was constantly going the future is where the smart people choose to spend their time and then going deep into crypto and not in AI.<br>...(see original for more)
-      </div>
-    </div></div>
-
-    <!-- 博客 -->
-    <div class="section-title">
-      <span class="tag purple">📝 <span class="zh-text">官方博客</span><span class="en-text" style="display:none">Official Blog</span></span>
-      <h2><span class="zh-text">公司博客更新</span><span class="en-text" style="display:none">Company Blog Updates</span></h2>
-    </div>
-    <div class="zh-text">
-    <div class="blog-card">
-      <div class="blog-source">blog</div>
-      <h3>Preparing your security program for AI-accelerated offense</h3>
-      <a class="blog-link" href="https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense" target="_blank">📖 阅读原文 →</a>
-    </div>
-    <div class="blog-card">
-      <div class="blog-source">blog</div>
-      <h3>Preparing your security program for AI-accelerated offense</h3>
-      <a class="blog-link" href="https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense" target="_blank">📖 阅读原文 →</a>
-    </div></div>
-    <div class="en-text" style="display:none">
-    <div class="blog-card">
-      <div class="blog-source">blog</div>
-      <h3>Preparing your security program for AI-accelerated offense</h3>
-      <a class="blog-link" href="https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense" target="_blank">📖 Read More →</a>
-    </div>
-    <div class="blog-card">
-      <div class="blog-source">blog</div>
-      <h3>Preparing your security program for AI-accelerated offense</h3>
-      <a class="blog-link" href="https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense" target="_blank">📖 Read More →</a>
-    </div></div>
-
-    
-  <div class="archive-section">
-    <h3>📅 历史存档</h3>
-    <div class="archive-list">
-      <a href="2026-04-15.html" class="archive-item">2026年4月15日</a>
+        <!-- 历史存档 -->
+    <div class="archive-section">
+        <h3>📅 历史存档</h3>
+        <div class="archive-list">
+        <a href="2026-04-15.html" class="archive-item">2026年4月15日</a>
         <a href="2026-04-14.html" class="archive-item">2026年4月14日</a>
         <a href="2026-04-13.html" class="archive-item">2026年4月13日</a>
-        
+        </div>
     </div>
-  </div>
-  </main>
 
-  <footer>
-    <p>数据来源：<a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
-  </footer>
+    <footer>
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
+    </footer>
 
-  <script>
-  // ===== 语言切换 =====
-  var currentLang = 'zh';
-  function setLang(lang) {
-    currentLang = lang;
-    document.getElementById('btnZh').classList.toggle('active', lang === 'zh');
-    document.getElementById('btnEn').classList.toggle('active', lang === 'en');
-    document.querySelectorAll('.zh-text').forEach(function(el) {
-      el.style.display = lang === 'zh' ? '' : 'none';
-    });
-    document.querySelectorAll('.en-text').forEach(function(el) {
-      el.style.display = lang === 'en' ? '' : 'none';
-    });
-    if (isPlaying) stopAll();
-  }
+    <script>
+        let currentUtterance = null;
+        let isPlaying = false;
+        let currentLang = 'zh';
+        let voices = [];
+        let selectedVoice = null;
 
-  // ===== 语音朗读 =====
-  var voices = [], selectedVoice = null, isPlaying = false;
+        // 加载语音列表（按语言分组）
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            const select = document.getElementById('voiceSelect');
+            select.innerHTML = '<option value="">选择语音</option>';
 
-  function loadVoices() {
-    voices = speechSynthesis.getVoices();
-    var s = document.getElementById('voiceSel');
-    s.innerHTML = '<option value="">语音</option>';
-    voices.forEach(function(v) {
-      if (v.lang.startsWith('zh') || v.lang.startsWith('en')) {
-        var o = document.createElement('option');
-        o.value = v.name;
-        o.textContent = v.name + (v.localService ? ' ★' : '');
-        s.appendChild(o);
-      }
-    });
-  }
-  document.getElementById('voiceSel').onchange = function(e) {
-    selectedVoice = voices.find(function(v) { return v.name === e.target.value; }) || null;
-  };
+            const zhVoices = voices.filter(v => v.lang.startsWith('zh'));
+            const enVoices = voices.filter(v => v.lang.startsWith('en'));
 
-  function getAllReadText() {
-    var text = currentLang === 'zh' ? '今天为大家带来 AI 领域精选资讯。' : 'Here is today's AI builders digest.';
-    var cls = currentLang === 'zh' ? '.zh-text' : '.en-text';
-    document.querySelectorAll('.builder-card, .podcast-card, .blog-card').forEach(function(card, i) {
-      card.querySelectorAll(cls + ' .tweet-text, ' + cls + '.tweet-text, ' +
-                            cls + ' .podcast-summary, ' + cls + '.podcast-summary').forEach(function(el) {
-        text += ' ' + (el.innerText || el.textContent);
-      });
-    });
-    return text;
-  }
+            if (zhVoices.length > 0) {
+                const og = document.createElement('optgroup');
+                og.label = '中文';
+                zhVoices.forEach(v => {
+                    const opt = document.createElement('option');
+                    opt.value = v.name;
+                    opt.textContent = v.name + (v.localService ? ' ★' : '');
+                    og.appendChild(opt);
+                });
+                select.appendChild(og);
+            }
 
-  function togglePlayAll() {
-    if (isPlaying) { stopAll(); return; }
-    speak(getAllReadText(), document.getElementById('playAllBtn'));
-  }
+            if (enVoices.length > 0) {
+                const og = document.createElement('optgroup');
+                og.label = 'English';
+                enVoices.forEach(v => {
+                    const opt = document.createElement('option');
+                    opt.value = v.name;
+                    opt.textContent = v.name + (v.localService ? ' ★' : '');
+                    og.appendChild(opt);
+                });
+                select.appendChild(og);
+            }
 
-  function speak(text, btn) {
-    speechSynthesis.cancel();
-    var u = new SpeechSynthesisUtterance(text.replace(/[。！？]/g, '，').replace(/\s+/g, ' ').trim());
-    u.lang = currentLang === 'zh' ? 'zh-CN' : 'en-US';
-    u.rate = 0.85; u.pitch = 0.95;
-    var v = selectedVoice || voices.find(function(v) { return v.lang.startsWith(currentLang === 'zh' ? 'zh' : 'en'); });
-    if (v) u.voice = v;
-    u.onstart = function() { isPlaying = true; if (btn) btn.classList.add('playing'); };
-    u.onend = u.onerror = function() { stopAll(); };
-    speechSynthesis.speak(u);
-  }
+            // 默认选择高质量本地语音
+            const highQuality = voices.find(v => v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en')));
+            if (highQuality) {
+                select.value = highQuality.name;
+                selectedVoice = highQuality;
+            }
+        }
 
-  function stopAll() {
-    speechSynthesis.cancel();
-    isPlaying = false;
-    document.querySelectorAll('.audio-btn').forEach(function(b) { b.classList.remove('playing'); });
-  }
+        document.getElementById('voiceSelect').addEventListener('change', (e) => {
+            selectedVoice = voices.find(v => v.name === e.target.value);
+        });
 
-  speechSynthesis.onvoiceschanged = loadVoices;
-  loadVoices();
-  </script>
+        // 语言切换
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.langSwitch;
+                currentLang = lang;
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('[data-lang]').forEach(el => {
+                    el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+                });
+                localStorage.setItem('ai-news-lang', lang);
+                if (isPlaying) stopAll();
+            });
+        });
+
+        // 单篇朗读
+        function playArticle(num) {
+            const article = document.querySelector(`[data-article="${num}"]`);
+            let text = '';
+            article.querySelectorAll(`[data-lang="${currentLang}"]`).forEach(el => {
+                if (el.tagName === 'H2' || el.tagName === 'P') {
+                    text += el.textContent + '。';
+                }
+            });
+            speak(text, article.querySelector('.action-btn'));
+        }
+
+        // 全文朗读
+        function playAll() {
+            const btn = document.getElementById('playAllBtn');
+            if (isPlaying) { stopAll(); return; }
+            let text = currentLang === 'zh' ? '今天为大家带来 AI 领域的重要资讯。' : 'Here is today's AI builders digest.';
+            document.querySelectorAll('.article').forEach((a, i) => {
+                text += `第 ${i + 1} 篇，`;
+                a.querySelectorAll(`[data-lang="${currentLang}"]`).forEach(el => {
+                    if (el.tagName === 'H2' || el.tagName === 'P') {
+                        text += el.textContent;
+                    }
+                });
+                text += '。';
+            });
+            speak(text, btn);
+        }
+
+        function speak(text, btn) {
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                isPlaying = false;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(b => b.classList.remove('playing'));
+                return;
+            }
+
+            let optimizedText = text
+                .replace(/。/g, '，')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            const u = new SpeechSynthesisUtterance(optimizedText);
+            u.lang = currentLang === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            u.volume = 1.0;
+
+            let voice = selectedVoice;
+            if (!voice || !voice.lang.startsWith(currentLang)) {
+                const preferred = voices.find(v => {
+                    if (!v.lang.startsWith(currentLang)) return false;
+                    if (v.localService) return true;
+                    const n = v.name.toLowerCase();
+                    return n.includes('premium') || n.includes('enhanced') ||
+                           n.includes('google') || n.includes('apple');
+                });
+                voice = preferred || voices.find(v => v.lang.startsWith(currentLang));
+            }
+
+            if (voice) u.voice = voice;
+
+            u.onstart = () => { isPlaying = true; btn.classList.add('playing'); };
+            u.onend = u.onerror = () => {
+                isPlaying = false;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(b => b.classList.remove('playing'));
+            };
+
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        function stopAll() {
+            speechSynthesis.cancel();
+            isPlaying = false;
+            document.querySelectorAll('.action-btn, .audio-btn').forEach(b => b.classList.remove('playing'));
+        }
+
+        // 初始化：恢复语言偏好
+        const savedLang = localStorage.getItem('ai-news-lang') || 'zh';
+        currentLang = savedLang;
+        document.querySelector(`[data-lang-switch="${savedLang}"]`).click();
+
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+    </script>
 </body>
 </html>

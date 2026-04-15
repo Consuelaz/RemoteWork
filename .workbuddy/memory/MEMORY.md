@@ -80,10 +80,9 @@
 ### 内容生成规则（硬性规则）
 | 内容类型 | 数量 | 来源 | 处理方式 |
 |----------|------|------|----------|
-| **X 推文** | 5 条 | Follow Builders | 按点赞数排序，取前5条 |
-| **播客** | 3 篇 | Follow Builders | 分段提取精华（每段1500字符） |
-| **博客** | 2 篇 | Follow Builders | 分段提取精华（每段1500字符） |
-| **总计** | 10 篇 | - | 5 + 3 + 2 = 10 |
+| **X 推文** | 最多8位建造者 | Follow Builders | 按总点赞数排序，每位最多3条推文 |
+| **播客** | 3 段 | Follow Builders | 分段提取精华（每段1500字符） |
+| **博客** | 2 段 | Follow Builders | 分段提取精华（每段1500字符） |
 
 ### 数据源
 - **数据源项目**：[Follow Builders](https://github.com/zarazhangrui/follow-builders)
@@ -92,19 +91,25 @@
   - `feed-podcasts.json` - AI 播客内容
   - `feed-blogs.json` - 技术博客文章
 
-### 技术实现
+### 技术实现（2026-04-15 定型版本）
 - **生成脚本**：`ai-news/gen-index.py`
-- **页面样式**：`ai-news/index.html`（杂志风格）
+- **参考样式**：`/Users/qisoong/work/Work/remotework/ai-news/2026-04-13.html`（此为标准设计稿）
 - **自动化任务**：每天 7:30 自动执行（Automation ID: `ai`）
 
-### 页面功能
-1. **中英双语切换**：一键切换中/英文显示
-2. **语音朗读**：
-   - 全局朗读：全文连续朗读
-   - 单篇朗读：点击按钮朗读当前文章
-   - 语音选择：支持选择不同语音
-   - 语速：0.85x，音调：0.95
-3. **历史存档**：底部展示历史日期链接
+### 页面结构（对标 2026-04-13.html，硬性规范）
+1. **Navbar**：白色顶栏，含"远程岗位 / 科技公司 / AI资讯"链接 + 中英切换按钮 + 全文朗读
+2. **Hero**：蓝色渐变大头部（`#1E3A5F → #2563EB`），含日期 + 建造者/推文/播客/博客统计徽章
+3. **Section 建造者动态**：`tag 🐦 X / Twitter` + 建造者卡片（头像 + handle + bio + 多条推文）
+4. **Section 播客**：`tag green 🎙️` + podcast-card（标题 + 来源 + 字幕摘要黄色背景区）
+5. **Section 官方博客**：`tag purple 📝` + blog-card（来源 + 标题 + 链接）
+6. **历史存档**：底部 archive-list 展示最近10个日期
+7. **页脚**：数据来源 + 主站链接
+
+### 中英文切换规范
+- 所有中文内容包裹 `<span class="zh-text">` 或带 class `zh-text`
+- 所有英文内容包裹 `<span class="en-text" style="display:none">`
+- 切换逻辑：`setLang('zh'/'en')` 批量切换所有 `.zh-text` / `.en-text` 的 `display`
+- 语音朗读按当前语言选读对应文本，语速 0.85x，音调 0.95
 
 ### 入口逻辑
 - 首页导航 → AI资讯 → 直接进入当天资讯详情页
