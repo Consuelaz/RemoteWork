@@ -258,7 +258,7 @@ archive_html = f'''    <!-- 历史存档 -->
 
 # ============ 完整页面模板（对标 2026-04-13.html）============
 HTML = f'''<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-active="zh">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -471,8 +471,8 @@ HTML = f'''<!DOCTYPE html>
         .article-link {{ color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }}
         .article-link:hover {{ text-decoration: underline; }}
 
-        [data-lang] {{ display: none; }}
-        [data-lang].active {{ display: block; }}
+        html[data-active="zh"] [data-lang="en"] {{ display: none !important; }}
+        html[data-active="en"] [data-lang="zh"] {{ display: none !important; }}
 
         /* 历史存档 */
         .archive-section {{
@@ -560,15 +560,11 @@ HTML = f'''<!DOCTYPE html>
         // 初始化：恢复语言偏好
         (function initLang() {{
             const savedLang = localStorage.getItem('ai-news-lang') || 'zh';
-            currentLang = savedLang;
-            // 更新按钮状态
+            document.documentElement.setAttribute('data-active', savedLang);
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             const activeBtn = document.querySelector(`[data-lang-switch="${{savedLang}}"]`);
             if (activeBtn) activeBtn.classList.add('active');
-            // 切换所有 data-lang 元素
-            document.querySelectorAll('[data-lang]').forEach(el => {{
-                el.style.display = el.dataset.lang === savedLang ? 'block' : 'none';
-            }});
+            currentLang = savedLang;
         }})();
 
         // 语音加载
@@ -617,19 +613,18 @@ HTML = f'''<!DOCTYPE html>
         }});
 
         // 语言切换（点击按钮）
+        function setLang(lang) {{
+            if (currentLang === lang) return;
+            currentLang = lang;
+            document.documentElement.setAttribute('data-active', lang);
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`[data-lang-switch="${{lang}}"]`).classList.add('active');
+            localStorage.setItem('ai-news-lang', lang);
+            if (isPlaying) stopAll();
+        }}
+
         document.querySelectorAll('.lang-btn').forEach(btn => {{
-            btn.addEventListener('click', () => {{
-                const lang = btn.dataset.langSwitch;
-                if (currentLang === lang) return;
-                currentLang = lang;
-                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                document.querySelectorAll('[data-lang]').forEach(el => {{
-                    el.style.display = el.dataset.lang === lang ? 'block' : 'none';
-                }});
-                localStorage.setItem('ai-news-lang', lang);
-                if (isPlaying) stopAll();
-            }});
+            btn.addEventListener('click', () => setLang(btn.dataset.langSwitch));
         }});
 
         // 语音预加载
