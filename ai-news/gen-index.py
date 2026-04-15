@@ -557,6 +557,21 @@ HTML = f'''<!DOCTYPE html>
         let selectedVoice = null;
 
         // 加载语音列表（按语言分组）
+        // 初始化：恢复语言偏好
+        (function initLang() {{
+            const savedLang = localStorage.getItem('ai-news-lang') || 'zh';
+            currentLang = savedLang;
+            // 更新按钮状态
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            const activeBtn = document.querySelector(`[data-lang-switch="${{savedLang}}"]`);
+            if (activeBtn) activeBtn.classList.add('active');
+            // 切换所有 data-lang 元素
+            document.querySelectorAll('[data-lang]').forEach(el => {{
+                el.style.display = el.dataset.lang === savedLang ? 'block' : 'none';
+            }});
+        }})();
+
+        // 语音加载
         function loadVoices() {{
             voices = speechSynthesis.getVoices();
             const select = document.getElementById('voiceSelect');
@@ -601,10 +616,11 @@ HTML = f'''<!DOCTYPE html>
             selectedVoice = voices.find(v => v.name === e.target.value);
         }});
 
-        // 语言切换
+        // 语言切换（点击按钮）
         document.querySelectorAll('.lang-btn').forEach(btn => {{
             btn.addEventListener('click', () => {{
                 const lang = btn.dataset.langSwitch;
+                if (currentLang === lang) return;
                 currentLang = lang;
                 document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -615,6 +631,10 @@ HTML = f'''<!DOCTYPE html>
                 if (isPlaying) stopAll();
             }});
         }});
+
+        // 语音预加载
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
 
         // 单篇朗读
         function playArticle(num) {{
@@ -694,13 +714,6 @@ HTML = f'''<!DOCTYPE html>
             document.querySelectorAll('.action-btn, .audio-btn').forEach(b => b.classList.remove('playing'));
         }}
 
-        // 初始化：恢复语言偏好
-        const savedLang = localStorage.getItem('ai-news-lang') || 'zh';
-        currentLang = savedLang;
-        document.querySelector(`[data-lang-switch="${{savedLang}}"]`).click();
-
-        speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices();
     </script>
 </body>
 </html>'''
