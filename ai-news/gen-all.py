@@ -1840,6 +1840,15 @@ def generate_html(day_key, day_data, all_dates):
 </html>'''
 
 # ============ 主程序 ============
+def get_existing_dates():
+    """扫描已存在的历史存档文件"""
+    existing = []
+    if os.path.exists(OUTPUT_DIR):
+        for f in os.listdir(OUTPUT_DIR):
+            if re.match(r'^\d{4}-\d{2}-\d{2}\.html$', f):
+                existing.append(f.replace('.html', ''))
+    return sorted(existing, reverse=True)
+
 def main():
     # 确定要生成哪些天
     all_dates = sorted(ALL_DAYS.keys(), reverse=True)  # 最新在前
@@ -1848,13 +1857,21 @@ def main():
     num_days = int(sys.argv[1]) if len(sys.argv) > 1 else 5
     dates_to_generate = all_dates[:num_days]
 
+    # 获取历史存档（包含已存在的 + 新生成的）
+    archive_dates = get_existing_dates()
+    for dk in dates_to_generate:
+        if dk not in archive_dates:
+            archive_dates.insert(0, dk)
+    archive_dates = sorted(archive_dates, reverse=True)[:10]  # 最多10个
+
     print(f'📅 生成 {len(dates_to_generate)} 天的 AI 资讯')
     print(f'   日期: {", ".join(dates_to_generate)}')
+    print(f'   历史存档: {len(archive_dates)} 天')
     print()
 
     # 生成所有日期文件
     for dk in dates_to_generate:
-        html = generate_html(dk, ALL_DAYS[dk], dates_to_generate)
+        html = generate_html(dk, ALL_DAYS[dk], archive_dates)
         path = os.path.join(OUTPUT_DIR, f'{dk}.html')
         with open(path, 'w', encoding='utf-8') as f:
             f.write(html)
@@ -1863,7 +1880,7 @@ def main():
 
     # index.html = 最新一天
     latest = dates_to_generate[0]
-    html = generate_html(latest, ALL_DAYS[latest], dates_to_generate)
+    html = generate_html(latest, ALL_DAYS[latest], archive_dates)
     index_path = os.path.join(OUTPUT_DIR, 'index.html')
     with open(index_path, 'w', encoding='utf-8') as f:
         f.write(html)
