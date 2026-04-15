@@ -133,7 +133,7 @@
 <body>
 
     <div class="controls">
-        <a href="../index.html" class="back-home">返回首页</a>
+        <a href="../index.html" class="back-home">首页</a>
         <div class="lang-switch">
             <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
@@ -497,10 +497,6 @@
             <h3>📅 历史存档</h3>
             <div class="archive-list">
 <a href="2026-04-15.html" class="archive-item today">2026年4月15日</a>
-<a href="2026-04-14.html" class="archive-item">2026年4月14日</a>
-<a href="2026-04-13.html" class="archive-item">2026年4月13日</a>
-<a href="2026-04-12.html" class="archive-item">2026年4月12日</a>
-<a href="2026-04-11.html" class="archive-item">2026年4月11日</a>
             </div>
         </div>
 
@@ -645,7 +641,7 @@
             var ls = LABELS[LANG];
             var u = new SpeechSynthesisUtterance(text.replace(/\s+/g, ' '));
             u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
-            u.rate = speechRate; u.pitch = 1.05;  // 语速0.9，音调1.05更自然
+            u.rate = speechRate; u.pitch = 1.1;  // 语速0.9，音调1.1更自然
             var voice = selectedVoice || getBestVoice(LANG);
             if (voice) u.voice = voice;
             u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); btn.querySelector('.btn-text').textContent = ls.stopBtn; };
@@ -676,7 +672,7 @@
             var fullText = texts.join('。');
             var u = new SpeechSynthesisUtterance(fullText.replace(/\s+/g, ' '));
             u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
-            u.rate = speechRate; u.pitch = 1.05;
+            u.rate = speechRate; u.pitch = 1.1;
             var voice = selectedVoice || getBestVoice(LANG);
             if (voice) u.voice = voice;
             u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); label.textContent = ls.stopAll; };
