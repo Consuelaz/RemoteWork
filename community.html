@@ -180,12 +180,16 @@
         <span class="logo-icon">🌐</span>
         <span class="logo-text">Junes<span class="logo-accent">远程</span></span>
       </a>
-      <nav class="nav-links">
+      <nav class="nav-links" id="navLinks">
         <a href="index.html">岗位列表</a>
         <a href="companies.html">100+ fullyremote公司列表</a>
+        <a href="ai-news/index.html">AI资讯</a>
         <a href="community.html" style="color: var(--primary)">加入社群</a>
       </nav>
       <a href="submit.html" class="btn btn-primary nav-cta">发布岗位</a>
+      <button class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="菜单">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
@@ -274,5 +278,19 @@
     </div>
   </footer>
 
+  <script>
+    function toggleNav() {
+      const nav = document.getElementById('navLinks');
+      const btn = document.getElementById('navToggle');
+      nav.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+    document.querySelectorAll('.nav-links a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        document.getElementById('navLinks').classList.remove('open');
+        document.getElementById('navToggle').classList.remove('open');
+      });
+    });
+  </script>
 </body>
 </html>

@@ -906,10 +906,42 @@ body {
 .form-submit { display: flex; gap: 12px; margin-top: 8px; }
 .form-submit .btn { padding: 12px 28px; font-size: 15px; }
 
+/* ── 汉堡菜单按钮（桌面端隐藏） ── */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+  z-index: 200;
+}
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--text-dark);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.nav-toggle.open span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.nav-toggle.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.nav-toggle.open span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
 /* ── 响应式 ── */
 @media (max-width: 768px) {
   .hero-title { font-size: 32px; }
-  .nav-links { display: none; }
   .hero-stats { flex-direction: column; gap: 8px; }
   .stat-divider { display: none; }
   .subscribe-inner { flex-direction: column; text-align: center; }
@@ -921,4 +953,52 @@ body {
   .job-meta { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
   .form-row { grid-template-columns: 1fr; }
   .modal { padding: 24px; }
+
+  /* 汉堡按钮显示 */
+  .nav-toggle { display: flex; }
+
+  /* nav-cta 按钮在移动端隐藏（菜单里已有链接） */
+  .nav-cta { display: none; }
+
+  /* 导航链接折叠为下拉菜单 */
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 16px rgba(0,0,0,.08);
+    padding: 8px 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height 0.3s ease, opacity 0.2s ease;
+  }
+  .nav-links.open {
+    max-height: 300px;
+    opacity: 1;
+    pointer-events: all;
+  }
+  .nav-links a {
+    padding: 14px 24px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-body);
+  }
+  .nav-links a:last-child {
+    border-bottom: none;
+  }
+  .nav-links a:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+  }
+
+  /* nav-inner 在移动端相对定位，撑开菜单 */
+  .navbar { position: sticky; }
+  .nav-inner { position: relative; }
 }
