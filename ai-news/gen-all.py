@@ -53,6 +53,270 @@ def date_en(dt):
 
 ALL_DAYS = {
 
+# ===== 2026-04-17 =====
+'2026-04-17': {
+    'day_label': '4月17日',
+    'articles': [
+        {
+            'num': 1, 'avatar': 'FL', 'author': 'Lex Fridman', 'handle': '@lexfridman',
+            'bio': 'Research scientist & podcaster · MIT · AI conversations', 'type': 'tweet',
+            'zh_title': 'Lex Fridman #490：2026年AI全景——LLMs、编程、Scaling Laws与中国竞赛',
+            'en_title': 'Lex Fridman #490: State of AI in 2026 — LLMs, Coding, Scaling, China',
+            'zh_body': (
+                'Lex Fridman最新一期长播客邀请Nathan Lambert（Ai2后训练负责人）和Sebastian Raschka两位ML研究者，'
+                '系统梳理2026年AI全景。核心观点：当前模型本质仍是GPT-2架构的进化，突破主要来自数据质量和后训练创新而非架构革新。'
+                '开源模型（DeepSeek、Qwen、GLM）性能已接近闭源，DeepSeek时刻是中美AI竞争的转折点。'
+                'Scaling Law预训练仍有收益但边际递减，重心正转向RLVR（可验证奖励强化学习）和推理时计算。'
+                'AGI不会是单一奇点事件，而是各领域逐步超越人类的参差曲线。'
+            ),
+            'en_body': (
+                'Lex Fridman hosts Nathan Lambert (Ai2 post-training lead) and Sebastian Raschka for a comprehensive '
+                'state-of-AI survey. Key takeaways: current models are evolutionary descendants of GPT-2 architecture; '
+                'breakthroughs come from data quality and post-training innovation, not architecture. '
+                'Open-source models (DeepSeek, Qwen, GLM) now rival closed-source. Scaling law still works but with '
+                'diminishing returns — the frontier has shifted to RLVR and test-time compute. '
+                'AGI won\'t be a singular event but an uneven curve of domain-by-domain超越 humans.'
+            ),
+            'stats': '<span>🎙️ 精华</span><span>3hr+ 深度对话</span>',
+            'link_text': '收听 →',
+            'link_url': 'https://lexfridman.com/ai-sota-2026/',
+        },
+        {
+            'num': 2, 'avatar': 'GR', 'author': 'Google', 'handle': '@Google',
+            'bio': 'Google 官方', 'type': 'tweet',
+            'zh_title': 'Google发布原生Gemini Mac应用：Option+Space随时召唤AI',
+            'en_title': 'Google Ships Native Gemini Mac App: Option+Space AI at Your Fingertips',
+            'zh_body': (
+                'Google正式发布macOS原生Gemini应用，对标ChatGPT桌面端。'
+                '核心亮点：Option+Space全局快捷键随时调出AI助手浮窗，无需切换窗口；'
+                '屏幕共享功能让Gemini实时分析用户当前可见内容（包括本地文件）；'
+                '内置Nano Banana图像生成和Veo视频生成能力。支持macOS 15+，免费使用。'
+                'Google表示这只是"第一步"，未来几个月将推出更个人化、主动化的桌面AI助手。'
+                'AI桌面端的竞争进入白热化阶段。'
+            ),
+            'en_body': (
+                'Google launches a native Gemini app for macOS, competing directly with ChatGPT Desktop. '
+                'Key features: Option+Space global shortcut summons AI assistant without switching windows; '
+                'screen sharing lets Gemini analyze visible content including local files in real-time; '
+                'built-in Nano Banana image generation and Veo video generation. Free for macOS 15+. '
+                'Google calls it "just the first step" toward truly personal, proactive desktop AI assistants. '
+                'The AI desktop war is heating up.'
+            ),
+            'stats': '<span>🚀 产品发布</span>',
+            'link_text': '了解详情 →',
+            'link_url': 'https://blog.google/innovation-and-ai/products/gemini-app/gemini-app-now-on-mac-os/',
+        },
+        {
+            'num': 3, 'avatar': 'OO', 'author': 'OpenAI', 'handle': '@OpenAI',
+            'bio': 'OpenAI 官方', 'type': 'tweet',
+            'zh_title': 'OpenAI发布ChatGPT for Excel：用自然语言构建完整电子表格',
+            'en_title': 'OpenAI Launches ChatGPT for Excel: Build Spreadsheets with Natural Language',
+            'zh_body': (
+                'OpenAI发布ChatGPT Excel集成工具，允许用户用自然语言命令直接构建完整电子表格。'
+                '支持跨多标签页生成数据洞察、实时更新工作簿，可创建折现现金流分析等复杂财务模型。'
+                '面向Business、Enterprise、Education和Pro用户（非欧盟地区）。'
+                '同日，OpenAI还宣布扩展Agents SDK，帮助企业构建更安全、更强大的AI Agent。'
+                'AI正在从聊天框走向真实工作场景的深度嵌入。'
+            ),
+            'en_body': (
+                'OpenAI launches ChatGPT for Excel integration — build complete spreadsheets with natural language commands. '
+                'Supports cross-tab data insights, real-time workbook updates, and complex financial models like DCF analysis. '
+                'Available for Business, Enterprise, Education, and Pro users (non-EU). '
+                'Simultaneously, OpenAI expands its Agents SDK for enterprise-grade AI agent development. '
+                'AI is moving from chat boxes into deep integration with real work tools.'
+            ),
+            'stats': '<span>🚀 新功能</span>',
+            'link_text': '查看 →',
+            'link_url': 'https://chatgpt.com/apps/spreadsheets/',
+        },
+        {
+            'num': 4, 'avatar': 'HT', 'author': 'Hightouch', 'handle': '@hightouch',
+            'bio': 'AI-powered marketing intelligence', 'type': 'tweet',
+            'zh_title': 'Hightouch突破1亿美元ARR：AI营销Agent推动20个月增长7000万',
+            'en_title': 'Hightouch Hits $100M ARR: AI Marketing Agents Drive $70M Growth in 20 Months',
+            'zh_body': (
+                '数据公司Hightouch宣布年化经常性收入突破1亿美元里程碑，过去20个月内ARR增长7000万美元。'
+                '增长引擎核心：面向营销人员的AI Agent平台，能自动执行受众细分、个性化营销、效果归因等任务。'
+                '这标志着AI Agent在垂直行业（营销科技）中已经产生了可量化的商业价值——'
+                '不再是概念验证，而是真正驱动收入增长的产品。'
+                'AI+垂直领域SaaS的商业飞轮正在成型。'
+            ),
+            'en_body': (
+                'Hightouch reaches $100M ARR milestone, adding $70M in just 20 months. '
+                'The growth engine: an AI agent platform for marketers that automates audience segmentation, '
+                'personalized campaigns, and attribution. This marks a watershed moment — AI agents in vertical SaaS '
+                '(marketing tech) are now producing measurable, scalable revenue impact. '
+                'Not a proof of concept anymore, but a growth driver. The AI + vertical SaaS flywheel is real.'
+            ),
+            'stats': '<span>💰 $100M ARR</span><span>📈 +7000万/20月</span>',
+            'link_text': '原文 →',
+            'link_url': 'https://techcrunch.com/2026/04/15/hightouch-reaches-100m-arr-fueled-by-marketing-tools-powered-by-ai/',
+        },
+        {
+            'num': 5, 'avatar': 'AM', 'author': 'Anthropic', 'handle': '@AnthropicAI',
+            'bio': 'Anthropic · Claude · AI Safety', 'type': 'tweet',
+            'zh_title': 'Claude Mythos发现数千个零日漏洞：AI安全的双刃剑',
+            'en_title': 'Claude Mythos Finds Thousands of Zero-Days: The Double-Edged Sword of AI Security',
+            'zh_body': (
+                'Anthropic披露Claude Mythos Preview在Project Glasswing中自主发现了数千个零日漏洞，'
+                '覆盖所有主流操作系统和浏览器。最令人震惊的发现：'
+                '一个隐藏了27年的OpenBSD内核漏洞、Firefox JS shell漏洞利用成功率从0%飙升至72.4%、'
+                'Mythos能自主链式利用最多4个漏洞实现沙盒逃逸。'
+                'Anthropic因此拒绝公开发布Mythos，称其"攻击能力远超防御效用"。'
+                '但Project Glasswing已联合Amazon、Apple、Google、Microsoft等11家巨头投入1亿美元用于防御。'
+                'AI安全进入了一个全新阶段：模型能力本身成为了安全议题。'
+            ),
+            'en_body': (
+                'Anthropic reveals Claude Mythos Preview autonomously discovered thousands of zero-day vulnerabilities '
+                'across all major OS and browsers via Project Glasswing. Shocking findings: '
+                'a 27-year-old OpenBSD kernel bug, Firefox JS exploit success rate jumping from 0% to 72.4%, '
+                'and Mythos chaining up to 4 vulnerabilities for sandbox escape. '
+                'Anthropic refuses public release, stating "offensive capability far exceeds defensive utility." '
+                'Project Glasswing unites 11 giants (Amazon, Apple, Google, Microsoft...) with $100M for defense. '
+                'AI security has entered a new era where model capability itself becomes the security issue.'
+            ),
+            'stats': '<span>⚠️ 重大安全事件</span>',
+            'link_text': '详情 →',
+            'link_url': 'https://www.anthropic.com/project/glasswing',
+        },
+        {
+            'num': 6, 'avatar': 'SZ', 'author': 'Stanford HAI', 'handle': '@StanfordHAI',
+            'bio': 'Stanford Institute for Human-Centered AI', 'type': 'tweet',
+            'zh_title': '斯坦福2026年AI指数报告：中美模型差距仅2.7%，透明度暴跌',
+            'en_title': 'Stanford 2026 AI Index: China-US Model Gap Just 2.7%, Transparency Plummets',
+            'zh_body': (
+                '斯坦福大学发布《2026年人工智能指数报告》，核心发现引发广泛关注：'
+                '中美最强模型Arena评分差距已收窄至仅2.7%（Claude Opus 4.6 vs Dola-Seed-2.0），'
+                '美国AI人才吸引力较2017年峰值减少89%。'
+                'AI推理成本3年内下降280倍，生成式AI仅用3年实现53%全球人口渗透率（远超互联网历史纪录）。'
+                '但基础模型透明度指数从58分暴跌至40分——OpenAI、Anthropic、Google已全面停止披露参数规模、数据集大小和训练时长。'
+                'AI能力飞速提升的同时，可解释性正在恶化。'
+            ),
+            'en_body': (
+                'Stanford releases the 2026 AI Index Report with striking findings: '
+                'China-US model Arena score gap narrowed to just 2.7% (Claude Opus 4.6 vs Dola-Seed-2.0); '
+                'US AI talent attractiveness dropped 89% from 2017 peak; '
+                'AI inference costs fell 280x in 3 years; generative AI reached 53% global adoption in just 3 years '
+                '(far surpassing internet adoption rates). '
+                'But model transparency index crashed from 58 to 40 — OpenAI, Anthropic, Google have all stopped '
+                'disclosing parameter counts, dataset sizes, and training durations. '
+                'AI capabilities are soaring while explainability is deteriorating.'
+            ),
+            'stats': '<span>📊 权威报告</span>',
+            'link_text': '报告全文 →',
+            'link_url': 'https://aiindex.stanford.edu/',
+        },
+        {
+            'num': 7, 'avatar': 'JP', 'author': 'JP Morgan', 'handle': '@jpmorgan',
+            'bio': 'JPMorgan Chase & Co.', 'type': 'tweet',
+            'zh_title': 'LinkedIn数据：招聘下降20%的真正原因是利率，不是AI',
+            'en_title': 'LinkedIn Data: Hiring Decline Driven by Interest Rates, Not AI',
+            'zh_body': (
+                'LinkedIn数据显示，2022年以来全球招聘率下降20%。'
+                '但分析表明，根本原因是宏观经济因素——特别是高利率环境抑制了企业扩张和招聘意愿——'
+                '而非AI自动化替代人类工作。'
+                '这一发现对AI叙事有重要意义：虽然AI确实在改变工作方式，'
+                '但当前劳动力市场的放缓更多是周期性的而非结构性的。'
+                '对于政策制定者来说，与其限制AI发展，不如关注如何降低利率、刺激经济增长。'
+                '数据驱动的洞察比恐惧驱动的叙事更有价值。'
+            ),
+            'en_body': (
+                'LinkedIn data reveals a 20% decline in global hiring since 2022. '
+                'But analysis shows the root cause is macroeconomic — particularly high interest rates suppressing '
+                'corporate expansion and hiring appetite — not AI automation replacing human workers. '
+                'This is significant for the AI narrative: while AI is indeed changing how work gets done, '
+                'the current labor market slowdown is more cyclical than structural. '
+                'For policymakers, stimulating economic growth may matter more than restricting AI development. '
+                'Data-driven insight beats fear-driven narrative.'
+            ),
+            'stats': '<span>📈 行业数据</span>',
+            'link_text': '详情 →',
+            'link_url': 'https://techcrunch.com/2026/04/15/linkedin-data-shows-ai-isnt-to-blame-for-hiring-decline-yet/',
+        },
+        {
+            'num': 8, 'avatar': 'GP', 'author': 'Google DeepMind', 'handle': '@GoogleDeepMind',
+            'bio': 'Google DeepMind · AI Research', 'type': 'tweet',
+            'zh_title': 'DeepMind发布Gemini 3.1 Flash TTS：精细音频标签控制语音方向与语调',
+            'en_title': 'DeepMind Ships Gemini 3.1 Flash TTS: Fine-Grained Audio Tags for Voice Control',
+            'zh_body': (
+                'Google DeepMind发布下一代音频模型Gemini 3.1 Flash TTS，引入革命性的精细音频标签技术。'
+                '用户可以通过标签精确控制生成语音的方向、语调、情感和节奏，'
+                '大幅缩小机器人合成语音与自然人类表达之间的差距。'
+                '这意味着AI语音不再只有"标准朗读"一种风格，而是可以根据场景需求产生定制化的声音表现。'
+                '结合同日发布的原生Mac应用，Google正在构建一个完整的端到端AI体验：文本→语音→图像→视频，全部原生集成。'
+            ),
+            'en_body': (
+                'Google DeepMind releases Gemini 3.1 Flash TTS, introducing revolutionary fine-grained audio tag technology. '
+                'Users can precisely control direction, tone, emotion, and rhythm of generated speech via tags, '
+                'dramatically narrowing the gap between robotic synthesis and natural human expression. '
+                'AI voice is no longer limited to "standard narration" — it can produce customized vocal performances per scenario. '
+                'Combined with the native Mac app released the same day, Google is building a complete end-to-end AI experience: '
+                'text → speech → image → video, all natively integrated.'
+            ),
+            'stats': '<span>🔊 新模型</span>',
+            'link_text': '了解 →',
+            'link_url': 'https://deepmind.google/blog/gemini-3-1-flash-tts-the-next-generation-of-expressive-ai-speech/',
+        },
+        {
+            'num': 9, 'avatar': 'LF', 'author': 'Lex Fridman', 'handle': '@lexfridman',
+            'bio': 'Research scientist & podcaster · MIT', 'type': 'podcast',
+            'zh_title': 'Nathan Lambert & Sebastian Raschka：开源模型崛起、RLVR突破与AGI时间线',
+            'en_title': 'Lambert & Raschka: Open-Source Rise, RLVR Breakthroughs & AGI Timeline',
+            'zh_body': (
+                '本期Lex Fridman播客中，Nathan Lambert和Sebastian Raschka深入讨论了开源模型的崛起。'
+                'DeepSeek R1以更低成本匹配SOTA性能是2025年的分水岭时刻，'
+                '之后中国开源模型（GLM、Qwen）持续缩小与闭源的差距。'
+                'RLVR（可验证奖励强化学习）通过"生成答案→评估正确性→迭代强化"的循环，'
+                '解锁了高级推理和代码生成能力。AGI预测时间线从2030年代到更远不等，'
+                '但两位研究者一致认为：AGI不会是单一"奇点"事件，而是系统在各任务上逐步超越人类的过程。'
+                '对开发者最有价值的建议：AI编程中Debugging是最大受益场景，但要保持一定手动编码比例防止技能萎缩。'
+            ),
+            'en_body': (
+                'In this Lex Fridman episode, Nathan Lambert and Sebastian Raschka discuss the open-source model surge. '
+                'DeepSeek R1 matching SOTA at lower cost was the 2025 watershed; Chinese open-source models (GLM, Qwen) '
+                'continue closing the gap with closed-source. RLVR (verifiable reward RL) unlocks advanced reasoning '
+                'and code generation via "generate → verify → iterate" loops. '
+                'AGI timeline ranges from 2030s onward, but both agree: no singular "singularity" event — '
+                'it\'s an uneven curve of systems surpassing humans domain by domain. '
+                'Best developer advice: debugging is the biggest beneficiary of AI coding, '
+                'but maintain manual coding to prevent skill atrophy.'
+            ),
+            'stats': '<span>🎙️ 播客精华</span>',
+            'link_text': '收听 →',
+            'link_url': 'https://lexfridman.com/ai-sota-2026/',
+        },
+        {
+            'num': 10, 'avatar': 'SA', 'author': 'Stanford HAI', 'handle': '@StanfordHAI',
+            'bio': 'Stanford Institute for Human-Centered AI', 'type': 'blog',
+            'zh_title': '斯坦福AI指数：模型透明度从58分暴跌至40分，开源模型仅4个',
+            'en_title': 'Stanford AI Index: Model Transparency Crashes from 58 to 40, Only 4 Open-Source Models',
+            'zh_body': (
+                '斯坦福2026年AI指数报告揭示了一个令人担忧的趋势：基础模型透明度急剧恶化。'
+                '2025年发布的95个知名模型中，80个未公布训练代码，真正开源的仅有4个。'
+                'OpenAI、Anthropic、Google已全面停止披露参数规模、数据集大小和训练时长。'
+                '几乎所有模型都公布了能力基准得分，但责任AI基准的披露近乎空白。'
+                'AI相关负面事件从2024年的233起增长至2026年的362起，增幅55%。'
+                '报告警告：透明度危机正在威胁全球AI治理的基础——'
+                '当外部监督者无法审查模型内部运作时，安全承诺的可信度存疑。'
+                '建议治理框架从"审查静态文档"转向"要求动态访问权"。'
+            ),
+            'en_body': (
+                'The Stanford 2026 AI Index reveals a troubling trend: foundation model transparency is deteriorating sharply. '
+                'Of 95 notable models released in 2025, 80 have no published training code; only 4 are truly open-source. '
+                'OpenAI, Anthropic, Google have all stopped disclosing parameter counts, dataset sizes, and training durations. '
+                'Almost all models publish capability benchmarks, but responsible AI benchmarks remain near blank. '
+                'AI-related negative incidents grew 55% from 233 in 2024 to 362 in 2026. '
+                'The report warns: the transparency crisis threatens the foundation of global AI governance — '
+                'when external auditors cannot inspect model internals, safety promises become questionable. '
+                'Governance frameworks must shift from "reviewing static documents" to "requiring dynamic access rights."'
+            ),
+            'stats': '<span>📝 深度报告</span>',
+            'link_text': '阅读原文 →',
+            'link_url': 'https://aiindex.stanford.edu/',
+        },
+    ],
+},
+
 # ===== 2026-04-15 =====
 '2026-04-15': {
     'day_label': '4月15日',
