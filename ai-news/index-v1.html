@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-04-17 (V1动态版)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root { --bg:#fafaf9;--text:#1c1917;--text-secondary:#78716c;--accent:#ea580c;--border:#e7e5e4;--tag-bg:#f5f5f4 }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; font-size:15px }
+        .controls { position:sticky; top:0; z-index:100; background:rgba(250,250,249,.95); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); padding:10px 40px; display:flex; justify-content:space-between; align-items:center; gap:16px }
+        .lang-switch { display:flex; gap:4px }
+        .lang-btn { padding:5px 14px; border:1px solid var(--border); background:white; cursor:pointer; font-size:13px; border-radius:16px; transition:all .2s; font-family:inherit }
+        .lang-btn.active { background:var(--text); color:white; border-color:var(--text) }
+        .audio-controls { display:flex; gap:8px; align-items:center }
+        .audio-btn { padding:5px 14px; border:1px solid var(--border); background:white; cursor:pointer; font-size:13px; border-radius:16px; display:flex; align-items:center; gap:6px; font-family:inherit }
+        .audio-btn:hover { background:var(--tag-bg) }
+        .audio-btn.playing { background:var(--accent); color:white; border-color:var(--accent) }
+        .audio-btn svg { width:13px; height:13px }
+        .voice-select { padding:5px 10px; border:1px solid var(--border); border-radius:12px; font-size:12px; background:white; cursor:pointer; font-family:inherit }
+        .hero { padding:40px 40px 30px; max-width:760px; margin:0 auto; border-bottom:1px solid var(--border) }
+        .badge { display:inline-block; background:var(--accent); color:white; font-size:11px; padding:2px 8px; border-radius:10px; margin-right:8px; vertical-align:middle }
+        .date { font-size:12px; letter-spacing:1px; text-transform:uppercase; color:var(--accent); margin-bottom:10px }
+        .hero h1 { font-size:1.8rem; font-weight:600; margin-bottom:10px }
+        .hero-sub { font-size:14px; color:var(--text-secondary); margin-bottom:8px }
+        .stats { font-size:12px; color:var(--text-secondary) }
+        .articles { max-width:760px; margin:0 auto; padding:0 40px 80px }
+        .article { padding:30px 0; border-bottom:1px solid var(--border) }
+        .article:last-child { border-bottom:none }
+        .article-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px }
+        .article-left { display:flex; align-items:center; gap:12px }
+        .article-number { font-size:22px; font-weight:700; color:var(--border); line-height:1; min-width:32px }
+        .author-row { display:flex; align-items:center; gap:10px }
+        .author-avatar { width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,#1c1917 0%,#57534e 100%); display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:11px; flex-shrink:0 }
+        .author-info { display:flex; flex-direction:column }
+        .author-name { font-weight:600; font-size:13px }
+        .author-handle { color:var(--accent); font-size:12px }
+        .author-bio { color:var(--text-secondary); font-size:12px; max-width:300px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+        .article-actions { display:flex; gap:6px }
+        .action-btn { padding:5px 12px; border:1px solid var(--border); background:white; cursor:pointer; font-size:12px; border-radius:12px; display:flex; align-items:center; gap:4px; font-family:inherit; transition:all .2s }
+        .action-btn:hover { background:var(--tag-bg) }
+        .action-btn.playing { background:var(--accent); color:white; border-color:var(--accent) }
+        .action-btn svg { width:11px; height:11px }
+        .article-title { font-size:1rem; font-weight:600; line-height:1.4; margin-bottom:10px; margin-left:46px; color:var(--text) }
+        .article-title.en { font-size:.9rem; font-weight:500; color:var(--text-secondary) }
+        .article-body { margin-left:46px }
+        .article-content { font-size:14px; line-height:1.85; color:var(--text) }
+        .article-content.en { color:var(--text-secondary) }
+        .article-footer { display:flex; justify-content:space-between; align-items:center; margin-top:12px; margin-left:46px }
+        .article-stats { display:flex; gap:12px; font-size:12px; color:var(--text-secondary) }
+        .article-link { color:var(--accent); font-size:13px; font-weight:500; text-decoration:none }
+        .article-link:hover { text-decoration:underline }
+        .archive-section { max-width:760px; margin:0 auto; padding:32px 40px; border-top:1px solid var(--border) }
+        .archive-section h3 { font-size:12px; color:var(--text-secondary); margin-bottom:14px; letter-spacing:.5px; text-transform:uppercase }
+        .archive-list { display:flex; flex-wrap:wrap; gap:8px }
+        .archive-item { padding:6px 14px; background:var(--tag-bg); border-radius:8px; color:var(--text-secondary); text-decoration:none; font-size:13px; transition:all .15s }
+        .archive-item:hover { background:var(--accent); color:white }
+        footer { text-align:center; padding:32px 40px; color:var(--text-secondary); font-size:12px; border-top:1px solid var(--border) }
+        footer a { color:var(--text-secondary); text-decoration:none }
+        footer a:hover { color:var(--accent) }
+        @media(max-width:768px) { .controls{padding:10px 20px} .hero,.archive-section{padding:28px 20px 20px} .hero h1{font-size:1.4rem} .articles{padding:0 20px 60px} .article-title,.article-body,.article-footer{margin-left:0} }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn" disabled style="opacity:.4" title="英文原文版本">🌐 English Only</button>
+        </div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect"><option>默认语音</option></select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span id="playAllLabel">朗读全文</span>
+            </button>
+        </div>
+    </div>
+    <header class="hero">
+        <p class="date"><span class="badge">V1</span>Friday, April 17, 2026</p>
+        <h1>🤖 AI Builders · 动态版</h1>
+        <p class="hero-sub">数据来源：Follow Builders · 实时抓取真实内容</p>
+        <p class="stats">📝 10 篇精选 &nbsp;|&nbsp; Feed 更新于 2026-04-13</p>
+    </header>
+    <main class="articles">
+
+        <!-- 01 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AM</div>
+                        <div class="author-info">
+                            <span class="author-name">Amjad Masad</span>
+                            <span class="author-handle">@amasad</span>
+                            <span class="author-bio">ceo @replit. civilizationist</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(1, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en">On its 50th birthday Apple is doing its best to become the most hated company in…</h2>
+            <div class="article-body">
+                <p class="article-content en">On its 50th birthday Apple is doing its best to become the most hated company in the world.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 8,019</span></div>
+                <a href="https://x.com/amasad/status/2043394289326289243" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AL</div>
+                        <div class="author-info">
+                            <span class="author-name">Aaron Levie</span>
+                            <span class="author-handle">@levie</span>
+                            <span class="author-bio">ceo @box - your business lives in content. unleash it with A</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(2, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en">Another week on the road meeting with a couple dozen IT and AI leaders from larg…</h2>
+            <div class="article-body">
+                <p class="article-content en">Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across banking, media, retail, healthcare, consulting, tech, and sports, to discuss agents in the enterprise.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 2,981</span></div>
+                <a href="https://x.com/levie/status/2043426157367095397" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">PS</div>
+                        <div class="author-info">
+                            <span class="author-name">Peter Steinberger</span>
+                            <span class="author-handle">@steipete</span>
+                            <span class="author-bio">Polyagentmorous ClawFather. Came back from retirement to mes</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(3, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en">They grow up so fast 🦞</h2>
+            <div class="article-body">
+                <p class="article-content en">They grow up so fast 🦞</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 1,082</span></div>
+                <a href="https://x.com/steipete/status/2043313467512463713" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">ZZ</div>
+                        <div class="author-info">
+                            <span class="author-name">Zara Zhang</span>
+                            <span class="author-handle">@zarazhangrui</span>
+                            <span class="author-bio">Builder. Dangerously skips permissions. Harvard’17. GitHub: </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(4, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en">PSA: You can vibe code your own &quot;New tab&quot; page in Chrome. I have turned mine int…</h2>
+            <div class="article-body">
+                <p class="article-content en">PSA: You can vibe code your own &quot;New tab&quot; page in Chrome. I have turned mine into the ultimate solution to the &quot;too many tabs&quot; problem - See all your tabs with clear titles, grouped by domain - Closing any tab gives you &quot;swoosh&quot; sound and confetti effect 🎊 - &quot;Easy wins&quot; grouped t…</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 948</span></div>
+                <a href="https://x.com/zarazhangrui/status/2043415572688629937" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GR</div>
+                        <div class="author-info">
+                            <span class="author-name">Guillermo Rauch</span>
+                            <span class="author-handle">@rauchg</span>
+                            <span class="author-bio">@vercel CEO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(5, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en">Protip: Create an X group chat with your best and most demanding customers. Put …</h2>
+            <div class="article-body">
+                <p class="article-content en">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music. We have one going for @v0. DM if you want to be a part of it and are committed to sharing excellent feedback.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 540</span></div>
+                <a href="https://x.com/rauchg/status/2043381737754120592" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">PY</div>
+                        <div class="author-info">
+                            <span class="author-name">Peter Yang</span>
+                            <span class="author-handle">@petergyang</span>
+                            <span class="author-bio">I share extremely practical AI tutorials and interviews | Jo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(6, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en">My entire feed and the Claude subreddit is full of ppl saying opus got nerfed. W…</h2>
+            <div class="article-body">
+                <p class="article-content en">My entire feed and the Claude subreddit is full of ppl saying opus got nerfed. Why would Anthropic nerf its own models?</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 532</span></div>
+                <a href="https://x.com/petergyang/status/2043466663258140685" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GT</div>
+                        <div class="author-info">
+                            <span class="author-name">Garry Tan</span>
+                            <span class="author-handle">@garrytan</span>
+                            <span class="author-bio">President &amp; CEO @ycombinator —Founder @garryslist—Creator of</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(7, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en">This is the simplest distillation of what I have learned about agentic engineeri…</h2>
+            <div class="article-body">
+                <p class="article-content en">This is the simplest distillation of what I have learned about agentic engineering this year Push smart fuzzy operations humans do into markdown skills. Fat skills. Push must-be-perfect deterministic operations into code. Fat code. The harness? Keep it thin.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 450</span></div>
+                <a href="https://x.com/garrytan/status/2043566215927328955" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AL</div>
+                        <div class="author-info">
+                            <span class="author-name">Aaron Levie</span>
+                            <span class="author-handle">@levie</span>
+                            <span class="author-bio">ceo @box - your business lives in content. unleash it with A</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(8, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en">Security another great example of a job category that is about to have its Jevon…</h2>
+            <div class="article-body">
+                <p class="article-content en">Security another great example of a job category that is about to have its Jevons paradox moment as well. “And counterintuitively, I think better AI tooling for security will increase the demand for security talent, not decrease it.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 307</span></div>
+                <a href="https://x.com/levie/status/2043318118169354302" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 09 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">09</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LS</div>
+                        <div class="author-info">
+                            <span class="author-name">Latent Space</span>
+                            <span class="author-handle">@LatentSpacePod</span>
+                            <span class="author-bio">AI播客旗舰 · 深度对话AI前沿研究者</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(9, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en">Marc Andreessen introspects on The Death of the Browser, Pi + OpenClaw, and Why </h2>
+            <div class="article-body">
+                <p class="article-content en">Speaker 1 | 00:00 - 00:25
+Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for example, we now know the neural network is the correct architecture. And I I will tell you, like, was a sixty year run where that was like a, you know, or even seventy years where that was controversial. And so so the way I think about what's happening is basically, think I think about basically the the</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>🎙️ 播客精华</span></div>
+                <a href="https://www.youtube.com/@LatentSpacePod" class="article-link" target="_blank">收听完整 →</a>
+            </div>
+        </article>
+
+        <!-- 10 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">10</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AN</div>
+                        <div class="author-info">
+                            <span class="author-name"></span>
+                            <span class="author-handle">@Unknown</span>
+                            <span class="author-bio">技术博客</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(10, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en">Preparing your security program for AI-accelerated offense</h2>
+            <div class="article-body">
+                <p class="article-content en">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly reducing the required resources, time, and skill required to find and exploit vulnerabilities in software. With an eye on the lightning-fast progress of AI, we also noted that it will not be long before models of similar capability levels are widely available. Within the next 24 months, vast numbers</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>📝 技术博客</span></div>
+                <a href="https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense" class="article-link" target="_blank">阅读原文 →</a>
+            </div>
+        </article>
+    </main>
+    
+        <div class="archive-section">
+            <h3>📅 历史存档</h3>
+            <div class="archive-list">
+<a href="2026-04-16.html" class="archive-item">2026年4月16日</a>
+<a href="2026-04-15.html" class="archive-item">2026年4月15日</a>
+<a href="2026-04-14.html" class="archive-item">2026年4月14日</a>
+<a href="2026-04-13.html" class="archive-item">2026年4月13日</a>
+<a href="2026-04-12.html" class="archive-item">2026年4月12日</a>
+<a href="2026-04-11.html" class="archive-item">2026年4月11日</a>
+            </div>
+        </div>
+
+    <footer>
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
+    </footer>
+    <script>
+        var voices=[];var isPlaying=false;var currentUtterance=null;var selectedVoice=null;
+        function loadVoices(){voices=speechSynthesis.getVoices();var s=document.getElementById('voiceSelect');s.innerHTML='<option>默认语音</option>';voices.forEach(function(v){var o=document.createElement('option');o.value=v.name;o.textContent=v.name+(v.localService?' ★':'');if(v.lang.startsWith('en'))s.appendChild(o)})}
+        document.getElementById('voiceSelect').addEventListener('change',function(e){selectedVoice=voices.find(function(v){return v.name===e.target.value})||null});
+        function getText(num){var arts=document.querySelectorAll('.article');if(!arts[num-1])return'';var a=arts[num-1];var parts=[];a.querySelectorAll('.article-content').forEach(function(el){parts.push(el.textContent)});return parts.join(' ')}
+        function playArticle(num,btn){var text=getText(num);if(!text)return;if(isPlaying){speechSynthesis.cancel();isPlaying=false;currentUtterance=null;document.querySelectorAll('.action-btn,.audio-btn').forEach(function(b){b.classList.remove('playing')});document.getElementById('playAllLabel').textContent='朗读全文';document.querySelectorAll('.action-btn .btn-text').forEach(function(t){t.textContent='朗读'});return}var u=new SpeechSynthesisUtterance(text.replace(/\s+/g,' '));u.lang='en-US';u.rate=0.85;var v=selectedVoice||voices.find(function(v){return v.localService||v.name.toLowerCase().includes('google')});if(v)u.voice=v;u.onstart=function(){isPlaying=true;currentUtterance=u;btn.classList.add('playing');btn.querySelector('.btn-text').textContent='停止'};u.onend=u.onerror=function(){isPlaying=false;currentUtterance=null;btn.classList.remove('playing');btn.querySelector('.btn-text').textContent='朗读'};speechSynthesis.cancel();speechSynthesis.speak(u)}
+        function playAll(){var btn=document.getElementById('playAllBtn');var label=document.getElementById('playAllLabel');if(isPlaying){speechSynthesis.cancel();isPlaying=false;currentUtterance=null;btn.classList.remove('playing');label.textContent='朗读全文';return}var texts=[];document.querySelectorAll('.article').forEach(function(a){var parts=[];a.querySelectorAll('.article-content').forEach(function(el){parts.push(el.textContent)});if(parts.length)texts.push(parts.join(' '))});var u=new SpeechSynthesisUtterance(texts.join(' ').replace(/\s+/g,' '));u.lang='en-US';u.rate=0.85;var v=selectedVoice||voices.find(function(v){return v.localService||v.name.toLowerCase().includes('google')});if(v)u.voice=v;u.onstart=function(){isPlaying=true;currentUtterance=u;btn.classList.add('playing');label.textContent='停止'};u.onend=u.onerror=function(){isPlaying=false;currentUtterance=null;btn.classList.remove('playing');label.textContent='朗读全文'};speechSynthesis.cancel();speechSynthesis.speak(u)}
+        speechSynthesis.onvoiceschanged=loadVoices;loadVoices();
+    </script>
+</body>
+</html>
