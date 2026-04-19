@@ -3,81 +3,114 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Builders · 2026-04-17</title>
+    <title>AI Builders · 2026-04-19</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
         :root {
-            --bg: #fafaf9; --text: #1c1917; --text-secondary: #78716c;
-            --accent: #ea580c; --border: #e7e5e4; --tag-bg: #f5f5f4;
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 15px; }
 
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* 控制栏 */
         .controls {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(250,250,249,0.95); backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,249,0.95);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
-            padding: 10px 40px; display: flex; justify-content: space-between;
-            align-items: center; gap: 16px;
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
         }
         .lang-switch { display: flex; gap: 4px; }
         .lang-btn {
-            padding: 5px 14px; border: 1px solid var(--border); background: white;
-            cursor: pointer; font-size: 13px; border-radius: 16px;
-            transition: all 0.2s; font-family: inherit;
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
         }
         .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
         .audio-controls { display: flex; gap: 8px; align-items: center; }
         .audio-btn {
-            padding: 5px 14px; border: 1px solid var(--border); background: white;
-            cursor: pointer; font-size: 13px; border-radius: 16px;
-            display: flex; align-items: center; gap: 6px; font-family: inherit;
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
         }
         .audio-btn:hover { background: var(--tag-bg); }
         .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
         .audio-btn svg { width: 13px; height: 13px; }
         .voice-select {
-            padding: 5px 10px; border: 1px solid var(--border);
-            border-radius: 12px; font-size: 12px; background: white;
-            cursor: pointer; font-family: inherit;
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
         }
-        .speed-control {
-            display: flex; align-items: center; gap: 6px;
-            font-size: 12px; color: var(--text-secondary);
+
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 760px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
         }
-        .speed-control label { white-space: nowrap; }
-        .speed-slider {
-            -webkit-appearance: none; appearance: none;
-            width: 72px; height: 4px;
-            border-radius: 2px; background: var(--border);
-            outline: none; cursor: pointer;
-        }
-        .speed-slider::-webkit-slider-thumb {
-            -webkit-appearance: none; appearance: none;
-            width: 14px; height: 14px;
-            border-radius: 50%; background: var(--accent);
-            cursor: pointer; border: 2px solid white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        }
-        .speed-slider::-moz-range-thumb {
-            width: 14px; height: 14px;
-            border-radius: 50%; background: var(--accent);
-            cursor: pointer; border: 2px solid white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        }
-        .speed-val { min-width: 28px; text-align: center; font-variant-numeric: tabular-nums; }
-        .hero { padding: 36px 40px 28px; max-width: 760px; margin: 0 auto; border-bottom: 1px solid var(--border); }
         .date { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
         .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 10px; }
         .hero-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; }
         .stats { font-size: 12px; color: var(--text-secondary); }
-        .articles { max-width: 760px; margin: 0 auto; padding: 0 40px 80px; }
-        .article { padding: 30px 0; border-bottom: 1px solid var(--border); }
+
+        /* 文章列表 */
+        .articles {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .article {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
         .article:last-child { border-bottom: none; }
-        .article-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
         .article-left { display: flex; align-items: center; gap: 12px; }
         .article-number { font-size: 22px; font-weight: 700; color: var(--border); line-height: 1; min-width: 32px; }
+
         .author-row { display: flex; align-items: center; gap: 10px; }
         .author-avatar {
             width: 34px; height: 34px; border-radius: 50%;
@@ -89,38 +122,54 @@
         .author-name { font-weight: 600; font-size: 13px; }
         .author-handle { color: var(--accent); font-size: 12px; }
         .author-bio { color: var(--text-secondary); font-size: 12px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
         .article-actions { display: flex; gap: 6px; }
         .action-btn {
-            padding: 5px 12px; border: 1px solid var(--border); background: white;
-            cursor: pointer; font-size: 12px; border-radius: 12px;
-            display: flex; align-items: center; gap: 4px; font-family: inherit; transition: all 0.2s;
+            padding: 5px 12px; border: 1px solid var(--border);
+            background: white; cursor: pointer; font-size: 12px;
+            border-radius: 12px; display: flex; align-items: center; gap: 4px;
+            font-family: inherit; transition: all 0.2s;
         }
         .action-btn:hover { background: var(--tag-bg); }
         .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
         .action-btn svg { width: 11px; height: 11px; }
+
         .article-title {
-            font-family: 'Noto Serif SC', serif; font-size: 1.05rem; font-weight: 600;
-            line-height: 1.4; margin-bottom: 10px; margin-left: 46px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem; font-weight: 600; line-height: 1.4;
+            margin-bottom: 10px; margin-left: 46px;
         }
         .article-title.en { font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text-secondary); font-size: 0.95rem; }
+
         .article-body { margin-left: 46px; }
-        .article-content { font-size: 14px; line-height: 1.85; color: var(--text); margin-bottom: 8px; }
+        .article-content {
+            font-size: 14px; line-height: 1.85; color: var(--text);
+            margin-bottom: 8px;
+        }
         .article-content.en { color: var(--text-secondary); }
-        .article-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; margin-left: 46px; }
+
+        .article-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; margin-left: 46px;
+        }
         .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
         .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
         .article-link:hover { text-decoration: underline; }
-        .archive-section { max-width: 760px; margin: 0 auto; padding: 32px 40px; border-top: 1px solid var(--border); }
+
+        /* 历史存档 */
+        .archive-section {
+            max-width: 760px; margin: 0 auto;
+            padding: 32px 40px; border-top: 1px solid var(--border);
+        }
         .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
         .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
         .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
         .archive-item:hover { background: var(--accent); color: white; }
-        .archive-item.today { background: var(--accent); color: white; }
+
         footer { text-align: center; padding: 32px 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border); }
         footer a { color: var(--text-secondary); text-decoration: none; }
         footer a:hover { color: var(--accent); }
-        .back-home { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; background: white; border-radius: 24px; color: #666; text-decoration: none; font-size: 13px; font-weight: 500; border: 1.5px solid #e5e5e5; box-shadow: 0 1px 3px rgba(0,0,0,0.06); transition: all .2s ease; }
-        .back-home:hover { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 3px 12px rgba(255,107,53,0.3); transform: translateY(-1px); }
+
         @media (max-width: 768px) {
             .controls { padding: 10px 20px; }
             .hero, .archive-section { padding: 28px 20px 20px; }
@@ -128,23 +177,20 @@
             .articles { padding: 0 20px 60px; }
             .article-title, .article-body, .article-footer { margin-left: 0; }
         }
-</style>
+    </style>
 </head>
 <body>
 
+    <!-- 控制栏 -->
     <div class="controls">
-        <a href="../index.html" class="back-home">首页</a>
         <div class="lang-switch">
             <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
         </div>
         <div class="audio-controls">
-            <select class="voice-select" id="voiceSelect" title="选择语音"><option value="">智能选择</option></select>
-            <div class="speed-control">
-                <label>语速</label>
-                <input type="range" class="speed-slider" id="speedSlider" min="0.5" max="1.5" step="0.05" value="0.9">
-                <span class="speed-val" id="speedVal">0.9</span>
-            </div>
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
             <button class="audio-btn" id="playAllBtn" onclick="playAll()">
                 <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                 <span id="playAllLabel">全文朗读</span>
@@ -152,13 +198,15 @@
         </div>
     </div>
 
+    <!-- 头部 -->
     <header class="hero">
-        <p class="date">Friday, April 17, 2026</p>
+        <p class="date" id="date-en">Sunday, April 19, 2026</p>
         <h1 id="title-zh">AI Builders 每日精选</h1>
         <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
-        <p class="stats" id="stats-zh">📝 10 篇精选</p>
+        <p class="stats" id="stats-zh">📝 8 篇精选</p>
     </header>
 
+    <!-- 文章列表 -->
     <main class="articles">
 
         <!-- 01 -->
@@ -167,11 +215,11 @@
                 <div class="article-left">
                     <span class="article-number">01</span>
                     <div class="author-row">
-                        <div class="author-avatar">FL</div>
+                        <div class="author-avatar">CS</div>
                         <div class="author-info">
-                            <span class="author-name">Lex Fridman</span>
-                            <span class="author-handle">@lexfridman</span>
-                            <span class="author-bio">Research scientist & podcaster · MIT · AI conversations</span>
+                            <span class="author-name">Cerebras Systems</span>
+                            <span class="author-handle">@CerebrasSystems</span>
+                            <span class="author-bio">AI Chip Startup</span>
                         </div>
                     </div>
                 </div>
@@ -182,15 +230,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">Lex Fridman #490：2026年AI全景——LLMs、编程、Scaling Laws与中国竞赛</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Lex Fridman #490: State of AI in 2026 — LLMs, Coding, Scaling, China</h2>
+                        <h2 class="article-title en" data-lang="en">AI Chip Startup Cerebras Files for IPO to Challenge NVIDIA</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">Lex Fridman最新一期长播客邀请Nathan Lambert（Ai2后训练负责人）和Sebastian Raschka两位ML研究者，系统梳理2026年AI全景。核心观点：当前模型本质仍是GPT-2架构的进化，突破主要来自数据质量和后训练创新而非架构革新。开源模型（DeepSeek、Qwen、GLM）性能已接近闭源，DeepSeek时刻是中美AI竞争的转折点。Scaling Law预训练仍有收益但边际递减，重心正转向RLVR（可验证奖励强化学习）和推理时计算。AGI不会是单一奇点事件，而是各领域逐步超越人类的参差曲线。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Lex Fridman hosts Nathan Lambert (Ai2 post-training lead) and Sebastian Raschka for a comprehensive state-of-AI survey. Key takeaways: current models are evolutionary descendants of GPT-2 architecture; breakthroughs come from data quality and post-training innovation, not architecture. Open-source models (DeepSeek, Qwen, GLM) now rival closed-source. Scaling law still works but with diminishing returns — the frontier has shifted to RLVR and test-time compute. AGI won't be a singular event but an uneven curve of domain-by-domain超越 humans.</p>
+                <p class="article-content" data-lang="zh">AI 芯片初创公司 Cerebras Systems 正式提交美股 IPO 申请，借 AI 热潮和上市市场复苏的东风进军公开市场。Cerebras 以其晶圆级引擎（Wafer-Scale Engine）架构闻名，单芯片面积远超 NVIDIA GPU，在推理场景中展现显著速度优势。此次 IPO 被视为对 NVIDIA 数据中心垄断地位的最强挑战之一，也标志着 AI 芯片竞争进入新阶段。</p>
+                <p class="article-content en" data-lang="en" style="display:none">AI chip startup Cerebras Systems has officially filed for a US IPO, capitalizing on the AI boom and recovering public market sentiment. Known for its Wafer-Scale Engine architecture with a single chip far larger than NVIDIA GPUs, Cerebras has demonstrated significant speed advantages in inference scenarios. This IPO represents one of the strongest challenges to NVIDIA's data center dominance.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>🎙️ 精华</span><span>3hr+ 深度对话</span></div>
-                <a href="https://lexfridman.com/ai-sota-2026/" class="article-link" target="_blank">收听 →</a>
+                <div class="article-stats"><span>IPO</span><span>AI芯片</span><span>挑战NVIDIA</span></div>
+                <a href="https://www.reuters.com/technology/artificial-intelligence/" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -200,11 +247,11 @@
                 <div class="article-left">
                     <span class="article-number">02</span>
                     <div class="author-row">
-                        <div class="author-avatar">GR</div>
+                        <div class="author-avatar">AN</div>
                         <div class="author-info">
-                            <span class="author-name">Google</span>
-                            <span class="author-handle">@Google</span>
-                            <span class="author-bio">Google 官方</span>
+                            <span class="author-name">Anthropic</span>
+                            <span class="author-handle">@AnthropicAI</span>
+                            <span class="author-bio">Anthropic</span>
                         </div>
                     </div>
                 </div>
@@ -215,15 +262,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">Google发布原生Gemini Mac应用：Option+Space随时召唤AI</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Google Ships Native Gemini Mac App: Option+Space AI at Your Fingertips</h2>
+                        <h2 class="article-title en" data-lang="en">Anthropic Launches Claude Design, Expands Beyond Language Models</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">Google正式发布macOS原生Gemini应用，对标ChatGPT桌面端。核心亮点：Option+Space全局快捷键随时调出AI助手浮窗，无需切换窗口；屏幕共享功能让Gemini实时分析用户当前可见内容（包括本地文件）；内置Nano Banana图像生成和Veo视频生成能力。支持macOS 15+，免费使用。Google表示这只是&quot;第一步&quot;，未来几个月将推出更个人化、主动化的桌面AI助手。AI桌面端的竞争进入白热化阶段。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Google launches a native Gemini app for macOS, competing directly with ChatGPT Desktop. Key features: Option+Space global shortcut summons AI assistant without switching windows; screen sharing lets Gemini analyze visible content including local files in real-time; built-in Nano Banana image generation and Veo video generation. Free for macOS 15+. Google calls it &quot;just the first step&quot; toward truly personal, proactive desktop AI assistants. The AI desktop war is heating up.</p>
+                <p class="article-content" data-lang="zh">Anthropic Labs 于 4 月 17 日推出 Claude Design，这是一款 AI 设计工具，用户可通过自然语言提示与 Claude 协作创建设计图、原型、幻灯片和营销材料等视觉作品。这标志着 Anthropic 的战略从基础模型提供商向全栈产品公司扩展，直接挑战 Figma 等设计工具。与此同时，Anthropic 年化收入已飙升至 300 亿美元，并正与高盛、摩根大通就 10 月 IPO 进行早期谈判。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic Labs launched Claude Design on April 17, an AI design tool that lets users collaborate with Claude to create designs, prototypes, slides, and marketing materials via natural language prompts. This marks Anthropic's strategic expansion from foundation model provider to full-stack product company, directly challenging Figma. Anthropic's annualized revenue has surged to $30 billion, with early IPO talks underway with Goldman Sachs and JPMorgan.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>🚀 产品发布</span></div>
-                <a href="https://blog.google/innovation-and-ai/products/gemini-app/gemini-app-now-on-mac-os/" class="article-link" target="_blank">了解详情 →</a>
+                <div class="article-stats"><span>Claude Design</span><span>$300亿ARR</span><span>IPO谈判</span></div>
+                <a href="https://www.anthropic.com/news/introducing-claude-design" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -233,11 +279,11 @@
                 <div class="article-left">
                     <span class="article-number">03</span>
                     <div class="author-row">
-                        <div class="author-avatar">OO</div>
+                        <div class="author-avatar">OR</div>
                         <div class="author-info">
-                            <span class="author-name">OpenAI</span>
+                            <span class="author-name">OpenAI Research</span>
                             <span class="author-handle">@OpenAI</span>
-                            <span class="author-bio">OpenAI 官方</span>
+                            <span class="author-bio">OpenAI</span>
                         </div>
                     </div>
                 </div>
@@ -248,15 +294,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">OpenAI发布ChatGPT for Excel：用自然语言构建完整电子表格</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">OpenAI Launches ChatGPT for Excel: Build Spreadsheets with Natural Language</h2>
+                        <h2 class="article-title en" data-lang="en">OpenAI Launches GPT-Rosalind: A Biology-Tuned LLM for Life Sciences</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">OpenAI发布ChatGPT Excel集成工具，允许用户用自然语言命令直接构建完整电子表格。支持跨多标签页生成数据洞察、实时更新工作簿，可创建折现现金流分析等复杂财务模型。面向Business、Enterprise、Education和Pro用户（非欧盟地区）。同日，OpenAI还宣布扩展Agents SDK，帮助企业构建更安全、更强大的AI Agent。AI正在从聊天框走向真实工作场景的深度嵌入。</p>
-                <p class="article-content en" data-lang="en" style="display:none">OpenAI launches ChatGPT for Excel integration — build complete spreadsheets with natural language commands. Supports cross-tab data insights, real-time workbook updates, and complex financial models like DCF analysis. Available for Business, Enterprise, Education, and Pro users (non-EU). Simultaneously, OpenAI expands its Agents SDK for enterprise-grade AI agent development. AI is moving from chat boxes into deep integration with real work tools.</p>
+                <p class="article-content" data-lang="zh">OpenAI 发布生物学专用大语言模型 GPT-Rosalind，以著名生物学家罗莎琳德·富兰克林命名。该模型针对 50 种最常见的生物学工作流进行训练，可访问主要公共生物信息数据库，支持药物靶点筛选、基因型-表型关联推断和蛋白质功能预测。为防止 AI 过度迎合，模型经过特别调优以更具批判性和怀疑态度。目前仅限美国本土实体申请受信任访问。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI released GPT-Rosalind, a biology-tuned LLM named after Rosalind Franklin. Trained on 50 common biological workflows, it can access major public bioinformatics databases, support drug target screening, genotype-phenotype association inference, and protein function prediction. The model is specifically tuned to be more critical and skeptical, countering AI's tendency toward sycophancy. Currently restricted to US entities under trusted access framework.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>🚀 新功能</span></div>
-                <a href="https://chatgpt.com/apps/spreadsheets/" class="article-link" target="_blank">查看 →</a>
+                <div class="article-stats"><span>生物学</span><span>药物靶点</span><span>受信任访问</span></div>
+                <a href="https://arstechnica.com/science/2026/04/openai-starts-offering-a-biology-tuned-llm/" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -266,11 +311,11 @@
                 <div class="article-left">
                     <span class="article-number">04</span>
                     <div class="author-row">
-                        <div class="author-avatar">HT</div>
+                        <div class="author-avatar">MZ</div>
                         <div class="author-info">
-                            <span class="author-name">Hightouch</span>
-                            <span class="author-handle">@hightouch</span>
-                            <span class="author-bio">AI-powered marketing intelligence</span>
+                            <span class="author-name">Mozilla</span>
+                            <span class="author-handle">@Mozilla</span>
+                            <span class="author-bio">Mozilla</span>
                         </div>
                     </div>
                 </div>
@@ -281,15 +326,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">Hightouch突破1亿美元ARR：AI营销Agent推动20个月增长7000万</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Hightouch Hits $100M ARR: AI Marketing Agents Drive $70M Growth in 20 Months</h2>
+                        <h2 class="article-title en" data-lang="en">Mozilla Launches Thunderbolt: Sovereign AI Client for Self-Hosted Infrastructure</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">数据公司Hightouch宣布年化经常性收入突破1亿美元里程碑，过去20个月内ARR增长7000万美元。增长引擎核心：面向营销人员的AI Agent平台，能自动执行受众细分、个性化营销、效果归因等任务。这标志着AI Agent在垂直行业（营销科技）中已经产生了可量化的商业价值——不再是概念验证，而是真正驱动收入增长的产品。AI+垂直领域SaaS的商业飞轮正在成型。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Hightouch reaches $100M ARR milestone, adding $70M in just 20 months. The growth engine: an AI agent platform for marketers that automates audience segmentation, personalized campaigns, and attribution. This marks a watershed moment — AI agents in vertical SaaS (marketing tech) are now producing measurable, scalable revenue impact. Not a proof of concept anymore, but a growth driver. The AI + vertical SaaS flywheel is real.</p>
+                <p class="article-content" data-lang="zh">Mozilla 推出 Thunderbolt AI 客户端，定位为&quot;主权 AI 客户端&quot;，专为企业自托管 AI 基础设施设计。基于开源框架 Haystack 构建，可接入任何兼容 OpenAI 的 API（包括 Claude、DeepSeek 等），支持本地数据集成和离线 SQLite 数据库。提供端到端加密和设备级访问控制，原生支持 Windows、Mac、Linux、iOS、Android 和 Web。Mozilla 的愿景是&quot;为 AI 做我们曾为网络做的事情&quot;。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Mozilla launched Thunderbolt, a sovereign AI client designed for enterprise self-hosted AI infrastructure. Built on the open-source Haystack framework, it connects to any OpenAI-compatible API (including Claude, DeepSeek), supports local data integration with offline SQLite databases, and offers end-to-end encryption with device-level access controls. Native apps for Windows, Mac, Linux, iOS, Android, and Web. Mozilla's vision: do for AI what we did for the web.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>💰 $100M ARR</span><span>📈 +7000万/20月</span></div>
-                <a href="https://techcrunch.com/2026/04/15/hightouch-reaches-100m-arr-fueled-by-marketing-tools-powered-by-ai/" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>开源</span><span>自托管</span><span>隐私优先</span></div>
+                <a href="https://arstechnica.com/ai/2026/04/mozilla-launches-thunderbolt-ai-client-with-focus-on-self-hosted-infrastructure/" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -299,11 +343,11 @@
                 <div class="article-left">
                     <span class="article-number">05</span>
                     <div class="author-row">
-                        <div class="author-avatar">AM</div>
+                        <div class="author-avatar">DS</div>
                         <div class="author-info">
-                            <span class="author-name">Anthropic</span>
-                            <span class="author-handle">@AnthropicAI</span>
-                            <span class="author-bio">Anthropic · Claude · AI Safety</span>
+                            <span class="author-name">DeepSeek</span>
+                            <span class="author-handle">@deepseek_ai</span>
+                            <span class="author-bio">Chinese AI Lab</span>
                         </div>
                     </div>
                 </div>
@@ -314,15 +358,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">Claude Mythos发现数千个零日漏洞：AI安全的双刃剑</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Claude Mythos Finds Thousands of Zero-Days: The Double-Edged Sword of AI Security</h2>
+                        <h2 class="article-title en" data-lang="en">DeepSeek Raises at $10B Valuation as Chinese AI Competition Intensifies</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">Anthropic披露Claude Mythos Preview在Project Glasswing中自主发现了数千个零日漏洞，覆盖所有主流操作系统和浏览器。最令人震惊的发现：一个隐藏了27年的OpenBSD内核漏洞、Firefox JS shell漏洞利用成功率从0%飙升至72.4%、Mythos能自主链式利用最多4个漏洞实现沙盒逃逸。Anthropic因此拒绝公开发布Mythos，称其&quot;攻击能力远超防御效用&quot;。但Project Glasswing已联合Amazon、Apple、Google、Microsoft等11家巨头投入1亿美元用于防御。AI安全进入了一个全新阶段：模型能力本身成为了安全议题。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Anthropic reveals Claude Mythos Preview autonomously discovered thousands of zero-day vulnerabilities across all major OS and browsers via Project Glasswing. Shocking findings: a 27-year-old OpenBSD kernel bug, Firefox JS exploit success rate jumping from 0% to 72.4%, and Mythos chaining up to 4 vulnerabilities for sandbox escape. Anthropic refuses public release, stating &quot;offensive capability far exceeds defensive utility.&quot; Project Glasswing unites 11 giants (Amazon, Apple, Google, Microsoft...) with $100M for defense. AI security has entered a new era where model capability itself becomes the security issue.</p>
+                <p class="article-content" data-lang="zh">据 The Information 报道，中国 AI 公司 DeepSeek 正以 100 亿美元估值进行新一轮融资。DeepSeek 凭借低成本高性能的开源模型策略，在国际市场引发了广泛关注。此次融资正值白宫与 Anthropic CEO 就 Mythos 模型风险进行会谈之际，反映出中美 AI 竞争的持续升级。与此同时，OpenAI、Anthropic 和 Google 已联合成立 10 亿美元基金打击模型复制行为。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Chinese AI company DeepSeek is raising funds at a $10 billion valuation, according to The Information. DeepSeek has garnered international attention with its low-cost, high-performance open-source model strategy. The fundraising comes as the White House discusses Mythos model risks with Anthropic's CEO, reflecting intensifying US-China AI competition. Meanwhile, OpenAI, Anthropic, and Google have formed a $1B fund to combat model copying.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>⚠️ 重大安全事件</span></div>
-                <a href="https://www.anthropic.com/project/glasswing" class="article-link" target="_blank">详情 →</a>
+                <div class="article-stats"><span>$100亿估值</span><span>开源</span><span>中美竞争</span></div>
+                <a href="https://www.reuters.com/technology/artificial-intelligence/" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -332,11 +375,11 @@
                 <div class="article-left">
                     <span class="article-number">06</span>
                     <div class="author-row">
-                        <div class="author-avatar">SZ</div>
+                        <div class="author-avatar">LF</div>
                         <div class="author-info">
-                            <span class="author-name">Stanford HAI</span>
-                            <span class="author-handle">@StanfordHAI</span>
-                            <span class="author-bio">Stanford Institute for Human-Centered AI</span>
+                            <span class="author-name">Lex Fridman</span>
+                            <span class="author-handle">@lexfridman</span>
+                            <span class="author-bio">MIT Research Scientist &amp; Podcaster</span>
                         </div>
                     </div>
                 </div>
@@ -347,15 +390,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">斯坦福2026年AI指数报告：中美模型差距仅2.7%，透明度暴跌</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Stanford 2026 AI Index: China-US Model Gap Just 2.7%, Transparency Plummets</h2>
+                        <h2 class="article-title en" data-lang="en">Lex Fridman Podcast: NVIDIA - The $4 Trillion Company &amp; the AI Revolution</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">斯坦福大学发布《2026年人工智能指数报告》，核心发现引发广泛关注：中美最强模型Arena评分差距已收窄至仅2.7%（Claude Opus 4.6 vs Dola-Seed-2.0），美国AI人才吸引力较2017年峰值减少89%。AI推理成本3年内下降280倍，生成式AI仅用3年实现53%全球人口渗透率（远超互联网历史纪录）。但基础模型透明度指数从58分暴跌至40分——OpenAI、Anthropic、Google已全面停止披露参数规模、数据集大小和训练时长。AI能力飞速提升的同时，可解释性正在恶化。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Stanford releases the 2026 AI Index Report with striking findings: China-US model Arena score gap narrowed to just 2.7% (Claude Opus 4.6 vs Dola-Seed-2.0); US AI talent attractiveness dropped 89% from 2017 peak; AI inference costs fell 280x in 3 years; generative AI reached 53% global adoption in just 3 years (far surpassing internet adoption rates). But model transparency index crashed from 58 to 40 — OpenAI, Anthropic, Google have all stopped disclosing parameter counts, dataset sizes, and training durations. AI capabilities are soaring while explainability is deteriorating.</p>
+                <p class="article-content" data-lang="zh">Lex Fridman 邀请 NVIDIA CEO 黄仁勋进行深度对话，探讨 NVIDIA 如何成为全球市值 4 万亿美元的 AI 基础设施巨头。对话涵盖 GPU 计算架构的演进、数据中心面临的能源与建设瓶颈（40% 美国数据中心建设延期）、以及 AI 推理成本优化的关键问题。黄仁勋分享了对 AI 芯片竞争格局和未来算力需求的独到见解，是理解当前 AI 产业底层逻辑的必听之作。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Lex Fridman hosts NVIDIA CEO Jensen Huang for a deep conversation on how NVIDIA became a $4 trillion AI infrastructure giant. They discuss GPU computing architecture evolution, data center energy and construction bottlenecks (40% of US data center builds delayed), and AI inference cost optimization. Huang shares unique insights on AI chip competition and future compute demand, making this essential listening for understanding AI industry fundamentals.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>📊 权威报告</span></div>
-                <a href="https://aiindex.stanford.edu/" class="article-link" target="_blank">报告全文 →</a>
+                <div class="article-stats"><span>黄仁勋</span><span>$4万亿</span><span>GPU架构</span></div>
+                <a href="https://lexfridman.com/podcast/" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -365,11 +407,11 @@
                 <div class="article-left">
                     <span class="article-number">07</span>
                     <div class="author-row">
-                        <div class="author-avatar">JP</div>
+                        <div class="author-avatar">LS</div>
                         <div class="author-info">
-                            <span class="author-name">JP Morgan</span>
-                            <span class="author-handle">@jpmorgan</span>
-                            <span class="author-bio">JPMorgan Chase & Co.</span>
+                            <span class="author-name">Latent Space</span>
+                            <span class="author-handle">@latentspacelp</span>
+                            <span class="author-bio">The AI Engineer Podcast</span>
                         </div>
                     </div>
                 </div>
@@ -380,15 +422,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">LinkedIn数据：招聘下降20%的真正原因是利率，不是AI</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">LinkedIn Data: Hiring Decline Driven by Interest Rates, Not AI</h2>
+                        <h2 class="article-title en" data-lang="en">Latent Space: OpenAI's Dark Factory - 1M Lines, 1B Tokens Daily, Zero Human Review</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">LinkedIn数据显示，2022年以来全球招聘率下降20%。但分析表明，根本原因是宏观经济因素——特别是高利率环境抑制了企业扩张和招聘意愿——而非AI自动化替代人类工作。这一发现对AI叙事有重要意义：虽然AI确实在改变工作方式，但当前劳动力市场的放缓更多是周期性的而非结构性的。对于政策制定者来说，与其限制AI发展，不如关注如何降低利率、刺激经济增长。数据驱动的洞察比恐惧驱动的叙事更有价值。</p>
-                <p class="article-content en" data-lang="en" style="display:none">LinkedIn data reveals a 20% decline in global hiring since 2022. But analysis shows the root cause is macroeconomic — particularly high interest rates suppressing corporate expansion and hiring appetite — not AI automation replacing human workers. This is significant for the AI narrative: while AI is indeed changing how work gets done, the current labor market slowdown is more cyclical than structural. For policymakers, stimulating economic growth may matter more than restricting AI development. Data-driven insight beats fear-driven narrative.</p>
+                <p class="article-content" data-lang="zh">Latent Space 最新播客邀请 OpenAI Frontier 团队的 Ryan Lopopolo，首次揭示 OpenAI 首个&quot;黑暗工厂&quot;（Dark Factory）的内部运作：100 万行代码、每日 10 亿 tokens 处理、零人工代码、零人工审查。这标志着 AI 辅助软件工程从概念验证进入规模化生产阶段。播客深入讨论了完全自主代码生成的质量保证机制、安全边界设定以及这一范式对软件工程职业的长远影响。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Latent Space features Ryan Lopopolo from OpenAI's Frontier team, revealing the inner workings of OpenAI's first Dark Factory: 1 million lines of code, 1 billion daily tokens, zero human code, zero human review. This marks AI-assisted software engineering moving from proof-of-concept to scaled production. The podcast discusses quality assurance for fully autonomous code generation, safety boundaries, and long-term implications for software engineering careers.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>📈 行业数据</span></div>
-                <a href="https://techcrunch.com/2026/04/15/linkedin-data-shows-ai-isnt-to-blame-for-hiring-decline-yet/" class="article-link" target="_blank">详情 →</a>
+                <div class="article-stats"><span>Dark Factory</span><span>10亿tokens/日</span><span>零人工</span></div>
+                <a href="https://www.latent.space/podcast/archive" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -398,11 +439,11 @@
                 <div class="article-left">
                     <span class="article-number">08</span>
                     <div class="author-row">
-                        <div class="author-avatar">GP</div>
+                        <div class="author-avatar">VB</div>
                         <div class="author-info">
-                            <span class="author-name">Google DeepMind</span>
-                            <span class="author-handle">@GoogleDeepMind</span>
-                            <span class="author-bio">Google DeepMind · AI Research</span>
+                            <span class="author-name">VentureBeat AI</span>
+                            <span class="author-handle">@VentureBeat</span>
+                            <span class="author-bio">AI Tech Journalism</span>
                         </div>
                     </div>
                 </div>
@@ -413,91 +454,24 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title" data-lang="zh">DeepMind发布Gemini 3.1 Flash TTS：精细音频标签控制语音方向与语调</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">DeepMind Ships Gemini 3.1 Flash TTS: Fine-Grained Audio Tags for Voice Control</h2>
+                        <h2 class="article-title en" data-lang="en">AI Reasoning Doesn't Require Frontier Models: Train-to-Test Scaling Explained</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">Google DeepMind发布下一代音频模型Gemini 3.1 Flash TTS，引入革命性的精细音频标签技术。用户可以通过标签精确控制生成语音的方向、语调、情感和节奏，大幅缩小机器人合成语音与自然人类表达之间的差距。这意味着AI语音不再只有&quot;标准朗读&quot;一种风格，而是可以根据场景需求产生定制化的声音表现。结合同日发布的原生Mac应用，Google正在构建一个完整的端到端AI体验：文本→语音→图像→视频，全部原生集成。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Google DeepMind releases Gemini 3.1 Flash TTS, introducing revolutionary fine-grained audio tag technology. Users can precisely control direction, tone, emotion, and rhythm of generated speech via tags, dramatically narrowing the gap between robotic synthesis and natural human expression. AI voice is no longer limited to &quot;standard narration&quot; — it can produce customized vocal performances per scenario. Combined with the native Mac app released the same day, Google is building a complete end-to-end AI experience: text → speech → image → video, all natively integrated.</p>
+                <p class="article-content" data-lang="zh">VentureBeat 深度解读 train-to-test scaling 范式：AI 推理不一定需要在前沿模型上投入巨额资金。研究表明，较小的模型在复杂推理任务上可以通过增加推理时间计算来获得更强性能，同时保持每次查询的可控成本。这一发现对企业和开发者意义重大——通过优化端到端 AI 计算预算，可以在性能和成本之间找到最佳平衡点，而非一味追求最大参数量。</p>
+                <p class="article-content en" data-lang="en" style="display:none">VentureBeat explains the train-to-test scaling paradigm: AI reasoning doesn't necessarily require spending huge amounts on frontier models. Research shows smaller models can achieve stronger performance on complex reasoning tasks by increasing inference-time compute while maintaining manageable per-query costs. This finding is significant for enterprises and developers - by optimizing end-to-end AI compute budgets, optimal balance between performance and cost is achievable without chasing maximum parameters.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>🔊 新模型</span></div>
-                <a href="https://deepmind.google/blog/gemini-3-1-flash-tts-the-next-generation-of-expressive-ai-speech/" class="article-link" target="_blank">了解 →</a>
-            </div>
-        </article>
-
-        <!-- 09 -->
-        <article class="article">
-            <div class="article-header">
-                <div class="article-left">
-                    <span class="article-number">09</span>
-                    <div class="author-row">
-                        <div class="author-avatar">LF</div>
-                        <div class="author-info">
-                            <span class="author-name">Lex Fridman</span>
-                            <span class="author-handle">@lexfridman</span>
-                            <span class="author-bio">Research scientist & podcaster · MIT</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="article-actions">
-                    <button class="action-btn play-btn" onclick="playArticle(9, this)">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        <span class="btn-text">朗读</span>
-                    </button>
-                </div>
-            </div>
-                        <h2 class="article-title" data-lang="zh">Nathan Lambert &amp; Sebastian Raschka：开源模型崛起、RLVR突破与AGI时间线</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Lambert &amp; Raschka: Open-Source Rise, RLVR Breakthroughs &amp; AGI Timeline</h2>
-            <div class="article-body">
-                <p class="article-content" data-lang="zh">本期Lex Fridman播客中，Nathan Lambert和Sebastian Raschka深入讨论了开源模型的崛起。DeepSeek R1以更低成本匹配SOTA性能是2025年的分水岭时刻，之后中国开源模型（GLM、Qwen）持续缩小与闭源的差距。RLVR（可验证奖励强化学习）通过&quot;生成答案→评估正确性→迭代强化&quot;的循环，解锁了高级推理和代码生成能力。AGI预测时间线从2030年代到更远不等，但两位研究者一致认为：AGI不会是单一&quot;奇点&quot;事件，而是系统在各任务上逐步超越人类的过程。对开发者最有价值的建议：AI编程中Debugging是最大受益场景，但要保持一定手动编码比例防止技能萎缩。</p>
-                <p class="article-content en" data-lang="en" style="display:none">In this Lex Fridman episode, Nathan Lambert and Sebastian Raschka discuss the open-source model surge. DeepSeek R1 matching SOTA at lower cost was the 2025 watershed; Chinese open-source models (GLM, Qwen) continue closing the gap with closed-source. RLVR (verifiable reward RL) unlocks advanced reasoning and code generation via &quot;generate → verify → iterate&quot; loops. AGI timeline ranges from 2030s onward, but both agree: no singular &quot;singularity&quot; event — it's an uneven curve of systems surpassing humans domain by domain. Best developer advice: debugging is the biggest beneficiary of AI coding, but maintain manual coding to prevent skill atrophy.</p>
-            </div>
-            <div class="article-footer">
-                <div class="article-stats"><span>🎙️ 播客精华</span></div>
-                <a href="https://lexfridman.com/ai-sota-2026/" class="article-link" target="_blank">收听 →</a>
-            </div>
-        </article>
-
-        <!-- 10 -->
-        <article class="article">
-            <div class="article-header">
-                <div class="article-left">
-                    <span class="article-number">10</span>
-                    <div class="author-row">
-                        <div class="author-avatar">SA</div>
-                        <div class="author-info">
-                            <span class="author-name">Stanford HAI</span>
-                            <span class="author-handle">@StanfordHAI</span>
-                            <span class="author-bio">Stanford Institute for Human-Centered AI</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="article-actions">
-                    <button class="action-btn play-btn" onclick="playArticle(10, this)">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        <span class="btn-text">朗读</span>
-                    </button>
-                </div>
-            </div>
-                        <h2 class="article-title" data-lang="zh">斯坦福AI指数：模型透明度从58分暴跌至40分，开源模型仅4个</h2>
-            <h2 class="article-title en" data-lang="en" style="display:none">Stanford AI Index: Model Transparency Crashes from 58 to 40, Only 4 Open-Source Models</h2>
-            <div class="article-body">
-                <p class="article-content" data-lang="zh">斯坦福2026年AI指数报告揭示了一个令人担忧的趋势：基础模型透明度急剧恶化。2025年发布的95个知名模型中，80个未公布训练代码，真正开源的仅有4个。OpenAI、Anthropic、Google已全面停止披露参数规模、数据集大小和训练时长。几乎所有模型都公布了能力基准得分，但责任AI基准的披露近乎空白。AI相关负面事件从2024年的233起增长至2026年的362起，增幅55%。报告警告：透明度危机正在威胁全球AI治理的基础——当外部监督者无法审查模型内部运作时，安全承诺的可信度存疑。建议治理框架从&quot;审查静态文档&quot;转向&quot;要求动态访问权&quot;。</p>
-                <p class="article-content en" data-lang="en" style="display:none">The Stanford 2026 AI Index reveals a troubling trend: foundation model transparency is deteriorating sharply. Of 95 notable models released in 2025, 80 have no published training code; only 4 are truly open-source. OpenAI, Anthropic, Google have all stopped disclosing parameter counts, dataset sizes, and training durations. Almost all models publish capability benchmarks, but responsible AI benchmarks remain near blank. AI-related negative incidents grew 55% from 233 in 2024 to 362 in 2026. The report warns: the transparency crisis threatens the foundation of global AI governance — when external auditors cannot inspect model internals, safety promises become questionable. Governance frameworks must shift from &quot;reviewing static documents&quot; to &quot;requiring dynamic access rights.&quot;</p>
-            </div>
-            <div class="article-footer">
-                <div class="article-stats"><span>📝 深度报告</span></div>
-                <a href="https://aiindex.stanford.edu/" class="article-link" target="_blank">阅读原文 →</a>
+                <div class="article-stats"><span>推理优化</span><span>成本控制</span><span>小模型</span></div>
+                <a href="https://venturebeat.com/orchestration/train-to-test-scaling-explained-how-to-optimize-your-end-to-end-ai-compute-budget-for-inference" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
     </main>
 
     
+        <!-- 历史存档 -->
         <div class="archive-section">
             <h3>📅 历史存档</h3>
             <div class="archive-list">
-<a href="2026-04-19.html" class="archive-item">2026年4月19日</a>
-<a href="2026-04-17.html" class="archive-item today">2026年4月17日</a>
+<a href="2026-04-17.html" class="archive-item">2026年4月17日</a>
 <a href="2026-04-16.html" class="archive-item">2026年4月16日</a>
 <a href="2026-04-15.html" class="archive-item">2026年4月15日</a>
 <a href="2026-04-14.html" class="archive-item">2026年4月14日</a>
@@ -507,10 +481,10 @@
             </div>
         </div>
 
+
     <footer>
         <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
     </footer>
-
 
     <script>
         var LANG = 'zh';
@@ -518,89 +492,54 @@
         var isPlaying = false;
         var currentUtterance = null;
         var selectedVoice = null;
-        var speechRate = 0.9;  // 默认语速 0.9
-
-        // 高质量语音关键词（自然/人声优先）
-        var HQ_KEYWORDS = [
-            'google', 'microsoft', 'samantha', 'daniel', 'enhanced',
-            'natural', 'premium', 'hd', 'high quality', 'australian',
-            'british', 'zira', 'david', 'moira', 'karen', 'tessa',
-            'veena', 'victoria', 'susan', 'ralph', 'lisa', 'markus',
-            'francesca', 'anna', 'hans', 'renee', 'tian-tian'
-        ];
-
-        // 判断是否为高质量语音
-        function isHQVoice(v) {
-            if (v.localService) return true;
-            var n = v.name.toLowerCase();
-            for (var i = 0; i < HQ_KEYWORDS.length; i++) {
-                if (n.indexOf(HQ_KEYWORDS[i]) !== -1) return true;
-            }
-            return false;
-        }
-
-        // 获取符合当前语言的最高质量语音
-        function getBestVoice(lang) {
-            var langPrefix = lang === 'zh' ? 'zh' : 'en';
-            var langVoices = voices.filter(function(v) {
-                return v.lang.startsWith(langPrefix);
-            });
-            if (!langVoices.length) return null;
-            // 优先本地高质量，其次任何高质量
-            for (var i = 0; i < langVoices.length; i++) {
-                var v = langVoices[i];
-                if (v.localService) return v;
-            }
-            for (var i = 0; i < langVoices.length; i++) {
-                if (isHQVoice(langVoices[i])) return langVoices[i];
-            }
-            return langVoices[0];
-        }
 
         function loadVoices() {
             voices = speechSynthesis.getVoices();
-            if (!voices.length) return;
             var select = document.getElementById('voiceSelect');
-            select.innerHTML = '<option value="">智能选择</option>';
+            select.innerHTML = '<option value="">默认语音</option>';
             var zhGroup = document.createElement('optgroup');
-            zhGroup.label = '�中文';
+            zhGroup.label = '中文';
             var enGroup = document.createElement('optgroup');
-            enGroup.label = '🌐English';
+            enGroup.label = 'English';
             voices.forEach(function(v) {
                 var opt = document.createElement('option');
                 opt.value = v.name;
-                var flags = [];
-                if (v.localService) flags.push('★');
-                if (isHQVoice(v)) flags.push('✨');
-                var label = v.name + (flags.length ? ' ' + flags.join('') : '');
+                var label = v.name + (v.localService ? ' ★' : '');
                 opt.textContent = label;
                 if (v.lang.startsWith('zh')) zhGroup.appendChild(opt);
                 else if (v.lang.startsWith('en')) enGroup.appendChild(opt);
             });
             if (zhGroup.children.length) select.appendChild(zhGroup);
             if (enGroup.children.length) select.appendChild(enGroup);
-            // 自动选中最佳语音
-            var best = getBestVoice(LANG);
-            if (best) {
-                select.value = best.name;
-                selectedVoice = best;
-            }
+            var highQ = voices.find(function(v) {
+                return v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en'));
+            });
+            if (highQ) { select.value = highQ.name; selectedVoice = highQ; }
         }
 
         document.getElementById('voiceSelect').addEventListener('change', function(e) {
             selectedVoice = voices.find(function(v) { return v.name === e.target.value; }) || null;
         });
 
-        // 语速滑动条
-        document.getElementById('speedSlider').addEventListener('input', function(e) {
-            speechRate = parseFloat(e.target.value);
-            document.getElementById('speedVal').textContent = speechRate.toFixed(1);
-            try { localStorage.setItem('ai-news-rate', speechRate); } catch(ex) {}
-        });
-
         var LABELS = {
-            'zh': { 'title': 'AI Builders 每日精选', 'subtitle': '每日精选 AI 领域最有价值的深度内容', 'stats': '📝 10 篇精选', 'playBtn': '朗读', 'stopBtn': '停止', 'playAll': '全文朗读', 'stopAll': '停止' },
-            'en': { 'title': 'AI Builders Daily Digest', 'subtitle': 'Daily curated deep content from AI builders', 'stats': '📝 10 篇精选_EN', 'playBtn': 'Read', 'stopBtn': 'Stop', 'playAll': 'Read All', 'stopAll': 'Stop' }
+            'zh': {
+                'title':    'AI Builders 每日精选',
+                'subtitle': '每日精选 AI 领域最有价值的深度内容',
+                'stats':    '📝 8 篇精选',
+                'playBtn':  '朗读',
+                'stopBtn':  '停止',
+                'playAll':  '全文朗读',
+                'stopAll':  '停止',
+            },
+            'en': {
+                'title':    'AI Builders Daily Digest',
+                'subtitle': 'Daily curated deep content from AI builders',
+                'stats':    '📝 8 Articles',
+                'playBtn':  'Read',
+                'stopBtn':  'Stop',
+                'playAll':  'Read All',
+                'stopAll':  'Stop',
+            }
         };
 
         function setLang(lang) {
@@ -638,8 +577,11 @@
             if (!text) return;
             if (isPlaying && currentUtterance) {
                 speechSynthesis.cancel();
-                isPlaying = false; currentUtterance = null;
-                document.querySelectorAll('.action-btn, .audio-btn').forEach(function(b) { b.classList.remove('playing'); });
+                isPlaying = false;
+                currentUtterance = null;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(function(b) {
+                    b.classList.remove('playing');
+                });
                 var ls = LABELS[LANG];
                 document.getElementById('playAllLabel').textContent = ls.playAll;
                 document.querySelectorAll('.action-btn .btn-text').forEach(function(t) { t.textContent = ls.playBtn; });
@@ -648,11 +590,18 @@
             var ls = LABELS[LANG];
             var u = new SpeechSynthesisUtterance(text.replace(/\s+/g, ' '));
             u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
-            u.rate = speechRate; u.pitch = 1.1;  // 语速0.9，音调1.1更自然
-            var voice = selectedVoice || getBestVoice(LANG);
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
             if (voice) u.voice = voice;
             u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); btn.querySelector('.btn-text').textContent = ls.stopBtn; };
-            u.onend = u.onerror = function() { isPlaying = false; currentUtterance = null; btn.classList.remove('playing'); btn.querySelector('.btn-text').textContent = ls.playBtn; };
+            u.onend = u.onerror = function() {
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); btn.querySelector('.btn-text').textContent = ls.playBtn;
+            };
             speechSynthesis.cancel();
             speechSynthesis.speak(u);
         }
@@ -665,7 +614,9 @@
                 speechSynthesis.cancel();
                 isPlaying = false; currentUtterance = null;
                 btn.classList.remove('playing'); label.textContent = ls.playAll;
-                document.querySelectorAll('.action-btn').forEach(function(b) { b.classList.remove('playing'); b.querySelector('.btn-text').textContent = ls.playBtn; });
+                document.querySelectorAll('.action-btn').forEach(function(b) {
+                    b.classList.remove('playing'); b.querySelector('.btn-text').textContent = ls.playBtn;
+                });
                 return;
             }
             var texts = [];
@@ -679,8 +630,12 @@
             var fullText = texts.join('。');
             var u = new SpeechSynthesisUtterance(fullText.replace(/\s+/g, ' '));
             u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
-            u.rate = speechRate; u.pitch = 1.1;
-            var voice = selectedVoice || getBestVoice(LANG);
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
             if (voice) u.voice = voice;
             u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); label.textContent = ls.stopAll; };
             u.onend = u.onerror = function() { isPlaying = false; currentUtterance = null; btn.classList.remove('playing'); label.textContent = ls.playAll; };
@@ -690,17 +645,7 @@
 
         speechSynthesis.onvoiceschanged = loadVoices;
         loadVoices();
-        try {
-            var saved = localStorage.getItem('ai-news-lang');
-            if (saved) setLang(saved);
-            var savedRate = parseFloat(localStorage.getItem('ai-news-rate'));
-            if (savedRate && savedRate >= 0.5 && savedRate <= 1.5) {
-                speechRate = savedRate;
-                document.getElementById('speedSlider').value = speechRate;
-                document.getElementById('speedVal').textContent = speechRate.toFixed(1);
-            }
-        } catch(e) {}
+        try { var saved = localStorage.getItem('ai-news-lang'); if (saved) setLang(saved); } catch(e) {}
     </script>
-
 </body>
 </html>
