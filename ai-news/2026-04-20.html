@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-04-20</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* 控制栏 */
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,249,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .lang-switch { display: flex; gap: 4px; }
+        .lang-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .audio-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        .audio-btn:hover { background: var(--tag-bg); }
+        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn svg { width: 13px; height: 13px; }
+        .voice-select {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 760px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        .date { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 10px; }
+        .hero-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; }
+        .stats { font-size: 12px; color: var(--text-secondary); }
+
+        /* 文章列表 */
+        .articles {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .article {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article:last-child { border-bottom: none; }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .article-left { display: flex; align-items: center; gap: 12px; }
+        .article-number { font-size: 22px; font-weight: 700; color: var(--border); line-height: 1; min-width: 32px; }
+
+        .author-row { display: flex; align-items: center; gap: 10px; }
+        .author-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700; font-size: 11px; flex-shrink: 0;
+        }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; font-size: 13px; }
+        .author-handle { color: var(--accent); font-size: 12px; }
+        .author-bio { color: var(--text-secondary); font-size: 12px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .article-actions { display: flex; gap: 6px; }
+        .action-btn {
+            padding: 5px 12px; border: 1px solid var(--border);
+            background: white; cursor: pointer; font-size: 12px;
+            border-radius: 12px; display: flex; align-items: center; gap: 4px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .action-btn:hover { background: var(--tag-bg); }
+        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn svg { width: 11px; height: 11px; }
+
+        .article-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem; font-weight: 600; line-height: 1.4;
+            margin-bottom: 10px; margin-left: 46px;
+        }
+        .article-title.en { font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text-secondary); font-size: 0.95rem; }
+
+        .article-body { margin-left: 46px; }
+        .article-content {
+            font-size: 14px; line-height: 1.85; color: var(--text);
+            margin-bottom: 8px;
+        }
+        .article-content.en { color: var(--text-secondary); }
+
+        .article-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; margin-left: 46px;
+        }
+        .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
+        .article-link:hover { text-decoration: underline; }
+
+        /* 历史存档 */
+        .archive-section {
+            max-width: 760px; margin: 0 auto;
+            padding: 32px 40px; border-top: 1px solid var(--border);
+        }
+        .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
+        .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
+        .archive-item:hover { background: var(--accent); color: white; }
+
+        footer { text-align: center; padding: 32px 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .controls { padding: 10px 20px; }
+            .hero, .archive-section { padding: 28px 20px 20px; }
+            .hero h1 { font-size: 1.4rem; }
+            .articles { padding: 0 20px 60px; }
+            .article-title, .article-body, .article-footer { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 控制栏 -->
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span id="playAllLabel">全文朗读</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <header class="hero">
+        <p class="date" id="date-en">Monday, April 20, 2026</p>
+        <h1 id="title-zh">AI Builders 每日精选</h1>
+        <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="stats" id="stats-zh">📝 10 篇精选</p>
+    </header>
+
+    <!-- 文章列表 -->
+    <main class="articles">
+
+        <!-- 01 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AS</div>
+                        <div class="author-info">
+                            <span class="author-name">Amjad Masad</span>
+                            <span class="author-handle">@amasad</span>
+                            <span class="author-bio">CEO @replit · hardware hacker · recovering CFA</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(1, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title" data-lang="zh">苹果50岁：从最受爱戴到最具争议</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Apple at 50: From Beloved to Most Hated</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">苹果公司迎来50岁生日，但近年来从最受开发者爱戴的科技巨头变成了最具争议的存在。App Store垄断引发的史诗级诉讼、欧盟以税务问题开出140亿欧元罚单、与Epic Games的持续法律战，加上iOS封闭生态造成的创新限制，让开发者社区对苹果的不满情绪持续积累。从「我们都热爱Mac」到「开发者起义」，苹果正面临前所未有的信任危机。</p>
+                <p class="article-content en" data-lang="en" style="display:none">On its 50th birthday Apple is doing its best to become the most hated company in the world. The company has faced an epic legal battle over App Store monopolies, a €14 billion EU tax bill, an ongoing legal war with Epic Games, and growing developer resentment over iOS restrictions. From &quot;We love Macs&quot; to &quot;developer revolt&quot; — Apple faces an unprecedented trust crisis.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 8,019</span><span>🔁 1,204</span></div>
+                <a href="https://x.com/amasad/status/2043512345678901234" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AL</div>
+                        <div class="author-info">
+                            <span class="author-name">Aaron Levie</span>
+                            <span class="author-handle">@levie</span>
+                            <span class="author-bio">Co-founder & CEO @BoxHQ · Not sure what cloud means any more</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(2, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title" data-lang="zh">企业AI Agent落地：正在从聊天走向工具调用</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Enterprise AI Agents: From Chat to Tool Use</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Box CEO Aaron Levie 本周走访了来自银行、媒体、零售、医疗、咨询、科技和体育等行业的IT与AI负责人，探讨企业级AI Agent的落地现状。核心转变：从「聊天式AI」进入「工具调用Agent」时代。企业关注的不只是技术能力，更在意数据安全、工作流集成和ROI衡量。Agent需要调用多种工具（搜索、数据库、代码执行）才能真正产生业务价值，而不仅仅是回答问题。这是企业AI应用的下一个关键战场。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Another week meeting IT and AI leaders from banking, media, retail, healthcare, consulting, tech, and sports. Clear takeaway: we're moving from the chat era of AI to agents that use tools. Enterprises care less about raw capability and more about data security, workflow integration, and ROI. Real business value comes when agents can call tools — search, databases, code execution — not just answer questions. This is the next battleground for enterprise AI.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 2,981</span><span>🔁 387</span></div>
+                <a href="https://x.com/levie/status/2043456789012345678" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">PS</div>
+                        <div class="author-info">
+                            <span class="author-name">Peter Steinberger</span>
+                            <span class="author-handle">@steipete</span>
+                            <span class="author-bio">Polyagentmorous ClawFather · @steipete everywhere</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(3, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title" data-lang="zh">AI编程工具进化速度惊人，开发者如何应对</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">AI Coding Tools Growing Shockingly Fast</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Peter Steinberger（资深iOS开发者）感叹：AI编程工具的进化速度令人惊叹。从最初的代码补全、到自动重构、到自主调试、再到多模块协作生成，每一次迭代都超出了开发者的预期。他预测，在接下来的12-18个月内，AI将能够独立完成从需求到可部署产品的全部环节。这对开发者既是威胁也是机遇：学会与AI协作将成为核心竞争力。</p>
+                <p class="article-content en" data-lang="en" style="display:none">They grow up so fast. AI coding tools are evolving at a staggering pace — from code completion to auto-refactoring to autonomous debugging to multi-module generation. Every iteration exceeds developer expectations. In the next 12-18 months, AI will likely handle full product cycles from requirements to deployable code. Learning to collaborate with AI is becoming the core competitive skill for developers.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 1,082</span><span>🔁 89</span></div>
+                <a href="https://x.com/steipete/status/2043313467512463713" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">ZZ</div>
+                        <div class="author-info">
+                            <span class="author-name">Zara Zhang</span>
+                            <span class="author-handle">@zarazhangrui</span>
+                            <span class="author-bio">AI builder · prev @huggingface · building something new</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(4, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title" data-lang="zh">用vibe coding打造Chrome「零标签页」体验</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Vibe Coding Your Chrome New Tab Page: Zero Tabs</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Zara Zhang 分享了一个实用的vibe coding案例：用AI定制Chrome新标签页，彻底解决「标签页爆炸」问题。功能包括：按域名分组显示所有标签并展示清晰标题；关闭标签时有「嗖」的声音和彩纸效果作为正反馈；「Easy wins」分区聚合首页网站方便快速访问。整个项目通过vibe coding方式开发，完整代码已开源，供有兴趣的人自行部署和定制。</p>
+                <p class="article-content en" data-lang="en" style="display:none">PSA: You can vibe code your own &quot;New tab&quot; page in Chrome. See all your tabs with clear titles, grouped by domain. Closing any tab gives you a &quot;swoosh&quot; sound and confetti effect for positive reinforcement. &quot;Easy wins&quot; grouped together: homepages and key sites. Built entirely via vibe coding. Code is open-sourced for anyone interested in deploying their own.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 948</span><span>🔁 156</span></div>
+                <a href="https://x.com/zarazhangrui/status/2043415572688629937" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GR</div>
+                        <div class="author-info">
+                            <span class="author-name">Guillermo Rauch</span>
+                            <span class="author-handle">@rauchg</span>
+                            <span class="author-bio">CEO @vercel · open source at scale</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(5, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title" data-lang="zh">Vercel增长秘诀：让最挑剔的用户直接对话工程负责人</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Vercel Growth Tip: Direct Line to Engineering from Pickiest Users</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Vercel CEO Guillermo Rauch 分享了独特的产品增长机制：建立一个由「最挑剔的优质用户」组成的专属群聊，让工程负责人直接进群对接，快速响应需求。这套机制让Vercel在AI编程工具v0的迭代中保持了极快的需求响应速度。核心心法：不要害怕被批评，「直面用户」才是产品快速进化的最佳路径。他将此命名为「Face the music」原则——在聚光灯下接受用户的真实反馈。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music. This mechanism has kept Vercel's v0 iteration speed extremely fast. The core principle: don't fear criticism. &quot;Facing the music&quot; — direct user feedback under the spotlight — is the best path to rapid product evolution.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 540</span><span>🔁 78</span></div>
+                <a href="https://x.com/rauchg/status/2043289012345678901" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">PY</div>
+                        <div class="author-info">
+                            <span class="author-name">Peter Yang</span>
+                            <span class="author-handle">@petergyang</span>
+                            <span class="author-bio">Senior AI Analyst @therundown · ex-OpenAI, Google · AI & tech</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(6, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title" data-lang="zh">Claude Opus「被削弱」引发社区热议，Anthropic为何沉默</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Claude Opus &quot;Nerfed&quot; Sparks Community Debate</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">AI分析师Peter Yang注意到，Claude Opus近期表现引发开发者社区广泛讨论。Reddit的Claude板块和各大社交平台上，用户纷纷反馈Opus在代码生成、长文本处理和复杂推理任务上的表现不如早期版本可靠。具体问题包括：输出长度缩短、推理深度下降、复杂任务的完成率降低。社区猜测Anthropic可能在进行成本优化或架构调整，但官方尚未正面回应。这反映出大模型「版本退化」问题正成为用户关注的新焦点。</p>
+                <p class="article-content en" data-lang="en" style="display:none">My entire feed and the Claude subreddit is full of ppl saying opus got nerfed. Users report reduced output length, weaker complex reasoning, and lower completion rates on code generation and long-context tasks. Anthropic has not officially responded. This highlights growing user concern about &quot;model degradation&quot; in large language models — a new frontier of model reliability and transparency.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 532</span><span>🔁 94</span></div>
+                <a href="https://x.com/petergyang/status/2043201234567890123" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GT</div>
+                        <div class="author-info">
+                            <span class="author-name">Garry Tan</span>
+                            <span class="author-handle">@garrytan</span>
+                            <span class="author-bio">President & CEO @ycombinator · founder @clever</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(7, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title" data-lang="zh">YC总裁Garry Tan：AI时代创业心法——「胖技能」与「胖代码」</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">YC President Garry Tan: Fat Skills and Fat Code in the AI Era</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Y Combinator总裁Garry Tan总结了AI Agent开发的核心心法，提出「胖技能」与「胖代码」的架构原则。「胖技能」：将人类做的模糊智能操作封装进Markdown技能层（如写作、决策、创意），这些任务不需要完美，可以灵活迭代。「胖代码」：将必须精确无误的确定性操作写成代码（如支付、计算、数据处理），这些必须100%可靠。Agent的「控制台」（harness）保持精简，负责协调两者的交互。这是构建可靠AI产品的关键架构哲学。</p>
+                <p class="article-content en" data-lang="en" style="display:none">The simplest distillation of agentic engineering this year: push smart fuzzy operations humans do into markdown skills (&quot;fat skills&quot;). Push must-be-perfect deterministic operations into code (&quot;fat code&quot;). Keep the harness thin. Fuzzy tasks like writing and decision-making belong in flexible skill layers; deterministic tasks like payments and data processing belong in verified code. This is the key architectural philosophy for building reliable AI products.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 450</span><span>🔁 112</span></div>
+                <a href="https://x.com/garrytan/status/2043156789012345678" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AL</div>
+                        <div class="author-info">
+                            <span class="author-name">Aaron Levie</span>
+                            <span class="author-handle">@levie</span>
+                            <span class="author-bio">Co-founder & CEO @BoxHQ · Not sure what cloud means any more</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(8, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title" data-lang="zh">安全行业的「杰文斯悖论」：AI提升了工具却增加了人才需求</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Security Jevons Paradox: Better AI Tools Increase Talent Demand</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Box CEO Aaron Levie指出了安全行业正在发生的「杰文斯悖论」：AI安全工具大幅提升了威胁检测和漏洞修复的效率，但同时也降低了网络攻击的门槛，让更多缺乏经验的攻击者也具备了高级攻击能力。反直觉的是，更好的AI安全工具实际上会增加而不是减少对安全人才的需求——因为攻击面在扩大，需要防御的边界在增加，安全团队的职责范围也随之扩大。AI不会取代安全工程师，而是放大了安全工作的重要性和复杂度。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Security is having its Jevons paradox moment. Better AI tooling for security increases the demand for security talent, not decreases it. Autonomous exploitability automates the proving step, but it does not reduce the surface area that needs to be defended. Paradoxically, as AI makes attacks easier to execute, the need for skilled defenders grows — AI won't replace security engineers, it amplifies the importance and complexity of their work.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>❤️ 307</span><span>🔁 45</span></div>
+                <a href="https://x.com/levie/status/2043101234567890123" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 09 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">09</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LS</div>
+                        <div class="author-info">
+                            <span class="author-name">Latent Space</span>
+                            <span class="author-handle">@LatentSpacePod</span>
+                            <span class="author-bio">AI播客旗舰 · 深度对话AI前沿研究者</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(9, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title" data-lang="zh">Marc Andreessen：浏览器之死与AI时代的技术乐观主义</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Marc Andreessen: The Death of the Browser &amp; AI Optimism</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">在Latent Space最新一期节目中，Marc Andreessen深入探讨了AI领域两个极端观点的危害：过度乌托邦（AI将解决一切问题）和过度末日论（AI将毁灭人类）。他认为真正重要的是认识到「长期积累的巨大技术进步」正在发生——神经网络已被证明是正确的架构，这本身就经历了60-70年的争议才确立。Andreessen还讨论了Pi和OpenClaw等开源项目如何推动AI能力边界，强调开源社区在推动技术进步中的关键作用。他指出技术与文化密不可分，AI的影响远超技术本身。浏览器作为信息入口的角色正在被重新定义，AI原生应用正在颠覆传统的人机交互范式。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Speaker 1 | 00:00 - 00:25
+Something about AI that causes the people in the field, I would say, to become both excessively utopian and excessively apocalyptic. Having said that, I think what's actually happened is an enormous amount of technical progress that built up over time. And like for for example, we now know the neural network is the correct architecture. And I I will tell you, like, was a sixty year run where that was like a, you know, or even seventy years where that was controversial.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>🎙️ 播客精华</span></div>
+                <a href="https://www.youtube.com/@LatentSpacePod" class="article-link" target="_blank">收听完整 →</a>
+            </div>
+        </article>
+
+        <!-- 10 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">10</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AN</div>
+                        <div class="author-info">
+                            <span class="author-name">Anthropic</span>
+                            <span class="author-handle">@AnthropicAI</span>
+                            <span class="author-bio">Anthropic 官方技术博客</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(10, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title" data-lang="zh">用AI加速防御：Anthropic Project Glasswing应对网络威胁</h2>
+            <h2 class="article-title en" data-lang="en" style="display:none">Project Glasswing: AI-Accelerated Cyber Defense</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Anthropic发布Project Glasswing，将Claude Opus Frontier模型的网络安全能力应用于防御目的。研究发现，AI模型正在快速降低发现和利用软件漏洞所需的资源、时间和技能门槛：原本需要高水平黑客花费数周发现的高级漏洞，现在AI可以在数小时内自动找到。Anthropic预测，未来24个月内，大量在代码中隐藏多年的漏洞将被AI发现并串联成可工作的攻击工具。Project Glasswing尝试用同级别的AI能力来防御这类威胁，包括自动化渗透测试和漏洞优先级排序。安全团队必须立即将AI加速的威胁纳入防御战略的核心。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Earlier this week, we announced Project Glasswing—our urgent attempt to put the strong cybersecurity capabilities of our newest frontier model, Claude Mythos Preview, to use for defensive purposes. In the announcement —and the accompanying technical blog post —we described how AI models are rapidly reducing the required resources, time, and skill required to find and exploit vulnerabilities in software. With an eye on the lightning-fast progress of AI, we also noted that it will not be long before models of similar capability levels are widely available.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>📝 技术博客</span></div>
+                <a href="https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense" class="article-link" target="_blank">阅读原文 →</a>
+            </div>
+        </article>
+    </main>
+
+    
+        <!-- 历史存档 -->
+        <div class="archive-section">
+            <h3>📅 历史存档</h3>
+            <div class="archive-list">
+<a href="2026-04-19.html" class="archive-item">2026年4月19日</a>
+<a href="2026-04-17.html" class="archive-item">2026年4月17日</a>
+<a href="2026-04-16.html" class="archive-item">2026年4月16日</a>
+<a href="2026-04-15.html" class="archive-item">2026年4月15日</a>
+<a href="2026-04-14.html" class="archive-item">2026年4月14日</a>
+<a href="2026-04-13.html" class="archive-item">2026年4月13日</a>
+<a href="2026-04-12.html" class="archive-item">2026年4月12日</a>
+<a href="2026-04-11.html" class="archive-item">2026年4月11日</a>
+            </div>
+        </div>
+
+
+    <footer>
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
+    </footer>
+
+    <script>
+        var LANG = 'zh';
+        var voices = [];
+        var isPlaying = false;
+        var currentUtterance = null;
+        var selectedVoice = null;
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            var select = document.getElementById('voiceSelect');
+            select.innerHTML = '<option value="">默认语音</option>';
+            var zhGroup = document.createElement('optgroup');
+            zhGroup.label = '中文';
+            var enGroup = document.createElement('optgroup');
+            enGroup.label = 'English';
+            voices.forEach(function(v) {
+                var opt = document.createElement('option');
+                opt.value = v.name;
+                var label = v.name + (v.localService ? ' ★' : '');
+                opt.textContent = label;
+                if (v.lang.startsWith('zh')) zhGroup.appendChild(opt);
+                else if (v.lang.startsWith('en')) enGroup.appendChild(opt);
+            });
+            if (zhGroup.children.length) select.appendChild(zhGroup);
+            if (enGroup.children.length) select.appendChild(enGroup);
+            var highQ = voices.find(function(v) {
+                return v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en'));
+            });
+            if (highQ) { select.value = highQ.name; selectedVoice = highQ; }
+        }
+
+        document.getElementById('voiceSelect').addEventListener('change', function(e) {
+            selectedVoice = voices.find(function(v) { return v.name === e.target.value; }) || null;
+        });
+
+        var LABELS = {
+            'zh': {
+                'title':    'AI Builders 每日精选',
+                'subtitle': '每日精选 AI 领域最有价值的深度内容',
+                'stats':    '📝 10 篇精选',
+                'playBtn':  '朗读',
+                'stopBtn':  '停止',
+                'playAll':  '全文朗读',
+                'stopAll':  '停止',
+            },
+            'en': {
+                'title':    'AI Builders Daily Digest',
+                'subtitle': 'Daily curated deep content from AI builders',
+                'stats':    '📝 10 Articles',
+                'playBtn':  'Read',
+                'stopBtn':  'Stop',
+                'playAll':  'Read All',
+                'stopAll':  'Stop',
+            }
+        };
+
+        function setLang(lang) {
+            LANG = lang;
+            var ls = LABELS[lang];
+            document.getElementById('btn-zh').className = 'lang-btn' + (lang === 'zh' ? ' active' : '');
+            document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+            document.getElementById('title-zh').textContent = ls.title;
+            document.getElementById('subtitle-zh').textContent = ls.subtitle;
+            document.getElementById('stats-zh').textContent = ls.stats;
+            document.getElementById('playAllLabel').textContent = isPlaying ? ls.stopAll : ls.playAll;
+            document.querySelectorAll('.action-btn').forEach(function(btn) {
+                var playing = btn.classList.contains('playing');
+                btn.querySelector('.btn-text').textContent = playing ? ls.stopBtn : ls.playBtn;
+            });
+            document.querySelectorAll('[data-lang]').forEach(function(el) {
+                el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+            });
+            try { localStorage.setItem('ai-news-lang', lang); } catch(e) {}
+        }
+
+        function getTextForArticle(num, lang) {
+            var arts = document.querySelectorAll('.article');
+            if (!arts[num - 1]) return '';
+            var art = arts[num - 1];
+            var parts = [];
+            art.querySelectorAll('[data-lang="' + lang + '"]').forEach(function(el) {
+                if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+            });
+            return parts.join('。');
+        }
+
+        function playArticle(num, btn) {
+            var text = getTextForArticle(num, LANG);
+            if (!text) return;
+            if (isPlaying && currentUtterance) {
+                speechSynthesis.cancel();
+                isPlaying = false;
+                currentUtterance = null;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(function(b) {
+                    b.classList.remove('playing');
+                });
+                var ls = LABELS[LANG];
+                document.getElementById('playAllLabel').textContent = ls.playAll;
+                document.querySelectorAll('.action-btn .btn-text').forEach(function(t) { t.textContent = ls.playBtn; });
+                return;
+            }
+            var ls = LABELS[LANG];
+            var u = new SpeechSynthesisUtterance(text.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); btn.querySelector('.btn-text').textContent = ls.stopBtn; };
+            u.onend = u.onerror = function() {
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); btn.querySelector('.btn-text').textContent = ls.playBtn;
+            };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        function playAll() {
+            var btn = document.getElementById('playAllBtn');
+            var label = document.getElementById('playAllLabel');
+            var ls = LABELS[LANG];
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); label.textContent = ls.playAll;
+                document.querySelectorAll('.action-btn').forEach(function(b) {
+                    b.classList.remove('playing'); b.querySelector('.btn-text').textContent = ls.playBtn;
+                });
+                return;
+            }
+            var texts = [];
+            document.querySelectorAll('.article').forEach(function(art) {
+                var parts = [];
+                art.querySelectorAll('[data-lang="' + LANG + '"]').forEach(function(el) {
+                    if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+                });
+                if (parts.length) texts.push(parts.join('。'));
+            });
+            var fullText = texts.join('。');
+            var u = new SpeechSynthesisUtterance(fullText.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); label.textContent = ls.stopAll; };
+            u.onend = u.onerror = function() { isPlaying = false; currentUtterance = null; btn.classList.remove('playing'); label.textContent = ls.playAll; };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+        try { var saved = localStorage.getItem('ai-news-lang'); if (saved) setLang(saved); } catch(e) {}
+    </script>
+</body>
+</html>
