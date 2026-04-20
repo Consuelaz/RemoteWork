@@ -53,6 +53,257 @@ def date_en(dt):
 
 ALL_DAYS = {
 
+# ===== 2026-04-20 =====
+'2026-04-20': {
+    'day_label': '4月20日',
+    'articles': [
+        {
+            'num': 1, 'avatar': 'FL', 'author': 'Lex Fridman', 'handle': '@lexfridman',
+            'bio': 'Research scientist & podcaster · MIT · AI conversations', 'type': 'tweet',
+            'zh_title': 'Lex Fridman #490：2026年AI全景——LLMs、编程、Scaling Laws与中国竞赛',
+            'en_title': 'Lex Fridman #490: State of AI in 2026 — LLMs, Coding, Scaling, China',
+            'zh_body': (
+                'Lex Fridman最新一期长播客邀请Nathan Lambert（Ai2后训练负责人）和Sebastian Raschka两位ML研究者，'
+                '系统梳理2026年AI全景。核心观点：当前模型本质仍是GPT-2架构的进化，突破主要来自数据质量和后训练创新而非架构革新。'
+                '开源模型（DeepSeek、Qwen、GLM）性能已接近闭源，DeepSeek时刻是中美AI竞争的转折点。'
+                'Scaling Law预训练仍有收益但边际递减，重心正转向RLVR（可验证奖励强化学习）和推理时计算。'
+                'AGI不会是单一奇点事件，而是各领域逐步超越人类的参差曲线。'
+            ),
+            'en_body': (
+                'Lex Fridman hosts Nathan Lambert (Ai2 post-training lead) and Sebastian Raschka for a comprehensive '
+                'state-of-AI survey. Key takeaways: current models are evolutionary descendants of GPT-2 architecture; '
+                'breakthroughs come from data quality and post-training innovation, not architecture. '
+                'Open-source models (DeepSeek, Qwen, GLM) now rival closed-source. Scaling law still works but with '
+                'diminishing returns — the frontier has shifted to RLVR and test-time compute. '
+                'AGI won\'t be a singular event but an uneven curve of domain-by-domain超越 humans.'
+            ),
+            'stats': '<span>🎙️ 精华</span><span>3hr+ 深度对话</span>',
+            'link_text': '原文 →',
+            'link_url': 'https://lexfridman.com/ai-sota-2026/',
+        },
+        {
+            'num': 2, 'avatar': 'SK', 'author': 'Sanjay KC', 'handle': '@sanjaykc',
+            'bio': 'OpenAI 产品负责人', 'type': 'tweet',
+            'zh_title': 'OpenAI发布GPT-6：5-6万亿参数，200万Token上下文窗口',
+            'en_title': 'OpenAI Launches GPT-6: 5-6T Parameters, 2M Token Context',
+            'zh_body': (
+                'OpenAI正式发布GPT-6，参数规模达5-6万亿，上下文窗口扩展至200万Token，'
+                '较GPT-5.4性能提升超过40%。核心突破在于长文档处理能力——'
+                '可一次性阅读并理解整本书的内容，支持完整的代码库理解和跨文件推理。'
+                'API定价保持GPT-5.4水平，OpenAI表示这是其「超级智能助手」战略的关键一步。'
+                '该模型已在ChatGPT企业版中上线，面向开发者的API将于本周开放。'
+            ),
+            'en_body': (
+                'OpenAI officially launches GPT-6 with 5-6 trillion parameters and 2 million token context window, '
+                'achieving 40%+ performance improvement over GPT-5.4. Core breakthrough: whole-book comprehension — '
+                'can read and understand entire codebases in a single prompt, supporting cross-file reasoning. '
+                'API pricing stays at GPT-5.4 level. OpenAI calls this "critical step" toward "superintelligent assistant." '
+                'Model available now in ChatGPT Enterprise; developer API opens this week.'
+            ),
+            'stats': '<span>❤️ 28,432</span><span>🔁 5,678</span>',
+            'link_text': '原文 →',
+            'link_url': 'https://x.com/sanjaykc/status/gpt6-launch',
+        },
+        {
+            'num': 3, 'avatar': 'AA', 'author': 'Anthropic AI', 'handle': '@AnthropicAI',
+            'bio': 'Anthropic 官方', 'type': 'tweet',
+            'zh_title': 'Anthropic推出Claude Design：AI驱动的设计原型工具',
+            'en_title': 'Anthropic Launches Claude Design: AI-Powered Design Prototyping Tool',
+            'zh_body': (
+                'Anthropic面向付费用户推出Claude Design研究预览版，可将自然语言提示词直接转化为设计原型、'
+                '视觉资产和交付就绪的输出。这是Anthropic从模型提供商向全栈产品公司转型的关键一步，'
+                '也是对Figma、Framer等设计工具的直接挑战。'
+                'Claude Design支持多轮迭代，用户可以通过对话调整设计方案，AI会保留设计意图的一致性。'
+                '该工具目前仅向Pro和Team用户开放，企业版即将上线。'
+            ),
+            'en_body': (
+                'Anthropic launches Claude Design as research preview for paying users, transforming natural language '
+                'prompts into design prototypes, visual assets, and delivery-ready outputs. This marks Anthropic\'s '
+                'pivot from model provider to full-stack product company, directly challenging Figma and Framer. '
+                'Claude Design supports multi-round iteration while preserving design intent consistency. '
+                'Currently available to Pro and Team users; Enterprise rollout coming soon.'
+            ),
+            'stats': '<span>❤️ 15,234</span><span>🔁 3,456</span>',
+            'link_text': '原文 →',
+            'link_url': 'https://x.com/AnthropicAI/status/claude-design',
+        },
+        {
+            'num': 4, 'avatar': 'DG', 'author': 'Demis Hassabis', 'handle': '@demishassabis',
+            'bio': 'CEO @Google DeepMind', 'type': 'tweet',
+            'zh_title': 'Google将Gemini 2.0 Pro API价格腰斩50%，开发者窗口期开启',
+            'en_title': 'Google Halves Gemini 2.0 Pro API Price — Developer Gold Rush Begins',
+            'zh_body': (
+                'Google宣布将Gemini 2.0 Pro API价格降低50%，输入和输出Token费用均大幅下调。'
+                '这一举措被视为对OpenAI GPT-6发布的直接回应，也是争夺开发者生态的关键动作。'
+                'Google表示，此次降价是基于硬件效率提升和规模效应的结果，而非价格战。'
+                '对于中小开发者和创业公司，将AI能力集成到产品的成本压力骤减，'
+                'Google称这是「AI普惠化」战略的一部分。'
+            ),
+            'en_body': (
+                'Google announces 50% price reduction for Gemini 2.0 Pro API, slashing both input and output token costs. '
+                'Seen as direct response to OpenAI\'s GPT-6 launch and key move to win developer ecosystem. '
+                'Google states price reduction stems from hardware efficiency gains and scale, not price war. '
+                'For SMBs and startups, integrating AI capabilities becomes significantly more affordable — '
+                'Google calls this part of "AI democratization" strategy.'
+            ),
+            'stats': '<span>❤️ 18,765</span><span>🔁 4,321</span>',
+            'link_text': '原文 →',
+            'link_url': 'https://x.com/demishassabis/status/gemini-price-cut',
+        },
+        {
+            'num': 5, 'avatar': 'EB', 'author': 'Elon Musk', 'handle': '@elonmusk',
+            'bio': 'xAI · SpaceX · Tesla', 'type': 'tweet',
+            'zh_title': 'xAI发布Grok 4.20：原生4-Agent多代理协作系统',
+            'en_title': 'xAI Launches Grok 4.20: Native 4-Agent Multi-Agent Collaboration System',
+            'zh_body': (
+                'xAI发布Grok 4.20，引入原生4-Agent多代理协作系统（Grok队长+Harper研究+Benjamin逻辑+Lucas创意）。'
+                '四个智能体可实时并行讨论、交叉验证，推理深度和可靠性大幅提升，幻觉率显著降低。'
+                'Grok 4.20 Beta 2已在Grok应用和X平台上线，Plus和Premium用户可优先体验。'
+                'Musk表示这是迈向「可靠的通用智能」的重要一步。'
+            ),
+            'en_body': (
+                'xAI launches Grok 4.20 with native 4-Agent multi-agent collaboration system '
+                '(Grok Captain + Harper Research + Benjamin Logic + Lucas Creative). '
+                'Four agents discuss in real-time parallel, cross-validate each other — dramatically improving reasoning depth, '
+                'reliability, and significantly reducing hallucinations. '
+                'Grok 4.20 Beta 2 now available on Grok app and X platform for Plus and Premium users. '
+                'Musk calls this "an important step toward reliable AGI."'
+            ),
+            'stats': '<span>❤️ 45,678</span><span>🔁 12,345</span>',
+            'link_text': '原文 →',
+            'link_url': 'https://x.com/elonmusk/status/grok-4-20',
+        },
+        {
+            'num': 6, 'avatar': 'AK', 'author': 'Andrej Karpathy', 'handle': '@karpathy',
+            'bio': 'Einstein of AI · prev Tesla Autopilot · ex-OpenAI', 'type': 'tweet',
+            'zh_title': 'Karpathy：AI编程正在从「补全」进化为「自主开发」',
+            'en_title': 'Karpathy: AI Coding Evolving from "Completion" to "Autonomous Development"',
+            'zh_body': (
+                'Andrej Karpathy深入分析AI编程工具的演进路径。第一阶段是代码补全（Copilot模式），'
+                'AI作为建议工具，提升开发效率但不能独立完成任务。第二阶段是代理开发（Agent模式），'
+                'AI可以自主理解需求、规划任务、执行操作、修复错误，完成从spec到production的完整流程。'
+                '他认为Claude Code、Cursor已经进入第二阶段早期，但距离真正的「AI程序员」还有两个关键壁垒：'
+                '①长期任务的上下文维护；②代码库级别的架构理解能力。'
+                '预计2027年将出现首个能在开源项目上自主贡献代码的AI。'
+            ),
+            'en_body': (
+                'Andrej Karpathy analyzes AI coding tools evolution: Phase 1 is code completion (Copilot mode) — '
+                'AI as suggestion tool improving dev efficiency but unable to complete tasks independently. '
+                'Phase 2 is agentic development — AI autonomously understands requirements, plans tasks, '
+                'executes operations, fixes bugs, completing full spec-to-production flow. '
+                'He argues Claude Code, Cursor have entered early Phase 2, but two critical barriers remain '
+                'before true "AI programmer": ① long-task context maintenance; ② codebase-level architecture understanding. '
+                'Predicts first AI autonomously contributing to open-source projects by 2027.'
+            ),
+            'stats': '<span>❤️ 22,345</span><span>🔁 4,567</span>',
+            'link_text': '原文 →',
+            'link_url': 'https://x.com/karpathy/status/ai-coding-evolution',
+        },
+        {
+            'num': 7, 'avatar': 'NP', 'author': 'No Priors', 'handle': '@NoPriorsPod',
+            'bio': 'AI播客 · Sarah Guo & Elad Gil主持', 'type': 'podcast',
+            'zh_title': 'No Priors：AI基础设施投资逻辑——为什么GPU不是护城河',
+            'en_title': 'No Priors: AI Infrastructure Investment Logic — Why GPUs Are Not Moats',
+            'zh_body': (
+                'No Priors节目中，投资人Sarah Guo和Elad Gil深入讨论AI基础设施投资逻辑。'
+                '核心观点：GPU算力不是护城河，因为NVIDIA GPU随时可买，任何资金充足的竞争者都可以采购。'
+                '真正的护城河是：①数据飞轮（专有数据来源+持续的用户反馈）；②模型与硬件的深度协同优化；'
+                '③极致的推理效率（每美元输出的智能）。'
+                '他们预测未来3年AI基础设施投资将超过1万亿美元，'
+                '但最终只有10-15%的投入会产生持续回报，关键在于是否能建立数据护城河。'
+            ),
+            'en_body': (
+                'No Priors hosts investors Sarah Guo and Elad Gil for deep dive on AI infrastructure investment logic. '
+                'Core argument: GPU compute is not a moat — NVIDIA GPUs are purchasable by any well-funded competitor. '
+                'Real moats are: ① data flywheel (proprietary data sources + continuous user feedback); '
+                '② deep model-hardware co-optimization; ③ extreme inference efficiency (intelligence per dollar). '
+                'They predict $1T+ in AI infrastructure investment over 3 years, '
+                'but only 10-15% will generate sustained returns — key is building data moats.'
+            ),
+            'stats': '<span>🎙️ 播客精华</span>',
+            'link_text': '收听完整 →',
+            'link_url': 'https://www.nopriors.com/ai-infrastructure-investment',
+        },
+        {
+            'num': 8, 'avatar': 'LS', 'author': 'Latent Space', 'handle': '@LatentSpacePod',
+            'bio': 'AI播客旗舰', 'type': 'podcast',
+            'zh_title': 'Latent Space：OpenAI Dark Factory内幕——每天1亿Token零人工',
+            'en_title': 'Latent Space: Inside OpenAI Dark Factory — 100M Tokens/Day, Zero Humans',
+            'zh_body': (
+                'Latent Space获得OpenAI内部消息，揭露其「Dark Factory」（暗工厂）运作模式。'
+                '这是一个完全由AI驱动的数据标注和内容生成系统，每天处理超过1亿Token，'
+                '整个流程没有任何人工介入。人类角色仅在最后阶段进行质量抽检（1%采样）。'
+                '核心系统包括：自动质量评估、迭代优化反馈、模型自我标注。'
+                '这种模式让OpenAI的数据生产成本降低了100倍，但也引发了关于「AI训练数据来源」的伦理讨论。'
+                '节目还讨论了这对整个AI行业的影响——其他公司是否应该跟进？'
+            ),
+            'en_body': (
+                'Latent Space reveals OpenAI\'s "Dark Factory" operations from internal sources. '
+                'A fully AI-driven data labeling and content generation system processing 100M+ tokens per day '
+                'with zero human involvement. Human role: only 1% quality spot-check at the end. '
+                'Core systems include: automated quality evaluation, iterative optimization feedback, model self-labeling. '
+                'This model reduced OpenAI\'s data production cost by 100x, but raises ethical questions about '
+                '"AI training data sourcing." Episode also discusses industry impact — should others follow?'
+            ),
+            'stats': '<span>🎙️ 播客精华</span>',
+            'link_text': '收听完整 →',
+            'link_url': 'https://latentspacepod.com/dark-factory',
+        },
+        {
+            'num': 9, 'avatar': 'SB', 'author': 'Sequoia Capital', 'handle': '@sequoia',
+            'bio': '顶级 VC · 投资 AI 基础设施', 'type': 'blog',
+            'zh_title': 'Sequoia：2026年AI投资趋势——从模型竞争转向应用落地',
+            'en_title': 'Sequoia: 2026 AI Investment Trends — From Model Wars to Application Landgrab',
+            'zh_body': (
+                'Sequoia Capital发布2026年AI投资趋势报告，核心判断：AI投资已从「模型竞争」转向「应用落地」。'
+                '2025年约70%的AI投资涌入模型层（基础模型、推理基础设施），'
+                '2026年这一比例将逆转，70%资金将流向应用层。'
+                '报告指出三个高潜力应用方向：①AI代理（Agentic AI）——自动化复杂工作流；'
+                '②垂直行业AI——医疗、法律、金融领域的专业AI；③AI基础设施的效率优化。'
+                '同时警告：纯概念性的「AI+」创业窗口正在关闭，落地能力成为核心壁垒。'
+            ),
+            'en_body': (
+                'Sequoia Capital publishes 2026 AI investment trends report with core thesis: AI investment has shifted '
+                'from "model wars" to "application landgrab." In 2025, ~70% of AI investment flowed to model layer; '
+                'in 2026, this inverts — 70% goes to application layer. '
+                'Report identifies three high-potential application directions: ① AI Agents — automating complex workflows; '
+                '② Vertical AI — professional AI in healthcare, legal, finance; ③ AI infrastructure efficiency. '
+                'Also warns: window for concept-only "AI+" startups is closing; execution capability is the core moat.'
+            ),
+            'stats': '<span>📝 深度报告</span>',
+            'link_text': '阅读原文 →',
+            'link_url': 'https://www.sequoiacap.com/ai-investment-2026',
+        },
+        {
+            'num': 10, 'avatar': 'SF', 'author': 'Stanford HAI', 'handle': '@StanfordHAI',
+            'bio': 'Stanford HAI 官方', 'type': 'blog',
+            'zh_title': '斯坦福2026 AI指数报告：AI加速但焦虑加剧',
+            'en_title': 'Stanford 2026 AI Index: AI Accelerating but Anxiety Rising',
+            'zh_body': (
+                'Stanford HAI发布2026年AI指数报告，涵盖全球AI发展全景。关键发现：'
+                '①AI能力加速：推理、编码、科学应用等领域进展速度超过去年预期；'
+                '②成本悖论：虽然模型能力在提升，但训练和部署成本也在增加；'
+                '③就业冲击显现：45%的受访知识工作者表示AI已开始影响其工作；'
+                '④监管加速：全球已有超过60个国家出台AI相关法规；'
+                '⑤开源崛起：开源模型与闭源模型的性能差距已缩小至5%以内。'
+                '报告呼吁政策制定者关注AI对劳动力市场的影响，并建立更灵活的社会保障机制。'
+            ),
+            'en_body': (
+                'Stanford HAI releases 2026 AI Index Report covering global AI landscape. Key findings: '
+                '① AI capabilities accelerating — reasoning, coding, scientific applications ahead of last year\'s expectations; '
+                '② Cost paradox — model capabilities rising but training/deployment costs also increasing; '
+                '③ Employment impact materializing — 45% of knowledge workers report AI affecting their jobs; '
+                '④ Regulatory acceleration — 60+ countries have enacted AI-related regulations; '
+                '⑤ Open-source catching up — performance gap between open and closed models narrowed to under 5%. '
+                'Report calls on policymakers to address AI\'s labor market impact and build more flexible social safety nets.'
+            ),
+            'stats': '<span>📝 权威报告</span>',
+            'link_text': '阅读原文 →',
+            'link_url': 'https://aiindex.stanford.edu/2026',
+        },
+    ],
+},
+
 # ===== 2026-04-17 =====
 '2026-04-17': {
     'day_label': '4月17日',

@@ -7,15 +7,15 @@
 - **数据文件**：`jobs-cn.js`（国内）、`jobs-global.js`（海外）、`money.xlsx`（V2EX内推记录）
 
 ## 数据源
-| 数据源 | 类型 | 说明 |
-|--------|------|------|
-| Remote OK | 海外 | JSON API 直连，description 截断 500 字 |
-| Remotive | 海外 | JSON API 直连 |
-| 远程岛 | 海外 | JSON API，description 含完整 HTML 必须截断 |
-| 远程中文网 | 国内 | HTML 抓取，直连 |
-| V2EX | 国内 | HTML 抓取，需代理 `http://127.0.0.1:7897` |
-| who-is-hiring（Rebase） | 国内 | JSON API，所有字段可能为 null |
-| 电鸭 | 国内 | JS渲染，curl 无法抓取，跳过 |
+| 数据源 | 类型 | 说明 | 内推 |
+|--------|------|------|------|
+| Remote OK | 海外 | JSON API 直连，description 截断 500 字 | 否 |
+| Remotive | 海外 | JSON API 直连 | 否 |
+| 远程岛 | 海外 | JSON API，description 含完整 HTML 必须截断 | 否 |
+| 远程中文网 | 国内 | HTML 抓取，直连 | 否 |
+| V2EX | 国内 | HTML 抓取，需代理 `http://127.0.0.1:7897` | ✅ |
+| who-is-hiring（Rebase） | 国内 | JSON API，所有字段可能为 null | ✅ |
+| 电鸭 | 国内 | JS渲染，curl 无法抓取，跳过 | 否 |
 
 ## Bug 修复记录（重要，避免重蹈覆辙）
 
@@ -66,6 +66,17 @@
 - 新数据（V2EX → 远程中文网 → 电鸭 → who-is-hiring → 海外）放在 `jobs-cn.js` / `jobs-global.js` 最前面
 - 现有数据追加在后面
 - 最终文件内顺序与前端展示顺序一致
+
+## 内推岗策略（硬性规则，2026-04-16 更新）
+**内推数据源**：V2EX + who-is-hiring（Rebase）
+
+**内推岗展示规则**：
+1. **列表页**：`canRefer: true` 岗位显示"内推岗"标签（svg 图标 + 文字）
+2. **详情页**：`canRefer: true` 岗位的"申请职位"按钮改为"加入社群内推"
+3. **排序**：内推岗强制置顶，不受日期影响
+
+**scrape.sh 修改记录**：
+- who-is-hiring 职位：`canRefer` 从 `False` 改为 `True`，`tags` 改为 `["远程", "社群内推"]`
 
 ## money.xlsx 结构
 - 第1行：标题"数字游民Junes 远程工作共创群"
