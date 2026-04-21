@@ -6,7 +6,7 @@
 
 const JOBS_CN = [
   {
-    id: 'cn-v2ex-64280',
+    id: 'cn-v2ex-6404',
     title: '[上海] 德国小而美公司从普吉团建回来，招 AI Platform Engineer',
     company: 'What',
     logo: '💻',
@@ -29,7 +29,30 @@ const JOBS_CN = [
     contact: '微信: 人英网络\n电话: 021-51752778',
   },
   {
-    id: 'cn-remotechina-09849',
+    id: 'cn-v2ex-93736',
+    title: '🔥 技术总监（广告商业化）100-150k+| 广告联盟业务运营总监 / 广告商业化负责人 60-120k+| 远程办公',
+    company: '海外公司',
+    logo: '💻',
+    category: '运营',
+    tags: ['远程', 'V2EX', '社群内推'],
+    salary: '面议',
+    location: '全国远程',
+    date: '2026-04-21',
+    isNew: true,
+    isFeatured: false,
+    canRefer: true,
+    source: 'https://www.v2ex.com/go/remote',
+    sourceUrl: 'https://www.v2ex.com/t/1206805#reply10',
+    description: '',
+    requirements: ['• 10 年+互联网技术研发经验，5 年+广告技术/程序化广告管理经验', '• 有从 0 到 1 搭建核心系统或技术团队的成功经验', '• 精通 Java/Go/Python 等主流后端开发语言', '• 具备良好的英文读写能力'],
+    benefits: [],
+    responsibilities: [],
+    company_info: '',
+    work_style: '远程工作',
+    contact: 'Telegram: hr167',
+  },
+  {
+    id: 'cn-remotechina-03265',
     title: '公众号运营',
     company: '任饭天堂',
     logo: '🌐',
@@ -50,7 +73,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-11969',
+    id: 'cn-remotechina-12010',
     title: '综合行政专员',
     company: '淮南市清怡商务连锁酒店有限公司',
     logo: '🌐',
@@ -71,7 +94,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-25472',
+    id: 'cn-remotechina-25249',
     title: 'Java后端开发',
     company: '成都创元聚星科技有限公司',
     logo: '🌐',
@@ -92,7 +115,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-38442',
+    id: 'cn-remotechina-33366',
     title: '金融标注',
     company: '上海本原智数科技有限公司',
     logo: '🌐',
@@ -113,7 +136,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-42796',
+    id: 'cn-remotechina-44600',
     title: '早报金融分析师',
     company: '慧科讯业（北京）网络科技有限公司',
     logo: '🌐',
@@ -134,7 +157,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-56360',
+    id: 'cn-remotechina-52588',
     title: '亚马逊申诉专员',
     company: '江苏秒为智慧物联有限公司',
     logo: '🌐',
@@ -155,7 +178,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-66157',
+    id: 'cn-remotechina-6347',
     title: '高中语文教师',
     company: '上海梯方教育科技有限公司',
     logo: '🌐',
@@ -176,7 +199,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-73550',
+    id: 'cn-remotechina-7703',
     title: '跨境电商运营',
     company: '深圳市美丽佳途贸易有限公司',
     logo: '🌐',
@@ -197,7 +220,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-81619',
+    id: 'cn-remotechina-82664',
     title: '行政电商客服助理',
     company: '福建山与水文化传媒有限公司',
     logo: '🌐',
@@ -218,7 +241,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-93350',
+    id: 'cn-remotechina-93907',
     title: '招聘经理',
     company: '大墨(成都)数字技术有限公司',
     logo: '🌐',
@@ -239,7 +262,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-104894',
+    id: 'cn-remotechina-101672',
     title: 'ios工程师',
     company: '摄拍感贸易(东莞)有限公司',
     logo: '🌐',
@@ -260,7 +283,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-118655',
+    id: 'cn-remotechina-119885',
     title: '全栈工程师',
     company: '国集(江苏)智能科技有限公司',
     logo: '🌐',
@@ -281,7 +304,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-125746',
+    id: 'cn-remotechina-129714',
     title: '数学老师',
     company: '上海梯方教育科技有限公司',
     logo: '🌐',
@@ -302,7 +325,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-139116',
+    id: 'cn-remotechina-131354',
     title: '产品设计师',
     company: '',
     logo: '🌐',
@@ -323,7 +346,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-147307',
+    id: 'cn-remotechina-144190',
     title: '客服专员',
     company: '遵义市栖鑫商贸有限公司',
     logo: '🌐',
@@ -337,10 +360,10 @@ const JOBS_CN = [
     canRefer: false,
     source: 'https://remote-china.com/jobs',
     sourceUrl: 'https://remote-china.com/jobs/1044',
-    applyUrl: 'https://remote-china.com/jobs/1044',
-    description: '',
-    responsibilities: [],
-    requirements: [],
+    applyUrl: 'https://www.zhaopin.com/jobdetail/CCL1521374580J40856431314.htm',
+    description: '行业：互联网/居民服务 | 产品/服务：不明 | 线上居家客服专员（推测常规名称：客服专员/在线客服） | 薪资范围：7000-9000元 | 工作时长：全职',
+    responsibilities: ['接听客户电话或在线咨询', '帮助客户解决问题和处理投诉', '与客户建立愉快的沟通关系', '灵活应对客户投诉和突发事件'],
+    requirements: ['热爱与人交流，善于倾听和表达', '对于解决客户问题充满激情', '能够灵活应对各种情况', '有客服工作经验者优先，无经验可接受培训'],
     benefits: [],
   },
   {
