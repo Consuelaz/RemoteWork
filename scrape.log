@@ -751,3 +751,9 @@ V2EX: 2 jobs（跳过非今日帖子: 18）
 ✅ money.xlsx 已更新，插入 2 条V2EX数据 + 417 条who-is-hiring数据
 数据更新完成: 2026-04-21
 ========================================
+[master 54bb5ec] 自动更新: 2026-04-21 CN=647 Global=2000
+ 5 files changed, 186 insertions(+), 125 deletions(-)
+ rewrite money.xlsx (64%)
+To github.com:Consuelaz/RemoteWork.git
+   f466269..54bb5ec  master -> master
+✅ Git 推送完成
