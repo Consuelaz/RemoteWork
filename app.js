@@ -41,22 +41,61 @@ function getCurrentJobs() {
     // 用 id 去重
     const seen = new Set(mainList.map(j => j.id));
     const unique = cnList.filter(j => !seen.has(j.id));
-    // 合并后：内推岗位优先，其余按日期倒序
+// 合并后：内推岗位优先，其余按日期倒序
     const allJobs = [...mainList, ...unique];
-    return sortWithReferralFirst(allJobs);
+    return sortWithReferralFirst(allJobs, 'cn');
   }
   // 海外岗位：内推岗位优先，其余按日期倒序
   const globalList = (typeof JOBS_GLOBAL !== 'undefined') ? JOBS_GLOBAL : [];
-  return sortWithReferralFirst(globalList);
+  return sortWithReferralFirst(globalList, 'global');
 }
 
+// 国内岗位类别优先级（内推岗按此顺序展示，每个类别最多1个）
+const CN_CATEGORY_PRIORITY = [
+  '运营', '测试', '前端开发', '后端开发', '全栈开发', 'AI/算法', '产品经理', '其它职能'
+];
+
 // 通用排序：canRefer=true 置顶，其余按日期倒序
-function sortWithReferralFirst(jobs) {
+// 国内岗位特殊策略：内推岗按类别均衡展示，每类别最多1个
+function sortWithReferralFirst(jobs, source = 'cn') {
+  // 国内岗位：内推岗按类别均衡展示
+  if (source === 'cn') {
+    const referJobs = jobs.filter(j => j.canRefer);
+    const normalJobs = jobs.filter(j => !j.canRefer);
+
+    // 按类别优先级排序去重（每类别取第一个）
+    const seen = new Set();
+    const balancedRefer = [];
+    for (const cat of CN_CATEGORY_PRIORITY) {
+      const found = referJobs.find(j => {
+        const jobCat = j.category || '';
+        return !seen.has(jobCat) && (
+          jobCat.includes(cat) ||
+          (cat === '其它职能' && !jobCat.includes('开发') && !jobCat.includes('运营') && !jobCat.includes('测试') && !jobCat.includes('产品'))
+        );
+      });
+      if (found) {
+        seen.add(found.category || '');
+        balancedRefer.push(found);
+      }
+    }
+    // 补充剩余内推岗（不在优先级列表中的）
+    for (const j of referJobs) {
+      if (!balancedRefer.includes(j)) {
+        balancedRefer.push(j);
+      }
+    }
+
+    // 其余岗位按日期倒序
+    const sortedNormal = normalJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    return [...balancedRefer, ...sortedNormal];
+  }
+
+  // 海外岗位：内推岗全部置顶，其余按日期倒序
   return jobs.sort((a, b) => {
-    // 内推岗位优先
     if (a.canRefer && !b.canRefer) return -1;
     if (!a.canRefer && b.canRefer) return 1;
-    // 同类型按日期倒序
     return new Date(b.date) - new Date(a.date);
   });
 }
