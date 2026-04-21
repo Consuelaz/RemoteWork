@@ -56,27 +56,32 @@ const CN_CATEGORY_PRIORITY = [
 ];
 
 // 通用排序：canRefer=true 置顶，其余按日期倒序
-// 国内岗位特殊策略：内推岗按最新日期排序，类别均衡（每类别最多1个）
+// 国内岗位特殊策略：按类别优先级均衡展示（每类别最多1个），其余内推岗按日期
 function sortWithReferralFirst(jobs, source = 'cn') {
-  // 国内岗位：内推岗按最新日期排序，类别均衡
+  // 国内岗位：内推岗类别均衡展示
   if (source === 'cn') {
     const referJobs = jobs.filter(j => j.canRefer);
     const normalJobs = jobs.filter(j => !j.canRefer);
 
-    // 内推岗按日期倒序
-    referJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    // 类别均衡：从最新日期开始，每类别取第一个
+    // 按类别优先级顺序，每类别取第一个
     const seen = new Set();
     const balancedRefer = [];
-    for (const job of referJobs) {
-      if (!seen.has(job.category)) {
-        seen.add(job.category);
-        balancedRefer.push(job);
+    for (const cat of CN_CATEGORY_PRIORITY) {
+      const found = referJobs.find(j => {
+        const jobCat = j.category || '';
+        return !seen.has(jobCat) && (
+          jobCat.includes(cat) ||
+          (cat === '其它职能' && !jobCat.includes('开发') && !jobCat.includes('运营') && !jobCat.includes('测试') && !jobCat.includes('产品'))
+        );
+      });
+      if (found) {
+        seen.add(found.category || '');
+        balancedRefer.push(found);
       }
     }
-    // 同一类别后续的内推岗
-    const otherRefer = referJobs.filter(j => !seen.has(j.id));
+    // 其余内推岗按日期倒序
+    const otherRefer = referJobs.filter(j => !seen.has(j.category || ''));
+    otherRefer.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     // 非内推岗按日期倒序
     normalJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
