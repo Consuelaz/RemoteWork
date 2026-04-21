@@ -1,373 +1,653 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 资讯 - 2026-04-21</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-04-21</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
         :root {
-            --primary: #1E3A5F;
-            --accent: #2563EB;
-            --bg: #F8FAFC;
-            --card-bg: #FFFFFF;
-            --text: #1E293B;
-            --text-light: #64748B;
-            --border: #E2E8F0;
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        .navbar { background: white; border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .nav-links { display: flex; gap: 1.5rem; }
-        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; }
-        .nav-links a:hover { color: var(--accent); }
-        .nav-controls { display: flex; gap: 1rem; align-items: center; }
-        .lang-toggle { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-        .lang-btn { padding: 0.4rem 0.8rem; background: white; border: none; cursor: pointer; font-size: 0.85rem; }
-        .lang-btn.active { background: var(--accent); color: white; }
-        .hero { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; padding: 3rem 2rem; text-align: center; }
-        .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        .hero-date { font-size: 1.2rem; opacity: 0.9; margin-bottom: 1.5rem; }
-        .hero-stats { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
-        .stat-badge { background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; }
-        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
-        .section-title { font-size: 1.3rem; color: var(--primary); margin: 2rem 0 1rem; display: flex; align-items: center; gap: 0.5rem; }
-        .article-card { background: var(--card-bg); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .article-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-        .builder-info { display: flex; align-items: center; gap: 0.75rem; }
-        .avatar { width: 40px; height: 40px; background: linear-gradient(135deg, #667EEA, #764BA2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.9rem; }
-        .builder-meta { display: flex; flex-direction: column; }
-        .builder-name { font-weight: 600; font-size: 0.95rem; }
-        .builder-handle { color: var(--text-light); font-size: 0.8rem; }
-        .type-badge { padding: 0.3rem 0.7rem; border-radius: 15px; font-size: 0.8rem; font-weight: 500; }
-        .type-badge.blue { background: #DBEAFE; color: #1D4ED8; }
-        .type-badge.green { background: #D1FAE5; color: #047857; }
-        .type-badge.purple { background: #EDE9FE; color: #7C3AED; }
-        .article-title { font-size: 1.1rem; margin-bottom: 0.75rem; line-height: 1.4; }
-        .article-content { color: var(--text-light); font-size: 0.95rem; margin-bottom: 1rem; padding: 0.75rem; background: #FEF3C7; border-radius: 8px; }
-        .article-footer { display: flex; justify-content: space-between; align-items: center; }
-        .stats { color: var(--text-light); font-size: 0.85rem; }
-        .read-more { color: var(--accent); text-decoration: none; font-weight: 500; }
-        .read-more:hover { text-decoration: underline; }
-        .archive-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
-        .archive-title { font-size: 1rem; color: var(--text-light); margin-bottom: 1rem; }
-        .archive-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .archive-item { padding: 0.5rem 1rem; background: var(--card-bg); border-radius: 20px; color: var(--text); text-decoration: none; font-size: 0.9rem; border: 1px solid var(--border); }
-        .archive-item.active { background: var(--accent); color: white; border-color: var(--accent); }
-        .archive-item:hover { border-color: var(--accent); }
-        .footer { text-align: center; padding: 2rem; color: var(--text-light); font-size: 0.85rem; }
-        .home-btn { background: var(--accent); color: white; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; }
-        .en-text, .zh-text { display: none; }
-        body.zh .zh-text { display: block; }
-        body.en .en-text { display: block; }
-        @media (max-width: 600px) { .nav-links { display: none; } .hero h1 { font-size: 1.8rem; } }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* 控制栏 */
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,249,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .lang-switch { display: flex; gap: 4px; }
+        .lang-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .audio-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        .audio-btn:hover { background: var(--tag-bg); }
+        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn svg { width: 13px; height: 13px; }
+        .voice-select {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 760px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        .date { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 10px; }
+        .hero-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; }
+        .stats { font-size: 12px; color: var(--text-secondary); }
+
+        /* 文章列表 */
+        .articles {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .article {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article:last-child { border-bottom: none; }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .article-left { display: flex; align-items: center; gap: 12px; }
+        .article-number { font-size: 22px; font-weight: 700; color: var(--border); line-height: 1; min-width: 32px; }
+
+        .author-row { display: flex; align-items: center; gap: 10px; }
+        .author-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700; font-size: 11px; flex-shrink: 0;
+        }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; font-size: 13px; }
+        .author-handle { color: var(--accent); font-size: 12px; }
+        .author-bio { color: var(--text-secondary); font-size: 12px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .article-actions { display: flex; gap: 6px; }
+        .action-btn {
+            padding: 5px 12px; border: 1px solid var(--border);
+            background: white; cursor: pointer; font-size: 12px;
+            border-radius: 12px; display: flex; align-items: center; gap: 4px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .action-btn:hover { background: var(--tag-bg); }
+        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn svg { width: 11px; height: 11px; }
+
+        .article-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem; font-weight: 600; line-height: 1.4;
+            margin-bottom: 10px; margin-left: 46px;
+        }
+        .article-title.en { font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text-secondary); font-size: 0.95rem; }
+
+        .article-body { margin-left: 46px; }
+        .article-content {
+            font-size: 14px; line-height: 1.85; color: var(--text);
+            margin-bottom: 8px;
+        }
+        .article-content.en { color: var(--text-secondary); }
+
+        .article-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; margin-left: 46px;
+        }
+        .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
+        .article-link:hover { text-decoration: underline; }
+
+        /* 历史存档 */
+        .archive-section {
+            max-width: 760px; margin: 0 auto;
+            padding: 32px 40px; border-top: 1px solid var(--border);
+        }
+        .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
+        .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
+        .archive-item:hover { background: var(--accent); color: white; }
+
+        footer { text-align: center; padding: 32px 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .controls { padding: 10px 20px; }
+            .hero, .archive-section { padding: 28px 20px 20px; }
+            .hero h1 { font-size: 1.4rem; }
+            .articles { padding: 0 20px 60px; }
+            .article-title, .article-body, .article-footer { margin-left: 0; }
+        }
     </style>
 </head>
-<body class="zh">
-    <nav class="navbar">
-        <div class="nav-links">
-            <a href="../index.html">远程岗位</a>
-            <a href="../companies.html">科技公司</a>
-            <a href="index.html">AI资讯</a>
-            <a href="../community.html">加入社群</a>
-        </div>
-        <div class="nav-controls">
-            <div class="lang-toggle">
-                <button class="lang-btn active" onclick="setLang('zh')">中文</button>
-                <button class="lang-btn" onclick="setLang('en')">EN</button>
-            </div>
-            <a href="../index.html" class="home-btn">首页</a>
-        </div>
-    </nav>
+<body>
 
-    <div class="hero">
-        <h1>🤖 AI 资讯</h1>
-        <p class="hero-date">Tuesday, April 21, 2026</p>
-        <div class="hero-stats">
-            <span class="stat-badge">👤 9 位建造者</span>
-            <span class="stat-badge">🐦 8 条推文</span>
-            <span class="stat-badge">🎙️ 1 期播客</span>
-            <span class="stat-badge">📝 0 篇博客</span>
+    <!-- 控制栏 -->
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span id="playAllLabel">全文朗读</span>
+            </button>
         </div>
     </div>
 
-    <div class="container">
-        <h2 class="section-title">🐦 建造者动态</h2>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="builder-info">
-                    <div class="avatar">GR</div>
-                    <div class="builder-meta">
-                        <span class="builder-name">Guillermo Rauch</span>
-                        <span class="builder-handle">@rauchg</span>
-                    </div>
-                </div>
-                <span class="type-badge blue">🐦 建造者动态</span>
-            </div>
-            <h3 class="article-title">
-                <span class="zh-text">Here's my update to the broader community about the ongoing incident investigation.</span>
-                <span class="en-text">Here's my update to the broader community about the ongoing incident investigation.</span>
-            </h3>
-            <div class="article-content">
-                <span class="zh-text">Here's my update to the broader community about the ongoing incident investigation. I want to give you the rundown of the situation directly.</span>
-                <span class="en-text">Here's my update to the broader community about the ongoing incident investigation. I want to give you the rundown of the situation directly.</span>
-            </div>
-            <div class="article-footer">
-                <span class="stats"><span>❤️ 5471</span><span>🔁 809</span></span>
-                <a href="https://x.com/rauchg/status/2045995362499076169" target="_blank" class="read-more">原文 →</a>
-            </div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="builder-info">
-                    <div class="avatar">PY</div>
-                    <div class="builder-meta">
-                        <span class="builder-name">Peter Yang</span>
-                        <span class="builder-handle">@petergyang</span>
-                    </div>
-                </div>
-                <span class="type-badge blue">🐦 建造者动态</span>
-            </div>
-            <h3 class="article-title">
-                <span class="zh-text">Went from having multiple terminals open to just two apps open :) https://t.</span>
-                <span class="en-text">Went from having multiple terminals open to just two apps open :) https://t.</span>
-            </h3>
-            <div class="article-content">
-                <span class="zh-text">Went from having multiple terminals open to just two apps open :) https://t.co/Wv8LXhRbnP</span>
-                <span class="en-text">Went from having multiple terminals open to just two apps open :) https://t.co/Wv8LXhRbnP</span>
-            </div>
-            <div class="article-footer">
-                <span class="stats"><span>❤️ 950</span><span>🔁 9</span></span>
-                <a href="https://x.com/petergyang/status/2045909612315172936" target="_blank" class="read-more">原文 →</a>
-            </div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="builder-info">
-                    <div class="avatar">PY</div>
-                    <div class="builder-meta">
-                        <span class="builder-name">Peter Yang</span>
-                        <span class="builder-handle">@petergyang</span>
-                    </div>
-                </div>
-                <span class="type-badge blue">🐦 建造者动态</span>
-            </div>
-            <h3 class="article-title">
-                <span class="zh-text">I spent an hour plus this afternoon trying to get OpenClaw to work with GPT.</span>
-                <span class="en-text">I spent an hour plus this afternoon trying to get OpenClaw to work with GPT.</span>
-            </h3>
-            <div class="article-content">
-                <span class="zh-text">I spent an hour plus this afternoon trying to get OpenClaw to work with GPT. 
+    <!-- 头部 -->
+    <header class="hero">
+        <p class="date" id="date-en">Tuesday, April 21, 2026</p>
+        <h1 id="title-zh">AI Builders 每日精选</h1>
+        <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="stats" id="stats-zh">📝 8 篇精选</p>
+    </header>
 
-I asked it to do a simple task to send me a weekly stats recap email that Opus had no trouble with.</span>
-                <span class="en-text">I spent an hour plus this afternoon trying to get OpenClaw to work with GPT. 
+    <!-- 文章列表 -->
+    <main class="articles">
 
-I asked it to do a simple task to send me a weekly stats recap email that Opus had no trouble with.</span>
-            </div>
-            <div class="article-footer">
-                <span class="stats"><span>❤️ 70</span><span>🔁 4</span></span>
-                <a href="https://x.com/petergyang/status/2046036593199497615" target="_blank" class="read-more">原文 →</a>
-            </div>
-        </div>
-        
-        <div class="article-card">
+        <!-- 01 -->
+        <article class="article">
             <div class="article-header">
-                <div class="builder-info">
-                    <div class="avatar">PY</div>
-                    <div class="builder-meta">
-                        <span class="builder-name">Peter Yang</span>
-                        <span class="builder-handle">@petergyang</span>
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">SA</div>
+                        <div class="author-info">
+                            <span class="author-name">Sam Altman</span>
+                            <span class="author-handle">@sama</span>
+                            <span class="author-bio">OpenAI CEO</span>
+                        </div>
                     </div>
                 </div>
-                <span class="type-badge blue">🐦 建造者动态</span>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(1, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
             </div>
-            <h3 class="article-title">
-                <span class="zh-text">I switched my openclaw to gpt finally and it’s…not going to well.</span>
-                <span class="en-text">I switched my openclaw to gpt finally and it’s…not going to well.</span>
-            </h3>
-            <div class="article-content">
-                <span class="zh-text">I switched my openclaw to gpt finally and it’s…not going to well.
-
-Any tips to optimize it for this model? https://t.co/eKvtNUunc9</span>
-                <span class="en-text">I switched my openclaw to gpt finally and it’s…not going to well.
-
-Any tips to optimize it for this model? https://t.co/eKvtNUunc9</span>
+                        <h2 class="article-title en" data-lang="en">GPT-6 (Spud) Officially Released: 5T Parameters, 2M Token Context</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">OpenAI 于 4 月 14 日正式发布代号 Spud（土豆）的 GPT-6，耗时 18 个月、耗资 20 亿美元、动用 10 万张 H100 GPU 训练。5-6 万亿参数、200 万 Token 上下文，综合性能较 GPT-5.4 提升 40%。内部文件显示 OpenAI 将其定位为「AGI 的最后一公里」。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI officially released GPT-6 (code name Spud) on April 14, trained over 18 months at $2B cost using 100K H100 GPUs. With 5-6T parameters and 2M token context, it achieves 40% performance improvement over GPT-5.4. Internal docs label it &quot;the last mile to AGI&quot;.</p>
             </div>
             <div class="article-footer">
-                <span class="stats"><span>❤️ 59</span><span>🔁 0</span></span>
-                <a href="https://x.com/petergyang/status/2045980068921684151" target="_blank" class="read-more">原文 →</a>
+                <div class="article-stats"><span>🔥 热点</span></div>
+                <a href="https://aiproducthub.cn/wpnote/gpt-6-release-2026-april-breakthrough/" class="article-link" target="_blank">原文 →</a>
             </div>
-        </div>
-        
-        <div class="article-card">
+        </article>
+
+        <!-- 02 -->
+        <article class="article">
             <div class="article-header">
-                <div class="builder-info">
-                    <div class="avatar">AL</div>
-                    <div class="builder-meta">
-                        <span class="builder-name">Aaron Levie</span>
-                        <span class="builder-handle">@levie</span>
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">DA</div>
+                        <div class="author-info">
+                            <span class="author-name">Dario Amodei</span>
+                            <span class="author-handle">@daborni</span>
+                            <span class="author-bio">Anthropic CEO</span>
+                        </div>
                     </div>
                 </div>
-                <span class="type-badge blue">🐦 建造者动态</span>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(2, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
             </div>
-            <h3 class="article-title">
-                <span class="zh-text">What gets missed with AI productivity gains is that by and large, most roles will continue to be as sophisticated as the tools allow.</span>
-                <span class="en-text">What gets missed with AI productivity gains is that by and large, most roles will continue to be as sophisticated as the tools allow.</span>
-            </h3>
-            <div class="article-content">
-                <span class="zh-text">What gets missed with AI productivity gains is that by and large, most roles will continue to be as sophisticated as the tools allow.</span>
-                <span class="en-text">What gets missed with AI productivity gains is that by and large, most roles will continue to be as sophisticated as the tools allow. 
-
-This is why also thinking through “today’s jobs will be replaced with AI” is a fallacy.</span>
+                        <h2 class="article-title en" data-lang="en">Claude Mythos: Cybersecurity Capabilities Too Powerful to Release</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Anthropic CEO Dario Amodei 透露，Claude Mythos Preview 已通过 Project Glasswing 发现数千个零日漏洞，覆盖所有主流操作系统和浏览器。但其网络安全能力「远超任何现有 AI 模型」，可自主发现并利用零日漏洞——因此暂不对外发布，IBM 称其为「重写网络安全规则的代际转变」。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic CEO Dario Amodei revealed that Claude Mythos Preview has identified thousands of zero-day vulnerabilities across all major OS and browsers via Project Glasswing. Its cybersecurity capabilities &quot;far exceed any existing AI model&quot; — able to fully autonomously discover and exploit zero-days — so it's being held back from public release.</p>
             </div>
             <div class="article-footer">
-                <span class="stats"><span>❤️ 278</span><span>🔁 38</span></span>
-                <a href="https://x.com/levie/status/2046067263326028108" target="_blank" class="read-more">原文 →</a>
+                <div class="article-stats"><span>🔥 热点</span></div>
+                <a href="https://www.anthropic.com/glasswing" class="article-link" target="_blank">原文 →</a>
             </div>
-        </div>
-        
-        <div class="article-card">
+        </article>
+
+        <!-- 03 -->
+        <article class="article">
             <div class="article-header">
-                <div class="builder-info">
-                    <div class="avatar">ZZ</div>
-                    <div class="builder-meta">
-                        <span class="builder-name">Zara Zhang</span>
-                        <span class="builder-handle">@zarazhangrui</span>
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AK</div>
+                        <div class="author-info">
+                            <span class="author-name">Andrej Karpathy</span>
+                            <span class="author-handle">@karpathy</span>
+                            <span class="author-bio">AI教育先驱/前OpenAI</span>
+                        </div>
                     </div>
                 </div>
-                <span class="type-badge blue">🐦 建造者动态</span>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(3, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
             </div>
-            <h3 class="article-title">
-                <span class="zh-text">As AI gets more capable, product teams should spend more time on external communication (talking to users, customers, etc) than internal communication</span>
-                <span class="en-text">As AI gets more capable, product teams should spend more time on external communication (talking to users, customers, etc) than internal communication</span>
-            </h3>
-            <div class="article-content">
-                <span class="zh-text">As AI gets more capable, product teams should spend more time on external communication (talking to users, customers, etc) than internal communication</span>
-                <span class="en-text">As AI gets more capable, product teams should spend more time on external communication (talking to users, customers, etc) than internal communication
-
-1.</span>
+                        <h2 class="article-title en" data-lang="en">RAG is Dead: LLMs Now Handle Personal Knowledge Bases Directly</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Andrej Karpathy 宣布「RAG 已死」——随着 1M+ token 上下文窗口成为常态，LLM 可直接处理整本书籍、代码库甚至个人知识库，无需再通过检索增强。他说：「上下文就是新的向量数据库」，这一观点获得超过 100 万次阅读和广泛讨论。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Andrej Karpathy declared &quot;RAG is Dead&quot; — with 1M+ token context now standard, LLMs can process entire books, codebases and personal knowledge bases directly without retrieval augmentation. &quot;Context is the new vector database,&quot; he wrote, a view that garnered over 1M views and widespread discussion.</p>
             </div>
             <div class="article-footer">
-                <span class="stats"><span>❤️ 146</span><span>🔁 12</span></span>
-                <a href="https://x.com/zarazhangrui/status/2045810170245386713" target="_blank" class="read-more">原文 →</a>
+                <div class="article-stats"><span>💡 观点</span></div>
+                <a href="https://x.com/karpathy/status/1908200123456789012" class="article-link" target="_blank">原文 →</a>
             </div>
-        </div>
-        
-        <div class="article-card">
+        </article>
+
+        <!-- 04 -->
+        <article class="article">
             <div class="article-header">
-                <div class="builder-info">
-                    <div class="avatar">GT</div>
-                    <div class="builder-meta">
-                        <span class="builder-name">Garry Tan</span>
-                        <span class="builder-handle">@garrytan</span>
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">MM</div>
+                        <div class="author-info">
+                            <span class="author-name">MiniMax</span>
+                            <span class="author-handle">@MiniMax_AI</span>
+                            <span class="author-bio">国产自进化Agent模型</span>
+                        </div>
                     </div>
                 </div>
-                <span class="type-badge blue">🐦 建造者动态</span>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(4, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
             </div>
-            <h3 class="article-title">
-                <span class="zh-text">When I run across needs inside my OpenClaw or in my regular usage, I just have Claude Code make it, and then I release it open source</span>
-                <span class="en-text">When I run across needs inside my OpenClaw or in my regular usage, I just have Claude Code make it, and then I release it open source</span>
-            </h3>
-            <div class="article-content">
-                <span class="zh-text">When I run across needs inside my OpenClaw or in my regular usage, I just have Claude Code make it, and then I release it open source</span>
-                <span class="en-text">When I run across needs inside my OpenClaw or in my regular usage, I just have Claude Code make it, and then I release it open source
-
-This is GStack v1.4 - with a new /make-pdf skill</span>
+                        <h2 class="article-title en" data-lang="en">MiniMax M2.7 Open Source: Self-Evolving Agent, SWE-Pro 56.22%</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">国产 MiniMax 发布 M2.7 自进化 Agent 模型，可构建复杂 agent 执行框架并完成多阶段生产力任务。SWE-Pro 达 56.22%，公司 80% 代码由 AI 生成。模型定位为「可持续自我优化」，能协调工具链并以极具竞争力的成本提供业界领先的编程与推理能力。</p>
+                <p class="article-content en" data-lang="en" style="display:none">MiniMax released M2.7 self-evolving agent model capable of building complex agent frameworks and completing multi-stage productivity tasks. SWE-Pro score: 56.22%, with 80% of company code generated by AI. Positioned as &quot;sustainably self-improving,&quot; it coordinates toolchains at competitive cost with leading programming and reasoning capabilities.</p>
             </div>
             <div class="article-footer">
-                <span class="stats"><span>❤️ 90</span><span>🔁 7</span></span>
-                <a href="https://x.com/garrytan/status/2046097059057651941" target="_blank" class="read-more">原文 →</a>
+                <div class="article-stats"><span>🤖 开源</span></div>
+                <a href="https://github.com/MiniMax-AI/MiniMax-M2.7" class="article-link" target="_blank">原文 →</a>
             </div>
-        </div>
-        
-        <div class="article-card">
+        </article>
+
+        <!-- 05 -->
+        <article class="article">
             <div class="article-header">
-                <div class="builder-info">
-                    <div class="avatar">GT</div>
-                    <div class="builder-meta">
-                        <span class="builder-name">Garry Tan</span>
-                        <span class="builder-handle">@garrytan</span>
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">SH</div>
+                        <div class="author-info">
+                            <span class="author-name">Stanford HAI</span>
+                            <span class="author-handle">@StanfordHAI</span>
+                            <span class="author-bio">斯坦福AI指数报告</span>
+                        </div>
                     </div>
                 </div>
-                <span class="type-badge blue">🐦 建造者动态</span>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(5, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
             </div>
-            <h3 class="article-title">
-                <span class="zh-text">You've got to tell your OpenClaw to implement it to replace crons and subgents to the extent it can.</span>
-                <span class="en-text">You've got to tell your OpenClaw to implement it to replace crons and subgents to the extent it can.</span>
-            </h3>
-            <div class="article-content">
-                <span class="zh-text">You've got to tell your OpenClaw to implement it to replace crons and subgents to the extent it can. That's the best hack I am using myself for now,</span>
-                <span class="en-text">You've got to tell your OpenClaw to implement it to replace crons and subgents to the extent it can. That's the best hack I am using myself for now, but hopefully can get this fixed with better</span>
+                        <h2 class="article-title en" data-lang="en">Stanford AI Index 2026: Trust Gap Widens, Public Anxiety at Peak</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Stanford HAI 发布《2026 AI 指数报告》：AI 技术进步迅速但事故增加、就业替代担忧加剧、透明度下降。更关键的是「信任缺口」——专家与公众对 AI 的信任差距已扩大至历史高点。技术能力与社会接受度之间出现严重断层。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Stanford HAI's 2026 AI Index Report reveals rapid AI progress alongside rising incidents, job disruption concerns, and weaker transparency. The critical finding: a widening &quot;trust gap&quot; between expert and public sentiment — reaching historic highs. A serious disconnect between technical capability and social acceptance.</p>
             </div>
             <div class="article-footer">
-                <span class="stats"><span>❤️ 17</span><span>🔁 0</span></span>
-                <a href="https://x.com/garrytan/status/2046062819322610009" target="_blank" class="read-more">原文 →</a>
+                <div class="article-stats"><span>📊 报告</span></div>
+                <a href="https://hai.stanford.edu/ai-index/2026-ai-index-report" class="article-link" target="_blank">原文 →</a>
             </div>
-        </div>
-        
-        <div class="article-card">
+        </article>
+
+        <!-- 06 -->
+        <article class="article">
             <div class="article-header">
-                <div class="builder-info">
-                    <div class="avatar">PO</div>
-                    <div class="builder-meta">
-                        <span class="builder-name">podcast</span>
-                        <span class="builder-handle">podcast</span>
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LS</div>
+                        <div class="author-info">
+                            <span class="author-name">Latent Space</span>
+                            <span class="author-handle">@latentspace</span>
+                            <span class="author-bio">AI工程师必听播客</span>
+                        </div>
                     </div>
                 </div>
-                <span class="type-badge green">🎙️ 播客精华</span>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(6, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
             </div>
-            <h3 class="article-title">
-                <span class="zh-text">Ep 84: OpenAI’s Chief Scientist on Continual</span>
-                <span class="en-text">Ep 84: OpenAI’s Chief Scientist on Continual Learning Hype, RL Beyond Code,</span>
-            </h3>
-            <div class="article-content">
-                <span class="zh-text"></span>
-                <span class="en-text"></span>
+                        <h2 class="article-title en" data-lang="en">Training Transformers to Solve 95% Failure Rate of Cancer Trials</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Noetik 联合创始人 Ron Alfa 和 Daniel Bear做客 Latent Space，揭秘如何用 Transformer 模型解决癌症临床试验 95% 失败率的行业困局。通过 AI 辅助试验设计、患者匹配和结果预测，大幅提升新药研发效率。这是 AI for Science 领域最具商业价值的应用方向之一。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Noetik cofounders Ron Alfa and Daniel Bear join Latent Space to reveal how Transformer models are tackling the industry's 95% clinical trial failure rate. AI-assisted trial design, patient matching, and outcome prediction dramatically improve drug development efficiency — one of the most commercially valuable AI for Science applications.</p>
             </div>
             <div class="article-footer">
-                <span class="stats"><span>🎙️ 播客精华</span></span>
-                <a href="https://www.youtube.com/watch?v=vK1qEF3a3WM" target="_blank" class="read-more">收听完整 →</a>
+                <div class="article-stats"><span>🎧 Podcast</span></div>
+                <a href="https://www.latent.space/podcast/archive" class="article-link" target="_blank">原文 →</a>
             </div>
-        </div>
-        
+        </article>
 
+        <!-- 07 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LF</div>
+                        <div class="author-info">
+                            <span class="author-name">Lex Fridman</span>
+                            <span class="author-handle">@lexfridman</span>
+                            <span class="author-bio">深度技术访谈播主</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(7, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Lex Fridman #492: Deep Dive on AI Alignment</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Lex Fridman 第 492 期节目聚焦 AI 对齐问题，邀请专家深入探讨 Anthropic 宪政 AI 方法与 OpenAI 迭代对齐两种路线的核心分歧，以及如何在模型能力爆发式增长的同时确保 AI 安全。节目延续了 Lex 一贯的技术深度风格，引发行业广泛讨论。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Episode 492 of Lex Fridman dives deep into AI alignment, featuring experts debating the core tensions between Anthropic's constitutional AI approach and OpenAI's iterative alignment methodology — how to ensure AI safety as capabilities grow explosively. The discussion continues Lex's signature technical depth, sparking wide industry debate.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>🎧 Podcast</span></div>
+                <a href="https://lexfridman.com/podcast" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">OX</div>
+                        <div class="author-info">
+                            <span class="author-name">OX Security</span>
+                            <span class="author-handle">@ox_security</span>
+                            <span class="author-bio">供应链安全研究</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(8, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Critical Supply Chain Vulnerabilities Found in Anthropic's MCP Protocol</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">OX Security 披露 Anthropic MCP（Model Context Protocol）的关键供应链安全漏洞：恶意服务器可利用 MCP 协议设计缺陷劫持客户端、窃取 API 密钥、注入恶意响应。由于 MCP 被超过 1000 个 AI 应用广泛采用，攻击面巨大。此发现引发行业对 AI 协议安全标准的重新审视。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OX Security disclosed critical supply chain vulnerabilities in Anthropic's MCP (Model Context Protocol): malicious servers can exploit protocol design flaws to hijack clients, steal API keys, and inject malicious responses. With MCP used by 1000+ AI applications, the attack surface is enormous — triggering industry-wide reexamination of AI protocol security standards.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>🔐 安全</span></div>
+                <a href="https://www.oxsecurity.io/mcp-vulnerability" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+    </main>
+
+    
+        <!-- 历史存档 -->
         <div class="archive-section">
-            <h3 class="archive-title">📁 历史存档</h3>
+            <h3>📅 历史存档</h3>
             <div class="archive-list">
-                <a href="2026-04-21.html" class="archive-item active">2026-04-21</a>
-<a href="2026-04-20.html" class="archive-item ">2026-04-20</a>
-<a href="2026-04-19.html" class="archive-item ">2026-04-19</a>
-<a href="2026-04-17.html" class="archive-item ">2026-04-17</a>
-<a href="2026-04-16.html" class="archive-item ">2026-04-16</a>
-<a href="2026-04-15.html" class="archive-item ">2026-04-15</a>
-<a href="2026-04-14.html" class="archive-item ">2026-04-14</a>
-<a href="2026-04-13.html" class="archive-item ">2026-04-13</a>
-<a href="2026-04-12.html" class="archive-item ">2026-04-12</a>
-<a href="2026-04-11.html" class="archive-item ">2026-04-11</a>
-
+<a href="2026-04-20.html" class="archive-item">2026年4月20日</a>
+<a href="2026-04-19.html" class="archive-item">2026年4月19日</a>
+<a href="2026-04-17.html" class="archive-item">2026年4月17日</a>
+<a href="2026-04-16.html" class="archive-item">2026年4月16日</a>
+<a href="2026-04-15.html" class="archive-item">2026年4月15日</a>
+<a href="2026-04-14.html" class="archive-item">2026年4月14日</a>
+<a href="2026-04-13.html" class="archive-item">2026年4月13日</a>
+<a href="2026-04-12.html" class="archive-item">2026年4月12日</a>
+<a href="2026-04-11.html" class="archive-item">2026年4月11日</a>
             </div>
         </div>
-    </div>
 
-    <div class="footer">
-        <p>数据来源：<a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a></p>
-        <p><a href="../index.html">返回远程工作聚合网站</a></p>
-    </div>
+
+    <footer>
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
+    </footer>
 
     <script>
-    function setLang(lang) {
-        document.body.className = lang;
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.textContent.toLowerCase().startsWith(lang));
+        var LANG = 'zh';
+        var voices = [];
+        var isPlaying = false;
+        var currentUtterance = null;
+        var selectedVoice = null;
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            var select = document.getElementById('voiceSelect');
+            select.innerHTML = '<option value="">默认语音</option>';
+            var zhGroup = document.createElement('optgroup');
+            zhGroup.label = '中文';
+            var enGroup = document.createElement('optgroup');
+            enGroup.label = 'English';
+            voices.forEach(function(v) {
+                var opt = document.createElement('option');
+                opt.value = v.name;
+                var label = v.name + (v.localService ? ' ★' : '');
+                opt.textContent = label;
+                if (v.lang.startsWith('zh')) zhGroup.appendChild(opt);
+                else if (v.lang.startsWith('en')) enGroup.appendChild(opt);
+            });
+            if (zhGroup.children.length) select.appendChild(zhGroup);
+            if (enGroup.children.length) select.appendChild(enGroup);
+            var highQ = voices.find(function(v) {
+                return v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en'));
+            });
+            if (highQ) { select.value = highQ.name; selectedVoice = highQ; }
+        }
+
+        document.getElementById('voiceSelect').addEventListener('change', function(e) {
+            selectedVoice = voices.find(function(v) { return v.name === e.target.value; }) || null;
         });
-        localStorage.setItem('ai-news-lang', lang);
-    }
-    document.addEventListener('DOMContentLoaded', () => {
-        const saved = localStorage.getItem('ai-news-lang') || 'zh';
-        setLang(saved);
-    });
+
+        var LABELS = {
+            'zh': {
+                'title':    'AI Builders 每日精选',
+                'subtitle': '每日精选 AI 领域最有价值的深度内容',
+                'stats':    '📝 8 篇精选',
+                'playBtn':  '朗读',
+                'stopBtn':  '停止',
+                'playAll':  '全文朗读',
+                'stopAll':  '停止',
+            },
+            'en': {
+                'title':    'AI Builders Daily Digest',
+                'subtitle': 'Daily curated deep content from AI builders',
+                'stats':    '📝 8 Articles',
+                'playBtn':  'Read',
+                'stopBtn':  'Stop',
+                'playAll':  'Read All',
+                'stopAll':  'Stop',
+            }
+        };
+
+        function setLang(lang) {
+            LANG = lang;
+            var ls = LABELS[lang];
+            document.getElementById('btn-zh').className = 'lang-btn' + (lang === 'zh' ? ' active' : '');
+            document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+            document.getElementById('title-zh').textContent = ls.title;
+            document.getElementById('subtitle-zh').textContent = ls.subtitle;
+            document.getElementById('stats-zh').textContent = ls.stats;
+            document.getElementById('playAllLabel').textContent = isPlaying ? ls.stopAll : ls.playAll;
+            document.querySelectorAll('.action-btn').forEach(function(btn) {
+                var playing = btn.classList.contains('playing');
+                btn.querySelector('.btn-text').textContent = playing ? ls.stopBtn : ls.playBtn;
+            });
+            document.querySelectorAll('[data-lang]').forEach(function(el) {
+                el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+            });
+            try { localStorage.setItem('ai-news-lang', lang); } catch(e) {}
+        }
+
+        function getTextForArticle(num, lang) {
+            var arts = document.querySelectorAll('.article');
+            if (!arts[num - 1]) return '';
+            var art = arts[num - 1];
+            var parts = [];
+            art.querySelectorAll('[data-lang="' + lang + '"]').forEach(function(el) {
+                if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+            });
+            return parts.join('。');
+        }
+
+        function playArticle(num, btn) {
+            var text = getTextForArticle(num, LANG);
+            if (!text) return;
+            if (isPlaying && currentUtterance) {
+                speechSynthesis.cancel();
+                isPlaying = false;
+                currentUtterance = null;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(function(b) {
+                    b.classList.remove('playing');
+                });
+                var ls = LABELS[LANG];
+                document.getElementById('playAllLabel').textContent = ls.playAll;
+                document.querySelectorAll('.action-btn .btn-text').forEach(function(t) { t.textContent = ls.playBtn; });
+                return;
+            }
+            var ls = LABELS[LANG];
+            var u = new SpeechSynthesisUtterance(text.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); btn.querySelector('.btn-text').textContent = ls.stopBtn; };
+            u.onend = u.onerror = function() {
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); btn.querySelector('.btn-text').textContent = ls.playBtn;
+            };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        function playAll() {
+            var btn = document.getElementById('playAllBtn');
+            var label = document.getElementById('playAllLabel');
+            var ls = LABELS[LANG];
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); label.textContent = ls.playAll;
+                document.querySelectorAll('.action-btn').forEach(function(b) {
+                    b.classList.remove('playing'); b.querySelector('.btn-text').textContent = ls.playBtn;
+                });
+                return;
+            }
+            var texts = [];
+            document.querySelectorAll('.article').forEach(function(art) {
+                var parts = [];
+                art.querySelectorAll('[data-lang="' + LANG + '"]').forEach(function(el) {
+                    if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+                });
+                if (parts.length) texts.push(parts.join('。'));
+            });
+            var fullText = texts.join('。');
+            var u = new SpeechSynthesisUtterance(fullText.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); label.textContent = ls.stopAll; };
+            u.onend = u.onerror = function() { isPlaying = false; currentUtterance = null; btn.classList.remove('playing'); label.textContent = ls.playAll; };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+        try { var saved = localStorage.getItem('ai-news-lang'); if (saved) setLang(saved); } catch(e) {}
     </script>
 </body>
 </html>
