@@ -9,7 +9,7 @@ let currentSource = 'cn';       // 'cn' | 'global'
 let currentCategory = '全部';
 let currentSearch = '';
 let currentPage = 1;
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 let filteredJobsCache = []; // 缓存过滤后的职位
 
 // 各数据源的分类映射
@@ -55,38 +55,49 @@ const CN_CATEGORY_PRIORITY = [
   '前端开发', '后端开发', '全栈开发', 'AI/算法', '运营', '测试', '产品经理', '其它职能'
 ];
 
-// 通用排序：canRefer=true 置顶，其余按日期倒序
-// 国内岗位特殊策略：按类别优先级均衡展示（每类别最多1个），其余内推岗按日期
-function sortWithReferralFirst(jobs, source = 'cn') {
-  // 国内岗位：内推岗类别均衡展示
-  if (source === 'cn') {
-    const referJobs = jobs.filter(j => j.canRefer);
-    const normalJobs = jobs.filter(j => !j.canRefer);
-
-    // 按类别优先级顺序，每类别取第一个
-    const seen = new Set();
-    const balancedRefer = [];
-    for (const cat of CN_CATEGORY_PRIORITY) {
-      const found = referJobs.find(j => {
-        const jobCat = j.category || '';
-        return !seen.has(jobCat) && (
-          jobCat.includes(cat) ||
-          (cat === '其它职能' && !jobCat.includes('开发') && !jobCat.includes('运营') && !jobCat.includes('测试') && !jobCat.includes('产品'))
-        );
-      });
-      if (found) {
-        seen.add(found.category || '');
-        balancedRefer.push(found);
-      }
+// 类别均衡：每类别取第一个（内推岗优先），按优先级顺序
+function getBalancedJobs(jobs) {
+  const seen = new Set();
+  const result = [];
+  
+  for (const cat of CN_CATEGORY_PRIORITY) {
+    const found = jobs.find(j => {
+      const jobCat = j.category || '';
+      return !seen.has(jobCat) && (
+        jobCat.includes(cat) ||
+        (cat === '其它职能' && !jobCat.includes('开发') && !jobCat.includes('运营') && !jobCat.includes('测试') && !jobCat.includes('产品'))
+      );
+    });
+    if (found) {
+      seen.add(found.category || '');
+      result.push(found);
     }
-    // 其余内推岗按日期倒序
-    const otherRefer = referJobs.filter(j => !seen.has(j.category || ''));
-    otherRefer.sort((a, b) => new Date(b.date) - new Date(a.date));
+  }
+  return result;
+}
 
-    // 非内推岗按日期倒序
-    normalJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
+// 国内岗位排序策略：
+// 1. 今天的数据优先（非内推岗也可），按类别均衡展示
+// 2. 每类别最多1个，类别顺序：前端开发→后端开发→全栈开发→AI/算法→运营→测试→产品经理→其它职能
+// 3. 剩余岗位按日期倒序
+function sortWithReferralFirst(jobs, source = 'cn') {
+  if (source === 'cn') {
+    const today = new Date().toISOString().split('T')[0];
+    
+    // 分离今天和非今天的岗位
+    const todayJobs = jobs.filter(j => j.date === today);
+    const otherJobs = jobs.filter(j => j.date !== today);
 
-    return [...balancedRefer, ...otherRefer, ...normalJobs];
+    // 今天的岗位：内推岗 + 非内推岗，按类别均衡
+    const balancedToday = getBalancedJobs(todayJobs);
+    
+    // 其余岗位按日期倒序
+    const remainingToday = todayJobs.filter(j => !balancedToday.find(b => b.id === j.id));
+    remainingToday.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    otherJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    return [...balancedToday, ...remainingToday, ...otherJobs];
   }
 
   // 海外岗位：内推岗全部置顶，其余按日期倒序
