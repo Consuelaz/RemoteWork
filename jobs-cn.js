@@ -6,7 +6,7 @@
 
 const JOBS_CN = [
   {
-    id: 'cn-remotechina-01940',
+    id: 'cn-remotechina-03304',
     title: '对外汉语老师',
     company: '悟空好老师教育科技（成都）有限公司',
     logo: '🌐',
@@ -27,7 +27,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-15291',
+    id: 'cn-remotechina-19906',
     title: '小红书运营',
     company: '合肥江宸教育科技有限责任公司',
     logo: '🌐',
@@ -48,7 +48,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-21776',
+    id: 'cn-remotechina-27490',
     title: '物流兼跟单（日语）',
     company: '保圣那人才服务（上海）有限公司广州分公司',
     logo: '🌐',
@@ -69,7 +69,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-36216',
+    id: 'cn-remotechina-34771',
     title: '全栈前端工程师',
     company: '大连市比尔黛西网络科技有限公司',
     logo: '🌐',
@@ -90,7 +90,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-49019',
+    id: 'cn-remotechina-48248',
     title: '文员助理',
     company: '长沙市烈的话商贸有限公司',
     logo: '🌐',
@@ -111,7 +111,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-55810',
+    id: 'cn-remotechina-56056',
     title: '电商客服',
     company: '重庆日怒贸易有限公司',
     logo: '🌐',
@@ -132,7 +132,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-64903',
+    id: 'cn-remotechina-63024',
     title: '物流跟单客服',
     company: '',
     logo: '🌐',
@@ -153,7 +153,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-72968',
+    id: 'cn-remotechina-73031',
     title: '后端工程师',
     company: 'Palmstreet',
     logo: '🌐',
@@ -174,7 +174,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-85090',
+    id: 'cn-remotechina-87878',
     title: '公众号运营',
     company: '任饭天堂',
     logo: '🌐',
@@ -195,7 +195,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-98968',
+    id: 'cn-remotechina-95993',
     title: '综合行政专员',
     company: '淮南市清怡商务连锁酒店有限公司',
     logo: '🌐',
@@ -216,7 +216,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-101371',
+    id: 'cn-remotechina-103674',
     title: 'Java后端开发',
     company: '成都创元聚星科技有限公司',
     logo: '🌐',
@@ -237,7 +237,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-11362',
+    id: 'cn-remotechina-112945',
     title: '金融标注',
     company: '上海本原智数科技有限公司',
     logo: '🌐',
@@ -258,7 +258,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-127947',
+    id: 'cn-remotechina-127174',
     title: '早报金融分析师',
     company: '慧科讯业（北京）网络科技有限公司',
     logo: '🌐',
@@ -272,14 +272,14 @@ const JOBS_CN = [
     canRefer: false,
     source: 'https://remote-china.com/jobs',
     sourceUrl: 'https://remote-china.com/jobs/1054',
-    applyUrl: 'https://remote-china.com/jobs/1054',
-    description: '',
-    responsibilities: [],
-    requirements: [],
+    applyUrl: 'https://www.zhipin.com/job_detail/6b878346dfea3e1e0nd40929E1RU.html',
+    description: '行业：信息服务/大数据智能商业情报 | 产品/服务：全媒体大数据智能商业情报解决方案，包括舆情监测、品牌影响力评估、市场情报分析、数字化营销、智能金融等。 | 金融分析师 (推测常规名称) | 薪资范围：7-8K/月。 | 报告作业时间：中国时间凌晨4:00-8:00。',
+    responsibilities: ['撰写每日分析日报，梳理境内外资本市场行情动态。', '提炼关键信息形成资讯报告，内容涵盖A股、港股、外盘指数表现，国际重要消息，国内宏观政策、金融行业热点、资本市场及公司动态等。', '定期与客户沟通，明确需求，反馈意见，维护客户关系。', '完成领导交办的其他工作。'],
+    requirements: ['本科及以上学历。', '1-3年工作经验。', '新闻传媒、金融学、经济学等相关专业优先，或有期货证券分析从业经历。', '具备金融专业知识，对资本市场、证券、期货、银行、保险、基金等行业新闻有敏感性。', '有服务证监会、地方证监局、商品期货交易所等客户的经验。', '能熟练查看路透社、彭博等境外媒体网站，并自行使用翻译软件。', '熟练使用Excel进行数据分析，具备优秀的PPT、Word编辑能力。', '具备优秀的信息整合、总结能力和深厚的文案功底。', '思维敏捷，善于沟通，能独立思考、理解需求，独立完成报告撰写与修改。', '具备强烈的责任心、团队协作精神，能承受较强工作压力。'],
     benefits: [],
   },
   {
-    id: 'cn-remotechina-133310',
+    id: 'cn-remotechina-135123',
     title: '亚马逊申诉专员',
     company: '江苏秒为智慧物联有限公司',
     logo: '🌐',
@@ -300,7 +300,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-145967',
+    id: 'cn-remotechina-143802',
     title: '高中语文教师',
     company: '上海梯方教育科技有限公司',
     logo: '🌐',
