@@ -137,3 +137,39 @@ V2EX: 1 jobs（跳过非今日帖子: 19）
 ✅ money.xlsx 已更新，插入 1 条V2EX数据 + 420 条who-is-hiring数据
 数据更新完成: 2026-04-25
 ========================================
+[master 12f00ad] 自动更新: 2026-04-25 CN=696 Global=2000
+ 5 files changed, 20321 insertions(+), 20092 deletions(-)
+To github.com:Consuelaz/RemoteWork.git
+   4fc12b4..12f00ad  master -> master
+✅ Git 推送完成
+========================================
+开始抓取: 2026-04-26
+正在抓取 Remote OK...
+Remote OK 下载完成
+正在抓取 Remotive...
+Remotive 下载完成
+正在抓取远程岛...
+远程岛 下载完成
+正在抓取 who-is-hiring (Rebase)...
+who-is-hiring 下载完成
+正在预下载Remote OK岗位详情...
+正在抓取远程中文网...
+远程中文网 下载完成
+正在预下载远程中文网岗位详情...
+正在抓取 V2EX...
+V2EX 下载完成
+正在预下载V2EX岗位详情...
+Remote OK: 99 jobs
+Remotive: 21 jobs
+远程岛: 150 jobs
+who-is-hiring: 420 jobs (含联系方式的 420 条)
+远程中文网: 15 jobs
+已建立 20 个详情页映射
+V2EX: 0 jobs（跳过非今日帖子: 20）
+电鸭 解析失败: [Errno 2] No such file or directory: '/tmp/dianyu.html'
+现有数据: CN=696, Global=2000
+合并去重后: CN=696, Global=2000
+✅ 数据更新完成!
+✅ money.xlsx 已更新，插入 0 条V2EX数据 + 420 条who-is-hiring数据
+数据更新完成: 2026-04-26
+========================================
