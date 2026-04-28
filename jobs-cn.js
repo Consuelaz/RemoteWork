@@ -6,7 +6,7 @@
 
 const JOBS_CN = [
   {
-    id: 'cn-remotechina-07389',
+    id: 'cn-remotechina-05866',
     title: '留学租房顾问',
     company: '易宿学（上海）信息咨询服务有限公司',
     logo: '🌐',
@@ -27,7 +27,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-15506',
+    id: 'cn-remotechina-1999',
     title: '跨境电商运营',
     company: '深圳市华泰鑫国际货运代理有限公司',
     logo: '🌐',
@@ -48,7 +48,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-22546',
+    id: 'cn-remotechina-2741',
     title: '全栈工程师',
     company: '深圳市川下科技有限公司',
     logo: '🌐',
@@ -69,7 +69,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-34134',
+    id: 'cn-remotechina-34274',
     title: '3D建模师',
     company: '宜昌四边形科技有限公司',
     logo: '🌐',
@@ -90,7 +90,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-47018',
+    id: 'cn-remotechina-46219',
     title: '客户关系经理',
     company: '育一初源健康咨询(海南)有限责任公司',
     logo: '🌐',
@@ -111,7 +111,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-52546',
+    id: 'cn-remotechina-5741',
     title: '全栈工程师',
     company: '旅文数据科技（上海）有限公司',
     logo: '🌐',
@@ -132,7 +132,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-67764',
+    id: 'cn-remotechina-61796',
     title: '授薪律师',
     company: '广东云云律师事务所',
     logo: '🌐',
@@ -153,7 +153,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-7542',
+    id: 'cn-remotechina-75545',
     title: 'Angular Developer',
     company: '英普锡数字科技',
     logo: '🌐',
@@ -174,7 +174,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-8731',
+    id: 'cn-remotechina-8413',
     title: 'SLG游戏主程/数值/设计',
     company: '北京章沐文化咨询有限责任公司',
     logo: '🌐',
@@ -195,7 +195,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-96743',
+    id: 'cn-remotechina-94382',
     title: '招聘专员',
     company: '上海曜厚人力资源有限公司',
     logo: '🌐',
@@ -216,7 +216,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-109312',
+    id: 'cn-remotechina-108349',
     title: '化学生物英语老师',
     company: '北京领世瑞丰教育科技有限公司',
     logo: '🌐',
@@ -237,7 +237,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-114836',
+    id: 'cn-remotechina-117707',
     title: '3D模型美术师',
     company: '中电金信软件有限公司',
     logo: '🌐',
@@ -258,7 +258,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-124450',
+    id: 'cn-remotechina-126733',
     title: '律所英语客服',
     company: '李想律师事务所',
     logo: '🌐',
@@ -272,14 +272,14 @@ const JOBS_CN = [
     canRefer: false,
     source: 'https://remote-china.com/jobs',
     sourceUrl: 'https://remote-china.com/jobs/1086',
-    applyUrl: 'https://remote-china.com/jobs/1086',
-    description: '',
-    responsibilities: [],
-    requirements: [],
+    applyUrl: 'https://www.zhaopin.com/jobdetail/CCL1413481730J40852948209.htm',
+    description: '行业：法律/移民律所 | 主要产品/服务：美国移民法律服务 | 中英双语律所客服/英文翻译客服（远程办公） | 试用期（3个月）：8，500元/月 | 转正后：10，000元/月 + 提成（提成方案面议，上不封顶）',
+    responsibilities: ['通过电话、邮件、微信及社交媒体为客户提供中英双语咨询，解答美国移民法律问题', '初步筛选客户需求，识别潜在案件类型，安排律师咨询，引导客户完成案件受理前流程', '建立客户信任，持续跟进潜在客户，协助将咨询转化为委托案件', '使用CRM系统记录客户信息、沟通记录、跟进状态及案件进度', '管理律师及管理团队的日程、邮箱、会议安排及日常行政支持', '与律师、助理及全球团队成员协作，确保客户沟通顺畅'],
+    requirements: ['2年以上客户服务/客服/行政支持经验（必须）', '中英文流利（听说读写）（必须）', '法律行业背景优先：有美国律所工作经验，尤其是移民法领域，强烈优先', '本科及以上学历（法律、传播、商科、英语等专业优先）', '熟练使用Microsoft Office、邮件系统、CRM软件及远程协作工具', '具备优秀的沟通能力、多任务处理能力和细节意识', '稳定的网络环境及独立的居家办公空间（自备电脑）', '熟悉社交平台：小红书、微信、Facebook、LinkedIn等'],
     benefits: [],
   },
   {
-    id: 'cn-remotechina-132036',
+    id: 'cn-remotechina-136469',
     title: '法律顾问',
     company: '北京悦枫广德能源科技集团有限公司',
     logo: '🌐',
@@ -293,14 +293,14 @@ const JOBS_CN = [
     canRefer: false,
     source: 'https://remote-china.com/jobs',
     sourceUrl: 'https://remote-china.com/jobs/1085',
-    applyUrl: 'https://remote-china.com/jobs/1085',
-    description: '',
-    responsibilities: [],
-    requirements: [],
+    applyUrl: 'https://www.zhaopin.com/jobdetail/CCL1468414200J40858322914.htm',
+    description: '行业：新能源、通用设备制造 | 主要产品/服务：不明 | 兼职法律顾问（劳动纠纷专项）/ 常规名称：法律顾问 | 薪资面议，月结或阶段性付费 | 专项案件可叠加计件补贴',
+    responsibilities: ['负责公司劳动仲裁、劳动纠纷、工伤争议案件全流程处理', '对接胶州当地劳动仲裁委、司法所等行政部门，跟进案件进度', '审核员工离职协议、补偿方案、解除劳动合同文书', '提供日常用工法律咨询和劳资纠纷合规建议', '整理案件档案、法律文书归档，同步案件进展及风险提示'],
+    requirements: ['持有法律职业资格证或律师执业证', '熟悉青岛、胶州本地劳动仲裁实操流程', '3年以上劳动争议、工伤、劳资纠纷处理经验', '熟悉《劳动合同法》《工伤保险条例》及山东地区司法裁判口径', '时间灵活，可配合临时开庭和面谈', '沟通谈判能力强，文书功底扎实', '胶州本地法务或执业律师优先'],
     benefits: [],
   },
   {
-    id: 'cn-remotechina-142800',
+    id: 'cn-remotechina-144893',
     title: 'Facebook广告投手',
     company: '',
     logo: '🌐',
@@ -314,7 +314,7 @@ const JOBS_CN = [
     canRefer: false,
     source: 'https://remote-china.com/jobs',
     sourceUrl: 'https://remote-china.com/jobs/1084',
-    applyUrl: 'https://remote-china.com/jobs/1084',
+    applyUrl: 'https://eleduck.com/posts/74fb4B',
     description: '',
     responsibilities: [],
     requirements: [],

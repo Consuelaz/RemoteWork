@@ -6,7 +6,7 @@
 
 const JOBS_GLOBAL = [
   {
-    id: 'global-remoteok-131910',
+    id: 'global-remoteok-112784',
     title: 'Network Engineer Factory Systems and Operational Technology',
     company: 'Anduril Industries',
     logo: '🌍',
@@ -28,7 +28,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Network Engineer Factory Systems and Operational Technology',
   },
   {
-    id: 'global-remoteok-850564',
+    id: 'global-remoteok-717835',
     title: 'Bookkeeping Specialist',
     company: 'Velora',
     logo: '🌍',
@@ -50,7 +50,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Bookkeeping Specialist',
   },
   {
-    id: 'global-remoteok-339088',
+    id: 'global-remoteok-171255',
     title: 'Operations Associate',
     company: 'Adventus',
     logo: '🌍',
@@ -72,7 +72,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Operations Associate',
   },
   {
-    id: 'global-remoteok-848372',
+    id: 'global-remoteok-483272',
     title: 'ML Engineer',
     company: 'Trunk Tools, Inc.',
     logo: '🌍',
@@ -94,7 +94,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-304897',
+    id: 'global-remoteok-880978',
     title: 'Software Engineer',
     company: 'Finalis',
     logo: '🌍',
@@ -116,7 +116,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Software Engineer',
   },
   {
-    id: 'global-remoteok-767811',
+    id: 'global-remoteok-955175',
     title: 'Managing Director New England',
     company: 'IntraFi',
     logo: '🌍',
@@ -138,7 +138,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Managing Director New England',
   },
   {
-    id: 'global-remoteok-589261',
+    id: 'global-remoteok-735259',
     title: 'Tax AI Expert',
     company: 'Weekday',
     logo: '🌍',
@@ -160,7 +160,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-997286',
+    id: 'global-remoteok-998513',
     title: 'Director of Revenue Operations',
     company: 'Practice Better',
     logo: '🌍',
@@ -182,7 +182,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Director of Revenue Operations',
   },
   {
-    id: 'global-remoteok-182629',
+    id: 'global-remoteok-711207',
     title: 'Regional Sales Executive',
     company: 'Pivotal Health',
     logo: '🌍',
@@ -204,7 +204,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Regional Sales Executive',
   },
   {
-    id: 'global-remoteok-657367',
+    id: 'global-remoteok-115585',
     title: 'Territory Account Manager',
     company: 'TENEX.AI',
     logo: '🌍',
@@ -226,7 +226,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Territory Account Manager',
   },
   {
-    id: 'global-remoteok-946268',
+    id: 'global-remoteok-387640',
     title: 'HQ AI Enablement Lead',
     company: 'Everfield',
     logo: '🌍',
@@ -248,7 +248,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote HQ AI Enablement Lead',
   },
   {
-    id: 'global-remoteok-926401',
+    id: 'global-remoteok-988518',
     title: 'Medical Director for Health Plan',
     company: 'Evry Health',
     logo: '🌍',
@@ -270,7 +270,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Medical Director for Health Plan',
   },
   {
-    id: 'global-remoteok-148151',
+    id: 'global-remoteok-492158',
     title: 'Vice President of Marketing',
     company: 'Pine Services Group',
     logo: '🌍',
@@ -292,7 +292,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Vice President of Marketing',
   },
   {
-    id: 'global-remoteok-464325',
+    id: 'global-remoteok-933124',
     title: 'Technical Account Manager',
     company: 'Clariti Cloud Inc.',
     logo: '🌍',
@@ -314,7 +314,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Technical Account Manager',
   },
   {
-    id: 'global-remoteok-546047',
+    id: 'global-remoteok-67242',
     title: 'Implementation Specialist',
     company: 'Submittable',
     logo: '🌍',
@@ -336,7 +336,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Implementation Specialist',
   },
   {
-    id: 'global-remoteok-708892',
+    id: 'global-remoteok-809995',
     title: 'Proposal Manager @Advizex',
     company: 'Advizex',
     logo: '🌍',
@@ -358,7 +358,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Proposal Manager @Advizex',
   },
   {
-    id: 'global-remoteok-696921',
+    id: 'global-remoteok-391264',
     title: 'B2B Marketing Manager',
     company: 'Montu UK',
     logo: '🌍',
@@ -380,7 +380,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote B2B Marketing Manager',
   },
   {
-    id: 'global-remoteok-841599',
+    id: 'global-remoteok-78372',
     title: 'Senior Tech Lead Mobile Developer Risora',
     company: 'SKELAR',
     logo: '🌍',
@@ -402,7 +402,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Senior Tech Lead Mobile Developer Risora',
   },
   {
-    id: 'global-remoteok-881257',
+    id: 'global-remoteok-203940',
     title: 'Full Stack Product Engineer',
     company: 'Pivotal Health',
     logo: '🌍',
@@ -424,7 +424,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Full Stack Product Engineer',
   },
   {
-    id: 'global-remoteok-760713',
+    id: 'global-remoteok-776547',
     title: 'WorkWave Senior Data Analytics Engineer',
     company: 'WorkWave',
     logo: '🌍',
@@ -446,7 +446,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote WorkWave Senior Data Analytics Engineer',
   },
   {
-    id: 'global-remoteok-385861',
+    id: 'global-remoteok-839311',
     title: 'Paid Media Manager',
     company: 'Terra',
     logo: '🌍',
@@ -468,7 +468,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Paid Media Manager',
   },
   {
-    id: 'global-remoteok-540377',
+    id: 'global-remoteok-298594',
     title: 'Registered Clinical Social Work Intern Spanish Speaking',
     company: 'Brave Health',
     logo: '🌍',
@@ -490,7 +490,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Registered Clinical Social Work Intern Spanish Speaking',
   },
   {
-    id: 'global-remoteok-390622',
+    id: 'global-remoteok-928039',
     title: 'Saint Gobain Application Sales Director',
     company: 'GML A/S',
     logo: '🌍',
@@ -512,7 +512,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Saint Gobain Application Sales Director',
   },
   {
-    id: 'global-remoteok-431502',
+    id: 'global-remoteok-879728',
     title: 'Trainer EMEA',
     company: '360Learning',
     logo: '🌍',
@@ -534,7 +534,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-851510',
+    id: 'global-remoteok-510152',
     title: 'Data Engineer',
     company: 'Pivotal Health',
     logo: '🌍',
@@ -556,7 +556,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-77700',
+    id: 'global-remoteok-442838',
     title: 'Overnight Neuroradiologist Partner Track 10p 7a MST 7 on 14 off',
     company: 'Diversified Radiology',
     logo: '🌍',
@@ -578,7 +578,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Overnight Neuroradiologist Partner Track 10p 7a MST 7 on 14 off',
   },
   {
-    id: 'global-remoteok-222055',
+    id: 'global-remoteok-660658',
     title: 'Full Stack Developer',
     company: 'Envision Horizons LLC',
     logo: '🌍',
@@ -600,7 +600,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Full Stack Developer',
   },
   {
-    id: 'global-remoteok-548170',
+    id: 'global-remoteok-771120',
     title: 'TEST JOB',
     company: 'Fleetio',
     logo: '🌍',
@@ -622,7 +622,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-988314',
+    id: 'global-remoteok-550499',
     title: 'Bilingual Legal Personal Injury',
     company: 'Distro',
     logo: '🌍',
@@ -644,7 +644,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Bilingual Legal Personal Injury',
   },
   {
-    id: 'global-remoteok-300627',
+    id: 'global-remoteok-604171',
     title: 'Controller',
     company: 'MissionWired',
     logo: '🌍',
@@ -666,7 +666,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-392654',
+    id: 'global-remoteok-486601',
     title: 'Neurologist TX Licensed BC PT FT Fully Virtual',
     company: 'TeleMed2U',
     logo: '🌍',
@@ -688,7 +688,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Neurologist TX Licensed BC PT FT Fully Virtual',
   },
   {
-    id: 'global-remoteok-312050',
+    id: 'global-remoteok-231179',
     title: 'Senior Account Executive Publishers',
     company: 'Zeta Global',
     logo: '🌍',
@@ -710,7 +710,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Senior Account Executive Publishers',
   },
   {
-    id: 'global-remoteok-389368',
+    id: 'global-remoteok-398227',
     title: 'Strategy & Operations',
     company: 'TLDR',
     logo: '🌍',
@@ -732,7 +732,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Strategy & Operations',
   },
   {
-    id: 'global-remoteok-610224',
+    id: 'global-remoteok-688107',
     title: 'Applied AI Engineer Europe',
     company: 'Amigo',
     logo: '🌍',
@@ -754,7 +754,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Applied AI Engineer Europe',
   },
   {
-    id: 'global-remoteok-821185',
+    id: 'global-remoteok-930256',
     title: 'UX UI Designer â AI Application',
     company: '0g Labs',
     logo: '🌍',
@@ -776,7 +776,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote UX UI Designer — AI Application',
   },
   {
-    id: 'global-remoteok-468864',
+    id: 'global-remoteok-184289',
     title: 'Corporate Counsel',
     company: 'May Mobility',
     logo: '🌍',
@@ -798,7 +798,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Corporate Counsel',
   },
   {
-    id: 'global-remoteok-962804',
+    id: 'global-remoteok-584894',
     title: 'Senior Backend Engineer Build AI Agents',
     company: 'Salesforge',
     logo: '🌍',
@@ -820,7 +820,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Senior Backend Engineer Build AI Agents',
   },
   {
-    id: 'global-remoteok-44312',
+    id: 'global-remoteok-43712',
     title: 'Bookkeeper',
     company: 'Vidinext',
     logo: '🌍',
@@ -842,7 +842,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-135713',
+    id: 'global-remoteok-629907',
     title: 'Mid Senior AI Video Artist',
     company: 'EverAI',
     logo: '🌍',
@@ -864,7 +864,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Mid Senior AI Video Artist',
   },
   {
-    id: 'global-remoteok-614831',
+    id: 'global-remoteok-67252',
     title: 'Account Executive III',
     company: 'Sumo Logic',
     logo: '🌍',
@@ -886,7 +886,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Account Executive III',
   },
   {
-    id: 'global-remoteok-57266',
+    id: 'global-remoteok-315882',
     title: 'Senior Director Sales and Operations Planning',
     company: 'OLLY',
     logo: '🌍',
@@ -908,7 +908,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Senior Director Sales and Operations Planning',
   },
   {
-    id: 'global-remoteok-856847',
+    id: 'global-remoteok-770765',
     title: 'VP Creative Director',
     company: 'Noodle',
     logo: '🌍',
@@ -930,7 +930,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote VP Creative Director',
   },
   {
-    id: 'global-remoteok-203492',
+    id: 'global-remoteok-760699',
     title: 'Associate Director Solutions',
     company: 'YipitData (Alternative)',
     logo: '🌍',
@@ -952,7 +952,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Associate Director Solutions',
   },
   {
-    id: 'global-remoteok-602859',
+    id: 'global-remoteok-285040',
     title: 'Technical Program Manager â Platform Migration',
     company: 'Cayuse',
     logo: '🌍',
@@ -974,7 +974,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Technical Program Manager — Platform Migration',
   },
   {
-    id: 'global-remoteok-60899',
+    id: 'global-remoteok-963334',
     title: 'Principal Customer Solutions Architect',
     company: 'Caylent',
     logo: '🌍',
@@ -996,7 +996,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Principal Customer Solutions Architect',
   },
   {
-    id: 'global-remoteok-485345',
+    id: 'global-remoteok-172130',
     title: 'Senior Security Engineer',
     company: 'Bridgewater Associates',
     logo: '🌍',
@@ -1018,7 +1018,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Senior Security Engineer',
   },
   {
-    id: 'global-remoteok-103546',
+    id: 'global-remoteok-365056',
     title: 'Business Development Director',
     company: 'Connections Health Solutions',
     logo: '🌍',
@@ -1040,7 +1040,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Business Development Director',
   },
   {
-    id: 'global-remoteok-211662',
+    id: 'global-remoteok-987085',
     title: 'Insurance Verifications Specialist',
     company: 'Cranial Technologies',
     logo: '🌍',
@@ -1062,7 +1062,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Insurance Verifications Specialist',
   },
   {
-    id: 'global-remoteok-92692',
+    id: 'global-remoteok-636807',
     title: 'Frontend Engineer',
     company: 'CareerVillage.org',
     logo: '🌍',
@@ -1084,7 +1084,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Frontend Engineer',
   },
   {
-    id: 'global-remoteok-974985',
+    id: 'global-remoteok-881812',
     title: 'Senior Account Executive',
     company: '',
     logo: '🌍',
@@ -1106,7 +1106,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-97835',
+    id: 'global-remoteok-848078',
     title: 'Healthcare Account Executive',
     company: 'Vonage',
     logo: '🌍',
@@ -1128,7 +1128,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-618128',
+    id: 'global-remoteok-726084',
     title: 'Senior CAD Backend Engineer Mechanical CAD Automation',
     company: 'Foundation EGI',
     logo: '🌍',
@@ -1150,7 +1150,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-312358',
+    id: 'global-remoteok-922448',
     title: 'Solution Engineer I',
     company: 'Onit, Inc.',
     logo: '🌍',
@@ -1172,7 +1172,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-519869',
+    id: 'global-remoteok-180771',
     title: 'Senior Data Engineer',
     company: 'Capnexus',
     logo: '🌍',
@@ -1194,7 +1194,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-991278',
+    id: 'global-remoteok-221490',
     title: 'Senior App &amp; Frontend Developer AS233',
     company: 'Smart Working Solutions',
     logo: '🌍',
@@ -1216,7 +1216,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-387815',
+    id: 'global-remoteok-240606',
     title: 'Provider Services Analyst I',
     company: 'Trend Health Partners',
     logo: '🌍',
@@ -1238,7 +1238,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-533741',
+    id: 'global-remoteok-213033',
     title: 'PPC & Amazon Strategist',
     company: 'Trivium',
     logo: '🌍',
@@ -1260,7 +1260,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-696560',
+    id: 'global-remoteok-292006',
     title: 'Data Scientist',
     company: 'Junction',
     logo: '🌍',
@@ -1282,7 +1282,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-234659',
+    id: 'global-remoteok-213794',
     title: 'Shift Lead Downtown',
     company: 'DoorDash USA',
     logo: '🌍',
@@ -1304,7 +1304,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-761122',
+    id: 'global-remoteok-95754',
     title: 'Senior Site Reliability Engineer',
     company: 'Pave Bank',
     logo: '🌍',
@@ -1326,7 +1326,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-272210',
+    id: 'global-remoteok-357241',
     title: 'Principal Product Manager',
     company: 'Oportun',
     logo: '🌍',
@@ -1348,7 +1348,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-904486',
+    id: 'global-remoteok-557526',
     title: 'High Paying Hourly Enrollment Specialist',
     company: 'VP Education Group',
     logo: '🌍',
@@ -1370,7 +1370,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-500932',
+    id: 'global-remoteok-616347',
     title: 'Search Engine Evaluation Specialist Freelance AI Trainer Project',
     company: 'Invisible Agency',
     logo: '🌍',
@@ -1392,7 +1392,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-629132',
+    id: 'global-remoteok-137925',
     title: 'Senior Security Engineer Vulnerability & Exposure Management',
     company: 'Bridgewater Associates Referrals',
     logo: '🌍',
@@ -1414,7 +1414,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-591966',
+    id: 'global-remoteok-79154',
     title: 'Partner Sales Manager',
     company: 'Prophecy',
     logo: '🌍',
@@ -1436,7 +1436,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-106286',
+    id: 'global-remoteok-572359',
     title: 'Associate Product Manager',
     company: 'Automox',
     logo: '🌍',
@@ -1458,7 +1458,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-647138',
+    id: 'global-remoteok-954787',
     title: 'Director Human Resources',
     company: 'Cordance',
     logo: '🌍',
@@ -1480,7 +1480,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-440463',
+    id: 'global-remoteok-675412',
     title: 'Senior Software Engineer Payments & Monetization',
     company: 'Mighty Networks',
     logo: '🌍',
@@ -1502,7 +1502,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-886190',
+    id: 'global-remoteok-658451',
     title: 'Senior Lead Applied Data Scientist',
     company: 'StyleSeat',
     logo: '🌍',
@@ -1524,7 +1524,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-381711',
+    id: 'global-remoteok-641749',
     title: 'Customer Success Manager',
     company: 'Wholesail',
     logo: '🌍',
@@ -1546,7 +1546,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-895172',
+    id: 'global-remoteok-415613',
     title: 'Senior Cloud Engineer',
     company: 'DV Trading',
     logo: '🌍',
@@ -1568,7 +1568,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-389217',
+    id: 'global-remoteok-957664',
     title: 'Senior Account Manager',
     company: 'Keyloop',
     logo: '🌍',
@@ -1590,7 +1590,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-46507',
+    id: 'global-remoteok-938041',
     title: 'Manager Digital Media Strategy',
     company: 'Adswerve, Inc',
     logo: '🌍',
@@ -1612,7 +1612,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-140396',
+    id: 'global-remoteok-116371',
     title: 'Digital Media Strategist',
     company: 'Adswerve, Inc',
     logo: '🌍',
@@ -1634,7 +1634,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-940867',
+    id: 'global-remoteok-440849',
     title: 'Product Manager ChartCheck',
     company: 'Radformation',
     logo: '🌍',
@@ -1656,7 +1656,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-707446',
+    id: 'global-remoteok-75638',
     title: 'Product Growth Marketer',
     company: 'Happily',
     logo: '🌍',
@@ -1678,7 +1678,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-80849',
+    id: 'global-remoteok-551340',
     title: 'Crypto Trader',
     company: 'Fox GLobal Assets',
     logo: '🌍',
@@ -1700,7 +1700,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-31286',
+    id: 'global-remoteok-370619',
     title: 'Software Engineer Identity & Access',
     company: 'Patreon',
     logo: '🌍',
@@ -1722,7 +1722,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-236447',
+    id: 'global-remoteok-379874',
     title: 'Technical Implementations Lead US',
     company: 'Smile Digital Health',
     logo: '🌍',
@@ -1744,7 +1744,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-815849',
+    id: 'global-remoteok-874535',
     title: 'Manager Healthcare Data Analytics',
     company: 'Habitat Health',
     logo: '🌍',
@@ -1766,7 +1766,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-129837',
+    id: 'global-remoteok-709786',
     title: 'Account Executive Collections Credit Card',
     company: 'BHG Financial',
     logo: '🌍',
@@ -1788,7 +1788,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-909067',
+    id: 'global-remoteok-596692',
     title: 'Sr Technical Program Manager Order Management Services',
     company: 'Natera',
     logo: '🌍',
@@ -1810,7 +1810,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-610049',
+    id: 'global-remoteok-741850',
     title: 'Nurse Care Manager MST',
     company: 'Evergreen Nephrology',
     logo: '🌍',
@@ -1832,7 +1832,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-827810',
+    id: 'global-remoteok-510678',
     title: 'Manager Care Team Assistant',
     company: 'Imagine Pediatrics',
     logo: '🌍',
@@ -1854,7 +1854,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-986895',
+    id: 'global-remoteok-453920',
     title: 'Senior Product Manager Applied AI',
     company: 'Smartsheet',
     logo: '🌍',
@@ -1876,7 +1876,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-178728',
+    id: 'global-remoteok-26540',
     title: 'Revenue Specialist First Party Auto MVA',
     company: 'EnableComp',
     logo: '🌍',
@@ -1898,7 +1898,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-953778',
+    id: 'global-remoteok-459936',
     title: 'SVP Sales',
     company: 'InMarket',
     logo: '🌍',
@@ -1920,7 +1920,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-49331',
+    id: 'global-remoteok-50011',
     title: 'Senior Technical Lead',
     company: 'Calibrate Group AI',
     logo: '🌍',
@@ -1942,7 +1942,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-852615',
+    id: 'global-remoteok-700231',
     title: 'Product Engineer',
     company: 'SuperPlane',
     logo: '🌍',
@@ -1964,7 +1964,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-265175',
+    id: 'global-remoteok-296218',
     title: 'Interior Design Specifier',
     company: 'Bold Business',
     logo: '🌍',
@@ -1986,7 +1986,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-833968',
+    id: 'global-remoteok-630189',
     title: 'Software Engineer Android',
     company: 'Superhuman',
     logo: '🌍',
@@ -2008,7 +2008,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-953899',
+    id: 'global-remoteok-9921',
     title: 'Product Manager Data Platform',
     company: 'Spotify',
     logo: '🌍',
@@ -2030,7 +2030,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-229442',
+    id: 'global-remoteok-676357',
     title: 'Senior EDI e invoicing Integration Engineer with English and German French Italian Chinese',
     company: 'ecosio',
     logo: '🌍',
@@ -2052,7 +2052,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-817307',
+    id: 'global-remoteok-768418',
     title: 'Field Marketing Manager',
     company: 'Brandwatch',
     logo: '🌍',
@@ -2074,7 +2074,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-127677',
+    id: 'global-remoteok-946428',
     title: 'Creative Strategist',
     company: 'Maneuver Marketing',
     logo: '🌍',
@@ -2096,7 +2096,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-127677',
+    id: 'global-remoteok-946428',
     title: 'Creative Strategist',
     company: 'Maneuver Marketing',
     logo: '🌍',
@@ -2118,7 +2118,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-971496',
+    id: 'global-remoteok-604397',
     title: 'Data Analyst',
     company: 'Criptoro',
     logo: '🌍',
@@ -2140,7 +2140,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-235039',
+    id: 'global-remoteok-996286',
     title: 'Imaging Research and Development Associate',
     company: 'Alimentiv',
     logo: '🌍',
@@ -2162,7 +2162,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-920075',
+    id: 'global-remoteok-414861',
     title: 'Learning and Development Specialist',
     company: 'Headlight',
     logo: '🌍',
@@ -2623,6 +2623,50 @@ const JOBS_GLOBAL = [
     description: '<div class=\"h1\"><strong><span style=\"color: #00c261;\">About Filestage</span></strong></div>\n<p><span style=\"color: #434343;\">Filestage frees people from chaotic approval processes, making work more joyful and productive. From large enterprises to independent agencies, our review and approval platform helps teams share, discuss, and approve all their files, all in one place – including documents, designs, images, videos, and audio files.</span></p>\n<p><span style=\"color: #434343;\">We\'re a fully r',
     requirements: [],
     benefits: ['full_time'],
+  },
+  {
+    id: 'global-yuanchengdao-11372',
+    title: '支持专员 - 收入周期/全职/远程',
+    company: 'Henry Ford Health',
+    logo: 'https://static.yuanchengdao.com/20260428/henry-ford-health.jpg',
+    category: '软件工程',
+    tags: ['远程', '华人友好'],
+    salary: '面议',
+    location: '美国',
+    date: '2026-04-24',
+    isNew: true,
+    isFeatured: false,
+    canRefer: false,
+    source: 'https://yuanchengdao.com',
+    sourceUrl: 'https://yuanchengdao.com/job/support-specialist-revenue-cycle-full-time-remote-henry-ford-health-55914',
+    applyUrl: 'https://www.indeed.com/viewjob?jk=14bcb09e9b3c8bc8&utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic',
+    currency: 'CNY',
+    companyCountry: '美国',
+    description: '一般概述：\n\n支持专员是集中支付审计部门中一个至关重要的支持角色，负责医疗记录请求提交、上诉跟踪和解决过程。负责获取和跟踪来自第三方支付者的批准、拒绝和额外信息请求。\n\n教育/经验要求：\n\n高中文凭/G.E.D.\n至少一年（1）在医疗保健或相关领域的经验，以深入了解组织政策和程序。\n要求具备良好的口头和书面沟通能力。\n要求具备计算机技能。\n优先考虑具备编码知识。\n优先考虑具备临床术语知识。\n优先考虑在Epic工作经验。\n\n附加信息\n\n此职位描述代表了该职位的主要职责、责任和权限，并不打算列出所有任务和职能。因此，应理解，现任者可能会被要求执行上述明确描述之外的与工作相关的职责。\n\n概述\n\n亨利·福特健康与数百万人的健康旅程合作，遍及密歇根州和世界各地。我们提供从初级和预防护理到复杂和专科护理、健康保险、全面的家庭健康服务、虚拟护理、药房、眼科护理和其他医疗零售的全方位服务。随着前Ascension东南密歇根和弗林特地区的地点现在成为我们团队的一部分，亨利·福特的护理在13家医院和数百个门诊护理地点提供。亨利·福特总部位于底特律，是美国最受尊敬的学术医疗中心之一，正在引领“健康的未来：底',
+    requirements: [],
+    benefits: [],
+  },
+  {
+    id: 'global-yuanchengdao-11371',
+    title: '高级设计师 UX/UI 与网页前端和后端开发实习生转全职 - 远程',
+    company: 'RJMedex',
+    logo: 'https://static.yuanchengdao.com/20260428/rjmedex.jpg',
+    category: 'UI/UX设计',
+    tags: ['远程', '华人友好'],
+    salary: '面议',
+    location: '美国',
+    date: '2026-04-27',
+    isNew: true,
+    isFeatured: false,
+    canRefer: false,
+    source: 'https://yuanchengdao.com',
+    sourceUrl: 'https://yuanchengdao.com/job/remote-sr-designer-ux-ui-with-web-front-end-back-end-development-intern-to-full-time-re-55886',
+    applyUrl: 'https://www.linkedin.com/jobs/view/sr-designer-ux-ui-with-web-front-end-back-end-development-intern-to-full-time-remote-at-rjmedex-4407557336?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic',
+    currency: 'CNY',
+    companyCountry: '美国',
+    description: '公司简介\n\n我们正在积极研发设计和开发产品，以解决现实世界的问题，提供更好的解决方案。希望为我们的持续项目增加额外资源。\n\n\n\n角色描述\n\n这是一个远程的实习生角色，适用于RJ Medex在美国马里兰州的UX/UI和图形设计师，负责创建UX草图、图形设计、标志设计、品牌元素和网页开发项目的排版。\n\n\n\n资格要求\n\n设计硕士学位，具有丰富的实践经验。具有为网站创建视觉元素的经验，仪表板创建、网页应用程序和移动应用程序的后端和构建能力。熟练使用设计软件，如Canvas、Figma、Adobe Creative Suite、Canva等。对细节和创造力有强烈关注，具备专家级故事讲述视频制作技能。必须具备前端和后端开发技能以进行培训。能够在团队环境中协作工作。\n\n\n**仅限认真咨询**\n\n\n\n联系方式: hr@rjmedex.net\n\nwww.rjmedex.net\n\n\n\n\n就业类型 - 实习生转全职 - 允许远程工作',
+    requirements: [],
+    benefits: [],
   },
   {
     id: 'global-yuanchengdao-11370',
@@ -5886,7 +5930,7 @@ const JOBS_GLOBAL = [
     company: 'Pantar Solutions inc',
     logo: 'https://static.yuanchengdao.com/20260317/pantar-solutions-inc.jpg',
     category: '软件工程',
-    tags: ['远程', '华人友好'],
+    tags: [],
     salary: '面议',
     location: '美国',
     date: '2026-04-26',
@@ -5908,7 +5952,7 @@ const JOBS_GLOBAL = [
     company: 'Focused HR Solutions',
     logo: '🌏',
     category: '软件工程',
-    tags: ['远程', '华人友好'],
+    tags: [],
     salary: '面议',
     location: '美国',
     date: '2026-04-25',
@@ -43927,50 +43971,6 @@ const JOBS_GLOBAL = [
     currency: 'CNY',
     companyCountry: '美国',
     description: '职位描述\n\n我们正在寻找一位经验丰富的高级数据分析师加入我们的金融犯罪/反洗钱（AML）实践。这是一个高影响力的角色，位于数据科学与金融犯罪合规的交汇处，您的分析工作将直接支持调查，加强检测能力，并帮助保护客户免受金融风险。您将与调查团队密切合作，将复杂的数据转化为清晰、可操作的情报。\n\n职位要求\n• 相关领域的高级学位（例如，数据科学、统计学、金融）\n• 7年以上的实际生产级SQL编码经验——复杂查询、存储过程和针对大型金融数据集的性能优化脚本\n• 在金融犯罪、AML或相关领域的经验\n• 进行数据整理、自动化、统计分析和金融犯罪检测逻辑的Python编码经验\n• 强大的ETL能力，理想情况下具备SSIS、Azure Data Factory（ADF）、Databricks或Alteryx的经验\n• 强大的Power BI技能，用于交互式仪表板、数据模型和高层报告；有Tableau经验者优先\n• 熟悉云平台（优先考虑Azure）和在云环境中处理AML数据基础设施的经验\n• 对AML类型学（如结构化、分层和基于交易的洗钱）有深入理解\n• 出色的沟通能力，能够向非技术利益相关者和团队成员清',
-    requirements: [],
-    benefits: [],
-  },
-  {
-    id: 'global-yuanchengdao-8770',
-    title: '产品设计师 H/F',
-    company: 'Joko',
-    logo: '🌏',
-    category: '软件工程',
-    tags: [],
-    salary: '面议',
-    location: '美国',
-    date: '2026-04-06',
-    isNew: true,
-    isFeatured: false,
-    canRefer: false,
-    source: 'https://yuanchengdao.com',
-    sourceUrl: 'https://yuanchengdao.com/job/remote-product-designer-h-f-joko-17432',
-    applyUrl: 'https://weworkremotely.com/remote-jobs/joko-product-designer-h-f?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic',
-    currency: 'CNY',
-    companyCountry: '美国',
-    description: '职位详情\n\n我们是谁\n\n我们帮助消费者更聪明地购物。我们的目标是彻底改变人们购物的方式，使他们能够找到所需的商品，做出明智的购买决策，并节省开支。\n\nJoko是一家成立于巴黎的科技公司。我们的团队由50多名国际人才组成，分布在巴黎、巴塞罗那和纽约的办公室，或远程工作。\n\n作为一家认证的B公司，我们致力于改善我们所服务社区的生活，包括已经有400万消费者每天使用Joko在7000多家商户处省钱。\n\n多年来，我们迅速扩展了我们的价值主张，使消费者能够通过许多功能做出更聪明的购物决策：现金返还、先买后付、自动优惠券、降价提醒、碳足迹追踪等等。今天，我们正在投入大量资源开发一个AI驱动的助手，帮助用户根据价格、质量或环境影响等标准在全球电子商务目录中找到合适的产品。\n\n在我们的核心市场实现盈利后，我们现在正在国际扩展，主要关注美国市场。\n\n这仍然是第一天；来和我们一起构建购物的未来吧！\n\n这个职位支持远程工作。\n\n我们的产品团队\n\n由我们的联合创始人兼首席执行官Xavier领导，Joko的产品团队聚集了那些让用户满意的热情个体！从头脑风暴到开发再到发布，产品团队的主要任务是通过与工程、设计和业',
-    requirements: [],
-    benefits: [],
-  },
-  {
-    id: 'global-yuanchengdao-8778',
-    title: '机器学习数据科学家-远程',
-    company: 'Vaco by Highspring',
-    logo: 'https://static.yuanchengdao.com/20260320/vaco-by-highspring.jpg',
-    category: '软件工程',
-    tags: [],
-    salary: '面议',
-    location: '美国',
-    date: '2026-04-06',
-    isNew: true,
-    isFeatured: false,
-    canRefer: false,
-    source: 'https://yuanchengdao.com',
-    sourceUrl: 'https://yuanchengdao.com/job/ml-data-scientist-remote-vaco-by-highspring-17453',
-    applyUrl: 'https://www.dice.com/job-detail/550963bd-0374-44aa-8a06-10b962e048ce?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic',
-    currency: 'CNY',
-    companyCountry: '美国',
-    description: '此职位不适用于C2C、签证赞助或第三方\n职位名称：数据科学家（合同转正，远程 - 优先考虑EST/CST时区）\n部门：企业数据分析 - 卓越中心（CoE）\n汇报对象：数据科学总监\n职位概述\n数据科学家将加入企业数据分析卓越中心（CoE），为开发创新的数据驱动产品做出贡献，这些产品能够带来可衡量的商业影响。这个角色非常适合具有深厚数学和统计专业知识、强烈好奇心以及将复杂数据转化为可操作见解的热情的专业人士。\n您将与数据分析师、工程师和业务利益相关者密切合作，以识别模式、构建预测模型并传达加速战略决策的发现。该职位为远程工作（优先考虑EST/CST时区），并要求每季度出差以进行团队协作。\n基本职责和责任\n• 讲述引人注目的数据故事，激励商业行动。\n• 从多个来源挖掘和提取有价值的数据。\n• 使用机器学习工具选择特征、创建和优化分类器。\n• 预处理结构化和非结构化数据，以确保质量和一致性。\n• 改进数据收集程序，以改善分析系统设计。\n• 清理、验证并确保所有用于分析的数据的完整性。\n• 分析大型数据集，以识别有意义的模式和解决方案。\n• 开发预测系统和机器学习算法。\n• 以清晰、可操作的格式',
     requirements: [],
     benefits: [],
   },
