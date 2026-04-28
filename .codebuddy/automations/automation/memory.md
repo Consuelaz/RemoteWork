@@ -2,16 +2,17 @@
 
 ## 最新执行
 
-- **日期**: 2026-04-25
+- **日期**: 2026-04-26
 - **状态**: ✅ 成功
-- **数据源**: Remote OK(99) + Remotive(20) + 远程岛(150) + who-is-hiring(420) + 远程中文网(15) + V2EX(1，跳过非今日19条)
+- **数据源**: Remote OK(99) + Remotive(21) + 远程岛(150) + who-is-hiring(420) + 远程中文网(15) + V2EX(0，跳过非今日20条)
 - **数据合并**: CN=696, Global=2000
-- **money.xlsx**: 插入 1 条 V2EX 数据 + 420 条 who-is-hiring 数据
-- **Git 提交**: `12f00ad`，已推送至 `master`（5 files changed, 20321 insertions, 20092 deletions）
-- **备注**: 电鸭仍无法抓取（No such file or directory）
+- **money.xlsx**: 插入 0 条 V2EX 数据 + 420 条 who-is-hiring 数据
+- **Git 提交**: `0ec63f7`，已推送至 `master`（5 files changed, 20129 insertions, 20095 deletions）
+- **备注**: 电鸭仍无法抓取（No such file or directory）；V2EX 今日无新帖
 
 ## 执行历史
 
+| 2026-04-26 | 696 | 2000 | ✅ 成功 |
 | 2026-04-25 | 696 | 2000 | ✅ 成功 |
 | 2026-04-22 (2次) | 660 | 2000 | ✅ 成功 |
 | 2026-04-22 | 660 | 2000 | ✅ 成功 |
