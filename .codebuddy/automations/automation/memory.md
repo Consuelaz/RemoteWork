@@ -2,14 +2,18 @@
 
 ## 最新执行
 
-- **日期**: 2026-05-06
+- **日期**: 2026-05-07
 - **状态**: ✅ 成功
-- **数据源**: Remote OK(98) + Remotive(22) + 远程岛(150) + who-is-hiring(421) + 远程中文网(15) + V2EX(4，跳过16条非今日帖) + 电鸭(跳过)
-- **数据合并**: CN=731（+7）, Global=2000（持平）
-- **money.xlsx**: 插入 4 条 V2EX + 421 条 who-is-hiring 数据
-- **Git 提交**: `74687ca`，已推送至 `master`（5 files changed）
-- **文件大小**: jobs-cn.js=1.1M, jobs-global.js=3.3M（正常）
-- **备注**: 电鸭仍无法抓取；V2EX 抓到 4 条今日新帖
+- **数据源**: Remote OK(98) + Remotive(23) + 远程岛(150) + who-is-hiring(421) + 远程中文网(15) + V2EX(0，跳过20条非今日帖) + 电鸭(跳过)
+- **数据合并**: CN=738（+7）, Global=2000（持平）
+- **money.xlsx**: 插入 0 条 V2EX + 421 条 who-is-hiring 数据
+- **Git 提交**: `1f1be2c`，已推送至 `master`（5 files changed, 1337 insertions, 1152 deletions）
+- **文件大小**: jobs-cn.js / jobs-global.js 大小正常
+- **备注**: 电鸭仍无法抓取；V2EX 今日无新帖（跳过20条）；Remotive 从22增至23条
+
+## 执行历史
+
+| 2026-05-07 | 738 | 2000 | ✅ 成功 |
 
 ## 执行历史
 
