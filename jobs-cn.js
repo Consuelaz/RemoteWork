@@ -6,7 +6,7 @@
 
 const JOBS_CN = [
   {
-    id: 'cn-remotechina-0293',
+    id: 'cn-remotechina-03658',
     title: '电商客服',
     company: '武汉市攀越文化传媒有限公司',
     logo: '🌐',
@@ -27,7 +27,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-13211',
+    id: 'cn-remotechina-16443',
     title: '化工猎头顾问',
     company: '上海古怡企业管理咨询有限公司',
     logo: '🌐',
@@ -48,7 +48,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-24131',
+    id: 'cn-remotechina-29825',
     title: '本地化PM',
     company: '北京时代传浮科技有限公司',
     logo: '🌐',
@@ -69,7 +69,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-39648',
+    id: 'cn-remotechina-3974',
     title: '全栈工程师',
     company: '九州达业管理顾问(上海)有限公司',
     logo: '🌐',
@@ -90,7 +90,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-43329',
+    id: 'cn-remotechina-48433',
     title: '电商设计师',
     company: '北京乾达云智能科技有限公司',
     logo: '🌐',
@@ -111,7 +111,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-52483',
+    id: 'cn-remotechina-54179',
     title: '家教兼职',
     company: '学业规划设计（济南）有限公司',
     logo: '🌐',
@@ -132,7 +132,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-68213',
+    id: 'cn-remotechina-615',
     title: 'B端新媒体运营',
     company: '',
     logo: '🌐',
@@ -153,7 +153,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-78245',
+    id: 'cn-remotechina-765',
     title: '小红书运营经理',
     company: '',
     logo: '🌐',
@@ -174,7 +174,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-83076',
+    id: 'cn-remotechina-89197',
     title: '社群运营',
     company: '语冠信息技术（上海）有限公司',
     logo: '🌐',
@@ -195,7 +195,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-92133',
+    id: 'cn-remotechina-93239',
     title: '海外App运营',
     company: '天津途猫科技有限公司',
     logo: '🌐',
@@ -216,7 +216,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-108648',
+    id: 'cn-remotechina-107397',
     title: '数据库运维',
     company: '科锐尔人力资源服务(苏州)有限公司',
     logo: '🌐',
@@ -237,7 +237,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-112766',
+    id: 'cn-remotechina-114992',
     title: '3D效果图设计师',
     company: '武汉盛宸意创装饰设计有限公司',
     logo: '🌐',
@@ -258,7 +258,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-124701',
+    id: 'cn-remotechina-124639',
     title: 'CRM项目经理',
     company: '纬致科技(北京)有限公司',
     logo: '🌐',
@@ -272,14 +272,14 @@ const JOBS_CN = [
     canRefer: false,
     source: 'https://remote-china.com/jobs',
     sourceUrl: 'https://remote-china.com/jobs/1156',
-    applyUrl: 'https://www.zhaopin.com/jobdetail/CC120817710J40848635201.htm',
-    description: '行业：美妆互联网电商 | 产品/服务：CRM营销活动管理，支持多渠道营销（Email、SMS、MMS、LINE） | 月薪：2.2-2.4万人民币 | 社保：五险一金（当地最低基数） | 其他：不明',
-    responsibilities: ['管理CRM营销活动端到端流程，包括需求收集、项目计划、排期及在Adobe Campaign Standard平台部署', '协调内容适配，确保信息准确且符合品牌调性，负责HTML与创意素材本地语言校对', '验证受众分群逻辑与人群数量，确保符合活动目标', '负责客户审核流程，管理反馈并推动最终交付', '与开发团队合作落实技术逻辑，与分析团队合作完成追踪、标签、QA与数据报告', '确保活动符合数据隐私、合规要求（如opt-in、退订机制），保证高质量零错误上线', '作为客户与内部团队主要沟通接口，提供清晰更新并管理期望'],
-    requirements: ['熟悉CRM营销活动流程，包括内容适配、受众分群逻辑、合规要求', '能校对本地语言内容（HTML、创意素材），确保品牌一致性', '理解跨渠道营销（Email/SMS/MMS/LINE）运作方式', '熟练处理多任务多渠道并行运营，具备高质量把控能力', '3-5年CRM、数字营销或项目管理经验', '熟悉CRM营销平台、邮件部署平台及相关PM工具', '具备QA测试、内容校对与版本管理工具经验', '英语口语流利可沟通，会粤语/台语优先', '本科及以上学历，市场营销/电子商务/数字营销/传媒/工商管理/项目管理专业优先'],
+    applyUrl: 'https://remote-china.com/jobs/1156',
+    description: '',
+    responsibilities: [],
+    requirements: [],
     benefits: [],
   },
   {
-    id: 'cn-remotechina-132066',
+    id: 'cn-remotechina-133867',
     title: '产品设计师',
     company: '上海鲸科信息科技有限公司',
     logo: '🌐',
@@ -293,14 +293,14 @@ const JOBS_CN = [
     canRefer: false,
     source: 'https://remote-china.com/jobs',
     sourceUrl: 'https://remote-china.com/jobs/1155',
-    applyUrl: 'https://www.zhipin.com/job_detail/89e4d2a206d7fd560nRy39m6E1BY.html',
-    description: '所属行业：SaaS（软件即服务） | 主要产品：建站平台（Strikingly/上线了），帮助用户快速创建网站、小程序及超级云名片 | 产品设计师（推测常规名称为：UI/UX设计师或产品设计工程师） | 月薪：14-20K，13薪 | 福利：带薪年假、五险一金、带薪假期',
-    responsibilities: ['将用户问题和业务需求转化为清晰的设计解决方案（如交互流程、界面方案）', '输出完整的设计开发文档', '配合技术开发团队完成设计方案的落地、测试与上线，确保最终交付质量符合预期'],
-    requirements: ['1年以上正式工作经验（不包括实习）', '全日制大专或以上学历', '熟练使用英文进行读写（不要求听说能力）', '具备UI/UX产品设计经验，能通过文档或原型清晰表达产品需求和设计解决方案', '熟练掌握至少一种主流设计工具（如Figma、Sketch、Adobe XD）及原型工具（如Axure、墨刀）', '熟悉原型设计工具和设计交接流程，有完整线上作品案例', '积极主动，抗压性强，具备优秀的协作和沟通技能', '接受远程办公，自备电脑和网络', '加分项：有SaaS产品设计或产品经理经验'],
+    applyUrl: 'https://remote-china.com/jobs/1155',
+    description: '',
+    responsibilities: [],
+    requirements: [],
     benefits: [],
   },
   {
-    id: 'cn-remotechina-141026',
+    id: 'cn-remotechina-146849',
     title: '编曲音乐制作',
     company: '位来小猎(宁波)信息技术有限公司',
     logo: '🌐',
