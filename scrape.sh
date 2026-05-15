@@ -1533,7 +1533,7 @@ except:
     print(0)
 " 2>/dev/null || echo 0)
 
-git add jobs-cn.js jobs-global.js money.xlsx scrape.log .codebuddy/automations/automation/memory.md 2>/dev/null
+git add jobs-cn.js jobs-global.js money.xlsx scrape.log app.js index.html .codebuddy/automations/automation/memory.md 2>/dev/null
 if ! git diff --cached --quiet; then
     git commit -m "自动更新: $DATE CN=$CN_COUNT Global=$GLOBAL_COUNT" 2>&1 | tee -a $LOG_FILE
     git push 2>&1 | tee -a $LOG_FILE
