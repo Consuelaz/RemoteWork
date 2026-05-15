@@ -12,6 +12,15 @@ let currentPage = 1;
 const PAGE_SIZE = 20;
 let filteredJobsCache = []; // 缓存过滤后的职位
 
+// 调试：检查数据
+console.log('[调试] JOBS_MAINLIST 数量:', typeof JOBS_MAINLIST !== 'undefined' ? JOBS_MAINLIST.length : 0);
+console.log('[调试] JOBS_CN 数量:', typeof JOBS_CN !== 'undefined' ? JOBS_CN.length : 0);
+if (typeof JOBS_CN !== 'undefined') {
+    const referralCnt = JOBS_CN.filter(j => j.canRefer).length;
+    const normalCnt = JOBS_CN.filter(j => !j.canRefer).length;
+    console.log('[调试] JOBS_CN 内推岗:', referralCnt, '非内推岗:', normalCnt);
+}
+
 // 各数据源的分类映射
 const CATEGORIES_CN = ['全部','全栈开发','后端开发','前端开发','AI/算法','区块链','运营','多岗位','市场营销'];
 const CATEGORIES_GLOBAL = ['全部','全栈开发','前端开发','后端开发','数据分析','产品经理','市场营销','UI/UX设计','运营','人力资源','技术/运营'];
@@ -50,12 +59,78 @@ function getCurrentJobs() {
   return sortWithReferralFirst(globalList, 'global');
 }
 
-// 国内岗位类别优先级（内推岗按此顺序展示，每个类别最多1个）
+// 国内岗位类别优先级（非内推岗按此顺序展示，每个类别最多1个）
 const CN_CATEGORY_PRIORITY = [
-  '前端开发', '后端开发', '全栈开发', 'AI/算法', '运营', '测试', '产品经理', '其它职能'
+  // 开发类
+  '前端开发', '后端开发', '全栈开发', 'AI/算法',
+  // 设计/产品
+  'UI/UX设计', '产品经理',
+  // 运营类
+  '运营', '市场营销',
+  // 测试/区块链
+  '测试', '区块链',
+  // 兜底
+  '远程工作', '其他职位', '其它职能'
 ];
 
-// 类别均衡：每类别取第一个（内推岗优先），按优先级顺序
+// 内推岗首屏类别优先级（2026-05-12 新增）
+// 规则：首屏10条内推岗需覆盖技术岗 + 非技术岗（运营/客服/销售/商务/数据标注等）
+// 来源限定：V2EX（tags含'V2EX'）+ who-is-hiring（tags含'社群内推'）
+// 技术岗组：前端/后端/全栈/AI/移动/测试/运维/数据分析/区块链，取5条
+// 非技术岗组：运营/市场营销/产品经理/UI/远程工作/其他职位，取5条（含客服/销售/商务/数据标注等归入'远程工作'/'其他职位'）
+const REFERRAL_TECH_CATS = ['前端开发', '后端开发', '全栈开发', 'AI/算法', '移动开发', '测试/QA', '运维/DevOps', '数据分析', '区块链'];
+const REFERRAL_NONTTECH_CATS = ['运营', '市场营销', '产品经理', 'UI/UX设计', '远程工作', '其他职位', '其它职能'];
+
+// 从内推岗中按类别均衡选取首屏10条
+// - 技术岗：按 REFERRAL_TECH_CATS 顺序，每类别取最新1条，最多5条
+// - 非技术岗：按 REFERRAL_NONTTECH_CATS 顺序，每类别取最新1条，最多5条
+// - 不足10条时不补充，以实际数量为准（至少保证有内推岗出现在首屏）
+function getBalancedReferralJobs(referralJobs) {
+  // 内推岗按日期倒序，保证每类取最新
+  const sorted = [...referralJobs].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const usedIds = new Set();
+
+  // 从分组中按类别取最多 maxCount 条
+  function pickFromCats(cats, maxCount) {
+    const result = [];
+    const seenCat = new Set();
+    for (const cat of cats) {
+      if (result.length >= maxCount) break;
+      const found = sorted.find(j => {
+        if (usedIds.has(j.id)) return false;
+        const jc = j.category || '';
+        return !seenCat.has(jc) && jc.includes(cat);
+      });
+      if (found) {
+        seenCat.add(found.category || '');
+        usedIds.add(found.id);
+        result.push(found);
+      }
+    }
+    return result;
+  }
+
+  const techPicks = pickFromCats(REFERRAL_TECH_CATS, 5);
+  const nonTechPicks = pickFromCats(REFERRAL_NONTTECH_CATS, 5);
+
+  // 若技术岗不足5条，用非技术岗补充（反之亦然），共凑满10条
+  const combined = [...techPicks, ...nonTechPicks];
+  if (combined.length < 10) {
+    // 补充剩余未使用的内推岗（按日期倒序）
+    const extra = sorted.filter(j => !usedIds.has(j.id)).slice(0, 10 - combined.length);
+    combined.push(...extra);
+  }
+
+  // 调试日志
+  console.log('[内推岗均衡] 技术岗:', techPicks.length, techPicks.map(j => j.category));
+  console.log('[内推岗均衡] 非技术岗:', nonTechPicks.length, nonTechPicks.map(j => j.category));
+  console.log('[内推岗均衡] 合计:', combined.length, '条');
+  console.log('[内推岗均衡] 详细:', combined.map((j, i) => `${i+1}. [${j.category}] ${j.title.slice(0,25)}`));
+
+  return combined;
+}
+
+// 类别均衡：每类别取第一个（非内推岗用），按优先级顺序
 function getBalancedJobs(jobs) {
   const seen = new Set();
   const result = [];
@@ -76,28 +151,44 @@ function getBalancedJobs(jobs) {
   return result;
 }
 
-// 国内岗位排序策略：
-// 1. 今天的数据优先（非内推岗也可），按类别均衡展示
-// 2. 每类别最多1个，类别顺序：前端开发→后端开发→全栈开发→AI/算法→运营→测试→产品经理→其它职能
-// 3. 剩余岗位按日期倒序
+// 国内岗位排序策略（2026-05-12 更新）：
+// 第一页20条 = 10条内推岗（类别均衡：5技术+5非技术）+ 10条其他岗位（按类别均衡）
+// 内推岗来源：V2EX + who-is-hiring，首屏须覆盖技术岗、运营、客服、销售、商务、数据标注等
+// 第二页及之后：剩余内推岗 + 剩余非内推岗，按日期倒序
 function sortWithReferralFirst(jobs, source = 'cn') {
   if (source === 'cn') {
-    const today = new Date().toISOString().split('T')[0];
+    // 分离内推岗和非内推岗
+    const referralJobs = jobs.filter(j => j.canRefer);
+    const normalJobs = jobs.filter(j => !j.canRefer);
     
-    // 分离今天和非今天的岗位
-    const todayJobs = jobs.filter(j => j.date === today);
-    const otherJobs = jobs.filter(j => j.date !== today);
-
-    // 今天的岗位：内推岗 + 非内推岗，按类别均衡
-    const balancedToday = getBalancedJobs(todayJobs);
+    console.log('[排序调试] 总岗位:', jobs.length, '内推岗:', referralJobs.length, '非内推岗:', normalJobs.length);
     
-    // 其余岗位按日期倒序
-    const remainingToday = todayJobs.filter(j => !balancedToday.find(b => b.id === j.id));
-    remainingToday.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // 内推岗首屏10条：按类别均衡（5技术+5非技术）
+    const firstPageReferral = getBalancedReferralJobs(referralJobs);
+    const firstPageReferralIds = new Set(firstPageReferral.map(j => j.id));
+    console.log('[排序调试] 首屏内推岗:', firstPageReferral.length, '条（类别均衡）');
+    console.log('[排序调试] 首屏内推岗类别:', firstPageReferral.map(j => j.category).join(', '));
     
-    otherJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    return [...balancedToday, ...remainingToday, ...otherJobs];
+    // 剩余内推岗按日期倒序
+    const remainingReferral = referralJobs
+      .filter(j => !firstPageReferralIds.has(j.id))
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    // 非内推岗按类别均衡
+    const balancedNormal = getBalancedJobs(normalJobs);
+    const remainingNormal = normalJobs
+      .filter(j => !balancedNormal.find(b => b.id === j.id))
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    // 第一页：10条内推 + 10条类别均衡非内推
+    const firstPageNormal = balancedNormal.slice(0, 10);
+    const page1 = [...firstPageReferral, ...firstPageNormal];
+    
+    // 剩余部分
+    const remainingBalanced = balancedNormal.slice(10);
+    const remaining = [...remainingReferral, ...remainingBalanced, ...remainingNormal];
+    
+    return [...page1, ...remaining];
   }
 
   // 海外岗位：内推岗全部置顶，其余按日期倒序
