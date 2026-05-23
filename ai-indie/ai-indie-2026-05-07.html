@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent 看着屏幕点鼠标，每次点击花了你 45 倍的价钱 — AI独立派</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    color: #333;
+    line-height: 1.8;
+    background: #fff;
+  }
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 20px;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 28px;
+    color: #111;
+  }
+  .subtitle {
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 32px;
+  }
+  blockquote {
+    border-left: 3px solid #4A90D9;
+    padding: 12px 16px;
+    margin: 20px 0;
+    background: #f7f9fc;
+    font-size: 15px;
+    color: #444;
+  }
+  blockquote p { margin: 0; }
+  p {
+    font-size: 15px;
+    margin-bottom: 16px;
+    text-align: justify;
+  }
+  h2 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 36px 0 16px;
+    color: #111;
+  }
+  strong { color: #111; }
+  em { color: #555; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 20px;
+    font-size: 14px;
+  }
+  th, td {
+    border: 1px solid #e0e0e0;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  th {
+    background: #f5f7fa;
+    font-weight: 600;
+    color: #555;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 32px 0;
+  }
+  .source-list {
+    font-size: 13px;
+    color: #888;
+    line-height: 2;
+    margin: 12px 0;
+  }
+  .footer {
+    font-size: 13px;
+    color: #aaa;
+    text-align: center;
+    margin-top: 24px;
+  }
+  code {
+    background: #f3f4f6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>AI Agent 看着屏幕点鼠标，每次点击花了你 45 倍的价钱</h1>
+<p class="subtitle">AI独立派 · 2026年5月7日</p>
+
+<blockquote>
+  <p><strong>"Having the model alone doesn't change your workflows or how you operate... You need people who can combine the technology with what's actually happening in the business."</strong></p>
+</blockquote>
+
+<p>这是高盛全球资产与财富管理主管 Marc Nachmann 说的。5 月 4 日，Anthropic 联手高盛、黑石、Hellman &amp; Friedman 组建了一家 15 亿美元的新公司，准备把 AI 工程师直接派到企业内部，手把手帮中型公司重构工作流。</p>
+
+<p>与此同时，Reflex 发布了一组让人倒吸一口凉气的基准测试数据：让 AI 通过"看屏幕、点按钮"完成任务，和直接调用结构化 API 相比——<strong>成本差了 45 倍</strong>。</p>
+
+<p>两条新闻，说的是同一件事：AI Agent 落地的关键，从来不是模型够不够聪明，而是<strong>你怎么让它接入你的业务</strong>。对独立开发者来说，这个认知差距可能是今年最重要的分水岭。</p>
+
+<hr>
+
+<h2>01 / Agent 的钱，烧在了"看屏幕"上</h2>
+
+<p>Reflex 的测试设计很干净：同一个管理面板（客户、订单、评价），同一个 Claude Sonnet 模型，执行完全相同的业务任务。</p>
+
+<p>结果呢？</p>
+
+<ul style="font-size:15px; margin: 12px 0 16px 20px; line-height: 2;">
+  <li><strong>视觉路径</strong>（AI 看截图点按钮）：53 次调用，55 万 tokens，耗时约 17 分钟，而且需要人工手写 14 步 UI 导航指令才能完成</li>
+  <li><strong>API 路径</strong>（AI 直接调接口）：8 次调用，1.2 万 tokens，耗时 20 秒，5 次运行结果完全一致</li>
+</ul>
+
+<p>45 倍成本差距，不是模型不够好——而是架构决定的。视觉 Agent 每一步都要"看"一张截图（数千 tokens），然后猜该点哪里；API Agent 拿到的是结构化 JSON，一步到位。</p>
+
+<p>更扎心的是，视觉 Agent 第一次尝试时只找到了 4 条待处理评价中的 1 条——它甚至不会翻页。</p>
+
+<p>这件事对独立开发者的底层影响是什么？<strong>你的产品设计决定了 AI 接入的成本天花板。</strong> 如果你做的产品没有 API，AI 只能"看屏幕"操作，那你的客户用 AI 自动化的成本会被直接放大 45 倍。</p>
+
+<hr>
+
+<h2>02 / Anthropic 和 OpenAI 同时杀入"服务"，信号很明确</h2>
+
+<p>同一周，Anthropic 携手高盛、黑石组建 15 亿美元合资企业；OpenAI 则联合 TPG、贝恩资本等 19 家投资方，筹建 100 亿美元估值的 "The Development Company"。</p>
+
+<p>这两家公司的策略惊人一致：不再是卖 SaaS 订阅，而是<strong>把工程师派到客户公司里去</strong>。</p>
+
+<p>Anthropic 的模式叫"前置部署工程师"（FDE），类似 Palantir 的做法——派人驻场，和一线员工并肩工作，把 Claude 嵌入他们现有的工作流。高盛的 Marc Nachmann 说了一句话，值得每个独立开发者记下来：</p>
+
+<blockquote><p>"There's a big shortage of people who know how to apply these tools into businesses."</p></blockquote>
+
+<p>翻译成人话：<strong>模型到处都是，能把它接入真实业务的人极度稀缺。</strong></p>
+
+<p>这和 Stripe 数据与 AI 负责人 Emily Glassberg Sands 在播客中说的形成了呼应——互联网经济正在向"Agent 原生"转变，支付、计费、欺诈检测等基础设施都在重构。头部 AI 公司 18 个月就能达到 3000 万美元 ARR，但新型欺诈（计算资源盗窃、AI 批量滥用免费试用）也随之爆发。</p>
+
+<p>对独立开发者来说，这意味着两件事：</p>
+
+<p><strong>第一，API-first 不再只是技术洁癖，而是商业竞争力。</strong> 如果你提供 API，你的产品就能被 AI Agent 低成本调用；如果不提供，你在这个 Agent 原生的世界里就是一座孤岛。</p>
+
+<p><strong>第二，"AI 落地服务"正在成为一个巨大的市场。</strong> Anthropic 愿意为此投入 15 亿美元，说明"把 AI 接入业务"这件事的复杂度远超想象。而独立开发者，恰好是连接工具和业务的那群人。</p>
+
+<hr>
+
+<h2>03 / Karpathy 说"作为程序员，我比以往任何时候都更落后"</h2>
+
+<p>Andrej Karpathy 在最新一期 Training Data 播客中提出了"Software 3.0"的概念：</p>
+
+<ul style="font-size:15px; margin: 12px 0 16px 20px; line-height: 2;">
+  <li><strong>Software 1.0</strong>：你写规则，计算机执行</li>
+  <li><strong>Software 2.0</strong>：你准备数据，训练神经网络</li>
+  <li><strong>Software 3.0</strong>：你写提示词，LLM 作为可编程计算机直接执行</li>
+</ul>
+
+<p>他说了一个很个人化的感受："我意识到 LLM 已经发展到可以通过极少修正执行复杂工作流的程度，作为程序员，我比以往任何时候都更落后。"</p>
+
+<p>但他举的 MenuGen 案例更有意思：他最初花了很大力气写应用来处理菜单照片、生成菜品图片；后来发现直接把菜单丢给 Gemini，要求"叠加生成菜品图"就行了——<strong>他写的应用本身变得冗余了</strong>。</p>
+
+<p>这是一个反直觉但真实的趋势：<strong>你写的应用层越薄，AI 越能直接发挥作用。</strong> 对独立开发者来说，与其花三个月做一个功能齐全的管理后台，不如花三天做一个 API-first 的核心服务，让 AI Agent 来做剩下的。</p>
+
+<hr>
+
+<h2>04 / 这几天 builders 圈值得关注的事</h2>
+
+<p><strong>Anthropic 联合华尔街组建 15 亿美元合资企业</strong> — 不再只是卖 Claude API，而是直接下场做"AI 落地服务"。联合高盛、黑石、Hellman &amp; Friedman，采用 FDE（前置部署工程师）模式，先从自家投资组合公司开始验证。核心价值点：确认了"AI 落地"的瓶颈不在模型，在工程服务。</p>
+
+<p><strong>Reflex 发布 Computer Use vs API 成本基准测试</strong> — 同一模型、同一任务，视觉路径比 API 路径贵 45 倍、慢 50 倍。核心价值点：不是模型的问题，是架构的问题。对独立开发者的启示——如果你不提供 API，你的产品在 Agent 时代会越来越贵。</p>
+
+<p><strong>Andrej Karpathy 提出 Software 3.0 范式</strong> — 编程的核心从"写代码"变成"写提示词和设计上下文"。核心价值点：不是"程序员要失业了"，而是<strong>应用层正在变薄，核心能力正在向提示词工程和系统设计迁移</strong>。</p>
+
+<hr>
+
+<h2>05 / 如果你今天只做一件事</h2>
+
+<p><strong>1. 检查你的产品是否有 API。</strong> 不是"计划中"，不是"下个版本"——是现在。如果你的产品没有结构化 API，AI Agent 只能通过屏幕操作接入，你的客户为此多付 45 倍的成本。</p>
+
+<p><strong>2. 用 Karpathy 的"MenuGen 思维"重新审视你的产品。</strong> 哪些功能层可以被 LLM 直接替代？哪些核心能力值得保留？答案可能是：砍掉 80% 的 UI 功能，保留 20% 的 API 能力，然后让 AI 来补全剩下的。</p>
+
+<p><strong>3. 关注"AI 落地服务"这个赛道。</strong> Anthropic 愿意为此投入 15 亿美元，这个市场的需求远未被满足。独立开发者的技术能力 + 对垂直行业的理解，恰恰是最稀缺的组合。</p>
+
+<p>最后说一个很多人没注意到的利好：<strong>Anthropic 和 OpenAI 同时杀入"企业服务"，恰恰说明纯模型层正在变成基础设施。</strong> 当模型变成水电煤，真正值钱的就不再是"谁有最好的模型"，而是"谁能把它接进真实的业务场景"。</p>
+
+<p>这对独立开发者来说，反而是好消息——因为我们一直最擅长的，就是解决具体的问题。</p>
+
+<hr>
+
+<p class="source-list">
+  <strong>素材来源</strong><br>
+  TechCrunch / CNBC：Anthropic 联合高盛、黑石组建 15 亿美元 AI 企业服务合资企业（2026-05-04）<br>
+  Reflex Dev Blog：Computer Use vs Structured API 成本基准测试（2026-05-06）<br>
+  Training Data Podcast：Andrej Karpathy — From Vibe Coding to Agentic Engineering（2026-05-05）<br>
+  AI &amp; I by Every：Emily Glassberg Sands — How Stripe Is Building for an Agent-native World（2026-05-01）
+</p>
+
+<p class="footer">[AI独立派] 每日追踪 AI builders 动态，写给独立开发者和远程工作者看的真实视角。</p>
+
+</div>
+</body>
+</html>

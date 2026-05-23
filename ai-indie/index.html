@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI独立派 - 面向独立开发者的AI深度内容</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+            background: #fafaf9;
+            color: #1c1917;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e7e5e4;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-brand {
+            font-weight: 700;
+            font-size: 18px;
+            color: #ea580c;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .nav-links a {
+            color: #78716c;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #ea580c;
+        }
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            color: #fff;
+            padding: 60px 24px 50px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        .hero p {
+            font-size: 16px;
+            opacity: 0.85;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 32px 20px 60px;
+        }
+        .article-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .article-card {
+            background: #fff;
+            border: 1px solid #e7e5e4;
+            border-radius: 12px;
+            padding: 20px 24px;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .article-card:hover {
+            border-color: #ea580c;
+            box-shadow: 0 4px 12px rgba(234,88,12,0.08);
+            transform: translateY(-1px);
+        }
+        .article-date {
+            font-size: 13px;
+            color: #a8a29e;
+            margin-bottom: 6px;
+        }
+        .article-title {
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #1c1917;
+            margin-bottom: 8px;
+        }
+        .article-card:hover .article-title {
+            color: #ea580c;
+        }
+        .article-desc {
+            font-size: 14px;
+            color: #78716c;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #a8a29e;
+        }
+        .tag {
+            background: #f5f5f4;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #78716c;
+        }
+        .footer {
+            text-align: center;
+            padding: 32px;
+            color: #a8a29e;
+            font-size: 13px;
+            border-top: 1px solid #e7e5e4;
+        }
+        .footer a {
+            color: #ea580c;
+            text-decoration: none;
+        }
+        @media (max-width: 640px) {
+            .hero { padding: 40px 16px 36px; }
+            .hero h1 { font-size: 24px; }
+            .container { padding: 20px 16px 40px; }
+            .article-card { padding: 16px; }
+            .nav-links { gap: 12px; }
+            .nav-links a { font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="nav-brand">Junes远程</a>
+        <div class="nav-links">
+            <a href="../index.html#jobs">远程岗位</a>
+            <a href="../companies.html">科技公司</a>
+            <a href="index.html" class="active">AI独立派</a>
+            <a href="../community.html">加入社群</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>🚀 AI独立派</h1>
+        <p>面向独立开发者和远程工作者的 AI 深度内容，每周持续更新</p>
+    </div>
+
+    <div class="container">
+        <div class="article-list" id="articleList">
+            <!-- 由 JS 动态渲染 -->
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 Junes远程 · <a href="https://mp.weixin.qq.com" target="_blank">AI独立派公众号</a></p>
+    </div>
+
+    <script>
+    const ARTICLES = [
+        { date: '2026-05-20', file: 'ai-indie-karpathy-anthropic-2026-05-20.html', title: '「Vibe Coding」之父投奔 OpenAI 死对头——Karpathy 加入 Anthropic，他在追的那扇门是什么？' },
+        { date: '2026-05-22', file: 'ai-indie-2026-05-22.html', title: 'Anthropic 开始赚钱了，但独立开发者最该看到的，是它算的那笔账' },
+        { date: '2026-05-21', file: 'ai-indie-2026-05-21.html', title: '谷歌用 93 个 Agent 造了个操作系统——这对你意味着什么？' },
+        { date: '2026-05-20', file: 'ai-indie-2026-05-20.html', title: '我今年一行代码没写，合并了 150 个 PR——这才是 AI 时代真正的分水岭' },
+        { date: '2026-05-19', file: 'ai-indie-2026-05-19.html', title: 'AI 给了你一把锤子，但你真的知道钉子在哪吗？' },
+        { date: '2026-05-17', file: 'ai-indie-2026-05-17.html', title: 'Anthropic 赢了，但代价是工程师一个月要掏 $2000 ——独立开发者该怎么看这件事？' },
+        { date: '2026-05-14', file: 'ai-indie-2026-05-14.html', title: 'AI 权力格局正在重构： 法庭上的战争，与代码里的革命' },
+        { date: '2026-05-12', file: 'ai-indie-2026-05-12.html', title: 'AI 让工作更复杂了——这恰恰是独立开发者的好消息' },
+        { date: '2026-05-11', file: 'ai-indie-2026-05-11.html', title: '做产品的人，最后都会输给写代码的？' },
+        { date: '2026-05-10', file: 'ai-indie-2026-05-10.html', title: 'AI 不是来帮你「躺平」的——它会让你的工作变得更难' },
+        { date: '2026-05-09', file: 'ai-indie-2026-05-09.html', title: 'AI 越能干，你反而越不值钱——除非你先想清楚这一件事' },
+        { date: '2026-05-07', file: 'ai-indie-2026-05-07.html', title: 'AI Agent 看着屏幕点鼠标，每次点击花了你 45 倍的价钱' },
+        { date: '2026-05-06', file: 'ai-indie-2026-05-06.html', title: '你的助手今天早上，已经替你开完了会' },
+        { date: '2026-04-29', file: 'ai-indie-2026-04-29.html', title: 'Vercel 被黑了，罪魁祸首是一个 AI 工具——独立开发者的供应链信任正在被重写' },
+        { date: '2026-04-26', file: 'ai-indie-2026-04-26.html', title: '工作不会变少，只会变难——AI 时代真正的稀缺是什么' },
+        { date: '2026-04-22', file: 'ai-indie-2026-04-22.html', title: 'AI独立派｜Ilya 最新访谈：编程的门槛，可能比你想象的消失得更快' },
+    ];
+
+
+    function formatDate(dateStr) {
+        const [y, m, d] = dateStr.split('-');
+        return `${y}年${parseInt(m)}月${parseInt(d)}日`;
+    }
+
+    function renderArticles() {
+        const list = document.getElementById('articleList');
+        list.innerHTML = ARTICLES.map(a => `
+            <a href="${a.file}" class="article-card">
+                <div class="article-date">${formatDate(a.date)}</div>
+                <div class="article-title">${a.title}</div>
+            </a>
+        `).join('');
+    }
+
+    renderArticles();
+    </script>
+</body>
+</html>

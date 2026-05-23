@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>做产品的人，最后都会输给写代码的？ | AI独立派</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f7f8fa;
+    color: #333;
+    line-height: 1.8;
+    font-size: 16px;
+  }
+  .container {
+    max-width: 640px;
+    margin: 0 auto;
+    background: #fff;
+    min-height: 100vh;
+  }
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #fff;
+    padding: 32px 28px;
+    text-align: center;
+  }
+  .header .tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: #a8d8ea;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+  .header .meta {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+  .content {
+    padding: 28px 28px 40px;
+  }
+  .lead-quote {
+    background: #f0f4ff;
+    border-left: 4px solid #4a6cf7;
+    padding: 18px 20px;
+    margin: 0 0 28px;
+    border-radius: 0 8px 8px 0;
+  }
+  .lead-quote p {
+    font-size: 15px;
+    color: #444;
+    margin-bottom: 10px;
+  }
+  .lead-quote p:last-child { margin-bottom: 0; }
+  .lead-quote .speaker {
+    font-size: 13px;
+    color: #888;
+    margin-top: 8px;
+  }
+  h2 {
+    font-size: 18px;
+    color: #1a1a2e;
+    margin: 32px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e8ecf3;
+  }
+  h2 .num {
+    color: #4a6cf7;
+    font-size: 14px;
+    margin-right: 6px;
+  }
+  p {
+    margin-bottom: 16px;
+    text-align: justify;
+  }
+  .highlight-box {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  .highlight-box strong {
+    color: #e65100;
+  }
+  ul {
+    padding-left: 20px;
+    margin-bottom: 16px;
+  }
+  li {
+    margin-bottom: 8px;
+  }
+  .builder-item {
+    background: #f9f9fb;
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .builder-item .builder-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #4a6cf7;
+    margin-bottom: 6px;
+  }
+  .builder-item .builder-desc {
+    font-size: 14px;
+    color: #555;
+  }
+  .builder-item .builder-tag {
+    display: inline-block;
+    background: #eef0ff;
+    color: #4a6cf7;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+  .action-box {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: #fff;
+    border-radius: 12px;
+    padding: 22px 22px;
+    margin: 28px 0;
+  }
+  .action-box .action-label {
+    font-size: 11px;
+    color: #a8d8ea;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .action-box p {
+    color: #e0e0e0;
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  .action-box p:last-child { margin-bottom: 0; }
+  .footer {
+    border-top: 1px solid #eee;
+    padding: 20px 28px;
+    background: #fafafa;
+  }
+  .footer p {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 6px;
+  }
+  .footer .brand {
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 14px;
+  }
+  @media (max-width: 480px) {
+    .header h1 { font-size: 20px; }
+    .content { padding: 20px 18px 30px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="tag">AI独立派</div>
+    <h1>做产品的人，最后都会输给写代码的？</h1>
+    <div class="meta">2026-05-11 · 深度长文 · 约2200字</div>
+  </div>
+
+  <div class="content">
+
+    <div class="lead-quote">
+      <p>「我们内部已经用 Codex 处理大部分编程工作了。」</p>
+      <p class="speaker">—— Ako Paioki，OpenAI 首席科学家，Unsupervised Learning 播客</p>
+    </div>
+
+    <p>这是 OpenAI 首席科学家 Ako Paioki 在 Unsupervised Learning 播客里说的。</p>
+    <p>他说这句话的时候，语气平淡得像在描述天气。但如果你是一个靠写代码吃饭的人，这句话应该让你停下来想很久——不是想「AI 又要抢工作了」这种老生常谈，而是想：说话的人是全球最顶尖 AI 实验室的首席科学家，他说的「大部分」可能比你想象的更彻底。</p>
+    <p>独立开发者这几年有个隐含的假设：只要学得够快、工具用得够溜，就能跑赢 AI 替代的速度。但 Ako Paioki 的话指向了一个更让人不安的可能——<strong>也许问题不在于你学得够不够快，而在于「写代码」这个动作本身，正在变成一个可以被大量外包给 AI 的基础能力。</strong></p>
+    <p>这篇文章我们来认真聊聊：这个转变，对独立开发者来说到底意味着什么，以及真正值得担心的究竟是什么。</p>
+
+    <h2><span class="num">01</span> AI 不是在替代你，是在重新定义「值钱的是什么」</h2>
+
+    <p>先说清楚一件事：AI 并没有在替代程序员。至少不是以我们原来想象的方式。</p>
+    <p>Ako Paioki 在播客里描述的图景很有意思。他说 OpenAI 内部现在「大部分编程工作」都在用 Codex——但这不是说程序员被开除了，而是说<strong>那些需要写代码的「中间环节」，现在已经默认交给 AI 了</strong>。</p>
+    <p>这意味着什么？</p>
+    <p>意味着判断一个程序员是否有价值，不再看他能不能写代码——而看他能不能告诉 AI 写什么、为什么写，以及写的对不对。</p>
+    <p>这听起来像是废话。「独立开发者本来就一直在用 Copilot 啊。」</p>
+    <p>但我觉得真正有意思的转变藏在 Ako Paioki 说的另一句话里：<strong>「我觉得，对于大多数人来说，编程行为本身已经发生了相当大的变化。」</strong></p>
+    <p>注意他说的不是「编程结果」变了，是「编程行为」变了。</p>
+    <p>以前写代码是一个线性过程：想清楚 → 写出来 → 调试 → 修 bug。现在这个过程变成了：描述需求 → AI 生成 → 验证结果 → 再描述 → 再验证。</p>
+    <p>这两种工作模式，对人的能力要求是完全不同的。前者考验的是你的编码熟练度，后者考验的是你对需求的理解深度，以及你判断 AI 输出质量的眼力。</p>
+
+    <h2><span class="num">02</span> 独立开发者真正需要焦虑的，不是技术，是「需求定义权」</h2>
+
+    <p>Garry Tan 最近发了一条推，展示了他用 Claude Code 给自己做的一个工具 GStack v1.4，加了一个 PDF 生成功能。他原话是这么说的：</p>
+    <div class="highlight-box">
+      <strong>「当我用 OpenClaw 或日常使用时遇到什么需求，我就让 Claude Code 把它做出来，然后开源发布。」</strong>
+    </div>
+    <p>这是独立开发者使用 AI 的一个非常典型的场景：快速把一个脑子里的想法变成可用的工具，而且这个过程短到可以当天完成。</p>
+    <p>但仔细看这件事，你会发现一个微妙的问题：Garry Tan 的价值不在于他让 Claude Code 做了什么，而在于他知道他需要做什么。</p>
+    <p>这个差距，在 AI 越来越能写代码的今天，正在变得越来越大。</p>
+    <p>Zara Zhang 最近写了一段话，我觉得说得很准：</p>
+    <div class="highlight-box">
+      <strong>「随着 AI 越来越强，产品团队应该花更多时间在外部沟通上（和用户聊、和客户聊），而不是内部沟通。随着团队变小，内部协调工作量会大幅下降。」</strong>
+    </div>
+    <p>她说的核心意思是：<strong>在 AI 能做几乎所有执行工作的世界里，「知道做什么」变成了最稀缺的能力，而这个能力的来源，是你对用户、对市场、对真实问题的深入理解。</strong></p>
+    <p>独立开发者天然有这个优势：没有大公司的层层汇报体系，没有产品经理和工程师之间的语言壁垒，你直接面对用户，直接消化需求，直接决定要做什么。</p>
+    <p>但这个优势有个前提——你真的在花时间去理解用户，而不是把所有时间都花在折腾工具和追技术热点上。</p>
+
+    <h2><span class="num">03</span> AI 安全事件正在给「AI-First」的开发方式敲警钟</h2>
+
+    <p>上周发生了一件值得每个独立开发者认真读一下的事：Vercel 遭遇了一次复杂的攻击事件。</p>
+    <p>CEO Guillermo Rauch 事后发了一条长推，详细说明了攻击路径：<strong>一个 Vercel 员工使用的一个第三方 AI 平台被攻破 → 拿到了这个员工的 Google Workspace 账号 → 进一步获取了 Vercel 环境的访问权限。</strong></p>
+    <p>Rauch 在推文里说了一句很重的话：</p>
+    <div class="highlight-box">
+      <strong>「我们强烈怀疑，这个攻击组织的行动速度被 AI 显著加速了。他们以惊人的速度和对 Vercel 系统深入的了解程度在移动。」</strong>
+    </div>
+    <p>这句话对独立开发者意味着什么？</p>
+    <p>意味着如果你正在构建依赖 AI 辅助的开发流程，你同时也在引入新的安全攻击面。不只是你的代码被 AI 污染的问题，而是 AI 工具本身可能成为攻击者的跳板。</p>
+    <p>这周我看到的 builder 圈子动态里，Nikunj Kothari 说了一句话：「网络安全公司接下来会变得非常值钱。随着模型能力提升，攻击的速度只会增加。人类将继续是主要的攻击向量，而这一点我们还没有真正见识过。」</p>
+    <p>对于独立开发者来说，这不是一个可以忽略的大公司问题。如果你的产品接入了 AI 服务、你在用 AI 工具处理敏感数据、你让 AI 帮你写代码——这些都在你的攻击面里。</p>
+
+    <h2><span class="num">04</span> 这几天 Builders 圈值得关注的事</h2>
+
+    <div class="builder-item">
+      <div class="builder-title">① OpenAI RL 路线图更新——短周期任务的强化学习红利快见底了</div>
+      <div class="builder-desc">Ako Paioki 在播客里说 RL 在代码和数学这类「容易验证结果」的领域已经取得了惊人的进展，但往医学、法律、金融这些领域扩展时，核心问题是「如何让模型学会判断自己是否在进步」。对于独立开发者来说：RL 工具在短周期、明确目标的任务上会越来越强——但在需要长期规划的长周期任务上，AI 还非常需要人类在旁边「掌舵」。</div>
+      <span class="builder-tag">AI 能力边界</span>
+    </div>
+
+    <div class="builder-item">
+      <div class="builder-title">② Aaron Levie 的「AI 不消灭工作」论——但有一个前提</div>
+      <div class="builder-desc">Box CEO Aaron Levie 认为 AI 不会消灭工作，而是会让大多数岗位的复杂度升级：做 App 不再是「会写代码」的定义，审合同不再是「会找条款」的定义。他的判断是对的，但前提是：只有那些真的在持续提升自己领域专业深度的人，才能在这个升级中获益。</div>
+      <span class="builder-tag">职业发展</span>
+    </div>
+
+    <div class="builder-item">
+      <div class="builder-title">③ Garry Tan 的 GStack 更新——独立开发者工具链正在快速整合</div>
+      <div class="builder-desc">YC 掌门人 Garry Tan 发的 GStack v1.4 更新，加入了 <code>/make-pdf</code> 技能，代表了一种新的开发者工作流：不是从零写代码，而是从 AI 生成的结果出发，做判断、提需求、做整合。这种工作流的核心竞争力不再是「能不能写出来」，而是「能不能提出正确的问题」。</div>
+      <span class="builder-tag">开发者工具</span>
+    </div>
+
+    <div class="action-box">
+      <div class="action-label">🎯 如果你今天只做一件事</div>
+      <p>这周我看了这些材料之后，有一个感受特别强烈：<strong>独立开发者接下来最大的竞争优势，不是技术本身，而是你对真实问题的理解深度。</strong></p>
+      <p>所以如果你今天只做一件事，我建议：<strong>关掉 VS Code，花一小时和你的一个真实用户聊聊天。</strong> 问他们最近最头疼的问题是什么，他们现在用什么替代方案，他们愿意为什么付费。</p>
+      <p>不是为了做用户调研——那个你可以让 AI 辅助完成。</p>
+      <p>是为了确保你接下来做的每件事，都对准的是真实存在的需求，而不是你想象中的技术自嗨。</p>
+      <p>因为 AI 可以帮你写代码、优化架构、生成文案。但 AI 没法帮你想清楚，你的用户真正需要的是什么。</p>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p>本文由 AI 辅助整理，观点源于独立开发实战与真实 builders 的一手声音。</p>
+    <p>素材来源：Unsupervised Learning Ep 84（@Ako Paioki）、@rauchg（Vercel）、@levie（Box）、@garrytan（YC）、@zarazhangrui、@petergyang</p>
+    <p class="brand">[AI独立派] · 每日追踪 AI builders 动态 · 写给独立开发者和远程工作者</p>
+  </div>
+</div>
+</body>
+</html>
