@@ -12,15 +12,6 @@ let currentPage = 1;
 const PAGE_SIZE = 20;
 let filteredJobsCache = []; // 缓存过滤后的职位
 
-// 调试：检查数据
-console.log('[调试] JOBS_MAINLIST 数量:', typeof JOBS_MAINLIST !== 'undefined' ? JOBS_MAINLIST.length : 0);
-console.log('[调试] JOBS_CN 数量:', typeof JOBS_CN !== 'undefined' ? JOBS_CN.length : 0);
-if (typeof JOBS_CN !== 'undefined') {
-    const referralCnt = JOBS_CN.filter(j => j.canRefer).length;
-    const normalCnt = JOBS_CN.filter(j => !j.canRefer).length;
-    console.log('[调试] JOBS_CN 内推岗:', referralCnt, '非内推岗:', normalCnt);
-}
-
 // 各数据源的分类映射
 const CATEGORIES_CN = ['全部','全栈开发','后端开发','前端开发','AI/算法','区块链','运营','多岗位','市场营销'];
 const CATEGORIES_GLOBAL = ['全部','全栈开发','前端开发','后端开发','数据分析','产品经理','市场营销','UI/UX设计','运营','人力资源','技术/运营'];
@@ -121,12 +112,6 @@ function getBalancedReferralJobs(referralJobs) {
     combined.push(...extra);
   }
 
-  // 调试日志
-  console.log('[内推岗均衡] 技术岗:', techPicks.length, techPicks.map(j => j.category));
-  console.log('[内推岗均衡] 非技术岗:', nonTechPicks.length, nonTechPicks.map(j => j.category));
-  console.log('[内推岗均衡] 合计:', combined.length, '条');
-  console.log('[内推岗均衡] 详细:', combined.map((j, i) => `${i+1}. [${j.category}] ${j.title.slice(0,25)}`));
-
   return combined;
 }
 
@@ -161,13 +146,9 @@ function sortWithReferralFirst(jobs, source = 'cn') {
     const referralJobs = jobs.filter(j => j.canRefer);
     const normalJobs = jobs.filter(j => !j.canRefer);
     
-    console.log('[排序调试] 总岗位:', jobs.length, '内推岗:', referralJobs.length, '非内推岗:', normalJobs.length);
-    
     // 内推岗首屏10条：按类别均衡（5技术+5非技术）
     const firstPageReferral = getBalancedReferralJobs(referralJobs);
     const firstPageReferralIds = new Set(firstPageReferral.map(j => j.id));
-    console.log('[排序调试] 首屏内推岗:', firstPageReferral.length, '条（类别均衡）');
-    console.log('[排序调试] 首屏内推岗类别:', firstPageReferral.map(j => j.category).join(', '));
     
     // 剩余内推岗按日期倒序
     const remainingReferral = referralJobs
@@ -715,15 +696,7 @@ function updateStats() {
 
 // ── 初始化 ──
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('🔍 页面初始化开始');
-  console.log('📊 数据源检查:');
-  console.log('  JOBS_MAINLIST:', typeof JOBS_MAINLIST !== 'undefined' ? JOBS_MAINLIST.length : 0, '条');
-  console.log('  JOBS_CN:', typeof JOBS_CN !== 'undefined' ? JOBS_CN.length : 0, '条');
-  console.log('  JOBS_GLOBAL:', typeof JOBS_GLOBAL !== 'undefined' ? JOBS_GLOBAL.length : 0, '条');
-  
   const cnJobs = getCurrentJobs();
-  console.log('✅ CN 模式合并后:', cnJobs.length, '条');
-  
   updateStats();
   
   // 根据当前模式初始化
