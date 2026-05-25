@@ -6,7 +6,7 @@
 
 const JOBS_GLOBAL = [
   {
-    id: 'global-remoteok-446808',
+    id: 'global-remoteok-6',
     title: 'Data Annotator',
     company: 'CuraSenseAI',
     logo: '🌍',
@@ -28,7 +28,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Data Annotator',
   },
   {
-    id: 'global-remoteok-383611',
+    id: 'global-remoteok-229077',
     title: 'Administrative Assistant',
     company: 'Somewhere',
     logo: '🌍',
@@ -50,7 +50,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Administrative Assistant',
   },
   {
-    id: 'global-remoteok-343941',
+    id: 'global-remoteok-223102',
     title: 'Assistente de Sucesso do Cliente CLT Remoto',
     company: 'Nibo',
     logo: '🌍',
@@ -72,7 +72,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Assistente de Sucesso do Cliente CLT Remoto',
   },
   {
-    id: 'global-remoteok-267278',
+    id: 'global-remoteok-44309',
     title: 'Investigative Journalist',
     company: 'Crossing Hurdles',
     logo: '🌍',
@@ -94,7 +94,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Investigative Journalist',
   },
   {
-    id: 'global-remoteok-491775',
+    id: 'global-remoteok-70280',
     title: 'Journalist',
     company: 'Crossing Hurdles',
     logo: '🌍',
@@ -116,7 +116,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-441219',
+    id: 'global-remoteok-623513',
     title: 'Maintenance',
     company: 'Pacific Cyber Technology Pvt Ltd',
     logo: '🌍',
@@ -138,7 +138,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-882893',
+    id: 'global-remoteok-842842',
     title: 'Junior Graphic Designer',
     company: 'Twine',
     logo: '🌍',
@@ -160,7 +160,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Junior Graphic Designer',
   },
   {
-    id: 'global-remoteok-409008',
+    id: 'global-remoteok-659150',
     title: 'Employers',
     company: 'TRS Resourcing',
     logo: '🌍',
@@ -182,7 +182,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-949452',
+    id: 'global-remoteok-154094',
     title: 'Generalist',
     company: 'Crossing Hurdles',
     logo: '🌍',
@@ -204,7 +204,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-313179',
+    id: 'global-remoteok-672165',
     title: 'Word Document Specialist Fully',
     company: 'Mercor',
     logo: '🌍',
@@ -226,7 +226,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Word Document Specialist Fully',
   },
   {
-    id: 'global-remoteok-520069',
+    id: 'global-remoteok-78367',
     title: 'Graphic Designer',
     company: 'Mercor',
     logo: '🌍',
@@ -248,7 +248,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Graphic Designer',
   },
   {
-    id: 'global-remoteok-974956',
+    id: 'global-remoteok-547482',
     title: 'Curriculum Developer',
     company: 'Mercor',
     logo: '🌍',
@@ -270,7 +270,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Curriculum Developer',
   },
   {
-    id: 'global-remoteok-787412',
+    id: 'global-remoteok-837034',
     title: 'Docentes de licenciatura online UANE',
     company: 'Lottus Education',
     logo: '🌍',
@@ -292,7 +292,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Docentes de licenciatura online UANE',
   },
   {
-    id: 'global-remoteok-783529',
+    id: 'global-remoteok-290872',
     title: 'Assistente Administrativo CobranÃ§a CLT',
     company: 'Mell.ro',
     logo: '🌍',
@@ -314,7 +314,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Assistente Administrativo Cobrança CLT',
   },
   {
-    id: 'global-remoteok-106660',
+    id: 'global-remoteok-492347',
     title: 'Suporte Help Desk N1 CLT',
     company: 'Mell.ro',
     logo: '🌍',
@@ -330,13 +330,13 @@ const JOBS_GLOBAL = [
     sourceUrl: 'https://remoteOK.com/remote-jobs/remote-suporte-help-desk-n1-clt-mell-ro-1132121',
     currency: 'USD',
     companyCountry: '海外',
-    description: 'Mell.ro 招聘 Suporte Help Desk N1 CLT',
+    description: 'Remote Suporte Help Desk N1 CLT\nAtuar no suporte N1, realizando atendimento multicanal aos clientes para esclarecer dúvidas, registrar e acompanhar solicitações, garantindo uma experiência ágil, humanizada e eficiente. Será responsável por apoiar a utilização da plataforma, identificar problemas e oportunidades de melhoria, atualizar informações operacionais e contribuir para o acompanhamento de indicadores e processos da área.\nRealizar atendimento aos clientes por meio dos canais oficiais, escl',
     requirements: [],
     benefits: [],
-    company_info: '',
+    company_info: 'Remote Suporte Help Desk N1 CLT',
   },
   {
-    id: 'global-remoteok-608759',
+    id: 'global-remoteok-301649',
     title: 'FlentX',
     company: 'Flent',
     logo: '🌍',
@@ -358,7 +358,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-64160',
+    id: 'global-remoteok-982680',
     title: 'Social Media Content Creator',
     company: 'Favoured',
     logo: '🌍',
@@ -380,7 +380,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Social Media Content Creator',
   },
   {
-    id: 'global-remoteok-932030',
+    id: 'global-remoteok-59722',
     title: 'Product Designer',
     company: 'Gocertify',
     logo: '🌍',
@@ -402,7 +402,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Product Designer',
   },
   {
-    id: 'global-remoteok-3281',
+    id: 'global-remoteok-466316',
     title: 'Directeur Audio Audio Director',
     company: 'Side',
     logo: '🌍',
@@ -424,7 +424,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Directeur Audio Audio Director',
   },
   {
-    id: 'global-remoteok-34381',
+    id: 'global-remoteok-671587',
     title: 'Game Tester',
     company: 'Crossing Hurdles',
     logo: '🌍',
@@ -446,7 +446,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-997106',
+    id: 'global-remoteok-383371',
     title: 'Executive Assistant',
     company: 'Zirtual',
     logo: '🌍',
@@ -468,7 +468,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Executive Assistant',
   },
   {
-    id: 'global-remoteok-624341',
+    id: 'global-remoteok-494262',
     title: 'MEX Cajero Sucursal',
     company: 'Universia MÃ©xico',
     logo: '🌍',
@@ -490,7 +490,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote MEX Cajero Sucursal',
   },
   {
-    id: 'global-remoteok-520069',
+    id: 'global-remoteok-78367',
     title: 'Graphic Designer',
     company: 'milk + honey',
     logo: '🌍',
@@ -512,7 +512,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Graphic Designer',
   },
   {
-    id: 'global-remoteok-387307',
+    id: 'global-remoteok-12071',
     title: 'Content Editor',
     company: 'Crossing Hurdles',
     logo: '🌍',
@@ -534,7 +534,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Content Editor',
   },
   {
-    id: 'global-remoteok-377342',
+    id: 'global-remoteok-900369',
     title: 'Virtual Assistant Panelist',
     company: 'RG&amp;T Solutions',
     logo: '🌍',
@@ -556,7 +556,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Virtual Assistant Panelist',
   },
   {
-    id: 'global-remoteok-377342',
+    id: 'global-remoteok-900369',
     title: 'Virtual Assistant Panelist',
     company: 'RG&amp;T Solutions',
     logo: '🌍',
@@ -578,7 +578,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Virtual Assistant Panelist',
   },
   {
-    id: 'global-remoteok-197100',
+    id: 'global-remoteok-257666',
     title: 'Online Focus Group Panelist',
     company: 'RG&amp;T Solutions',
     logo: '🌍',
@@ -600,7 +600,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Online Focus Group Panelist',
   },
   {
-    id: 'global-remoteok-197100',
+    id: 'global-remoteok-257666',
     title: 'Online Focus Group Panelist',
     company: 'RG&amp;T Solutions',
     logo: '🌍',
@@ -622,7 +622,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Online Focus Group Panelist',
   },
   {
-    id: 'global-remoteok-197100',
+    id: 'global-remoteok-257666',
     title: 'Online Focus Group Panelist',
     company: 'RG&amp;T Solutions',
     logo: '🌍',
@@ -644,7 +644,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Online Focus Group Panelist',
   },
   {
-    id: 'global-remoteok-387877',
+    id: 'global-remoteok-479451',
     title: 'IT Support Specialist',
     company: 'RemoteVA',
     logo: '🌍',
@@ -666,7 +666,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote IT Support Specialist',
   },
   {
-    id: 'global-remoteok-964407',
+    id: 'global-remoteok-606569',
     title: 'Executive Assistant the CEO',
     company: 'Virtana Corp.',
     logo: '🌍',
@@ -688,7 +688,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Executive Assistant the CEO',
   },
   {
-    id: 'global-remoteok-730402',
+    id: 'global-remoteok-312782',
     title: 'Security Officer',
     company: 'Buckeye Partners',
     logo: '🌍',
@@ -710,7 +710,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Security Officer',
   },
   {
-    id: 'global-remoteok-164883',
+    id: 'global-remoteok-780469',
     title: 'Profesores de EspaÃ±ol como lengua extranjera',
     company: 'Apprentus',
     logo: '🌍',
@@ -732,7 +732,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Profesores de Español como lengua extranjera',
   },
   {
-    id: 'global-remoteok-955702',
+    id: 'global-remoteok-911302',
     title: 'Profesores de ELE para clases particulares',
     company: 'Apprentus',
     logo: '🌍',
@@ -754,7 +754,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Profesores de ELE para clases particulares',
   },
   {
-    id: 'global-remoteok-534882',
+    id: 'global-remoteok-157193',
     title: 'Profesor y Tutor para Apoyo Escolar y Clases Particulares',
     company: 'Apprentus',
     logo: '🌍',
@@ -776,7 +776,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Profesor y Tutor para Apoyo Escolar y Clases Particulares',
   },
   {
-    id: 'global-remoteok-64160',
+    id: 'global-remoteok-982680',
     title: 'Social Media Content Creator',
     company: 'FuseGlobal',
     logo: '🌍',
@@ -798,7 +798,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Social Media Content Creator',
   },
   {
-    id: 'global-remoteok-530041',
+    id: 'global-remoteok-493998',
     title: 'Chief Operating Officer',
     company: 'UltaHost',
     logo: '🌍',
@@ -820,7 +820,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Chief Operating Officer',
   },
   {
-    id: 'global-remoteok-530041',
+    id: 'global-remoteok-493998',
     title: 'Chief Operating Officer',
     company: 'UltaHost',
     logo: '🌍',
@@ -842,7 +842,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Chief Operating Officer',
   },
   {
-    id: 'global-remoteok-993120',
+    id: 'global-remoteok-691749',
     title: 'Mathematical Analyst',
     company: 'Crossing Hurdles',
     logo: '🌍',
@@ -864,7 +864,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Mathematical Analyst',
   },
   {
-    id: 'global-remoteok-525716',
+    id: 'global-remoteok-647323',
     title: 'freelancer',
     company: 'Testlio',
     logo: '🌍',
@@ -886,7 +886,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-336404',
+    id: 'global-remoteok-338991',
     title: 'Outbound Sales Development Representative Latin America',
     company: 'Bluelight Consulting',
     logo: '🌍',
@@ -908,7 +908,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Outbound Sales Development Representative Latin America',
   },
   {
-    id: 'global-remoteok-271675',
+    id: 'global-remoteok-352168',
     title: 'Clerk Typist',
     company: 'Positive Behavior Steps',
     logo: '🌍',
@@ -930,7 +930,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-463999',
+    id: 'global-remoteok-271226',
     title: 'Chat Support Clerk',
     company: 'Positive Behavior Steps',
     logo: '🌍',
@@ -952,7 +952,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Chat Support Clerk',
   },
   {
-    id: 'global-remoteok-920688',
+    id: 'global-remoteok-347806',
     title: 'Jefe de Calidad Procesos',
     company: 'Grupo Auteco',
     logo: '🌍',
@@ -974,7 +974,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Jefe de Calidad Procesos',
   },
   {
-    id: 'global-remoteok-83892',
+    id: 'global-remoteok-987377',
     title: 'Gateway Agent',
     company: 'DHL Express',
     logo: '🌍',
@@ -996,7 +996,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-86840',
+    id: 'global-remoteok-896716',
     title: 'Operations Agent',
     company: 'DHL Express',
     logo: '🌍',
@@ -1018,7 +1018,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Operations Agent',
   },
   {
-    id: 'global-remoteok-367644',
+    id: 'global-remoteok-651064',
     title: 'Pessoa Desenvolvedora C C++ Embarcado Pl Meios de Pagamento',
     company: 'Venturus',
     logo: '🌍',
@@ -1034,13 +1034,13 @@ const JOBS_GLOBAL = [
     sourceUrl: 'https://remoteOK.com/remote-jobs/remote-1169-1170-pessoa-desenvolvedora-c-c-embarcado-pl-meios-de-pagamento-venturus-1131837',
     currency: 'USD',
     companyCountry: '海外',
-    description: 'Remote 1169 1170 Pessoa Desenvolvedora C C++ Embarcado Pl Meios de Pagamento\nAnunciada 00:00:00. Quem estamos buscando?Esta oportunidade é para você que é apaixonado C/C++ Embarcado e já conhece… - veja esta vaga e outras semelhantes no LinkedIn.\nSalary and compensation\nUpgrade to Premium\nto see salary and compensation for all jobs.\nLocation\nBrasil,',
+    description: 'Venturus 招聘 Pessoa Desenvolvedora C C++ Embarcado Pl Meios de Pagamento',
     requirements: [],
     benefits: [],
-    company_info: 'Remote 1169 1170 Pessoa Desenvolvedora C C++ Embarcado Pl Meios de Pagamento',
+    company_info: '',
   },
   {
-    id: 'global-remoteok-533112',
+    id: 'global-remoteok-807184',
     title: 'Territory Sales Officer',
     company: 'Unilever',
     logo: '🌍',
@@ -1062,7 +1062,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Territory Sales Officer',
   },
   {
-    id: 'global-remoteok-533112',
+    id: 'global-remoteok-807184',
     title: 'Territory Sales Officer',
     company: 'Unilever',
     logo: '🌍',
@@ -1084,7 +1084,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Territory Sales Officer',
   },
   {
-    id: 'global-remoteok-720453',
+    id: 'global-remoteok-574659',
     title: 'Atendente de SAC',
     company: 'Pluris MÃ­dia',
     logo: '🌍',
@@ -1106,7 +1106,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Atendente de SAC',
   },
   {
-    id: 'global-remoteok-398213',
+    id: 'global-remoteok-41527',
     title: 'Genetic Counseling Assistant',
     company: 'MyOme',
     logo: '🌍',
@@ -1128,7 +1128,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-380440',
+    id: 'global-remoteok-311195',
     title: 'Junior Brand Designer',
     company: 'Twine',
     logo: '🌍',
@@ -1150,7 +1150,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-884202',
+    id: 'global-remoteok-596150',
     title: 'Claims Officer Nassau',
     company: 'Coralisle Group Ltd.',
     logo: '🌍',
@@ -1172,7 +1172,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-636904',
+    id: 'global-remoteok-288294',
     title: 'Required Data Entry Operator',
     company: 'TestHiring',
     logo: '🌍',
@@ -1194,7 +1194,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-815321',
+    id: 'global-remoteok-435674',
     title: 'Customer Service Representative',
     company: 'RG&amp;T Solutions',
     logo: '🌍',
@@ -1216,7 +1216,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-197100',
+    id: 'global-remoteok-257666',
     title: 'Online Focus Group Panelist',
     company: 'RG&amp;T Solutions',
     logo: '🌍',
@@ -1238,7 +1238,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-377342',
+    id: 'global-remoteok-900369',
     title: 'Virtual Assistant Panelist',
     company: 'RG&amp;T Solutions',
     logo: '🌍',
@@ -1260,7 +1260,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-197100',
+    id: 'global-remoteok-257666',
     title: 'Online Focus Group Panelist',
     company: 'RG&amp;T Solutions',
     logo: '🌍',
@@ -1282,7 +1282,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-197100',
+    id: 'global-remoteok-257666',
     title: 'Online Focus Group Panelist',
     company: 'RG&amp;T Solutions',
     logo: '🌍',
@@ -1304,7 +1304,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-377342',
+    id: 'global-remoteok-900369',
     title: 'Virtual Assistant Panelist',
     company: 'RG&amp;T Solutions',
     logo: '🌍',
@@ -1326,7 +1326,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-407258',
+    id: 'global-remoteok-714409',
     title: 'Staff Writer Health',
     company: 'Forbes Advisor',
     logo: '🌍',
@@ -1724,6 +1724,28 @@ const JOBS_GLOBAL = [
     description: '<div class=\"h1\" style=\" line-height: 28px; padding: 0px; font-weight: 500; color: rgb(55, 62, 77); \">Our Vision &amp; Products</div><p style=\"line-height: 24px; margin: 8px 0px 0px; padding: 0px; color: rgb(55, 62, 77);  min-height: 1.5em;\"><em><span style=\"font-weight: 600;\">🚀 EverAI — Building the Future of AI Companionship</span></em></p><p style=\"line-height: 24px; margin: 8px 0px 0px; padding: 0px; color: rgb(55, 62, 77);  min-height: 1.5em;\"><em>One of the Top 15 Largest &amp; Fastest-Grow',
     requirements: [],
     benefits: ['full_time'],
+  },
+  {
+    id: 'global-yuanchengdao-13937',
+    title: '远程 MSSP SOC 分析师：24/7 威胁防御',
+    company: 'Districttechgroup',
+    logo: '🌏',
+    category: '软件工程',
+    tags: ['远程', '华人友好'],
+    salary: '面议',
+    location: '美国',
+    date: '2026-05-24',
+    isNew: true,
+    isFeatured: false,
+    canRefer: false,
+    source: 'https://yuanchengdao.com',
+    sourceUrl: 'https://yuanchengdao.com/job/remote-mssp-soc-analyst-24-7-threat-defense-districttechgroup-116536',
+    applyUrl: 'https://jooble.org/jdp/-1723816610167947065?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic',
+    currency: 'CNY',
+    companyCountry: '美国',
+    description: '一家网络安全公司正在寻找一名 MSSP SOC 分析师，作为客户的第一道防线。职责包括监控安全事件、分析威胁和实时响应事件。理想的候选人需具备至少 2 年的安全分析师经验，对 MITRE ATT&CK 框架和 SIEM 平台有深入了解。该职位提供完全远程的工作环境、具有竞争力的薪资和包括健康及职业发展支持在内的福利。',
+    requirements: [],
+    benefits: [],
   },
   {
     id: 'global-yuanchengdao-13936',
@@ -5009,7 +5031,7 @@ const JOBS_GLOBAL = [
     company: 'Core Health & Fitness, LLC',
     logo: '🌏',
     category: '软件工程',
-    tags: ['远程', '华人友好'],
+    tags: [],
     salary: '面议',
     location: '美国',
     date: '2026-05-21',
@@ -43950,28 +43972,6 @@ const JOBS_GLOBAL = [
     currency: 'CNY',
     companyCountry: '德国',
     description: '这是一个完全远程的工作，提供的职位可在：EMEA\n\n关于Remote\nRemote正在解决现代组织面临的最大挑战——以合规的方式轻松导航全球就业。我们使各类企业能够招聘、支付和管理国际团队。我们的核心价值观和面向未来的工作文化使我们的团队在全球范围内不懈努力，解决雄心勃勃的问题。您可以在6个不同的大陆找到Remote的员工（南极洲还未加入！），我们所有的职位都是完全远程的。\n\n创新是我们的核心价值之一，我们在每个角色的要求中都建立了自动化和人工智能的能力。\n\n我们鼓励Remote团队的每一位成员带来他们的才能、经验和文化，以帮助我们建立最佳的HR平台。\n\n如果您充满活力、好奇、积极进取，欢迎加入我们的世界。立即申请，定义工作的未来！\n\n职位\n您将加入一个由前端、后端、SRE和QA工程师组成的团队。我们组织成跨职能开发团队，分配给特定的垂直领域。\n\n这个角色开放给多个团队，我们将在面试过程中根据业务需求和您的偏好来确定您将加入的具体团队。\n\n无论具体团队如何，您将负责为我们的某一产品构建工具、API和集成。\n\n我们的后端使用Elixir和Phoenix构建，数据库为Postgres。我们',
-    requirements: [],
-    benefits: [],
-  },
-  {
-    id: 'global-yuanchengdao-11247',
-    title: '远程UI设计师 - 引导AI改善用户体验和视觉效果',
-    company: 'DataAnnotation',
-    logo: 'https://static.yuanchengdao.com/20260316/dataannotation.jpg',
-    category: 'AI/算法',
-    tags: [],
-    salary: '144-288/月',
-    location: '美国',
-    date: '2026-04-26',
-    isNew: true,
-    isFeatured: false,
-    canRefer: false,
-    source: 'https://yuanchengdao.com',
-    sourceUrl: 'https://yuanchengdao.com/job/remote-ui-designer-guide-ai-to-better-ux-visuals-dataannotation-52954',
-    applyUrl: 'https://www.talent.com/view?id=616743563764833235&utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic',
-    currency: 'CNY',
-    companyCountry: '美国',
-    description: '一家领先的AI培训公司正在寻找一名UI设计师，以评估和增强AI生成的设计。该角色涉及批评UI/UX输出并训练模型的美学质量。候选人应具备扎实的UI/UX设计背景，并流利掌握英语。该职位为全职或兼职，支持远程工作，提供项目选择和工作时间的灵活性。薪酬起薪为每小时20美元以上，设计项目的薪酬为每小时40美元以上。\n\n J-18808-Ljbffr',
     requirements: [],
     benefits: [],
   },
