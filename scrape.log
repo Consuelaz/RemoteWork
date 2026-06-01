@@ -1020,3 +1020,33 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'bs4'
 数据更新完成: 2026-06-01
 ========================================
+[master 8a61d74] 自动更新: 2026-06-01 CN=891 Global=2000
+ 1 file changed, 28 insertions(+)
+unix_listener: cannot bind to path /Users/qisoong/.ssh/github.com-22-git.4LwFtFegzVTHISrf: Operation not permitted
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+✅ Git 推送完成
+========================================
+开始抓取: 2026-06-01
+正在抓取 Remote OK...
+Remote OK 下载完成
+正在抓取 Remotive...
+Remotive 下载完成
+正在抓取远程岛...
+远程岛 下载完成
+正在抓取 who-is-hiring (Rebase)...
+who-is-hiring 下载完成
+正在预下载Remote OK岗位详情...
+正在抓取远程中文网...
+远程中文网 下载完成
+正在预下载远程中文网岗位详情...
+正在抓取 V2EX...
+V2EX 下载失败
+正在预下载V2EX岗位详情...
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+ModuleNotFoundError: No module named 'bs4'
+数据更新完成: 2026-06-01
+========================================
