@@ -1,5 +1,18 @@
 # AI独立派文章同步 - 执行记录
 
+## 2026-05-29 11:40
+- 执行 sync-articles.sh，无新文章（~/articles/ 与 ai-indie/ 已一致）
+- index.html 文章列表更新至 20 篇
+- git add ai-indie/index.html ai-indie/sync.log + commit (758926e, 2 files changed) + push 成功
+- 推送至 github.com:Consuelaz/RemoteWork.git master 分支
+
+## 2026-05-28 10:40
+- 执行 sync-articles.sh，无新文章（~/articles/ 与 ai-indie/ 已一致）
+- index.html 文章列表更新至 20 篇
+- git add + commit (ca136ea, 2 files changed) + push 成功
+- 推送至 github.com:Consuelaz/RemoteWork.git master 分支
+- 注意：推送时遇到远程 ref 冲突，通过 git stash + pull --rebase 解决
+
 ## 2026-05-27 10:03
 - 执行 sync-articles.sh，无新文章（~/articles/ 与 ai-indie/ 已一致）
 - index.html 文章列表更新至 20 篇
