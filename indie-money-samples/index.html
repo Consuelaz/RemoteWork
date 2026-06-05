@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI独立派 - 面向独立开发者的AI深度内容</title>
+    <title>一人公司赚钱样本 - 深度拆解独立开发者赚钱路径</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -51,6 +51,16 @@
             padding: 60px 24px 50px;
             text-align: center;
         }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
         .hero h1 {
             font-size: 32px;
             font-weight: 700;
@@ -60,13 +70,39 @@
         .hero p {
             font-size: 16px;
             opacity: 0.85;
-            max-width: 500px;
+            max-width: 520px;
             margin: 0 auto;
+            line-height: 1.7;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 24px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-item strong {
+            display: block;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .stat-item span {
+            font-size: 13px;
+            opacity: 0.75;
         }
         .container {
             max-width: 720px;
             margin: 0 auto;
             padding: 32px 20px 60px;
+        }
+        .section-label {
+            font-size: 13px;
+            color: #a8a29e;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
         }
         .article-list {
             display: flex;
@@ -89,10 +125,23 @@
             box-shadow: 0 4px 12px rgba(44,85,48,0.08);
             transform: translateY(-1px);
         }
+        .article-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .article-episode {
+            font-size: 12px;
+            color: #2C5530;
+            font-weight: 600;
+            background: #f0f7f0;
+            padding: 2px 10px;
+            border-radius: 4px;
+        }
         .article-date {
             font-size: 13px;
             color: #a8a29e;
-            margin-bottom: 6px;
         }
         .article-title {
             font-size: 17px;
@@ -142,10 +191,30 @@
         @media (max-width: 640px) {
             .hero { padding: 40px 16px 36px; }
             .hero h1 { font-size: 24px; }
+            .stats-row { gap: 20px; }
+            .stat-item strong { font-size: 18px; }
             .container { padding: 20px 16px 40px; }
             .article-card { padding: 16px; }
             .nav-links { gap: 12px; }
             .nav-links a { font-size: 13px; }
+            .nav-toggle {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 4px;
+            }
+            .nav-toggle span {
+                display: block;
+                width: 20px;
+                height: 2px;
+                background: #1c1917;
+            }
+        }
+        @media (min-width: 641px) {
+            .nav-toggle { display: none; }
         }
     </style>
 </head>
@@ -155,17 +224,33 @@
         <div class="nav-links">
             <a href="../index.html#jobs">远程岗位</a>
             <a href="../companies.html">科技公司</a>
-            <a href="index.html" class="active">AI独立派</a>
+            <a href="../ai-indie/index.html">AI独立派</a>
+            <a href="index.html" class="active">一人公司赚钱样本</a>
             <a href="../community.html">加入社群</a>
         </div>
+        <button class="nav-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='flex'?'none':'flex'">
+            <span></span><span></span><span></span>
+        </button>
     </nav>
 
     <div class="hero">
-        <h1>🚀 AI独立派</h1>
-        <p>面向独立开发者和远程工作者的 AI 深度内容，每周持续更新</p>
+        <div class="hero-badge">INDIE MONEY SAMPLES</div>
+        <h1>一人公司赚钱样本</h1>
+        <p>深度拆解独立开发者从0到赚钱的真实路径<br>商业模式 · 增长策略 · 可复用方法论</p>
+        <div class="stats-row">
+            <div class="stat-item">
+                <strong id="articleCount">0</strong>
+                <span>篇深度拆解</span>
+            </div>
+            <div class="stat-item">
+                <strong id="mrrSum">$0</strong>
+                <span>累计 MRR</span>
+            </div>
+        </div>
     </div>
 
     <div class="container">
+        <div class="section-label">全部文章</div>
         <div class="article-list" id="articleList">
             <!-- 由 JS 动态渲染 -->
         </div>
@@ -177,54 +262,39 @@
 
     <script>
     const ARTICLES = [
-        { date: '2026-05-20', file: 'ai-indie-karpathy-anthropic-2026-05-20.html', title: '「Vibe Coding」之父投奔 OpenAI 死对头——Karpathy 加入 Anthropic，他在追的那扇门是什么？' },
-        { date: '2026-06-04', file: 'ai-indie-2026-06-04.html', title: '微软宣布 Agent 取代 App——并且把 85% 的钱留给了你' },
-        { date: '2026-06-03', file: 'ai-indie-2026-06-03.html', title: 'SpaceX 要花 600 亿美元买一个代码编辑器 ——这说明 AI 时代的真正金矿在哪里' },
-        { date: '2026-06-01', file: 'ai-indie-2026-06-01.html', title: '万亿 AI 巨头排着队 IPO——但钱可能先到你口袋' },
-        { date: '2026-05-29', file: 'ai-indie-2026-05-29.html', title: 'Anthropic 拿了 650 亿美元，但最值得你看的，是它没说的那句话' },
-        { date: '2026-05-27', file: 'ai-indie-2026-05-27.html', title: '别再只做 MVP 了：AI 时代，脚手架才是你的核心竞争力' },
-        { date: '2026-05-25', file: 'ai-indie-2026-05-25.html', title: '慢一步就是死——当"速度"成为 AI 时代唯一真正的护城河' },
-        { date: '2026-05-24', file: 'ai-indie-2026-05-24.html', title: '两家 AI 巨头砸了 115 亿美元，却替你踢开了那扇门' },
-        { date: '2026-05-23', file: 'ai-indie-2026-05-23.html', title: 'AI 自己在造更强的 AI——独立开发者，你还有多少时间差' },
-        { date: '2026-05-22', file: 'ai-indie-2026-05-22.html', title: 'Anthropic 开始赚钱了，但独立开发者最该看到的，是它算的那笔账' },
-        { date: '2026-05-21', file: 'ai-indie-2026-05-21.html', title: '谷歌用 93 个 Agent 造了个操作系统——这对你意味着什么？' },
-        { date: '2026-05-20', file: 'ai-indie-2026-05-20.html', title: '我今年一行代码没写，合并了 150 个 PR——这才是 AI 时代真正的分水岭' },
-        { date: '2026-05-19', file: 'ai-indie-2026-05-19.html', title: 'AI 给了你一把锤子，但你真的知道钉子在哪吗？' },
-        { date: '2026-05-17', file: 'ai-indie-2026-05-17.html', title: 'Anthropic 赢了，但代价是工程师一个月要掏 $2000 ——独立开发者该怎么看这件事？' },
-        { date: '2026-05-14', file: 'ai-indie-2026-05-14.html', title: 'AI 权力格局正在重构： 法庭上的战争，与代码里的革命' },
-        { date: '2026-05-12', file: 'ai-indie-2026-05-12.html', title: 'AI 让工作更复杂了——这恰恰是独立开发者的好消息' },
-        { date: '2026-05-11', file: 'ai-indie-2026-05-11.html', title: '做产品的人，最后都会输给写代码的？' },
-        { date: '2026-05-10', file: 'ai-indie-2026-05-10.html', title: 'AI 不是来帮你「躺平」的——它会让你的工作变得更难' },
-        { date: '2026-05-09', file: 'ai-indie-2026-05-09.html', title: 'AI 越能干，你反而越不值钱——除非你先想清楚这一件事' },
-        { date: '2026-05-07', file: 'ai-indie-2026-05-07.html', title: 'AI Agent 看着屏幕点鼠标，每次点击花了你 45 倍的价钱' },
-        { date: '2026-05-06', file: 'ai-indie-2026-05-06.html', title: '你的助手今天早上，已经替你开完了会' },
-        { date: '2026-04-29', file: 'ai-indie-2026-04-29.html', title: 'Vercel 被黑了，罪魁祸首是一个 AI 工具——独立开发者的供应链信任正在被重写' },
-        { date: '2026-04-26', file: 'ai-indie-2026-04-26.html', title: '工作不会变少，只会变难——AI 时代真正的稀缺是什么' },
-        { date: '2026-04-22', file: 'ai-indie-2026-04-22.html', title: 'AI独立派｜Ilya 最新访谈：编程的门槛，可能比你想象的消失得更快' },
+        {
+            episode: '#003',
+            date: '2026-06-04',
+            file: 'indie-money-bibly-2026-06-04.html',
+            title: '同类产品100+，他30天6万下载月入$10K',
+            desc: '拆解 Bibly 的赚钱路径——在极度拥挤的市场里，如何靠精准定位和快速执行力杀出一条路。',
+            tags: ['App', '精准定位', '执行力']
+        },
+        {
+            episode: '#002',
+            date: '2026-06-04',
+            file: 'indie-money-typingmind-2026-06-04.html',
+            title: '1天开发，7天入$22K',
+            desc: '拆解 TypingMind 的赚钱路径——AI 时代的套壳产品，如何做成一门正经生意。',
+            tags: ['AI', 'SaaS', '快速验证']
+        },
+        {
+            episode: '#001',
+            date: '2026-06-03',
+            file: 'indie-money-levelsio-2026-06-03.html',
+            title: '70个项目失败了66个，剩下的4个让他年入$300万',
+            desc: '拆解 Levelsio 的赚钱路径——失败率94%的一人公司，靠什么活下来并且活得很好。',
+            tags: ['多产品', '独立开发', '高产出']
+        },
+        {
+            episode: '',
+            date: '2026-06-02',
+            file: 'indie-money-datafast-2026-06-02.html',
+            title: '512天，从0到$20K MRR',
+            desc: '拆解 DataFast 的赚钱路径——让用户替你做营销，收入归因利基市场的完整打法。',
+            tags: ['SaaS', '收入归因', 'API优先']
+        }
     ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     function formatDate(dateStr) {
         const [y, m, d] = dateStr.split('-');
@@ -235,10 +305,19 @@
         const list = document.getElementById('articleList');
         list.innerHTML = ARTICLES.map(a => `
             <a href="${a.file}" class="article-card">
-                <div class="article-date">${formatDate(a.date)}</div>
+                <div class="article-card-header">
+                    ${a.episode ? `<span class="article-episode">赚钱样本 ${a.episode}</span>` : '<span></span>'}
+                    <span class="article-date">${formatDate(a.date)}</span>
+                </div>
                 <div class="article-title">${a.title}</div>
+                <div class="article-desc">${a.desc}</div>
+                <div class="article-meta">
+                    ${a.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                </div>
             </a>
         `).join('');
+
+        document.getElementById('articleCount').textContent = ARTICLES.length;
     }
 
     renderArticles();
