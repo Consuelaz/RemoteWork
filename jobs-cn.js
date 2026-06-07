@@ -6,7 +6,7 @@
 
 const JOBS_CN = [
   {
-    id: 'cn-remotechina-04015',
+    id: 'cn-remotechina-06208',
     title: '文案编辑',
     company: '北京新元启辰科技有限公司',
     logo: '🌐',
@@ -27,7 +27,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-11425',
+    id: 'cn-remotechina-12912',
     title: '论文期刊编辑',
     company: '吉安卓溟科技有限公司',
     logo: '🌐',
@@ -48,7 +48,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-22612',
+    id: 'cn-remotechina-26308',
     title: 'AI开发工程师',
     company: '广州厚森工艺品有限公司',
     logo: '🌐',
@@ -69,7 +69,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-33909',
+    id: 'cn-remotechina-3735',
     title: '抖音电商客服助理',
     company: '广州柔染传媒有限公司',
     logo: '🌐',
@@ -90,7 +90,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-48478',
+    id: 'cn-remotechina-47742',
     title: '英语课程顾问',
     company: '天津榆树教育信息咨询有限公司',
     logo: '🌐',
@@ -111,7 +111,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-58319',
+    id: 'cn-remotechina-53389',
     title: '吴语语音转写',
     company: '北京云智数科技有限公司',
     logo: '🌐',
@@ -132,7 +132,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-68638',
+    id: 'cn-remotechina-69504',
     title: '英语笔译',
     company: '语言桥',
     logo: '🌐',
@@ -153,7 +153,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-7662',
+    id: 'cn-remotechina-75962',
     title: '人力主管/经理',
     company: '大墨(成都)数字技术有限公司',
     logo: '🌐',
@@ -174,7 +174,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-84015',
+    id: 'cn-remotechina-86208',
     title: '文案编辑',
     company: '长沙文乾商业运营管理有限公司',
     logo: '🌐',
@@ -195,7 +195,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-98690',
+    id: 'cn-remotechina-96293',
     title: '市场公关经理',
     company: '山东九旭机械科技有限公司',
     logo: '🌐',
@@ -216,7 +216,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-109416',
+    id: 'cn-remotechina-105385',
     title: '财务助理',
     company: '苏州建筑工程集团有限公司',
     logo: '🌐',
@@ -230,14 +230,14 @@ const JOBS_CN = [
     canRefer: false,
     source: 'https://remote-china.com/jobs',
     sourceUrl: 'https://remote-china.com/jobs/1254',
-    applyUrl: 'https://remote-china.com/jobs/1254',
-    description: '',
-    responsibilities: [],
-    requirements: [],
+    applyUrl: 'https://www.zhaopin.com/jobdetail/CC511922920J40978080302.htm',
+    description: '行业：工程施工、装饰装修 | 产品/服务：建筑工程及装饰装修服务 | 初级资金财务助理 | 薪资范围：8000-16000元/月（苏州），薪资面议 | 工作地点：中国居家远程办公',
+    responsibilities: ['负责支持公司英国及欧洲区域的财务与资金运营工作', '需具备统筹整理能力，处理财务数据'],
+    requirements: ['财务、会计、商务经济等相关专业本科在读或已毕业', '工作细致严谨，具备良好沟通协作能力', '对数据敏感，熟练使用表格处理数据', '具备扎实财会、资金管理专业基础者优先', '有Xero、Dext系统操作经验优先，无硬性要求', '熟练运用Excel及全套Office办公软件'],
     benefits: [],
   },
   {
-    id: 'cn-remotechina-111797',
+    id: 'cn-remotechina-111301',
     title: 'UI/UX设计师',
     company: '',
     logo: '🌐',
@@ -251,14 +251,14 @@ const JOBS_CN = [
     canRefer: false,
     source: 'https://remote-china.com/jobs',
     sourceUrl: 'https://remote-china.com/jobs/1253',
-    applyUrl: 'https://remote-china.com/jobs/1253',
-    description: '',
-    responsibilities: [],
-    requirements: [],
+    applyUrl: 'https://eleduck.com/posts/0Xfa3r',
+    description: '工具/应用领域 | 主要产品/服务：Web、APP、小程序等 | UI/UX设计师 | 线上兼职（具体时长不明）',
+    responsibilities: ['负责Web、APP、小程序等产品的界面视觉设计', '根据产品需求设计用户交互流程、信息架构及原型', '输出高保真UI设计稿、设计规范及设计组件库', '与产品经理、研发团队协作，推动设计方案落地', '持续优化产品用户体验和视觉表现', '负责产品图标、插画、运营活动页面等视觉设计', '参与品牌视觉体系建设，保持设计风格统一', '跟踪行业设计趋势，提出创新设计方案'],
+    requirements: ['不明（未列出具体技能和经验要求）'],
     benefits: [],
   },
   {
-    id: 'cn-remotechina-127886',
+    id: 'cn-remotechina-126933',
     title: '品牌视觉设计师',
     company: '杭州流光溢彩品牌管理有限公司',
     logo: '🌐',
@@ -279,7 +279,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-137202',
+    id: 'cn-remotechina-132031',
     title: '初中数学老师',
     company: '上海学达优科技发展有限公司',
     logo: '🌐',
@@ -300,7 +300,7 @@ const JOBS_CN = [
     benefits: [],
   },
   {
-    id: 'cn-remotechina-145542',
+    id: 'cn-remotechina-141610',
     title: '法律顾问',
     company: '北京秉道致远科技发展有限公司',
     logo: '🌐',
