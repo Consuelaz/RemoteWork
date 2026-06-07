@@ -6,7 +6,7 @@
 
 const JOBS_GLOBAL = [
   {
-    id: 'global-remoteok-130029',
+    id: 'global-remoteok-829480',
     title: 'Sourcing Specialist',
     company: 'Theoria Medical',
     logo: '🌍',
@@ -28,7 +28,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Sourcing Specialist',
   },
   {
-    id: 'global-remoteok-501149',
+    id: 'global-remoteok-100397',
     title: 'Head of Banking Operations',
     company: 'DoorDash USA',
     logo: '🌍',
@@ -50,7 +50,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Head of Banking Operations',
   },
   {
-    id: 'global-remoteok-168363',
+    id: 'global-remoteok-158985',
     title: 'Territory Business Development Manager USMC',
     company: 'Shield AI',
     logo: '🌍',
@@ -72,7 +72,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Territory Business Development Manager USMC',
   },
   {
-    id: 'global-remoteok-672899',
+    id: 'global-remoteok-872602',
     title: 'Customer Service Rep I',
     company: 'SanMar-Internal',
     logo: '🌍',
@@ -94,7 +94,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Customer Service Rep I',
   },
   {
-    id: 'global-remoteok-802913',
+    id: 'global-remoteok-815080',
     title: 'Senior Director Global Delivery Services',
     company: 'Elite Technology',
     logo: '🌍',
@@ -116,7 +116,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Senior Director Global Delivery Services',
   },
   {
-    id: 'global-remoteok-12360',
+    id: 'global-remoteok-127891',
     title: 'Vice President People',
     company: 'KIPP Foundation',
     logo: '🌍',
@@ -138,7 +138,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Vice President People',
   },
   {
-    id: 'global-remoteok-242922',
+    id: 'global-remoteok-304367',
     title: 'Manager People Operations',
     company: 'KIPP Foundation',
     logo: '🌍',
@@ -160,7 +160,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Manager People Operations',
   },
   {
-    id: 'global-remoteok-602008',
+    id: 'global-remoteok-185765',
     title: 'Executive Assistant',
     company: 'AWISEE',
     logo: '🌍',
@@ -182,7 +182,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Executive Assistant',
   },
   {
-    id: 'global-remoteok-280992',
+    id: 'global-remoteok-135201',
     title: 'Data Analyst',
     company: 'StioÂ®',
     logo: '🌍',
@@ -204,7 +204,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-809813',
+    id: 'global-remoteok-162563',
     title: 'Builder Chief',
     company: 'Consultran',
     logo: '🌍',
@@ -226,7 +226,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-242922',
+    id: 'global-remoteok-304367',
     title: 'Manager People Operations',
     company: 'KIPP Foundation',
     logo: '🌍',
@@ -248,7 +248,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Manager People Operations',
   },
   {
-    id: 'global-remoteok-800097',
+    id: 'global-remoteok-17359',
     title: 'Marketing Coordinator',
     company: 'Rocky Talkie',
     logo: '🌍',
@@ -270,7 +270,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Marketing Coordinator',
   },
   {
-    id: 'global-remoteok-467817',
+    id: 'global-remoteok-319372',
     title: 'General Production',
     company: 'Dana Incorporated',
     logo: '🌍',
@@ -292,7 +292,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote General Production',
   },
   {
-    id: 'global-remoteok-467817',
+    id: 'global-remoteok-319372',
     title: 'General Production',
     company: 'Dana Incorporated',
     logo: '🌍',
@@ -314,7 +314,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote General Production',
   },
   {
-    id: 'global-remoteok-259148',
+    id: 'global-remoteok-607324',
     title: 'CAN_GENERAL PRODUCTION',
     company: 'Dana Incorporated',
     logo: '🌍',
@@ -336,7 +336,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote CAN_GENERAL PRODUCTION',
   },
   {
-    id: 'global-remoteok-173645',
+    id: 'global-remoteok-769112',
     title: 'Support Engineer',
     company: 'Level',
     logo: '🌍',
@@ -358,7 +358,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Support Engineer',
   },
   {
-    id: 'global-remoteok-985517',
+    id: 'global-remoteok-449047',
     title: 'Implementation Specialist',
     company: 'Dossier - Digital Competency Management',
     logo: '🌍',
@@ -380,7 +380,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Implementation Specialist',
   },
   {
-    id: 'global-remoteok-116914',
+    id: 'global-remoteok-581817',
     title: 'Site Labourer',
     company: 'Igne',
     logo: '🌍',
@@ -402,7 +402,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-381205',
+    id: 'global-remoteok-663623',
     title: 'Profesor A Ele â EnseÃ±anza De EspaÃ±ol Horario Flexible',
     company: 'Apprentus',
     logo: '🌍',
@@ -424,7 +424,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Profesor A Ele — Enseñanza De Español Horario Flexible',
   },
   {
-    id: 'global-remoteok-611267',
+    id: 'global-remoteok-381326',
     title: 'Buffer',
     company: 'ESS â Defence, Energy and Government Services',
     logo: '🌍',
@@ -446,7 +446,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-994812',
+    id: 'global-remoteok-815160',
     title: 'Sydney Trains Full Time and Part Time Train Cleaning Attendant Newcastle Region',
     company: 'Sydney Trains',
     logo: '🌍',
@@ -468,7 +468,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Sydney Trains Full Time and Part Time Train Cleaning Attendant Newcastle Region',
   },
   {
-    id: 'global-remoteok-40351',
+    id: 'global-remoteok-531549',
     title: 'Freelance Designer',
     company: 'PowerLines',
     logo: '🌍',
@@ -490,7 +490,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Freelance Designer',
   },
   {
-    id: 'global-remoteok-793650',
+    id: 'global-remoteok-148478',
     title: 'Executive Director K12 Academic Partnerships',
     company: 'Dreamscape Learn',
     logo: '🌍',
@@ -512,7 +512,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Executive Director K12 Academic Partnerships',
   },
   {
-    id: 'global-remoteok-793650',
+    id: 'global-remoteok-148478',
     title: 'Executive Director K12 Academic Partnerships',
     company: 'Dreamscape Learn',
     logo: '🌍',
@@ -534,7 +534,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Executive Director K12 Academic Partnerships',
   },
   {
-    id: 'global-remoteok-319222',
+    id: 'global-remoteok-83911',
     title: 'Customer Service Specialist',
     company: 'albo',
     logo: '🌍',
@@ -556,7 +556,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Customer Service Specialist',
   },
   {
-    id: 'global-remoteok-972930',
+    id: 'global-remoteok-530322',
     title: 'Freelance Introducer',
     company: 'Bonkk.',
     logo: '🌍',
@@ -578,7 +578,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Freelance Introducer',
   },
   {
-    id: 'global-remoteok-972930',
+    id: 'global-remoteok-530322',
     title: 'Freelance Introducer',
     company: 'Bonkk.',
     logo: '🌍',
@@ -600,7 +600,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Freelance Introducer',
   },
   {
-    id: 'global-remoteok-972930',
+    id: 'global-remoteok-530322',
     title: 'Freelance Introducer',
     company: 'Bonkk.',
     logo: '🌍',
@@ -622,7 +622,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Freelance Introducer',
   },
   {
-    id: 'global-remoteok-972930',
+    id: 'global-remoteok-530322',
     title: 'Freelance Introducer',
     company: 'Bonkk.',
     logo: '🌍',
@@ -644,7 +644,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Freelance Introducer',
   },
   {
-    id: 'global-remoteok-972930',
+    id: 'global-remoteok-530322',
     title: 'Freelance Introducer',
     company: 'Bonkk.',
     logo: '🌍',
@@ -666,7 +666,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Freelance Introducer',
   },
   {
-    id: 'global-remoteok-972930',
+    id: 'global-remoteok-530322',
     title: 'Freelance Introducer',
     company: 'Bonkk.',
     logo: '🌍',
@@ -688,7 +688,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Freelance Introducer',
   },
   {
-    id: 'global-remoteok-972930',
+    id: 'global-remoteok-530322',
     title: 'Freelance Introducer',
     company: 'Bonkk.',
     logo: '🌍',
@@ -710,7 +710,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Freelance Introducer',
   },
   {
-    id: 'global-remoteok-972930',
+    id: 'global-remoteok-530322',
     title: 'Freelance Introducer',
     company: 'Bonkk.',
     logo: '🌍',
@@ -732,7 +732,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Freelance Introducer',
   },
   {
-    id: 'global-remoteok-972930',
+    id: 'global-remoteok-530322',
     title: 'Freelance Introducer',
     company: 'Bonkk.',
     logo: '🌍',
@@ -754,7 +754,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Freelance Introducer',
   },
   {
-    id: 'global-remoteok-972930',
+    id: 'global-remoteok-530322',
     title: 'Freelance Introducer',
     company: 'Bonkk.',
     logo: '🌍',
@@ -776,7 +776,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Freelance Introducer',
   },
   {
-    id: 'global-remoteok-258514',
+    id: 'global-remoteok-938548',
     title: 'Coordinador de Relaciones Institucionales EducaciÃ³n Superior',
     company: 'EADIC',
     logo: '🌍',
@@ -798,7 +798,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Coordinador de Relaciones Institucionales Educación Superior',
   },
   {
-    id: 'global-remoteok-901558',
+    id: 'global-remoteok-475107',
     title: 'Handy Person',
     company: 'Hawaiian',
     logo: '🌍',
@@ -820,7 +820,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-78201',
+    id: 'global-remoteok-197224',
     title: 'TEAM MEMBER COLD END',
     company: 'Saint-Gobain Group in India',
     logo: '🌍',
@@ -842,7 +842,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote TEAM MEMBER COLD END',
   },
   {
-    id: 'global-remoteok-764009',
+    id: 'global-remoteok-966382',
     title: 'Team Member Special Assignment',
     company: 'Reliance Industries Limited',
     logo: '🌍',
@@ -864,7 +864,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Team Member Special Assignment',
   },
   {
-    id: 'global-remoteok-701445',
+    id: 'global-remoteok-376926',
     title: 'Administrative Coordinator',
     company: 'UppalCorp',
     logo: '🌍',
@@ -886,7 +886,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Administrative Coordinator',
   },
   {
-    id: 'global-remoteok-466496',
+    id: 'global-remoteok-291563',
     title: 'Freelance UGC Creators Wanted',
     company: 're:act',
     logo: '🌍',
@@ -908,7 +908,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Freelance UGC Creators Wanted',
   },
   {
-    id: 'global-remoteok-682160',
+    id: 'global-remoteok-869983',
     title: 'General Practitioner Telehealth Case Conferencing Clinic',
     company: 'Proactive Health',
     logo: '🌍',
@@ -930,7 +930,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote General Practitioner Telehealth Case Conferencing Clinic',
   },
   {
-    id: 'global-remoteok-224416',
+    id: 'global-remoteok-306521',
     title: 'Test',
     company: 'JAKSON Group',
     logo: '🌍',
@@ -952,7 +952,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-277014',
+    id: 'global-remoteok-57415',
     title: 'Customer Support Advocate',
     company: 'Tithe.ly',
     logo: '🌍',
@@ -974,7 +974,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Customer Support Advocate',
   },
   {
-    id: 'global-remoteok-395856',
+    id: 'global-remoteok-567663',
     title: 'Data Entry Specialist',
     company: 'Bendigo Advertiser',
     logo: '🌍',
@@ -996,7 +996,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Data Entry Specialist',
   },
   {
-    id: 'global-remoteok-395856',
+    id: 'global-remoteok-567663',
     title: 'Data Entry Specialist',
     company: 'Bendigo Advertiser',
     logo: '🌍',
@@ -1018,7 +1018,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Data Entry Specialist',
   },
   {
-    id: 'global-remoteok-154728',
+    id: 'global-remoteok-489040',
     title: 'Onboarding Specialist',
     company: 'ezCater',
     logo: '🌍',
@@ -1040,7 +1040,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Onboarding Specialist',
   },
   {
-    id: 'global-remoteok-890462',
+    id: 'global-remoteok-144204',
     title: 'Customer Success Manager',
     company: 'Gifted',
     logo: '🌍',
@@ -1062,7 +1062,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Customer Success Manager',
   },
   {
-    id: 'global-remoteok-206999',
+    id: 'global-remoteok-264293',
     title: 'Data Entry Specialist Assistant Administrator',
     company: 'RecruitLytic Hires',
     logo: '🌍',
@@ -1084,7 +1084,7 @@ const JOBS_GLOBAL = [
     company_info: 'Remote Data Entry Specialist Assistant Administrator',
   },
   {
-    id: 'global-remoteok-550153',
+    id: 'global-remoteok-294929',
     title: 'File Clerk',
     company: 'RecruitLytic Hires',
     logo: '🌍',
@@ -1106,7 +1106,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-136856',
+    id: 'global-remoteok-391895',
     title: 'Customer Support',
     company: 'RecruitLytic Hires',
     logo: '🌍',
@@ -1128,7 +1128,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-471011',
+    id: 'global-remoteok-794681',
     title: 'Freelance Video Editor',
     company: 'Forbes Advisor',
     logo: '🌍',
@@ -1150,7 +1150,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-117086',
+    id: 'global-remoteok-23575',
     title: 'Entry Level Administrative Assistant',
     company: 'RecruitLytic Hires',
     logo: '🌍',
@@ -1172,7 +1172,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-102131',
+    id: 'global-remoteok-827384',
     title: 'Forecast Analyst',
     company: 'REI',
     logo: '🌍',
@@ -1194,7 +1194,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-149897',
+    id: 'global-remoteok-313882',
     title: 'Associate',
     company: 'Buyers Blueprint',
     logo: '🌍',
@@ -1216,7 +1216,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-360372',
+    id: 'global-remoteok-160198',
     title: 'Care Coordinator',
     company: 'SonderMind',
     logo: '🌍',
@@ -1238,7 +1238,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-157314',
+    id: 'global-remoteok-960543',
     title: 'Docentes de licenciatura online UANE',
     company: 'Lottus Education',
     logo: '🌍',
@@ -1260,7 +1260,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-31322',
+    id: 'global-remoteok-451386',
     title: 'Architectural Drafter',
     company: 'Archinect',
     logo: '🌍',
@@ -1282,7 +1282,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-479062',
+    id: 'global-remoteok-382549',
     title: 'Data Entry',
     company: 'Ryz Labs',
     logo: '🌍',
@@ -1304,7 +1304,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-562196',
+    id: 'global-remoteok-243087',
     title: 'Learning &amp; Development Specialist',
     company: 'NestlÃ© Health Science',
     logo: '🌍',
@@ -1326,7 +1326,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-575664',
+    id: 'global-remoteok-186894',
     title: 'Influencer Marketing Coordinator',
     company: 'Newhouse',
     logo: '🌍',
@@ -1348,7 +1348,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-471011',
+    id: 'global-remoteok-794681',
     title: 'Freelance Video Editor',
     company: 'Forbes Advisor',
     logo: '🌍',
@@ -1370,7 +1370,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-248896',
+    id: 'global-remoteok-224208',
     title: 'Asst Depot Manager',
     company: 'Unilever',
     logo: '🌍',
@@ -1392,7 +1392,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-602008',
+    id: 'global-remoteok-185765',
     title: 'Executive Assistant',
     company: 'Cyara',
     logo: '🌍',
@@ -1414,7 +1414,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-61263',
+    id: 'global-remoteok-248441',
     title: 'Merchandising Representative',
     company: 'CELSIUS',
     logo: '🌍',
@@ -1436,7 +1436,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-823663',
+    id: 'global-remoteok-33523',
     title: 'Paralegal',
     company: 'Injective',
     logo: '🌍',
@@ -1458,7 +1458,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-645856',
+    id: 'global-remoteok-644149',
     title: 'Chief Executive Officer The Dollar Foundation',
     company: 'Coinme',
     logo: '🌍',
@@ -1480,7 +1480,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-855031',
+    id: 'global-remoteok-226363',
     title: 'Test Account',
     company: 'BOT Consulting',
     logo: '🌍',
@@ -1502,7 +1502,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-641851',
+    id: 'global-remoteok-582974',
     title: 'Junior Digital Designer',
     company: 'The Big Table Group',
     logo: '🌍',
@@ -1524,7 +1524,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-621975',
+    id: 'global-remoteok-155435',
     title: 'National Manager A&amp;D &amp; Commercial Sales',
     company: 'Caesarstone Ltd. - Corporate',
     logo: '🌍',
@@ -1546,7 +1546,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-478499',
+    id: 'global-remoteok-541053',
     title: 'Multi Utility Locator',
     company: 'Ledcor',
     logo: '🌍',
@@ -1568,7 +1568,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-741776',
+    id: 'global-remoteok-102795',
     title: 'Clinical Data Manager II Senior Clinical Data Manager',
     company: 'Precision for Medicine',
     logo: '🌍',
@@ -1590,7 +1590,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-492899',
+    id: 'global-remoteok-14927',
     title: 'Digital Sales and Service Representative',
     company: '1-800 Contacts',
     logo: '🌍',
@@ -1612,7 +1612,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-114973',
+    id: 'global-remoteok-282333',
     title: 'Security Platform Engineer',
     company: 'Lumin Digital',
     logo: '🌍',
@@ -1634,7 +1634,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-611267',
+    id: 'global-remoteok-381326',
     title: 'Buffer',
     company: 'ESS â Defence, Energy and Government Services',
     logo: '🌍',
@@ -1656,7 +1656,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-508256',
+    id: 'global-remoteok-433129',
     title: 'Script Writer',
     company: 'Martell Media',
     logo: '🌍',
@@ -1678,7 +1678,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-508256',
+    id: 'global-remoteok-433129',
     title: 'Script Writer',
     company: 'Martell Media',
     logo: '🌍',
@@ -1700,7 +1700,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-508256',
+    id: 'global-remoteok-433129',
     title: 'Script Writer',
     company: 'Martell Media',
     logo: '🌍',
@@ -1722,7 +1722,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-508256',
+    id: 'global-remoteok-433129',
     title: 'Script Writer',
     company: 'Martell Media',
     logo: '🌍',
@@ -1744,7 +1744,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-508256',
+    id: 'global-remoteok-433129',
     title: 'Script Writer',
     company: 'Martell Media',
     logo: '🌍',
@@ -1766,7 +1766,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-581260',
+    id: 'global-remoteok-15586',
     title: 'Freelance Content Creator',
     company: 'Pickle',
     logo: '🌍',
@@ -1788,7 +1788,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-65934',
+    id: 'global-remoteok-399415',
     title: 'Chief Administrative Officer',
     company: 'TheHiveCareers',
     logo: '🌍',
@@ -1810,7 +1810,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-805159',
+    id: 'global-remoteok-671624',
     title: 'Marine Interdiction Agent',
     company: 'U.S. Customs and Border Protection',
     logo: '🌍',
@@ -1832,7 +1832,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-140815',
+    id: 'global-remoteok-301688',
     title: 'Operations Executive',
     company: 'Herald Exchange',
     logo: '🌍',
@@ -1854,7 +1854,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-969466',
+    id: 'global-remoteok-571277',
     title: 'Analista de Atendimento JÃºnior',
     company: 'nstech',
     logo: '🌍',
@@ -1876,7 +1876,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-809645',
+    id: 'global-remoteok-82623',
     title: 'Asesor de AtenciÃ³n al Cliente Â¡CON O SIN Experiencia',
     company: 'Partner Service',
     logo: '🌍',
@@ -1898,7 +1898,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-987271',
+    id: 'global-remoteok-665644',
     title: 'Streaming Media Assistant',
     company: 'The Walt Disney Company',
     logo: '🌍',
@@ -1920,7 +1920,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-641578',
+    id: 'global-remoteok-680626',
     title: 'Military and Veterans',
     company: 'Orano',
     logo: '🌍',
@@ -1942,7 +1942,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-139575',
+    id: 'global-remoteok-218591',
     title: 'Relationship Manager',
     company: 'The Chopras',
     logo: '🌍',
@@ -1964,7 +1964,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-782236',
+    id: 'global-remoteok-347804',
     title: 'Courier',
     company: 'FedEx Australia',
     logo: '🌍',
@@ -1986,7 +1986,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-591292',
+    id: 'global-remoteok-145213',
     title: 'JDE CNC',
     company: 'LTM',
     logo: '🌍',
@@ -2008,7 +2008,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-527072',
+    id: 'global-remoteok-48777',
     title: 'Venture Lending Associate',
     company: 'Banco Covalto',
     logo: '🌍',
@@ -2030,7 +2030,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-45177',
+    id: 'global-remoteok-148872',
     title: 'Art Director',
     company: 'Maker Lab',
     logo: '🌍',
@@ -2052,7 +2052,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-680933',
+    id: 'global-remoteok-152572',
     title: 'Online Trading Support',
     company: 'RHB Banking Group',
     logo: '🌍',
@@ -2074,7 +2074,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-22304',
+    id: 'global-remoteok-974324',
     title: 'Driving Examiner',
     company: 'Department of Customer Services, Open Data and Small and Family Business',
     logo: '🌍',
@@ -2096,7 +2096,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-251645',
+    id: 'global-remoteok-120',
     title: 'Mid weight Freelance Graphic Designer',
     company: 'Seamer Design',
     logo: '🌍',
@@ -2118,7 +2118,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-31322',
+    id: 'global-remoteok-451386',
     title: 'Architectural Drafter',
     company: 'RemoteVA',
     logo: '🌍',
@@ -2140,7 +2140,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-28673',
+    id: 'global-remoteok-936837',
     title: 'Multiple',
     company: 'Eastern Airlines LLC',
     logo: '🌍',
@@ -2162,7 +2162,7 @@ const JOBS_GLOBAL = [
     company_info: '',
   },
   {
-    id: 'global-remoteok-752878',
+    id: 'global-remoteok-351559',
     title: 'Digital Marketing Manager',
     company: 'Nabu Casa',
     logo: '🌍',
