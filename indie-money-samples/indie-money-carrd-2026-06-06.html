@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一人公司赚钱样本 #006｜不露脸、不融资，他花$500做出$150万年收入的建站工具</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: #fafaf9;
+    color: #292524;
+    line-height: 1.8;
+    font-size: 16px;
+    padding: 0;
+  }
+  .container { max-width: 640px; margin: 0 auto; background: #fff; padding: 0; }
+
+  /* 系列头部卡 */
+  .series-header {
+    background: #2C5530;
+    color: #fff;
+    padding: 32px 24px;
+    border-radius: 0 0 12px 12px;
+    margin: 0 0 32px 0;
+  }
+  .series-header .series-tag { font-size: 12px; letter-spacing: 2px; opacity: 0.7; margin-bottom: 4px; }
+  .series-header .series-title { font-size: 24px; font-weight: 700; line-height: 1.3; }
+  .series-header .series-sub { font-size: 13px; opacity: 0.7; margin-top: 6px; }
+  .series-header .series-nav { margin-top: 14px; font-size: 12px; opacity: 0.6; }
+
+  /* 产品画像 */
+  .product-card { background: #fafafa; border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+  .product-card .pc-row { font-size: 15px; line-height: 1.8; margin-bottom: 2px; }
+  .product-card .pc-label { color: #999; font-size: 13px; }
+  .product-card .pc-value { color: #1a1a1a; font-weight: 500; }
+
+  /* 钩子引用块 */
+  .opening-quote {
+    background: #f5f5f4;
+    border-left: 4px solid #2C5530;
+    padding: 16px 20px;
+    margin: 0 0 20px 0;
+    font-size: 17px;
+    color: #1c1917;
+    line-height: 1.6;
+  }
+
+  .hook-text { font-size: 17px; color: #1a1a1a; line-height: 1.8; margin-bottom: 16px; }
+  .hook-text .highlight { color: #2C5530; font-weight: 600; }
+
+  /* 正文 */
+  p { margin: 0 0 16px 0; }
+  .section-title {
+    font-size: 18px;
+    color: #2C5530;
+    border-left: 4px solid #2C5530;
+    padding-left: 12px;
+    margin: 36px 0 16px 0;
+  }
+
+  /* 数据时间线框 */
+  .data-box {
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 12px 0 20px 0;
+    font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  /* "你可以怎么做"引用块 */
+  .tip-box {
+    background: #f0faf0;
+    border-left: 3px solid #2C5530;
+    padding: 12px 16px;
+    margin: 12px 0 20px 0;
+    border-radius: 0 6px 6px 0;
+    font-size: 15px;
+    color: #2C5530;
+  }
+  .tip-box strong { color: #1a3a1f; }
+
+  /* 商业模式评分一行式 */
+  .score-line {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 14px;
+    margin: 12px 0 20px 0;
+    font-family: 'SF Mono', monospace;
+  }
+
+  /* Idea卡片 */
+  .idea-card {
+    background: #fff8e6;
+    border: 1px solid #f0e0b0;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 0 0 14px 0;
+  }
+  .idea-card .idea-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+  .idea-card .idea-row { font-size: 14px; color: #57534e; margin-bottom: 4px; }
+  .idea-card .idea-row span { color: #292524; }
+
+  /* 反转视角高亮框 */
+  .ending-highlight { background: linear-gradient(135deg, #f0faf0, #e8f5e9); border-radius: 8px; padding: 18px 20px; margin: 16px 0; }
+  .ending-highlight p { margin-bottom: 10px; }
+  .ending-highlight strong { color: #2C5530; }
+
+  .vs-box { background: #fff3f3; border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+  .vs-box .vs-label { font-size: 13px; color: #999; margin-bottom: 4px; }
+  .vs-box .vs-data { font-size: 22px; font-weight: 700; color: #c0392b; }
+  .vs-box .vs-data-small { font-size: 14px; color: #666; margin-top: 4px; }
+
+  /* 分隔线 */
+  .divider { border: none; border-top: 1px solid #e8e8e8; margin: 32px 0; }
+
+  /* 底部导航 */
+  .nav-footer {
+    background: #f8f8f8;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 32px 0 40px 0;
+    font-size: 14px;
+  }
+  .nav-footer .nav-title { font-weight: 700; font-size: 15px; color: #2C5530; margin-bottom: 10px; }
+  .nav-footer .nav-link { margin-bottom: 6px; color: #57534e; }
+  .nav-footer .vote-section { margin-top: 18px; padding-top: 14px; border-top: 1px solid #e8e8e8; }
+  .nav-footer .vote-title { font-weight: 700; margin-bottom: 8px; }
+  .nav-footer .vote-option { color: #57534e; margin-bottom: 4px; }
+  .nav-footer .share-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid #e8e8e8; color: #78716c; font-size: 13px; }
+
+  /* 素材来源 */
+  .source-block { font-size: 12px; color: #a8a29e; margin: 20px 0; line-height: 1.6; }
+
+  /* 系列水印 */
+  .series-watermark { text-align: right; font-size: 12px; color: #ccc; margin: 40px 0 20px 0; }
+
+  /* 强调文本 */
+  strong { color: #1c1917; }
+  em { color: #44403c; }
+
+  @media (max-width: 480px) {
+    .container { padding: 0 16px; }
+    .series-header { padding: 24px 18px; }
+    .series-header .series-title { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- 系列头部卡 -->
+<div class="series-header">
+  <div class="series-tag">💰 一人公司赚钱样本 #006</div>
+  <div class="series-title">不露脸、不融资，他花$500做出$150万年收入的建站工具</div>
+  <div class="series-sub">拆解每个真实赚钱路径，找到你可以复制的那个</div>
+  <div class="series-nav">
+    ▸ 第1篇: Pieter Levels 年入$300万<br>
+    ▸ 第2篇: Tony Dinh 5天赚$22K<br>
+    ▸ 第3篇: Bibly 30天6万下载月入$10K<br>
+    ▸ 第4篇: DataFast 512天到$20K MRR<br>
+    ▸ 第5篇: Damon Chen 4次全败第5个产品年入$130万<br>
+    ▸ 第6篇: Carrd $500做出$150万年收入 ← 你在这<br>
+    ▸ 系列目录（合集链接）
+  </div>
+</div>
+
+<!-- 钩子段 -->
+<blockquote class="opening-quote">
+  <strong>"Constraints are superpowers."</strong><br>
+  —— AJ（@ajlkn），Carrd 创始人
+</blockquote>
+
+<p>AJ花了180天，用$500启动成本，做出了一个只做单页的建站工具。8年后，这个工具年入$150万，托管了120万+网站，月访问量1750万。</p>
+
+<p>你可能觉得，建站工具这个赛道Wix、Squarespace早就杀红了——一个人、不融资、只做单页，不是送死吗？但AJ不仅没死，他证明了另一条路：<strong>在所有人都在拼命做加法的赛道里，做减法的人反而赢了。</strong></p>
+
+<p>更让人意外的是——AJ全程匿名，网上搜不到他的真名和照片。一个不露脸、不融资、不追风口的人，靠"只能做一页"这个看起来自断生路的产品限制，砍出了一条$1.5M ARR的路。</p>
+
+<p>这就是今天要拆的：<strong>为什么"做得更少"反而是一种更高级的竞争策略。</strong></p>
+
+<!-- 产品画像 -->
+<div class="product-card">
+  <div class="pc-row"><span class="pc-label">做什么</span><span class="pc-value">最简单页网站搭建工具，无需注册就能开始做</span></div>
+  <div class="pc-row"><span class="pc-label">谁在用</span><span class="pc-value">80万+用户——从自由职业者到Kim Kardashian</span></div>
+  <div class="pc-row"><span class="pc-label">赚多少</span><span class="pc-value">$1.5M ARR（2024年，LATKA数据），90%毛利率</span></div>
+  <div class="pc-row"><span class="pc-label">怎么收钱</span><span class="pc-value">免费 + $9/年 + $19/年 + 更高层级的分层定价</span></div>
+  <div class="pc-row"><span class="pc-label">为什么能赚</span><span class="pc-value">把「做网站」简化到极致，让从没建过站的人30秒上手</span></div>
+</div>
+
+<div class="section">
+<div class="section-title">01 / 增长时间线</div>
+
+<div class="data-box">
+2008-2012  → AJ靠设计网站模板为生，积累响应式设计功力<br>
+2012       → 发布 HTML5 UP，40+免费响应式模板，累计1400万+下载<br>
+2013-2014  → 用户想付费去署名 → 诞生 Pixelarity，$19一次性买断，月入$10K-12K<br>
+2015 初    → 厌倦模板生意。发现单页模板下载量异常高 → 决定做Carrd<br>
+2016.03.07 → Carrd 正式上线。一条推文冷启动（50K Twitter粉丝积累）<br>
+2016.03    → Product Hunt #1 of day/week/month，5,437点赞，首批数百付费用户<br>
+2016-2019  → 持续逐月增长，零广告，纯口碑，ARR突破$500K<br>
+2020.05    → Kim Kardashian 用 Carrd 做 BLM 页面，单日新增数千站点<br>
+2020-2021  → 完成小规模种子轮（非必需融资，为解决基础设施扩容和内容审核）<br>
+2021       → ARR 突破 $1M，220万用户，340万+网站托管<br>
+2024       → ARR $1.5M，80万+用户，120万+网站，月访问1750万，90%毛利率
+</div>
+
+<p>8年时间，从$0到$1.5M ARR，<strong>增长曲线几乎是一条平滑的上升直线</strong>——没有爆发式增长后暴跌，也没有平缓后停滞。这是一个典型的"慢而稳"的独立开发者路线。</p>
+</div>
+
+<div class="section">
+<div class="section-title">02 / 策略拆解</div>
+
+<div class="section-title">02·1 / 把「只能做一页」变成超级能力，而不是功能缺陷</div>
+
+<p>大多数建站工具的逻辑是：加更多功能 → 满足更多需求 → 获取更多用户。Wix有几百个模板、上百个App、电商插件、博客系统、预约功能。AJ反着来——Carrd只做单页网站，而且永远只做单页。这个限制不是技术做不到，是他刻意选择的。</p>
+
+<p>为什么？因为<strong>"只能做一页"这个限制，恰好是他单人运营能handle的边界</strong>。不做多页意味着不需要处理复杂的导航系统、页面间数据传递、多层级权限管理。一个人的精力刚好够把单页体验做到极致——每个模板、每个Section、每个动效，都经过他自己反复打磨。</p>
+
+<p>结果是什么？</p>
+
+<p><strong>关键数字</strong>：Carrd 的 Pro 计划至今只要 $19/年，而 Wix 基础计划 $16/月。一个人 vs 5000人团队，他把成本压到了竞争对手的零头。</p>
+
+<div class="tip-box">
+  <strong>你可以怎么做</strong>：你不需要一个"全功能平台"才能赚钱。找一个被大厂忽视的细分场景——比如"只做微信小程序的落地页"或"只做出海独立站的单品详情页"——把功能边界砍到你能一个人做到极致的程度。限制不是弱点，是护城河。
+</div>
+
+<div class="section-title">02·2 / 零摩擦体验：在用户还没决定"要不要用"之前，就已经在用了</div>
+
+<p>Carrd最反直觉的设计：<strong>你不需要注册就能完整构建一个网站。</strong>打开 carrd.co，点"Start Building"，直接进入编辑器。拖拽、改文字、换颜色、加图片——全部不需要邮箱、不需要密码、不需要手机号。只有当你想发布到网上时，才需要创建账户。</p>
+
+<p>AJ自己说："我讨厌那些'想试用就要先给邮箱和电话'的产品。我不想做演示视频——让产品本身成为演示。"</p>
+
+<p>这个设计的威力在于：它把"试用成本"降到了零。用户在被要求commit之前就已经投入了时间和创意——一个做了半小时的页面，谁会舍得放弃？转化率天然地高。</p>
+
+<p><strong>关键数字</strong>：80万+注册用户，120万+网站创建。月访问1750万次。没有一分钱花在广告上。</p>
+
+<div class="tip-box">
+  <strong>你可以怎么做</strong>：你的SaaS产品能不能让用户"先玩再注册"？哪怕是做一个无需登录的demo环境，让潜在用户3分钟内看到产品能为他做什么。在国内，"先体验再付费"比任何Landing Page都管用。
+</div>
+
+<div class="section-title">02·3 / $19/年定价：不为最大化利润，只为"觉得公平"</div>
+
+<p>AJ的定价哲学跟所有商学院教的反着来。他不做价格锚定、不做A/B测试、不计算用户LTV然后定一个"最优价格"。</p>
+
+<p>他的原话是：<strong>"$19/年是因为我觉得这对Carrd提供的东西来说是公平的。"</strong></p>
+
+<p>初期他几乎零成本——服务器开销低到可以忽略，一个人开发没有工资压力。极低成本让他可以定一个"让人不好意思不买"的价格。后来用户量大了，他也没有提价，而是新增层级：$9/年给只需要多一点功能的轻度用户，更贵的计划给需要高级功能的专业用户。</p>
+
+<p>结果是，$9计划没有蚕食$19计划——它捕获了一批"本来一分钱都不会付"的人，是纯增量收入。</p>
+
+<p><strong>关键数字</strong>：$19/年 Pro计划是主力收入来源。新增$9/年计划后，<strong>付费转化率提升了，而非被稀释</strong>。</p>
+
+<div class="tip-box">
+  <strong>你可以怎么做</strong>：如果你的产品成本极低（个人开发者通病），不要急着定"市场价"。定一个让你的目标用户觉得"不买都亏"的价格。比如你的工具是给国内独立开发者的，¥99/年可能比¥299/年更容易让第一批100人掏钱——他们是你最重要的口碑种子。
+</div>
+
+<div class="section-title">02·4 / 「Made with Carrd」是世界上最安静的病毒引擎</div>
+
+<p>Carrd的增长几乎全靠一个机制：所有免费网站底部自动显示"Made with Carrd"链接。访客看到别人用Carrd做的漂亮网页 → 点击链接 → 30秒内开始构建自己的网站 → 部分转化为付费用户。</p>
+
+<p>这不是广告。这是<strong>产品本身在替你做增长</strong>。</p>
+
+<p>这个循环的关键在于：用Carrd做出来的页面确实好看。AJ之前在HTML5 UP做了8年免费模板，他知道什么样的设计能让用户"想拥有一个一样的"。所以"Made with"链接不是广告——它是"你也能做出这样的东西"的邀请函。</p>
+
+<p>Kim Kardashian事件就是这个机制被放大了1000倍的结果。她用一个Carrd页面支持BLM运动，几千万人看到了那个页面和底部的链接。</p>
+
+<p><strong>关键数字</strong>：零广告预算。Product Hunt之后，几乎100%的增长来自口碑和"Made with"链接。Kim Kardashian事件后单日新增数千站点。</p>
+
+<div class="tip-box">
+  <strong>你可以怎么做</strong>：你的产品有没有一个"用户用了就等于在替你推广"的设计？免费版加水印是最直接的（但要好看）。更好的是：用户产出的东西本身就有展示价值——比如一个漂亮的报告、一个好看的数据看板。让用户的成果成为你的广告。
+</div>
+</div>
+
+<hr class="divider">
+
+<div class="section">
+<div class="section-title">03 / 商业模式评分</div>
+
+<div class="score-line">
+需求 ⭐⭐⭐⭐ | 壁垒 ⭐⭐⭐ | 扩展 ⭐⭐ | 一人可运营 ⭐⭐⭐⭐⭐ | 财务健康度 ⭐⭐⭐⭐⭐
+</div>
+
+<p><strong>Junes的判断：</strong>Carrd不是一个"大生意"，但它是独立开发者商业模式的教科书。$1.5M ARR、90%毛利率、一人运营——这意味着AJ的个人年收入可能超过$100万。他不追求做成下一个Wix，他要的是一台印钞机。他做到了。</p>
+</div>
+
+<hr class="divider">
+
+<div class="section">
+<div class="section-title">04 / 衍生 Idea</div>
+
+<div class="idea-card">
+  <div class="idea-title">Idea 1：微信小程序落地页即服务</div>
+  <div class="idea-row"><span>模式借鉴</span>：Carrd的"零代码+单页即服务"模式</div>
+  <div class="idea-row"><span>目标市场</span>：中国小微商家、自由职业者、微商</div>
+  <div class="idea-row"><span>难度</span>：中等</div>
+  <div class="idea-row"><span>MVP 方案</span>：2周做一个微信小程序版"单页建站"。用户无需注册，打开小程序就能拖拽做一页——产品介绍、活动页、个人名片。免费版带"Made with XX"水印，付费版¥99/年去水印+自定义域名。对标"易企秀"但更轻、更快。</div>
+</div>
+
+<div class="idea-card">
+  <div class="idea-title">Idea 2：个人创作者的数字名片+Portfolio即服务</div>
+  <div class="idea-row"><span>模式借鉴</span>：Carrd的低价+零摩擦体验</div>
+  <div class="idea-row"><span>目标市场</span>：中国独立开发者、设计师、摄影师、自由撰稿人</div>
+  <div class="idea-row"><span>难度</span>：低</div>
+  <div class="idea-row"><span>MVP 方案</span>：一周出一个Web工具，专门帮创作者做一个"能打的个人主页"。预设5个模板（开发者、设计师、摄影师、写作者、通用），一键部署到自定义域名。免费版带水印，Pro ¥69/年。增长靠"Made with XX"链接 + 小红书展示案例。</div>
+</div>
+
+<div class="idea-card">
+  <div class="idea-title">Idea 3：活动/会议单页工具（中国版 splash.that）</div>
+  <div class="idea-row"><span>模式借鉴</span>：Carrd的单页场景聚焦策略</div>
+  <div class="idea-row"><span>目标市场</span>：中国社群运营者、活动组织者、创业者</div>
+  <div class="idea-row"><span>难度</span>：低</div>
+  <div class="idea-row"><span>MVP 方案</span>：10天做一个"活动单页生成器"。内建报名表单、倒计时、嘉宾介绍、日程表模块。一键生成微信可分享的活动单页。免费版限制50人报名，Pro ¥199/年不限。增长靠活动参与者分享传播。</div>
+</div>
+</div>
+
+<hr class="divider">
+
+<div class="section">
+<div class="section-title">05 / 如果这个案例只记住一件事</div>
+
+<div class="ending-highlight">
+  <p><strong>Constraints are superpowers.</strong> 限制不是弱点，是超级能力。</p>
+
+  <p>大多数人以为，做产品就是要不断完善、加功能、扩大覆盖面。但AJ证明了另一条路：<strong>主动给自己划边界，把边界内的事做到极致，比什么都想做但什么都不精更有竞争力。</strong></p>
+
+  <p>他的每一步都在做减法：不做多页网站 → 省掉了导航和页面管理 → 一个人就能开发 → 成本极低 → 可以定一个让人无法拒绝的价格 → 大量免费用户 → "Made with"链接自然传播 → 更多人知道。这是一个自循环的飞轮，而这个飞轮的起点是"只能做一页"。</p>
+
+  <p><strong>这件事的意外利好是：</strong>当你把范围砍到极小，你花在"维护"和"决策"上的精力就少到可以忽略——这意味着你可以用更少的时间做出更多产品。AJ用做模板积累的设计能力、Twitter粉丝和$19定价直觉，无缝迁移到了Carrd。你不知道今天在打磨的"小东西"，会不会是下一个Carrd的基石。</p>
+</div>
+</div>
+
+<hr class="divider">
+
+<!-- 底部导航 -->
+<div class="nav-footer">
+  <div class="nav-title">这是一人公司赚钱样本 第 6 篇</div>
+  <div class="nav-link">← 第5篇: 4次全败，第5个产品年入$130万（Damon Chen）</div>
+  <div class="nav-link">← 第4篇: DataFast 512天从0到$20K MRR</div>
+  <div class="nav-link">← 第3篇: Bibly 30天6万下载月入$10K</div>
+  <div class="nav-link">← 第2篇: 他花了6个月赚了$0，然后花5天赚了$22K（Tony Dinh）</div>
+  <div class="nav-link">← 第1篇: 做了70个产品，95%都死了（Pieter Levels）</div>
+  <div class="vote-section">
+    <div class="vote-title">── 下一期拆哪个？你来选 ──</div>
+    <div class="vote-option">A. Ania Wysocka / Rootd — 焦虑管理App，300万+下载，零员工</div>
+    <div class="vote-option">B. Pieter Levels 深度续篇 — 他的12-in-12挑战实录</div>
+    <div class="vote-option">C. Ivan Kutskir / Photopea — 网页版PS，年维护成本仅$700</div>
+    <div class="vote-option" style="color:#999; margin-top:4px;">（在评论区投票）</div>
+  </div>
+  <div class="share-note">如果觉得有用，转发给你的独立开发者朋友<br>这是对我们最大的支持</div>
+</div>
+
+<!-- 素材来源 -->
+<div class="source-block">
+  <strong>素材来源</strong><br>
+  · Indie Hackers Podcast #228 — Making $1M/yr Then Raising Money as a Solo Indie Hacker with AJ<br>
+  · SaaS Club Podcast — How a $19/Year Pricing Strategy Built a $30K MRR SaaS<br>
+  · StarterStory — Carrd Breakdown（800K+ users, 1.2M+ sites, $1.5M ARR, 90% margin）<br>
+  · ListenUpIH — How to reach $1M ARR with a 1-page site builder<br>
+  · LATKA — Carrd Revenue 2024: $1.5M ARR (Bootstrapped)
+</div>
+
+<!-- 系列水印 -->
+<div class="series-watermark">一人公司赚钱样本 · #006</div>
+
+</div><!-- .container -->
+</body>
+</html>
