@@ -8,6 +8,7 @@
 let currentSource = 'cn';       // 'cn' | 'global'
 let currentCategory = '全部';
 let currentSearch = '';
+let currentReferOnly = false;  // 是否只显示内推岗（仅国内 Tab 生效）
 let currentPage = 1;
 const PAGE_SIZE = 20;
 let filteredJobsCache = []; // 缓存过滤后的职位
@@ -51,6 +52,7 @@ function switchSource(source) {
   currentSource = source;
   currentCategory = '全部';
   currentSearch = '';
+  currentReferOnly = false;
   currentPage = 1;
   const input = document.getElementById('searchInput');
   if (input) input.value = '';
@@ -104,9 +106,34 @@ function buildCategoryTags() {
     ...actualCats.filter(c => !presetOrder.includes(c))
   ];
 
-  container.innerHTML = merged.map(c =>
-    `<button class="tag ${c === currentCategory ? 'active' : ''}" onclick="filterByCategory('${c}')">${c}</button>`
+  // 国内 Tab：在最前面插入「内推岗」快捷筛选按钮
+  let tags = '';
+  if (currentSource === 'cn') {
+    const referCount = jobs.filter(j => j.canRefer).length;
+    if (referCount > 0) {
+      tags += `<button class="tag tag-refer ${currentReferOnly ? 'active' : ''}" onclick="toggleReferOnly()">
+        <svg class="refer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        内推岗 <span class="tag-count">${referCount}</span>
+      </button>`;
+    }
+  }
+
+  tags += merged.map(c =>
+    `<button class="tag ${c === currentCategory && !currentReferOnly ? 'active' : ''}" onclick="filterByCategory('${c}')">${c}</button>`
   ).join('');
+
+  container.innerHTML = tags;
+}
+
+// ── 切换内推岗筛选（国内 Tab 专用） ──
+function toggleReferOnly() {
+  currentReferOnly = !currentReferOnly;
+  if (currentReferOnly) {
+    // 切到内推筛选时，取消具体分类的高亮，保持「全部」高亮
+    currentCategory = '全部';
+  }
+  buildCategoryTags();
+  applyFilters();
 }
 
 // ── 渲染岗位列表 ──
@@ -376,8 +403,8 @@ function scrollToJobList() {
 // ── 分类筛选 ──
 function filterByCategory(cat) {
   currentCategory = cat;
-  document.querySelectorAll('.tag').forEach(el => el.classList.remove('active'));
-  [...document.querySelectorAll('.tag')].find(el => el.textContent.trim() === cat)?.classList.add('active');
+  currentReferOnly = false;  // 切换具体分类时清掉内推快捷筛选
+  buildCategoryTags();
   applyFilters();
 }
 
@@ -390,6 +417,10 @@ function filterJobs() {
 // ── 综合筛选 ──
 function applyFilters() {
   let filtered = getCurrentJobs();
+
+  if (currentReferOnly && currentSource === 'cn') {
+    filtered = filtered.filter(j => j.canRefer);
+  }
 
   if (currentCategory !== '全部') {
     filtered = filtered.filter(j => j.category === currentCategory);

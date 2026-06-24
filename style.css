@@ -377,6 +377,39 @@ body {
   height: 14px;
   flex-shrink: 0;
 }
+
+/* 分类标签：内推岗快捷按钮 */
+.tag.tag-refer {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #eff6ff;
+  color: #1e40af;
+  border-color: #bfdbfe;
+  font-weight: 600;
+}
+.tag.tag-refer:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+.tag.tag-refer.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+.tag.tag-refer .tag-count {
+  background: rgba(255, 255, 255, 0.6);
+  color: #1e40af;
+  font-size: 11px;
+  padding: 0 6px;
+  border-radius: 99px;
+  min-width: 18px;
+  text-align: center;
+}
+.tag.tag-refer.active .tag-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
 .job-meta-row {
   font-size: 12px;
   color: var(--text-muted);
