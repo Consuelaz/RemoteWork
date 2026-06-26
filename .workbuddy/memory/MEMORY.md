@@ -13,11 +13,31 @@
 | Remotive | 海外 | JSON API 直连 | 否 |
 | 远程岛 | 海外 | JSON API，description 含完整 HTML 必须截断 | 否 |
 | 远程中文网 | 国内 | HTML 抓取，直连 | 否 |
-| V2EX | 国内 | HTML 抓取，需代理 `http://127.0.0.1:7897` | ✅ |
+| V2EX | 国内 | HTML 抓取，需代理 `http://127.0.0.1:7892` | ✅ |
 | who-is-hiring（Rebase） | 国内 | JSON API，所有字段可能为 null | ✅ |
 | 电鸭 | 国内 | JS渲染，curl 无法抓取，跳过 | 否 |
 
 ## Bug 修复记录（重要，避免重蹈覆辙）
+
+### ✅ scrape.sh 代理端口切换（2026-06-04）
+- **问题**：V2EX 抓取持续失败，`127.0.0.1:7897` 代理不可用
+- **修复**：`scrape.sh` 第19行 `PROXY` 从 `7897` 切换至 `7892`
+- **验证**：执行成功，抓取到 4 条 V2EX 新帖
+
+### ✅ scrape.sh Python 路径修复（2026-06-01）
+- **问题**：sandbox 中 `python3` 解析为 managed 3.14.3（pip 损坏），缺少 bs4/openpyxl
+- **修复**：scrape.sh 第13行后添加 `export PATH="/Users/qisoong/.workbuddy/binaries/python/envs/default/bin:$PATH"`，指向 3.13.12 venv
+
+### ✅ scrape.sh git push SSH mux 挂起（2026-06-26）
+- **问题**：`git push` 时生成 `ssh: github.com-22-git [mux]` 控制主进程并挂起，导致 scrape.sh 无法自动完成推送
+- **修复**：scrape.sh 添加 `export GIT_SSH_COMMAND="ssh -o ControlMaster=no"`，并在本次手动杀掉 mux 进程后推送成功
+- **根因**：sandbox/本地 SSH 默认启用 ControlMaster，Git 复用该 socket 时被拦截
+
+### ✅ scrape.sh git add 未包含 app.js（已修复，2026-05-15）
+- **现象**：app.js 代码改动本地生效，但 GitHub Pages 始终跑旧代码
+- **根因**：`scrape.sh` 末尾 `git add` 只有 `jobs-cn.js jobs-global.js money.xlsx scrape.log`，不含 `app.js`
+- **修复**：`git add` 增加 `app.js index.html`，今后代码改动也会被自动提交
+- **教训**：修改前端代码（app.js/index.html/style.css）后，必须手动 commit push，或确认 scrape.sh 的 git add 已包含对应文件
 
 ### ✅ scrape.sh 无 git 推送逻辑（已修复，2026-04-10）
 - **现象**：脚本运行成功但数据未推送到 GitHub
@@ -57,33 +77,22 @@
 - `company` 兜底值：V2EX → `"海外公司"`，远程中文网 → `""` 空字符串
 - `sourceUrl`：去重唯一键（不用 id）
 
-## 列表排序策略（硬性规则）
-**前端展示（`app.js`）**：`sortWithReferralFirst()` 函数统一处理
-1. `canRefer: true` 的内推岗位强制置顶（不受日期影响）
-2. 其余岗位按日期倒序（最新的在前）
+## 列表排序策略（2026-06-22 简化）
+**前端展示（`app.js`）**：`getCurrentJobs()` 统一按日期倒序
+- 国内/海外所有岗位均按 `new Date(b.date) - new Date(a.date)` 排序
+- 已删除内推置顶、类别均衡等复杂策略（`sortWithReferralFirst`、`getBalancedReferralJobs`、`getBalancedJobs`）
 
 **数据写入（`scrape.sh`）**：`merge_jobs()` 函数处理
-- 新数据（V2EX → 远程中文网 → 电鸭 → who-is-hiring → 海外）放在 `jobs-cn.js` / `jobs-global.js` 最前面
+- 新数据放在 `jobs-cn.js` / `jobs-global.js` 最前面
 - 现有数据追加在后面
-- 最终文件内顺序与前端展示顺序一致
 
-## 内推岗策略（硬性规则，2026-04-16 更新）
+## 内推岗策略（硬性规则，2026-06-22 更新）
 **内推数据源**：V2EX + who-is-hiring（Rebase）
 
 **内推岗展示规则**：
 1. **列表页**：`canRefer: true` 岗位显示"内推岗"标签（svg 图标 + 文字）
 2. **详情页**：`canRefer: true` 岗位的"申请职位"按钮改为"加入社群内推"
-3. **排序**：内推岗强制置顶，不受日期影响
-
-**国内岗位排序策略（2026-04-21 最终版）**：
-1. **今天数据优先**：今天发布的岗位排在最前面
-2. **类别均衡展示**：今天数据按类别顺序展示，每个类别最多1个
-3. **类别优先级**：前端开发 → 后端开发 → 全栈开发 → AI/算法 → 运营 → 测试 → 产品经理 → 其它职能
-4. **第一页20条**：每页展示20条数据
-5. **其余内推岗**：按日期倒序排在类别均衡岗位之后
-6. **非内推岗**：按日期倒序
-
-> ⚠️ 排序逻辑在 `app.js` 的 `sortWithReferralFirst()` 函数中实现，随代码自动更新
+3. **排序**：无特殊排序，统一按日期倒序
 
 **scrape.sh 修改记录**：
 - who-is-hiring 职位：`canRefer` 从 `False` 改为 `True`，`tags` 改为 `["远程", "社群内推"]`
@@ -112,10 +121,10 @@
   - `feed-podcasts.json` - AI 播客内容
   - `feed-blogs.json` - 技术博客文章
 
-### 技术实现（2026-04-15 定型版本）
-- **生成脚本**：`ai-news/gen-all.py`
-- **执行参数**：`python3 gen-all.py 1`（生成单日）
-- **参考样式**：`ai-news/2026-04-13.html`（此为标准设计稿）
+### 技术实现（2026-04-21 更新）
+- **生成脚本**：`ai-news/gen-from-feed.py`（实时从 follow-builders 读取数据）
+- **执行参数**：`python3 gen-from-feed.py`（自动同步 GitHub 最新数据）
+- **数据源**：从 `https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/` 同步
 - **自动化任务**：每天 7:30 自动执行（Automation ID: `ai-news`）
 
 ### 页面结构（对标 2026-04-13.html，硬性规范）
@@ -161,6 +170,16 @@
 ## 数据历史（近期）
 | 日期 | CN | Global | 备注 |
 |------|-----|--------|------|
+| 2026-06-26 | 1034 | 2000 | V2EX 0条，who-is-hiring 429条，手动触发并修复 SSH mux 推送挂起 |
+| 2026-06-22 | 1006 | 2000 | V2EX 2条，自动化触发 |
+| 2026-06-18 | 995 | 2000 | V2EX 0条，手动触发（自动化间隔2天未跑） |
+| 2026-06-16 | 982 | 2000 | V2EX 0条，手动触发 |
+| 2026-06-11 | 963 | 2000 | V2EX 1条，自动更新 |
+| 2026-06-07 | 941 | 2000 | V2EX 0条（跳过20非今日帖），自动化触发 |
+| 2026-06-04 | 927 | 2000 | V2EX代理切7892恢复4条，手动触发 |
+| 2026-06-03 | 912 | 2000 | V2EX代理不可用，自动更新 |
+| 2026-06-01 | 901 | 2000 | V2EX 2条，自动更新 |
+| 2026-04-25 | 696 | 2000 | V2EX 1条，自动更新 |
 | 2026-04-14 | 583 | 1957 | V2EX 1条，自动更新 |
 | 2026-04-10 | 566 | 1688 | V2EX 2条，手动触发 |
 | 2026-04-09 | 557 | 1617 | 自动更新，修复海外显示0 |

@@ -12,8 +12,14 @@ echo "开始抓取: $DATE" >> $LOG_FILE
 
 cd $PROJECT_DIR
 
+# 使用 isolated venv Python (预装 bs4/openpyxl)
+export PATH="/Users/qisoong/.workbuddy/binaries/python/envs/default/bin:$PATH"
+
 # 代理配置 (仅用于 V2EX)
-PROXY="-x http://127.0.0.1:7897"
+PROXY="-x http://127.0.0.1:7892"
+
+# 绕过 sandbox SSH ControlMaster 拦截，避免 git push 挂起
+export GIT_SSH_COMMAND="ssh -o ControlMaster=no"
 
 # ========================================
 # 1. 抓取 Remote OK (JSON API) - 直接连接
@@ -1533,7 +1539,7 @@ except:
     print(0)
 " 2>/dev/null || echo 0)
 
-git add jobs-cn.js jobs-global.js money.xlsx scrape.log app.js index.html .codebuddy/automations/automation/memory.md 2>/dev/null
+git add jobs-cn.js jobs-global.js money.xlsx scrape.log app.js index.html .workbuddy/automations/automation/memory.md 2>/dev/null
 if ! git diff --cached --quiet; then
     git commit -m "自动更新: $DATE CN=$CN_COUNT Global=$GLOBAL_COUNT" 2>&1 | tee -a $LOG_FILE
     git push 2>&1 | tee -a $LOG_FILE
