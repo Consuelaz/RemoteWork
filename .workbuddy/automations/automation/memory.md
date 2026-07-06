@@ -1,6 +1,23 @@
 # 每日职位数据更新 - 执行记录
 
-## 最近一次执行: 2026-07-03 12:26
+## 最近一次执行: 2026-07-06 11:48
+
+**结果**: ⚠️ 部分成功（手动触发）
+- Remote OK: ❌ 下载失败（直连不可达，exit 35 SSL error）
+- Remotive: 31 条 ✅
+- 远程岛: 150 条 ✅
+- who-is-hiring: 431 条（含联系方式 431 条）✅
+- 远程中文网: ❌ 下载失败（直连不可达，exit 35 SSL error）
+- V2EX: ❌ 下载失败（代理 7892 不可达，exit 35 SSL error）
+- 电鸭: 跳过（文件不存在 /tmp/dianyu.html）
+- **汇总**: CN=1087, Global=2000
+- **数据变化**: CN 1087→1087 (不变), Global 2000 (不变)
+- **Git**: commit 5089efa，push 成功（45c335f..5089efa）
+- **money.xlsx**: 更新成功（0条V2EX + 431条who-is-hiring）
+- **异常**: 网络全面不可达 —— 代理 127.0.0.1:7892 和直连 remoteok.com/remote-china.com 均返回 000（SSL连接失败）。仅可从 API 数据源（Remotive/远程岛/who-is-hiring）成功抓取。CN 数量无变化因为失败的 Remote OK、远程中文网、V2EX 是增量来源。
+- **文件大小**: jobs-cn.js 1.4MB, jobs-global.js 3.0MB, money.xlsx 5.1MB
+
+## 上次执行: 2026-07-03 12:26
 
 **结果**: ✅ 成功（手动触发）
 - Remote OK: 100 条
