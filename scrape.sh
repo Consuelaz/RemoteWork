@@ -475,8 +475,10 @@ try:
         if idx in remoteok_detail_map:
             detail_info = parse_remoteok_detail(f'/tmp/remoteok_detail_{idx}.html')
         
+        # 使用 slug/id 字段作为唯一标识，避免 hash 碗撞
+        remoteok_id = item.get('slug') or item.get('id') or str(idx)
         job = {
-            "id": f"global-remoteok-{hash(item.get('position', '')) % 1000000}",
+            "id": f"global-remoteok-{remoteok_id}",
             "title": title,
             "company": item.get("company", "Remote OK"),
             "logo": "🌍",
@@ -869,8 +871,10 @@ try:
                     apply_url = detail_info['applyUrl']
         
         if title and link:
-            job = {
-                "id": f"cn-remotechina-{i}{hash(title) % 10000}",
+            # 从链接中提取数字ID作为唯一标识，避免 hash 碰撞
+        url_id = re.search(r'/(\d+)', href).group(1) if href and re.search(r'/(\d+)', href) else str(i)
+        job = {
+                "id": f"cn-remotechina-{url_id}",
                 "title": title,
                 "company": company,
                 "logo": "🌐",
@@ -1178,8 +1182,12 @@ try:
         if not company:
             company = '海外公司'
         
+        # 从链接中提取帖子ID和回复号，避免 hash 碗撞
+        v2ex_match = re.search(r'/t/(\d+)(?:#reply(\d+))?', href)
+        v2ex_tid = v2ex_match.group(1) if v2ex_match else str(i)
+        v2ex_reply = v2ex_match.group(2) if v2ex_match and v2ex_match.group(2) else '0'
         job = {
-            "id": f"cn-v2ex-{i}{hash(title) % 10000}",
+            "id": f"cn-v2ex-{v2ex_tid}-{v2ex_reply}",
             "title": title,
             "company": company,
             "logo": "💻",
@@ -1319,10 +1327,29 @@ def dedup_by_source_url(jobs):
             result.append(job)
     return result
 
+def dedup_by_title_company(jobs):
+    """按 title+company 去重，保留日期最新的那条（同帖不同回复视为重复）"""
+    groups = {}
+    for job in jobs:
+        key = (job.get('title', '').strip(), job.get('company', '').strip())
+        if key not in groups:
+            groups[key] = []
+        groups[key].append(job)
+    result = []
+    for key, entries in groups.items():
+        # 按日期降序排序，保留最新
+        entries.sort(key=lambda j: j.get('date', ''), reverse=True)
+        result.append(entries[0])
+    return result
+
 def merge_jobs(old_jobs, new_jobs):
-    """合并新旧数据并按 sourceUrl 全局去重，新数据优先（放前面）"""
+    """合并新旧数据并全局去重，新数据优先（放前面）
+    1. 先按 sourceUrl/id 去重（不同数据源不同URL视为不同条目）
+    2. 再按 title+company 去重（同一帖子多次回复、同一公司重复发帖视为重复）
+    """
     merged = new_jobs + old_jobs
     deduped = dedup_by_source_url(merged)
+    deduped = dedup_by_title_company(deduped)
     return deduped
 
 # V2EX 数据放最前面（最新抓取的社群内推岗位）
