@@ -355,3 +355,32 @@ V2EX: 2 jobs（跳过非今日帖子: 18）
 ✅ money.xlsx 已更新，插入 2 条V2EX数据 + 431 条who-is-hiring数据
 数据更新完成: 2026-07-08
 ========================================
+[master e5c9ea7] 自动更新: 2026-07-08 CN=1101 Global=2000
+ 5 files changed, 1611 insertions(+), 1464 deletions(-)
+Control socket connect(/Users/qisoong/.ssh/github.com-22-git): Connection refused
+To github.com:Consuelaz/RemoteWork.git
+   655b35d..e5c9ea7  master -> master
+✅ Git 推送完成
+========================================
+开始抓取: 2026-07-10
+正在抓取 Remote OK...
+Remote OK 下载完成
+正在抓取 Remotive...
+Remotive 下载完成
+正在抓取远程岛...
+远程岛 下载完成
+正在抓取 who-is-hiring (Rebase)...
+who-is-hiring 下载完成
+正在预下载Remote OK岗位详情...
+正在抓取远程中文网...
+远程中文网 下载完成
+正在预下载远程中文网岗位详情...
+正在抓取 V2EX...
+V2EX 下载失败
+正在预下载V2EX岗位详情...
+  File "<stdin>", line 648
+    url_id = re.search(r'/(\d+)', href).group(1) if href and re.search(r'/(\d+)', href) else str(i)
+    ^^^^^^
+IndentationError: expected an indented block after 'if' statement on line 646
+数据更新完成: 2026-07-10
+========================================
