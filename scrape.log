@@ -651,3 +651,139 @@ V2EX: 1 jobs（跳过非今日帖子: 19）
 ✅ money.xlsx 已更新，插入 1 条V2EX数据 + 431 条who-is-hiring数据
 数据更新完成: 2026-08-14
 ========================================
+[master 73e0e9a] 自动更新: 2026-08-14 CN=1120 Global=2000
+ 5 files changed, 20738 insertions(+), 20473 deletions(-)
+To github.com:Consuelaz/RemoteWork.git
+   b895f63..73e0e9a  master -> master
+✅ Git 推送完成
+========================================
+开始抓取: 2026-08-17
+正在抓取 Remote OK...
+Remote OK 下载完成
+正在抓取 Remotive...
+Remotive 下载完成
+正在抓取远程岛...
+远程岛 下载完成
+正在抓取 who-is-hiring (Rebase)...
+who-is-hiring 下载完成
+正在预下载Remote OK岗位详情...
+下载 0: https://remoteOK.com/remote-jobs/remote-getting-it
+下载 1: https://remoteOK.com/remote-jobs/remote-custom-rol
+下载 2: https://remoteOK.com/remote-jobs/remote-member-of-
+下载 3: https://remoteOK.com/remote-jobs/remote-strategic-
+下载 4: https://remoteOK.com/remote-jobs/remote-staff-soft
+下载 5: https://remoteOK.com/remote-jobs/remote-senior-sof
+下载 6: https://remoteOK.com/remote-jobs/remote-cabin-clea
+下载 7: https://remoteOK.com/remote-jobs/remote-sandblaste
+下载 8: https://remoteOK.com/remote-jobs/remote-current-op
+下载 9: https://remoteOK.com/remote-jobs/remote-qa-tester-
+下载 10: https://remoteOK.com/remote-jobs/remote-why-your-f
+下载 11: https://remoteOK.com/remote-jobs/remote-store-mana
+下载 12: https://remoteOK.com/remote-jobs/remote-maintenanc
+下载 13: https://remoteOK.com/remote-jobs/remote-shop-assis
+下载 14: https://remoteOK.com/remote-jobs/remote-brand-prot
+下载 15: https://remoteOK.com/remote-jobs/remote-test-job-l
+下载 16: https://remoteOK.com/remote-jobs/remote-infanteer-
+下载 17: https://remoteOK.com/remote-jobs/remote-engineer-o
+下载 18: https://remoteOK.com/remote-jobs/remote-engineerin
+下载 19: https://remoteOK.com/remote-jobs/remote-quality-ch
+下载 20: https://remoteOK.com/remote-jobs/remote-current-op
+下载 21: https://remoteOK.com/remote-jobs/remote-404-train-
+下载 22: https://remoteOK.com/remote-jobs/remote-porteiro-r
+下载 23: https://remoteOK.com/remote-jobs/remote-gardener-h
+下载 24: https://remoteOK.com/remote-jobs/remote-express-yo
+下载 25: https://remoteOK.com/remote-jobs/remote-carve-out-
+下载 26: https://remoteOK.com/remote-jobs/remote-room-atten
+下载 27: https://remoteOK.com/remote-jobs/remote-locator-ae
+下载 28: https://remoteOK.com/remote-jobs/remote-senior-dat
+下载 29: https://remoteOK.com/remote-jobs/remote-sub-agent-
+下载 30: https://remoteOK.com/remote-jobs/remote-hygpoolop-
+下载 31: https://remoteOK.com/remote-jobs/remote-porter-w-h
+下载 32: https://remoteOK.com/remote-jobs/remote-store-mana
+下载 33: https://remoteOK.com/remote-jobs/remote-store-mana
+下载 34: https://remoteOK.com/remote-jobs/remote-marine-pai
+下载 35: https://remoteOK.com/remote-jobs/remote-store-mana
+下载 36: https://remoteOK.com/remote-jobs/remote-facilities
+下载 37: https://remoteOK.com/remote-jobs/remote-appliances
+下载 38: https://remoteOK.com/remote-jobs/remote-product-ma
+下载 39: https://remoteOK.com/remote-jobs/remote-repositor-
+下载 40: https://remoteOK.com/remote-jobs/remote-higienizad
+下载 41: https://remoteOK.com/remote-jobs/remote-technician
+下载 42: https://remoteOK.com/remote-jobs/remote-all-other-
+下载 43: https://remoteOK.com/remote-jobs/remote-looking-fo
+下载 44: https://remoteOK.com/remote-jobs/remote-general-ma
+下载 45: https://remoteOK.com/remote-jobs/remote-bell-perso
+下载 46: https://remoteOK.com/remote-jobs/remote-title-tbd-
+下载 47: https://remoteOK.com/remote-jobs/remote-software-e
+下载 48: https://remoteOK.com/remote-jobs/remote-software-e
+下载 49: https://remoteOK.com/remote-jobs/remote-p2p-bd-ass
+已保存 50 个Remote OK URL映射
+正在抓取远程中文网...
+远程中文网 下载完成
+正在预下载远程中文网岗位详情...
+下载 0: https://remote-china.com/jobs/1579
+下载 1: https://remote-china.com/jobs/1578
+下载 2: https://remote-china.com/jobs/1577
+下载 3: https://remote-china.com/jobs/1576
+下载 4: https://remote-china.com/jobs/1575
+下载 5: https://remote-china.com/jobs/1574
+下载 6: https://remote-china.com/jobs/1573
+下载 7: https://remote-china.com/jobs/1572
+下载 8: https://remote-china.com/jobs/1571
+下载 9: https://remote-china.com/jobs/1570
+下载 10: https://remote-china.com/jobs/1569
+下载 11: https://remote-china.com/jobs/1568
+下载 12: https://remote-china.com/jobs/1567
+下载 13: https://remote-china.com/jobs/1566
+下载 14: https://remote-china.com/jobs/1565
+已保存 15 个远程中文网详情页映射
+正在抓取 V2EX...
+V2EX 下载完成
+正在预下载V2EX岗位详情...
+下载 0: /t/1234576#reply5
+下载 1: /t/1234434#reply2
+下载 2: /t/1233967#reply0
+下载 3: /t/1233803#reply5
+下载 4: /t/1233336#reply4
+下载 5: /t/1233493#reply1
+下载 6: /t/1232707#reply1
+下载 7: /t/1229224#reply3
+下载 8: /t/1232467#reply6
+下载 9: /t/1231787#reply8
+下载 10: /t/1231304#reply3
+下载 11: /t/1230988#reply7
+下载 12: /t/1229291#reply0
+下载 13: /t/1231102#reply0
+下载 14: /t/1230813#reply5
+下载 15: /t/1216070#reply6
+下载 16: /t/1230516#reply3
+下载 17: /t/1233753#reply22
+下载 18: /t/1230527#reply6
+下载 19: /t/1228690#reply23
+已保存 20 个URL映射
+Remote OK: 100 jobs
+Remotive: 14 jobs
+远程岛: 150 jobs
+who-is-hiring: 432 jobs (含联系方式的 432 条)
+远程中文网: 15 jobs
+已建立 20 个详情页映射
+V2EX: 0 jobs（跳过非今日帖子: 20）
+电鸭 解析失败: [Errno 2] No such file or directory: '/tmp/dianyu.html'
+现有数据: CN=1120, Global=2000
+合并去重后: CN=1128, Global=2000
+✅ 数据更新完成!
+✅ money.xlsx 已更新，插入 0 条V2EX数据 + 432 条who-is-hiring数据
+Remote OK: 100 jobs
+Remotive: 14 jobs
+远程岛: 150 jobs
+who-is-hiring: 432 jobs (含联系方式的 432 条)
+远程中文网: 15 jobs
+已建立 20 个详情页映射
+V2EX: 0 jobs（跳过非今日帖子: 20）
+电鸭 解析失败: [Errno 2] No such file or directory: '/tmp/dianyu.html'
+现有数据: CN=1120, Global=2000
+合并去重后: CN=1128, Global=2000
+✅ 数据更新完成!
+✅ money.xlsx 已更新，插入 0 条V2EX数据 + 432 条who-is-hiring数据
+数据更新完成: 2026-08-17
+========================================
