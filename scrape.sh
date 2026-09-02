@@ -210,7 +210,7 @@ else:
             url_key = re.search(r'(t/\d+)', href)
             if url_key:
                 url_mapping.append((url_key.group(1), idx, link))
-            cmd = f'curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" -x http://127.0.0.1:7897 "{link}" -o /tmp/v2ex_detail_{idx}.html'
+            cmd = f'curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" -x http://127.0.0.1:7892 "{link}" -o /tmp/v2ex_detail_{idx}.html'
             os.system(cmd)
             print(f"下载 {idx}: {href}")
     
@@ -872,8 +872,8 @@ try:
         
         if title and link:
             # 从链接中提取数字ID作为唯一标识，避免 hash 碰撞
-        url_id = re.search(r'/(\d+)', href).group(1) if href and re.search(r'/(\d+)', href) else str(i)
-        job = {
+            url_id = re.search(r'/(\d+)', href).group(1) if href and re.search(r'/(\d+)', href) else str(i)
+            job = {
                 "id": f"cn-remotechina-{url_id}",
                 "title": title,
                 "company": company,
