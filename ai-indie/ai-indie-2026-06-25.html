@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI独立派 | Claude 成了 Slack 里的「同事」</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #f5f5f5;
+    color: #333;
+    line-height: 1.8;
+    font-size: 16px;
+  }
+  .article-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 24px 20px 40px;
+  }
+  .brand-header {
+    text-align: center;
+    padding: 20px 0 30px;
+    border-bottom: 2px solid #2C5530;
+    margin-bottom: 24px;
+  }
+  .brand-header .program-name {
+    font-size: 14px;
+    color: #2C5530;
+    letter-spacing: 4px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .brand-header .subtitle {
+    font-size: 12px;
+    color: #999;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 16px;
+    line-height: 1.5;
+    text-align: center;
+  }
+  .meta-line {
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  blockquote {
+    background: #f8faf8;
+    border-left: 4px solid #2C5530;
+    padding: 12px 16px;
+    margin: 20px 0;
+    color: #555;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  blockquote strong {
+    color: #2C5530;
+  }
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2C5530;
+    margin: 32px 0 14px;
+    padding-left: 0;
+  }
+  p {
+    margin-bottom: 14px;
+    text-align: justify;
+  }
+  strong {
+    color: #222;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 32px 0;
+  }
+  .footer-note {
+    font-size: 13px;
+    color: #999;
+    text-align: center;
+    margin-top: 8px;
+  }
+  .footer-note em {
+    color: #2C5530;
+  }
+  .source-list {
+    font-size: 14px;
+    color: #666;
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+  }
+  .source-list li {
+    padding: 2px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+  .source-list li::before {
+    content: "·";
+    position: absolute;
+    left: 4px;
+    color: #2C5530;
+    font-weight: bold;
+  }
+  .article-footer {
+    text-align: center;
+    color: #2C5530;
+    font-size: 13px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+  }
+  .highlight {
+    background: linear-gradient(to bottom, transparent 60%, #e8f5e9 60%);
+    padding: 0 2px;
+  }
+  .pull-quote {
+    background: #2C5530;
+    color: #fff;
+    padding: 16px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="article-wrapper">
+
+<div class="brand-header">
+  <div class="program-name">AI 独 立 派</div>
+  <div class="subtitle">写给独立开发者和远程工作者的真实视角</div>
+</div>
+
+<h1>Claude 成了 Slack 里的「同事」：不用打开，@一下就能干活</h1>
+
+<div class="meta-line">2026年6月25日 · AI独立派</div>
+
+<blockquote>
+  <strong>"这彻底改变了我与 Claude 的合作方式。感觉不再像使用工具，更像管理一个团队。"</strong>
+</blockquote>
+
+<p>这是 Anthropic 研究员 Alex Albert 说的。他说这句话的时候，Claude Tag 刚在 Slack 上线不到 24 小时。</p>
+
+<p>而更让人"心里一紧"的数字在后面：Anthropic 内部，Claude Tag 已经自动合并了 <strong>65% 的产品 PR</strong>。不是帮忙写代码建议，是直接干活——克隆仓库、写代码、跑测试、编译、提交，全在一个隔离沙箱里完成，干完就把沙箱销毁。</p>
+
+<p>这就是我想聊的核心矛盾：<strong>当 AI 从"你打开的工具"变成"你 @ 一下就能干活的同事"，独立开发者的工作方式会被彻底翻过来。</strong></p>
+
+<h2>01 / 不用打开窗口，@一下就是命令</h2>
+
+<p>Claude Tag 的发布是这周 builders 圈最热的事。简单说：你在 Slack 频道里 <code>@Claude</code>，它就会启动一个独立的 agent 实例，在自己的沙箱里干活。每个线程有自己的上下文和权限，频道里任何人都可以接着别人的进度继续推进。</p>
+
+<p>它不是被动的问答机器。你可以让它<strong>主动监控频道</strong>——看到有人的问题它能回答，就自动回复；看到线程有结果了，就自动用 ✅❌ 标记状态；甚至可以在你睡觉的时候扫描整条频道，把关键信息整理成一条置顶消息。</p>
+
+<div class="pull-quote">"这是我们第一个原生支持多玩家、主动行为的产品。"</div>
+
+<p>Anthropic 的 Cat Wu 说得很到位。注意那个词——"多玩家"。不是一个人对着一个 AI，是一个团队共用一个 AI。这才是真正的范式转移。</p>
+
+<p>这对独立开发者意味着什么？意味着你一个人就是一个团队，而 Claude 是你的编外成员。你不需要打开一个新窗口、写一段 prompt、等待输出——你只需要在工作中自然地 @ 它。这个心理门槛的降低，比任何功能升级都重要。</p>
+
+<h2>02 / 独立开发者最需要的，是"不用解释上下文"的 AI</h2>
+
+<p>Box CEO Aaron Levie 转发 Claude Tag 时说了个词：<strong>"headless software"</strong>——无头软件。传统软件有界面，你打开、点击、操作。但 agent 不需要界面，它只需要 API 或者 CLI。</p>
+
+<p>Peter Yang 问得更直接：<strong>"如果你的产品被访问的，只是一个在找 API 的 agent，那 UI 设计还重要吗？"</strong></p>
+
+<p>这个问题值得每一个独立开发者认真想。我们过去花大量时间做界面——按钮放哪里、配色怎么选、交互流程怎么设计。但如果你的用户不再是"人"，而是一个 AI agent，那你的产品竞争力就完全变了：<strong>API 文档的清晰度、CLI 的可用性、数据结构的合理性，这些东西变成了新的"用户体验"。</strong></p>
+
+<p>Anthropic 的人还透露了一个细节：Claude Tag 之所以能跑得这么顺，是因为他们花了大量"看不见的工程工作"——跨工具整合、计算环境隔离、权限管理、安全审计。这些事用户看不到，但少了任何一环，agent 就不可信。</p>
+
+<p>独立开发者可以从中学到一条金律：<span class="highlight">做 AI 产品，不要只做聊天界面。把 80% 的精力花在让 agent 能"安心干活"的基础设施上，那才是你真正的护城河。</span></p>
+
+<h2>03 / 但"聪明"不等于"有用"，模型能力的反直觉</h2>
+
+<p>这周还有一个话题被反复讨论：AI 模型定价的<strong>"杠铃效应"</strong>。Aaron Levie 描述了一个正在形成的市场格局——高端前沿模型（比如 Claude Opus）很贵，但便宜的开放模型越来越好用。两头在挤压中间。</p>
+
+<p>Google Workspace CLI 的故事更耐人寻味。Peter Yang 发现这个 Google 内部工具非常实用，但 Steipete 爆料说：<strong>"做这个 CLI 的人，因为做了这个 CLI，被 Google 开除了。"</strong></p>
+
+<p>这不是段子。大公司里，有人看到了 agent 时代的正确方向——让 AI 通过命令行直接操作工作数据——但因为不符合现有的产品路线图和组织利益，这个创新被掐掉了。</p>
+
+<p>Garry Tan 在自己的推文里也提到类似的观察："Linzumi 是 Codex 但真正的多玩家模式。它是为团队设计的，不是给一个人装酷用的。"</p>
+
+<p>反直觉的地方在于：<strong>最有用的 AI 应用，往往不是"最聪明的"，而是"最方便协作的"。</strong>Claude Tag 的成功不是因为 Claude 比 GPT-5 聪明多少，而是因为它住进了你的工作台（Slack），跟你的团队一起跑，不用你额外伺候。</p>
+
+<h2>04 / 这几天 builders 圈值得关注的事</h2>
+
+<p><strong>Google Workspace CLI</strong>：一个被内部开掉的工程师做的工具，让 Gmail、Calendar、Drive 全都可以通过命令行操作。对独立开发者来说，这意味着你可以写脚本自动化所有日常工作流——比浏览器插件快 10 倍。核心价值不是"CLI 好用"，而是"你的数据终于能直接喂给 agent 了"。</p>
+
+<p><strong>Zai/GLM 超越 DeepSeek</strong>：Shawn (swyx) 提到 Zai 今年 1 月以 HK$120 一股 IPO，现在他们的开源模型在多个评测上超越了 DeepSeek，正在重返旧金山的开发者活动。对独立开发者的价值点：开源模型的质量竞赛还在加速，你不一定非要用最贵的 API。杠铃效应意味着你可以用便宜的模型做 80% 的事情，只在关键节点用前沿模型。</p>
+
+<p><strong>"K-coding" 新词</strong>：Replit CEO Amjad Masad 发了一张截图，配文就一个词——"K-coding"。这大概是指 Karpathy 式的编程方式。不管具体含义是什么，这个词的出现本身说明了一个趋势：<strong>AI coding 的方式正在被命名、被分类、被系统化。</strong>未来的开发者简历上，可能真的会要求"熟练使用 K-coding"。</p>
+
+<h2>05 / 如果你今天只做一件事</h2>
+
+<p><strong>第一，把你每天重复做的、打开某个工具才能完成的事列出来。</strong>然后问自己：如果有一个 AI agent 住在我的工作台里，这些事有多少可以变成"@ 一下就行"？列完以后，优先自动化那件最耗时间的事。Agent 时代的分水岭不是你用不用 AI，而是你的工作流有没有为 AI 重新设计。</p>
+
+<p><strong>第二，检查你的产品有没有"agent-ready"的接口。</strong>如果你的产品只有图形界面，没有 API、没有 CLI、没有 webhook，那么在 agent 时代你的产品对 AI 是不可见的。这不是"以后再说"的事——Google Workspace CLI 那个被开的工程师已经证明了，CLI 比 GUI 更适合新时代。</p>
+
+<p><strong>第三，开始用开放的、便宜的模型处理日常任务。</strong>别把所有事都扔给最贵的模型。OpenAI 的 Codex、Claude 的 Opus 确实好，但它们的正确使用方式不是"每次都用"，而是"在最关键的地方用"。其他 80% 的工作，开源模型已经足够了。省下来的钱，是你独立开发跑得更久的燃料。</p>
+
+<hr>
+
+<p>最后说一个让我乐观的点：<strong>agent 时代的"一人公司"，比以往任何时候都更便宜、更快、更可能成功。</strong>以前你想做一款 SaaS，你需要至少一个后端、一个前端、一个设计师。现在你只需要一个好想法，和一套能让 AI agent 高效工作的基础设施。那个被 Google 开掉的 CLI 工程师，他的想法没有死在 Google——它的价值正在被整个 builders 社区重新认识。</p>
+
+<div class="article-footer">
+  <p>AI独立派 · 每日追踪 AI builders 动态</p>
+  <p>写给独立开发者和远程工作者看的真实视角</p>
+</div>
+
+</div>
+</body>
+</html>
