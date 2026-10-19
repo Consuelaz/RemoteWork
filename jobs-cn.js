@@ -1,10 +1,31 @@
 // ============================================================
 // 国内远程工作岗位数据
 // 数据来源：远程中文网等
-// 最后更新：2026-10-18
+// 最后更新：2026-10-19
 // ============================================================
 
 const JOBS_CN = [
+  {
+    id: 'cn-rebase-5908411483',
+    title: '[Remote/HK] Quant/Web3公司诚聘  Rust量化， C++低延迟，机构BDM，量化策略研究员（高频交易与做市），项目经理/项目总监（PMO），财务经理，斯巴达业务负责人，资深量化风险专家（交易与对冲），资深量化交易专家（对冲策略） 薪水RMB/USD',
+    company: '',
+    logo: '🌐',
+    category: '后端开发',
+    tags: ['远程', '社群内推'],
+    salary: '$10K-20K/月',
+    location: 'Remote & HK',
+    date: '2026-10-18',
+    isNew: true,
+    isFeatured: false,
+    canRefer: true,
+    source: 'https://hire.rebase.network',
+    sourceUrl: 'https://github.com/rebase-network/who-is-hiring/issues/1322',
+    applyUrl: 'https://github.com/rebase-network/who-is-hiring/issues/1322',
+    description: ' 招聘 [Remote/HK] Quant/Web3公司诚聘  Rust量化， C++低延迟，机构BDM，量化策略研究员（高频交易与做市），项目经理/项目总监（PMO），财务经理，斯巴达业务负责人，资深量化风险专家（交易与对冲），资深量化交易专家（对冲策略） 薪水RMB/USD',
+    responsibilities: ['负责用现代 C++ 开发并优化加密衍生品高频交易系统，覆盖行情、订单管理、执行、风控、仓位与监控等核心模块。负责交易所 API 连接、低延迟链路优化及线上故障排查，保障系统稳定高效运行。\\n负责研究加密货币衍生品高频、做市及短周期策略，分析订单簿与订单流特征。构建考虑手续费、滑点、排队和延迟的回测仿真，并优化报价、库存、对冲及实盘验证。\\n负责开发维护机构客户、交易公司和战略伙伴，推动区域及国际业务拓展。协调客户接入、代表公司参会并维护长期合作关系，支持业务持续增长。\\n负责支持增长、市场及运营项目的执行推进、跨团队协作、交付跟进和风险升级。推动项目管理流程标准化、模板/SOP 搭建及复盘优化。\\n作为核心业务线负责人，负责斯巴达业务整体规划、运营与增长。精通跟单、带单、机器人交易产品运作规则，并推动业务落地和持续优化。\\n建立覆盖场内交易、外部对冲和通道资金的风险分析体系，负责逐币种/账户/组合风险模型、限额阈值、压力测试及异常流量与逆向选择/markout 分析。独立检验对冲策略并进行事故归因，用 Python/SQL 推动风控生产化。\\n在批准的风险预算和资金约束内，对对冲业务净收益负责，研究动态对冲比例、净额聚合、库存控制与再平衡。优化跨通道路由、Maker/Taker、拆单与执行节奏，主导 TCA、损益归因及策略从研究到实盘的完整生命周期。'],
+    requirements: ['本科以上学历，2–7 年 C++ 低延迟或交易系统相关经验。熟悉 Linux、多线程、网络编程和衍生品订单生命周期。有 HFT/做市/OMS/交易所 API 经验，或熟悉 NUMA、lock-free、DPDK/RDMA、Rust/Python/K8s 者优先。\\n本科以上学历，2–7 年量化、算法交易或做市经验。具备 Crypto 衍生品研究、概率统计与 Python 回测能力，熟悉执行约束和偏差识别。有永续/期货做市、订单流建模、C++/ClickHouse 经验者优先。\\n本科以上学历，2–8 年机构销售、业务拓展或合作管理经验。具备 Crypto、衍生品及机构交易生态背景，中英文流利。有港新跨境市场、交易所/做市商/流动性资源者优先。\\n2–10 年 PMO、项目管理或运营协调经验，有增长、市场或运营合作经验。必须项为二线交易所背景，以及市场活动或增长项目经验。需能独立强势推动项目，不要执行岗。\\n财务/金融本科，3 年以上 Web3/加密交易所财务全盘经验。懂 Etherscan/Tronscan 链上对账，能独立对接产研提需求并输出正确报表。Base 迪拜优先，有财务系统 0–1 经验，不要执行岗。\\n需传统金融背景，证券背景优先，熟悉基金产品运作，且最近 2 年必须深耕加密货币行业。精通跟单、带单、机器人交易产品运作规则。必须业务精通达到负责人级别，执行岗不看。\\n5 年以上市场/量化风险或衍生品交易经验，熟练 Python/SQL。深入理解永续期货、保证金、强平、资金费、基差、市场微观结构、VaR/ES 与压力测试。有主导风险框架和事件改进案例，纯合规/反洗钱/告警值守不匹配。\\n5 年以上量化交易、系统化做市或电子交易经验，至少 2 年实盘策略与 P&L 管理经验，熟练 Python/SQL。有主导研究进入实盘并持续运行的案例。必须具备独立交易经验，不要执行岗。\\n弹性工作，非常扁平，典型工程师文化氛围，稳定性高。\\nPosition 二：量化策略研究员（高频交易与做市）（Full-Time，Onsite-HK，提供 EP）\\nPosition 三：机构 BDM（Full-Time，Onsite-HK，提供 EP）\\nPosition 四：项目经理/项目总监（PMO）（Full-Time，Remote）\\nPosition 五：财务经理（Full-Time，Remote）\\nPosition 六：斯巴达业务负责人（Full-Time，Remote）\\nPosition 七：资深量化风险专家（交易与对冲）（Full-Time，Remote）\\nPosition 八：资深量化交易专家（对冲策略）（Full-Time，Remote）'],
+    benefits: [],
+  },
   {
     id: 'cn-rebase-5877353442',
     title: '[远程] CEX公司诚聘 项目经理/财务经理/资深量化风险专家/资深量化交易专家',
@@ -8747,7 +8768,7 @@ const JOBS_CN = [
     company: '头部币所web3团队',
     logo: '🌐',
     category: '后端开发',
-    tags: ['远程', '社群内推'],
+    tags: [],
     salary: '薪资open 不卡涨幅',
     location: '居家',
     date: '2025-01-06',
@@ -8758,8 +8779,8 @@ const JOBS_CN = [
     sourceUrl: 'https://github.com/rebase-network/who-is-hiring/issues/646',
     applyUrl: 'https://github.com/rebase-network/who-is-hiring/issues/646',
     description: '头部币所web3团队 招聘 [居家] 头部币所诚聘 java/go 架构  薪资open 不卡涨幅',
-    responsibilities: ['Responsible for Middleware etcd related development, Performance optimization, problem fixing, operation and maintenance; Responsible for the development, maintenance, continuous optimization, and Line of Business Q & A of internal Java frameworks (based on Spring); Help business parties solve technical problems and use technology to promote business development.'],
-    requirements: ['Proficient in Java and Golang concurrent programming, familiar with high concurrency, distributed communication, storage and other related technologies; Bachelor\\\'s degree or above, with more than 3 years of relevant work experience; Familiar with Linux operating system and open source Middleware software; Familiarity with Middleware such as etcd and Nacos, and relevant maintenance and optimization experience is preferred; Familiar with gRPC framework, experience in gRPC framework development and optimization is preferred; Proficient in common troubleshooting tools, such as arthas, tcpdump, Linux commands, etc; Open source contributors or technical bloggers with long-term accumulation are preferred.'],
+    responsibilities: [],
+    requirements: [],
     benefits: [],
   },
   {
