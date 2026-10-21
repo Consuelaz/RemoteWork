@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI独立派 | 能被验证的工作，都会被 AI 拿走</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #f5f5f5;
+    color: #333;
+    line-height: 1.8;
+    font-size: 16px;
+  }
+  .article-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 24px 20px 40px;
+  }
+  .brand-header {
+    text-align: center;
+    padding: 20px 0 30px;
+    border-bottom: 2px solid #2C5530;
+    margin-bottom: 24px;
+  }
+  .brand-header .program-name {
+    font-size: 14px;
+    color: #2C5530;
+    letter-spacing: 4px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .brand-header .subtitle {
+    font-size: 12px;
+    color: #999;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 16px;
+    line-height: 1.5;
+    text-align: center;
+  }
+  .meta-line {
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  blockquote {
+    background: #f8faf8;
+    border-left: 4px solid #2C5530;
+    padding: 12px 16px;
+    margin: 20px 0;
+    color: #555;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  blockquote strong {
+    color: #2C5530;
+  }
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2C5530;
+    margin: 32px 0 14px;
+    padding-left: 0;
+  }
+  p {
+    margin-bottom: 14px;
+    text-align: justify;
+  }
+  strong {
+    color: #222;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 32px 0;
+  }
+  .footer-note {
+    font-size: 13px;
+    color: #999;
+    text-align: center;
+    margin-top: 8px;
+  }
+  .footer-note em {
+    color: #2C5530;
+  }
+  .source-list {
+    font-size: 14px;
+    color: #666;
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+  }
+  .source-list li {
+    padding: 2px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+  .source-list li::before {
+    content: "·";
+    position: absolute;
+    left: 4px;
+    color: #2C5530;
+    font-weight: bold;
+  }
+  .article-footer {
+    text-align: center;
+    color: #2C5530;
+    font-size: 13px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+  }
+  .highlight {
+    background: linear-gradient(to bottom, transparent 60%, #e8f5e9 60%);
+    padding: 0 2px;
+  }
+  .pull-quote {
+    background: #2C5530;
+    color: #fff;
+    padding: 16px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+  .chain-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .chain-table th {
+    background: #f0f5ef;
+    color: #2C5530;
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid #cfe0ca;
+    font-weight: 600;
+  }
+  .chain-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+    text-align: left;
+  }
+  .chain-table td.c { text-align: center; }
+  .tag {
+    display: inline-block;
+    font-size: 12px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .tag.down { background: #fbeeeb; color: #8C3A2E; }
+  .tag.up { background: #eaf3e6; color: #2C5530; }
+  .note {
+    background: #fdf9f0;
+    border-left: 4px solid #c9a227;
+    padding: 12px 16px;
+    margin: 20px 0;
+    color: #6b5a2a;
+    font-size: 14px;
+    line-height: 1.75;
+  }
+  .note strong { color: #6b5a2a; }
+  ol { margin: 0 0 16px; padding-left: 22px; }
+  ol li { margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<div class="article-wrapper">
+
+<div class="brand-header">
+  <div class="program-name">AI 独 立 派</div>
+  <div class="subtitle">写给独立开发者和远程工作者的真实视角</div>
+</div>
+
+<h1>能被验证的工作，都会被 AI 拿走：一个判断岗位存亡的硬标准</h1>
+
+<div class="meta-line">2026年10月21日 · AI独立派</div>
+
+<blockquote>
+  <strong>"AI 可以给你建议，但它不能签字，更不能挨骂、丢工作、上法庭。"</strong>
+</blockquote>
+
+<p>每隔几天就会有人问一遍：AI 这么猛，产品经理是不是要没了？程序员到底会不会被取代？</p>
+
+<p>这类讨论之所以吵不出结果，是因为大家都在按<strong>岗位名称</strong>吵，而不是按<strong>产出的可验证性</strong>吵。名称是历史包袱，可验证性才是物理约束。</p>
+
+<p>我把判据写成一句话，你可以拿它去套自己的岗位：</p>
+
+<div class="pull-quote">一个岗位能否被 AI 取代，取决于它的产出能否被「独立于业务结果」验证。</div>
+
+<p>能验证 —— 说明它可以被塞进一个人机闭环里让 Agent 自动跑，这个岗位就会坍缩。不能验证 —— 说明它只能由一个人拍板、并承担后果，这个岗位就会一直在。</p>
+
+<p>顺着这条线，我从"研发"到"变现"把整条链扫了一遍。结论只有一个：<strong>产品建造者（Product Builder）</strong>——对"做什么、为什么做、卖给谁"负最终责任，并且能亲手把它造出来、送出去的人。</p>
+
+<p>它不是新造的一个岗位，而是产品经理 + 全栈工程 + GTM 三个职责的收敛。</p>
+
+<h2>01 / 为什么编码最先被冲击？不是因为 AI 更聪明</h2>
+
+<p>编码最先被 AI 吃掉，真实原因很朴素：<strong>它有外部验证源</strong>。编译器、测试、code review——代码写得对不对，不需要等市场告诉你，机器当场就能判定。</p>
+
+<p>同样的逻辑适用于需求文档（是否覆盖场景、逻辑自洽）、设计稿（规范一致、可用性指标）、测试（覆盖率）、数据清洗（字段规则）、线索调研（匹配度）。这些工作都有明确的验收标准，于是它们都被做成了 Agent 可以自动跑的闭环。</p>
+
+<p>而"这个需求该不该做"、"这个价格该不该定"、"这批用户值不值得得罪"——<strong>这些问题没有外部裁判</strong>。唯一的裁判是三个月后的业务结果，而到时候做决定的人要为此负责。</p>
+
+<p>所以链条的分界线从来不是"脑力 vs 体力"，而是<strong>有没有外部验证源</strong>。这条线一旦画出来，答案就已经定了。</p>
+
+<h2>02 / 扫一遍链条：中间在坍缩，两端在膨胀</h2>
+
+<table class="chain-table">
+  <tr>
+    <th style="width:20%">环节</th>
+    <th style="width:34%">验收标准（=验证源）</th>
+    <th style="width:16%" class="c">被替代性</th>
+    <th style="width:30%">2026 年的实际状态</th>
+  </tr>
+  <tr><td>需求文档</td><td>是否覆盖场景、逻辑自洽</td><td class="c"><span class="tag down">高</span></td><td>PRD 自动生成已普及，"PRD 流水线工人"最先被清</td></tr>
+  <tr><td>交互 / 视觉设计</td><td>规范一致性、可用性指标</td><td class="c"><span class="tag down">高</span></td><td>产出趋近无限供给，价值从"画得出来"转向"挑得出来"</td></tr>
+  <tr><td>编码实现</td><td>编译通过、测试通过</td><td class="c"><span class="tag down">极高</span></td><td>样板工程不再稀缺；架构判断与系统集成反而更贵</td></tr>
+  <tr><td>测试与质量</td><td>覆盖率、缺陷率</td><td class="c"><span class="tag down">高</span></td><td>测试生成自动化，人的职责收敛为设质量门禁</td></tr>
+  <tr><td>发布运维</td><td>可用性、回滚成功</td><td class="c"><span class="tag down">高</span></td><td>自适应 CI/CD，留下的是安全与合规审计</td></tr>
+  <tr><td>获客与分发</td><td><strong>没人知道哪个渠道会成</strong></td><td class="c"><span class="tag up">低</span></td><td>执行被自动化，但"谁看见你"更贵了</td></tr>
+  <tr><td>转化与定价</td><td><strong>只有付款行为能验证</strong></td><td class="c"><span class="tag up">低</span></td><td>信任、谈判、定价权无法外包</td></tr>
+  <tr><td><strong>选题与取舍</strong></td><td><strong>没有。只能事后由结果判定</strong></td><td class="c"><span class="tag up">极低</span></td><td>全链唯一真瓶颈：造东西变廉价后，做错东西的代价被放大</td></tr>
+</table>
+
+<p>看清楚这张表的形状：<strong>两端在膨胀，中间那一长段全部在坍缩</strong>。最上游的"决定做什么"和最下游的"让谁付钱"。</p>
+
+<p>而这两个端点，恰好是同一个岗位的两头——<span class="highlight">不是两个岗位。</span></p>
+
+<h2>03 / 为什么不是工程师，不是 PM，也不是设计师</h2>
+
+<p><strong>不是"软件工程师"。</strong>这个 title 不会消失，但内涵已经换血。今年世界智能产业博览会上，中电金信研究院副院长胡汝道说得挺准确：软件工程师的重心正"从编写代码转向如何用好 AI 工具"，未来对"全栈"的定义不再是懂前后端，而是<strong>懂需求、懂架构、能与智能体协同完成整个开发闭环</strong>。</p>
+
+<p>活下来的那部分工程师，靠的恰恰是<strong>没有外部验证源</strong>的东西：架构判断、系统集成、安全责任。也就是说，工程师之所以还重要，不是因为"他是工程师"，而是因为他身上那部分<strong>建造者属性</strong>在变强。</p>
+
+<p><strong>不是"传统产品经理"。</strong>这一轮 AI 第一次直接冲着"做判断的人"来，所以 PM 群体最慌。但真正被淘汰的不是 PM 这个职能，而是 PM 内部的<strong>翻译层</strong>：把业务的话翻译成文档、再转给研发的那一段。Gartner 预测到 2027 年最先消失的就是这类"需求翻译型"岗位。</p>
+
+<p>与此同时，留在场上的那批人反而在涨价。前 Stripe / Twitter 产品负责人 Shreyas Doshi 在斯坦福的课上报了个反直觉的事实：<strong>当前开放的 PM 岗位数量比历史上任何时候都多</strong>，顶级 PM 薪资在 18 个月内翻倍，他参与谈判的合同里有四份产品领导者年薪突破千万美元。</p>
+
+<p>他的解释我认同：过去五年公司把 PM 人数推到历史高点，但大部分新招的人做的是<strong>组织而非建造</strong>；现在公司把规模拉回五年前水平，同时用更高薪资抢"能动手的产品建造者"。设计师、工程师、PM、数据科学家之间的墙正在消失——公司真正要的是<strong>能决定"该建什么"并且能自己建出来的人</strong>。</p>
+
+<p><strong>不是"设计师"。</strong>AI 可以在 30 秒里出 100 张图，但"哪张好、为什么好、怎么改更好"依然是人做的。品味确实在升值，但 taste 是<strong>一种能力</strong>而不是一个岗位——它附着在最终拍板的人身上。设计师如果不承担"这版该不该上线"的责任，就只是供给端的一部分。</p>
+
+<h2>04 / 最有力的反对意见：也许是销售</h2>
+
+<p>我得诚实一点：如果只问"谁最不容易被裁"，答案很可能是<strong>能带来收入的人</strong>。当供给爆炸、产品趋同，注意力、信任、渠道成了最硬的护城河。AI 能生成营销文案，但生成不了信任。</p>
+
+<p>这一点已经被市场验证成了一个新岗位类别：<strong>GTM Engineer</strong>。Clay 在 2023 年提出这个概念，到今年，每月约有 100 条 GTM Engineer 相关招聘出现在市场上，Cursor、Lovable、Webflow 都在招。Clay 自己的 ARR 一年内翻三倍到 1 亿美元，D 轮估值 71 亿美元，还专门设了 100 万美元奖学金培养这个岗位。</p>
+
+<p>但 GTM Engineer 的存在<strong>印证而非推翻</strong>我的结论。它的定义是"用 AI、数据和自动化搭建营收系统的人，而非手动执行单项 GTM 任务的人"——它同样是从执行者向<strong>系统设计者 + 结果负责人</strong>迁移。它和 Product Builder 是同一个运动在链条两端的表现。</p>
+
+<h2>05 / 三个互相独立的事实</h2>
+
+<p><strong>缺的不是执行。</strong>有走访调研显示，跑了 20 家已上线 AI Agent 项目的企业，约九成仍在亏钱，真正跑通、产生正向回报的不到 10%。一家零售企业 All in Agent，立 5 个项目砸 200 万，一年黄了 3 个，产出价值不到 30 万。执行能力过剩，选题能力稀缺。</p>
+
+<p><strong>岗位在换血，不是消失。</strong>国内行业调研称今年传统 PM 岗位需求同比下滑约 42%，而 AI 产品经理岗位需求暴涨 455%。数量在缩，结构在换。</p>
+
+<p><strong>执行权已经交出去了。</strong>OpenAI 今年 6 月披露，超过 70% 的 Codex 用户会把"估计需要一个人一小时以上"的任务直接交给 agent。Anthropic 的研究显示，coding agent 的使用正从"写代码、改代码"扩展到部署、运维和数据分析。人已经默认退到了监督位。</p>
+
+<div class="note">
+  <strong>数据可信度声明：</strong>Clay 的招聘量是厂商自述（它本身就在卖 GTM 工具），±42% / +455% 来自行业自媒体转述的调研。这些都不足以当作硬统计。但三方来源方向高度一致，且都符合"执行坍缩、判断升值"这一机制性解释——你可以信这个机制，不必太信这些数字。
+</div>
+
+<h2>06 / 同一个岗位，三种形态</h2>
+
+<p><strong>大公司里</strong>，它叫 Product Builder 或 AI-Augmented PM：用 AI 覆盖 80% 的文档与协调工作，把省下的时间换成客户访谈、定价对话和架构决策。组织在变扁——CEO 和一线之间不再需要 12 层传话的人。</p>
+
+<p><strong>创业公司里</strong>，它叫 Founder：三条职责天然长在同一个人身上。这也是为什么现在的团队可以小到 3–5 人——中间层被 AI 吃掉了，剩下的都是"签字的人"。</p>
+
+<p><strong>一人公司里</strong>，它叫你自己：三个 title 全部压缩进同一个大脑，没有协作损耗，也没有甩锅对象。这既是最大的杠杆，也是最大的风险。</p>
+
+<h2>07 / 如果你今天只做一件事</h2>
+
+<p>用这五条给自己打分。每条都不能外包：<span class="highlight">任何一条你答不上来，AI 迟早会替你答。</span></p>
+
+<ol>
+  <li><strong>选题的证据门槛，有没有因为 AI 而提高？</strong>反直觉但关键：一个功能因为 AI 变得更容易做了，你应该<em>提高</em>上它的证据门槛，而不是降低。便宜的执行应该让你更挑剔。</li>
+  <li><strong>你有没有一个不依赖平台算法的分发资产？</strong>私域、newsletter、社群、行业口碑、客户名单。产品可以在一周内被复制，一个真实的受众网络不能。</li>
+  <li><strong>你是否在亲自跟付费用户说话？</strong>AI 可以总结 20 场访谈，但不能替你建立信任，也听不到对方犹豫时那一秒的停顿。</li>
+  <li><strong>AI 交给你的东西，你能不能当场判断它"哪里不对"？</strong>这就是 taste 加上领域深度。没有它，一人 + AI 只会以更高效率批量生产工业垃圾。</li>
+  <li><strong>如果这个项目失败了，是你签字吗？</strong>如果答案是"不是"，那你在这条链上就是可被替换的一环——不管你的 title 写的是什么。</li>
+</ol>
+
+<hr>
+
+<p>最后说一个让我乐观的点：<strong>这条判据对独立开发者其实是好消息。</strong>过去一个人做产品，最难的不是想法，是你得先凑齐一个团队才能验证想法。现在中间那一长段全部被压缩了，你一个人就能跑到"有没有人付钱"这个真正的验证点。</p>
+
+<p>AI 把"怎么做"的成本压到接近零，于是价值全部涌向"做什么"和"谁会看见"。<strong>那个同时对这两件事拍板、并为拍板后果负责的人——无论他叫创始人、产品负责人，还是一人公司的你自己——就是这条链上最重要、也最不会消失的那个人。</strong></p>
+
+<p>剩下的工作，交给 Agent 就好。</p>
+
+<div class="article-footer">
+  <p>AI独立派 · 每日追踪 AI builders 动态</p>
+  <p>写给独立开发者和远程工作者看的真实视角</p>
+</div>
+
+<h2 style="font-size:15px;margin-top:28px;">参考来源</h2>
+<ul class="source-list">
+  <li>中新经纬《程序员不会消失，结合 AI 会提升开发效率》，2026-05-30（世界智能产业博览会专访）</li>
+  <li>TechCrunch《Clay's Kareem Amin on the rise of the GTM engineer》，2026-10-02</li>
+  <li>至顶网《2026 年，产品经理这个岗位同时在死亡和繁荣》，2026-05-13（转述 Shreyas Doshi 斯坦福课程）</li>
+  <li>TechBuild Africa《Can AI Replace Software Developers?》（引 OpenAI Codex 2026-06 数据、Anthropic 使用研究）</li>
+  <li>jamzspace《What Becomes Scarce When AI Makes Building Cheap》</li>
+</ul>
+
+</div>
+</body>
+</html>
