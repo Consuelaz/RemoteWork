@@ -1139,6 +1139,7 @@ try:
         TITLE_BLACKLIST = [
             '一直想做的远程工作集合网站',
             '远程工作网站开放',
+            '从零开始远程工作指南',  # 付费课程推广帖，非招聘
             # 可在此继续追加非招聘类标题关键词
         ]
         if any(kw in title for kw in TITLE_BLACKLIST):
