@@ -546,16 +546,77 @@ function openModal(id) {
       </div>
     </div>` : ''}
 
-    <div class="modal-actions">
-      ${job.canRefer 
-        ? '<a href="community.html" target="_blank" class="btn btn-primary">加入社群内推 →</a>'
-        : `<a href="${job.applyUrl || job.sourceUrl}" target="_blank" class="btn btn-primary">${job.applyUrl ? '申请职位 →' : '查看原帖投递 →'}</a>`
-      }
-      <button class="btn btn-outline" onclick="closeModal()">关闭</button>
-    </div>
+    <div id="modalAccess"></div>
+
+    <div class="modal-actions" id="modalActions"></div>
   `;
   document.getElementById('modalOverlay').classList.add('active');
   document.body.style.overflow = 'hidden';
+
+  // 会员权益（申请链接 / 内推联系方式）异步渲染，不阻塞弹窗打开
+  renderJobAccess(job);
+}
+
+// ── 会员权益门控 ──
+// 未登录/非会员：显示上锁引导；会员：从服务端取申请链接与内推联系方式
+async function renderJobAccess(job) {
+  const box = document.getElementById('modalAccess');
+  const actions = document.getElementById('modalActions');
+  if (!box || !actions) return;
+
+  const A = window.Auth;
+  const esc = (s) => String(s || '').replace(/[&<>"']/g, (c) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+
+  const fallbackAction = job.canRefer
+    ? '<a href="community.html" target="_blank" class="btn btn-primary">加入社群内推 →</a>'
+    : `<a href="${esc(job.sourceUrl || '#')}" target="_blank" class="btn btn-outline">查看原帖 →</a>`;
+
+  if (!A || !A.isMember()) {
+    const logged = !!(A && A.isLoggedIn());
+    box.innerHTML = `
+      <div class="locked-box">
+        <h4>🔒 会员专属</h4>
+        <p>${logged ? '开通会员后，可查看岗位申请链接与内推人联系方式' : '登录并开通会员后，可查看岗位申请链接与内推人联系方式'}</p>
+        <div class="locked-actions">
+          <a href="account.html" target="_blank" class="btn btn-primary">${logged ? '开通会员' : '登录 / 兑换码激活'} →</a>
+        </div>
+      </div>`;
+    actions.innerHTML = fallbackAction + '<button class="btn btn-outline" onclick="closeModal()">关闭</button>';
+    return;
+  }
+
+  box.innerHTML = '<div class="access-item"><span class="a-label">正在获取会员权益…</span></div>';
+
+  let acc = {};
+  try {
+    const map = await A.getJobAccess([job.id]);
+    acc = map[job.id] || {};
+  } catch (e) {
+    box.innerHTML = '<div class="access-item"><span class="a-label">权益获取失败，请稍后重试</span></div>';
+    return;
+  }
+
+  const parts = [];
+  if (acc.apply_url) {
+    parts.push(`<div class="access-item"><span class="a-label">申请链接</span><a href="${esc(acc.apply_url)}" target="_blank" rel="noopener">${esc(acc.apply_url)}</a></div>`);
+  }
+  if (acc.contact) {
+    parts.push(`<div class="access-item"><span class="a-label">内推联系</span><span>${esc(acc.contact)}</span></div>`);
+  }
+  box.innerHTML = parts.length
+    ? parts.join('')
+    : '<div class="access-item"><span class="a-label">该岗位暂无额外内推联系方式，可用下方方式投递</span></div>';
+
+  const applyBtn = acc.apply_url
+    ? `<a href="${esc(acc.apply_url)}" target="_blank" class="btn btn-primary">申请职位 →</a>`
+    : fallbackAction;
+
+  actions.innerHTML =
+    applyBtn +
+    (job.canRefer && acc.apply_url ? '<a href="community.html" target="_blank" class="btn btn-outline">加入社群内推 →</a>' : '') +
+    '<button class="btn btn-outline" onclick="closeModal()">关闭</button>';
 }
 
 function closeModal() {
