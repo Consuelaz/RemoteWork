@@ -1,26 +1,25 @@
 # 邮箱登录配置（Supabase）
 
-登录方式：**邮箱 6 位验证码**（`signInWithOtp` + `verifyOtp type=email`）。
-备选：魔法链接（`signInWithMagicLink`，点击邮件链接直接回站），个人中心暂未暴露入口，按需启用。
+登录方式：**邮箱登录链接（Magic Link）**（`signInWithOtp` + `emailRedirectTo`，用户点击邮件里的链接直接回站完成登录，无需输入验证码）。
 
 ## 1. 打开邮箱登录
 
 Supabase 控制台 → Authentication → Providers → Email
 - ✅ `Allow new users to sign up`（对应 `shouldCreateUser: true`）
-- ❌ **不要**勾 `Confirm email` —— 勾了之后验证码登录会被拦，用户必须先点确认链接
+- `Confirm email` 开关对魔法链接登录无阻断影响（链接本身即完成确认+登录），保持默认即可
 
-## 2. 关键：邮件模板必须带 `{{ .Token }}`
+## 2. 关键：邮件模板必须带 `{{ .ConfirmationURL }}`
 
-Authentication → Emails → 模板 `Magic Link`，确认正文里包含这一行：
+Authentication → Emails → 模板 `Magic Link`，确认正文里的按钮/链接指向：
 
 ```
-{{ .Token }}
+{{ .ConfirmationURL }}
 ```
 
-默认模板是有的。如果你改过模板把它删了，用户收不到 6 位验证码，只能走链接。
+默认模板是有的。如果你改过模板把它删了，用户点不到登录链接，就登录不了。
+注意：模板里需要的是 `{{ .ConfirmationURL }}`（完整链接），**不是** `{{ .Token }}`（那是 6 位验证码用的）。
 
-同时确认：Authentication → Sign In / Providers → Email OTP →
-`Email OTP Expiration` 建议设 300 秒（5 分钟）以上，太短用户来不及填。
+同时确认：Authentication → Sign In / Providers → Email → `Magic Link Expiry` 建议 3600 秒（1 小时），太短用户点邮件晚了几分钟就过期。
 
 ## 3. 邮件发送：内置服务够不够？
 
@@ -43,6 +42,8 @@ Authentication → URL Configuration
 
 本地调试时加 `http://127.0.0.1:8765/account.html`。
 不加白名单，魔法链接会被跳到 Site URL 而不是你要的页面。
+前端 `emailRedirectTo` 固定指回 `/account.html`，登录态由 Supabase 客户端
+（`detectSessionInUrl: true`）从回调 URL 自动接管。
 
 ## 5. 用户表
 

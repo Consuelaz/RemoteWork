@@ -31,16 +31,11 @@
       <h2 class="member-card-title">账号</h2>
 
       <div id="guestBox">
-        <p class="member-hint">用邮箱登录，兑换码权益会绑定到这个账号。验证码会发到邮箱，也可能落在垃圾箱。</p>
+        <p class="member-hint">用邮箱登录，兑换码权益会绑定到这个账号。点「发送登录链接」后，去邮箱点邮件里的链接即可完成登录（邮件也可能落在垃圾箱）。</p>
         <div class="member-row">
           <input id="emailInput" class="member-input" type="email" inputmode="email"
                  placeholder="邮箱（如 you@example.com）" autocomplete="email">
-          <button id="sendCodeBtn" class="btn btn-primary">获取验证码</button>
-        </div>
-        <div class="member-row" id="otpRow" style="display:none">
-          <input id="otpInput" class="member-input" type="text" inputmode="numeric"
-                 placeholder="6 位验证码" autocomplete="one-time-code">
-          <button id="loginBtn" class="btn btn-primary">登录</button>
+          <button id="sendLinkBtn" class="btn btn-primary">发送登录链接</button>
         </div>
         <p class="member-msg" id="loginMsg"></p>
       </div>

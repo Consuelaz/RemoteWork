@@ -4,9 +4,8 @@
      Auth.init()              初始化（页面加载时自动执行）
      Auth.isLoggedIn()        是否已登录
      Auth.isMember()          是否为有效会员
-     Auth.sendOtp(email)         发送邮箱验证码（6 位）
-     Auth.verifyOtp(email,code)  验证码登录
-     Auth.signInWithMagicLink(email)  发送魔法链接（可选）
+     Auth.sendLoginLink(email)   发送邮箱登录链接（点击邮件链接即登录）
+     Auth.signInWithMagicLink(email)  同上（别名，向后兼容）
      Auth.signOut()           退出
      Auth.redeem(code)        兑换会员（服务端校验，返回结果对象）
      Auth.refreshMembership() 刷新会员状态
@@ -166,23 +165,9 @@
 
     async init() { return init(); },
 
-    // 邮箱验证码登录：输入邮箱 → 收 6 位码 → 回填即登录
-    async sendOtp(email) {
-      const e = normalizeEmail(email);
-      if (!e) return { ok: false, error: '请输入正确的邮箱地址' };
-      if (DEV() && !client) return devLogin(e);
-      if (!client) return { ok: false, error: '未配置 Supabase，请填写 config.js' };
-      const { error } = await client.auth.signInWithOtp({
-        email: e,
-        options: { shouldCreateUser: true },
-      });
-      if (error) return { ok: false, error: mapAuthError(error) };
-      return { ok: true };
-    },
-
-    // 魔法链接登录（备用）：点击邮件里的链接直接回到站点完成登录
-    // 线上用 redirectTo 指回 account.html，Supabase 客户端会自动接管 URL 里的 token
-    async signInWithMagicLink(email) {
+    // 邮箱登录链接：输入邮箱 → 收到登录邮件 → 点击链接回到站点即登录
+    // Supabase 客户端 detectSessionInUrl: true 会自动接管回调 URL 里的 token
+    async sendLoginLink(email) {
       const e = normalizeEmail(email);
       if (!e) return { ok: false, error: '请输入正确的邮箱地址' };
       if (DEV() && !client) return devLogin(e);
@@ -197,20 +182,8 @@
       if (error) return { ok: false, error: mapAuthError(error) };
       return { ok: true };
     },
-
-    async verifyOtp(email, token) {
-      if (!client) return { ok: false, error: '未配置 Supabase' };
-      const { data, error } = await client.auth.verifyOtp({
-        email: normalizeEmail(email),
-        token: String(token || '').trim(),
-        type: 'email',
-      });
-      if (error) return { ok: false, error: mapAuthError(error, true) };
-      state.user = { id: data.user.id, email: data.user.email || '' };
-      await refreshMembership();
-      emit();
-      return { ok: true };
-    },
+    // 向后兼容别名
+    signInWithMagicLink(email) { return this.sendLoginLink(email); },
 
     async signOut() {
       if (DEV() && !client) {
@@ -282,11 +255,11 @@
   const AUTH_ERROR_TEXT = {
     'over_email_send_rate_limit': '发送太频繁了，请稍等一会儿再试',
     'over_request_rate_limit': '操作过于频繁，请稍后再试',
-    'otp_expired': '验证码已过期，请重新获取',
-    'email_not_confirmed': '邮箱未验证，请点击邮件里的链接完成验证',
+    'otp_expired': '登录链接已过期，请重新获取',
+    'email_not_confirmed': '邮箱未验证，请点击邮件里的登录链接完成验证',
   };
 
-  function mapAuthError(error, isVerify) {
+  function mapAuthError(error) {
     const msg = error?.message || '';
     const code = error?.code || error?.error_description || '';
     if (error && (error.code === 'otp_expired' || /expired/i.test(code))) {
@@ -295,7 +268,6 @@
     if (/rate.?limit/i.test(code) || /rate.?limit/i.test(msg)) {
       return AUTH_ERROR_TEXT.over_email_send_rate_limit;
     }
-    if (isVerify && /invalid|token/i.test(msg)) return '验证码不正确或已过期';
     for (const k of Object.keys(AUTH_ERROR_TEXT)) {
       if (code === k || msg.includes(k)) return AUTH_ERROR_TEXT[k];
     }

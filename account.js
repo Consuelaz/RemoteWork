@@ -6,8 +6,7 @@
 
   const el = {
     guestBox: $('guestBox'), userBox: $('userBox'),
-    emailInput: $('emailInput'), sendCodeBtn: $('sendCodeBtn'),
-    otpRow: $('otpRow'), otpInput: $('otpInput'), loginBtn: $('loginBtn'),
+    emailInput: $('emailInput'), sendLinkBtn: $('sendLinkBtn'),
     loginMsg: $('loginMsg'),
     userEmail: $('userEmail'), memberStatus: $('memberStatus'),
     expireRow: $('expireRow'), memberExpire: $('memberExpire'), logoutBtn: $('logoutBtn'),
@@ -48,8 +47,8 @@
     }
   }
 
-  // ── 发送邮箱验证码 ──
-  el.sendCodeBtn.addEventListener('click', async () => {
+  // ── 发送邮箱登录链接 ──
+  el.sendLinkBtn.addEventListener('click', async () => {
     const A = window.Auth;
     const email = el.emailInput.value.trim();
     if (!email) return setMsg(el.loginMsg, '请输入邮箱', 'err');
@@ -57,11 +56,11 @@
       return setMsg(el.loginMsg, '邮箱格式不正确', 'err');
     }
 
-    el.sendCodeBtn.disabled = true;
-    el.sendCodeBtn.textContent = '发送中...';
-    const r = await A.sendOtp(email);
-    el.sendCodeBtn.disabled = false;
-    el.sendCodeBtn.textContent = '获取验证码';
+    el.sendLinkBtn.disabled = true;
+    el.sendLinkBtn.textContent = '发送中...';
+    const r = await A.sendLoginLink(email);
+    el.sendLinkBtn.disabled = false;
+    el.sendLinkBtn.textContent = '发送登录链接';
 
     if (!r.ok) return setMsg(el.loginMsg, r.error || '发送失败', 'err');
 
@@ -71,31 +70,11 @@
       render();
       return;
     }
-    el.otpRow.style.display = 'flex';
-    setMsg(el.loginMsg, '验证码已发送到邮箱，请查收（注意垃圾箱）', 'ok');
-    el.otpInput.focus();
+    setMsg(el.loginMsg, '登录链接已发送到邮箱，请查收邮件并点击链接完成登录（注意垃圾箱）', 'ok');
   });
 
-  // ── 验证码登录 ──
-  el.loginBtn.addEventListener('click', async () => {
-    const A = window.Auth;
-    const email = el.emailInput.value.trim();
-    const token = el.otpInput.value.trim();
-    if (!token) return setMsg(el.loginMsg, '请输入验证码', 'err');
-
-    el.loginBtn.disabled = true;
-    el.loginBtn.textContent = '登录中...';
-    const r = await A.verifyOtp(email, token);
-    el.loginBtn.disabled = false;
-    el.loginBtn.textContent = '登录';
-
-    if (!r.ok) return setMsg(el.loginMsg, r.error || '登录失败', 'err');
-    setMsg(el.loginMsg, '', '');
-    render();
-  });
-
-  el.otpInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') el.loginBtn.click();
+  el.emailInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') el.sendLinkBtn.click();
   });
 
   // ── 兑换 ──
@@ -129,7 +108,6 @@
   // ── 退出 ──
   el.logoutBtn.addEventListener('click', async () => {
     await window.Auth.signOut();
-    el.otpRow.style.display = 'none';
     setMsg(el.loginMsg, '', '');
     setMsg(el.redeemMsg, '', '');
     render();
