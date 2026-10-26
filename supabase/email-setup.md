@@ -36,14 +36,23 @@ Authentication → Emails → SMTP Settings
 
 ## 4. URL 白名单（重要）
 
-Authentication → URL Configuration
-- Site URL：你的正式域名（如 `https://junes.example.com`）
-- Redirect URLs：加上 `https://你的域名/account.html`
+Authentication → URL Configuration，按下面填（本项目线上域名 `remotework.asia`）：
 
-本地调试时加 `http://127.0.0.1:8765/account.html`。
-不加白名单，魔法链接会被跳到 Site URL 而不是你要的页面。
-前端 `emailRedirectTo` 固定指回 `/account.html`，登录态由 Supabase 客户端
-（`detectSessionInUrl: true`）从回调 URL 自动接管。
+- **Site URL**：`https://remotework.asia`
+- **Redirect URLs**（红框里每个都要有，或者直接用通配符）：
+
+```
+https://remotework.asia/**
+http://localhost:8765/**
+http://127.0.0.1:8765/**
+```
+
+> ⚠️ **最常见的坑**：`emailRedirectTo` 不在 Redirect URLs 白名单里时，Supabase 会**静默丢弃**它，
+> 把用户送回默认的 `http://localhost:3000/#access_token=...`。线上登录邮件里出现
+> `localhost:3000` 就是这个原因 —— 改 Site URL + 加白名单即可，代码不用动。
+
+前端回跳地址由 `config.js` 的 `SITE_URL`（线上固定 `https://remotework.asia`）拼出 `/account.html`，
+本地调试自动用当前 origin，不会把本地登录链接指到生产。
 
 ## 5. 用户表
 

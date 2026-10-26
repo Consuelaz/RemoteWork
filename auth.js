@@ -24,6 +24,74 @@
     });
   }
 
+  // 登录链接回跳地址（必须是完整 URL）：线上用 config.js 的 SITE_URL，
+  // 本地用当前 origin，最终都指向 /account.html
+  const loginRedirect = () => {
+    if (cfg.LOGIN_REDIRECT) return cfg.LOGIN_REDIRECT;
+    return (cfg.SITE_URL || location.origin).replace(/\/+$/, '') + '/account.html';
+  };
+
+  // ── 登录回调接管 ──
+  // 邮件链接可能落在站点任意页面（取决于控制台 Site URL 配置），
+  // 这里统一把 URL 里的 token 换成 session，再跳回个人中心
+  const AUTH_URL_KEYS = ['access_token', 'refresh_token', 'expires_in', 'expires_at',
+    'token_type', 'token_hash', 'type', 'code', 'provider_token'];
+
+  function callbackParams() {
+    const hash = new URLSearchParams(String(location.hash || '').replace(/^#/, ''));
+    const q = new URLSearchParams(location.search || '');
+    const get = (k) => hash.get(k) || q.get(k) || '';
+    return {
+      access_token: get('access_token'),
+      refresh_token: get('refresh_token'),
+      token_hash: get('token_hash'),
+      type: get('type'),
+      code: get('code'),
+    };
+  }
+
+  function cleanCallbackUrl() {
+    try {
+      const url = new URL(location.href);
+      AUTH_URL_KEYS.forEach((k) => url.searchParams.delete(k));
+      url.hash = '';
+      const qs = url.searchParams.toString();
+      history.replaceState(null, '', url.pathname + (qs ? `?${qs}` : ''));
+    } catch (e) { /* ignore */ }
+  }
+
+  async function consumeEmailCallback() {
+    if (!client) return false;
+    const p = callbackParams();
+    if (!p.access_token && !p.token_hash && !p.code) return false;
+    try {
+      if (p.access_token && p.refresh_token) {
+        const { error } = await client.auth.setSession({
+          access_token: p.access_token,
+          refresh_token: p.refresh_token,
+        });
+        if (error) throw error;
+      } else if (p.token_hash && p.type) {
+        const { error } = await client.auth.verifyOtp({ token_hash: p.token_hash, type: p.type });
+        if (error) throw error;
+      } else if (p.code) {
+        const { error } = await client.auth.exchangeCodeForSession(p.code);
+        if (error) throw error;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+    cleanCallbackUrl();
+    // 不在个人中心就带过去，避免 token 落在首页被浪费
+    if (!/account\.html($|[?#])/.test(location.pathname)) {
+      location.replace('account.html');
+      return true;
+    }
+    return true;
+  }
+
   const state = {
     user: null,          // { id, email }
     membership: null,    // { plan, expires_at, is_active }
@@ -114,6 +182,8 @@
   async function init() {
     state.loading = true;
     try {
+      // 先把邮件链接带回的 token 换成 session（可能落在任意页面）
+      if (client) await consumeEmailCallback();
       if (DEV() && !client) {
         const u = devRead(DEV_KEY_USER, null);
         state.user = u;
@@ -176,7 +246,7 @@
         email: e,
         options: {
           shouldCreateUser: true,
-          emailRedirectTo: location.origin + '/account.html',
+          emailRedirectTo: loginRedirect(),
         },
       });
       if (error) return { ok: false, error: mapAuthError(error) };

@@ -14,6 +14,11 @@ const SUPABASE_CONFIG = {
   ANON_KEY:
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRveXRudGx4ZmlkbGpvc3poeWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5Nzc2MjUsImV4cCI6MjEwODU1MzYyNX0.lBmjNhocGApGDkeHwk0wHc5kO7b2wvkf-lkhuQznmpY',
 
+  // 正式站点地址（登录邮件里的链接指向这里）
+  // 必须与 Supabase 控制台 Authentication → URL Configuration 的
+  // Site URL / Redirect URLs 白名单一致，否则链接会被回退到默认的 localhost:3000
+  SITE_URL: 'https://remotework.asia',
+
   // 是否开启本地模拟登录（仅在 localhost 生效，线上自动关闭）
   DEV_MODE: true,
 };
@@ -26,5 +31,10 @@ const __isLocal =
     location.protocol === 'file:');
 
 SUPABASE_CONFIG.DEV_ACTIVE = SUPABASE_CONFIG.DEV_MODE && __isLocal;
+SUPABASE_CONFIG.IS_LOCAL = __isLocal;
+
+// 登录链接回跳地址：本地调试用当前 origin，线上固定用 SITE_URL
+// （避免 www / 预览域名 / 端口差异导致链接与白名单对不上）
+SUPABASE_CONFIG.LOGIN_REDIRECT = (__isLocal ? location.origin : SUPABASE_CONFIG.SITE_URL).replace(/\/+$/, '') + '/account.html';
 
 window.SUPABASE_CONFIG = SUPABASE_CONFIG;
