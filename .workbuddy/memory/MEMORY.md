@@ -4,7 +4,7 @@
 - **项目**：Junes远程工作聚合网站
 - **路径**：`/Users/qisoong/WorkBuddy/20260317141747/`
 - **技术栈**：纯静态 HTML/CSS/JS + Python 爬虫脚本（`scrape.sh`）
-- **数据文件**：`jobs-cn.js`（国内）、`jobs-global.js`（海外）、`money.xlsx`（V2EX内推记录）
+- **数据文件**：`jobs-cn.js`（国内）、`jobs-global.js`（海外）、`money.xlsx`（内推记录）
 
 ## 数据源
 | 数据源 | 类型 | 说明 | 内推 |
@@ -17,159 +17,119 @@
 | who-is-hiring（Rebase） | 国内 | JSON API，所有字段可能为 null | ✅ |
 | 电鸭 | 国内 | JS渲染，curl 无法抓取，跳过 | 否 |
 
-## Bug 修复记录（重要，避免重蹈覆辙）
+## 关键 Bug 修复记录
+
+### ✅ scrape.sh V2EX 详情页代理端口不一致（2026-09-02）
+- V2EX 列表页用 `7892`，但详情页 curl 硬编码 `-x http://127.0.0.1:7897`，导致 7897 旧代理失效时详情页全部下载失败
+- 修复：将详情页 curl 代理统一改为 `7892`，与脚本 `PROXY` 变量一致
+
+### ✅ scrape.sh 远程中文网 IndentationError（2026-07-10）
+- `url_id` 和 `job = {...}` 缩进未进入 `if title and link:` 块，导致 Python 解析错误
+- 修复：正确 4 空格嵌套后恢复 15 条入库
 
 ### ✅ scrape.sh 代理端口切换（2026-06-04）
-- **问题**：V2EX 抓取持续失败，`127.0.0.1:7897` 代理不可用
-- **修复**：`scrape.sh` 第19行 `PROXY` 从 `7897` 切换至 `7892`
-- **验证**：执行成功，抓取到 4 条 V2EX 新帖
+- V2EX 代理从 `7897` 切到 `7892`；实际 v2ray HTTP 在 `8001`，需手动启动 7892→8001 TCP 转发桥
 
 ### ✅ scrape.sh Python 路径修复（2026-06-01）
-- **问题**：sandbox 中 `python3` 解析为 managed 3.14.3（pip 损坏），缺少 bs4/openpyxl
-- **修复**：scrape.sh 第13行后添加 `export PATH="/Users/qisoong/.workbuddy/binaries/python/envs/default/bin:$PATH"`，指向 3.13.12 venv
+- sandbox 中 `python3` 解析为 managed 3.14.3（pip 损坏），改用 venv：`/Users/qisoong/.workbuddy/binaries/python/envs/default/bin`
 
 ### ✅ scrape.sh git push SSH mux 挂起（2026-06-26）
-- **问题**：`git push` 时生成 `ssh: github.com-22-git [mux]` 控制主进程并挂起，导致 scrape.sh 无法自动完成推送
-- **修复**：scrape.sh 添加 `export GIT_SSH_COMMAND="ssh -o ControlMaster=no"`，并在本次手动杀掉 mux 进程后推送成功
-- **根因**：sandbox/本地 SSH 默认启用 ControlMaster，Git 复用该 socket 时被拦截
+- 添加 `export GIT_SSH_COMMAND="ssh -o ControlMaster=no"`，避免 SSH ControlMaster 拦截 git push
 
-### ✅ scrape.sh git add 未包含 app.js（已修复，2026-05-15）
-- **现象**：app.js 代码改动本地生效，但 GitHub Pages 始终跑旧代码
-- **根因**：`scrape.sh` 末尾 `git add` 只有 `jobs-cn.js jobs-global.js money.xlsx scrape.log`，不含 `app.js`
-- **修复**：`git add` 增加 `app.js index.html`，今后代码改动也会被自动提交
-- **教训**：修改前端代码（app.js/index.html/style.css）后，必须手动 commit push，或确认 scrape.sh 的 git add 已包含对应文件
+### ✅ scrape.sh git add 未包含 app.js/index.html（2026-05-15）
+- `git add` 增加 `app.js index.html`，前端代码改动也能自动提交
 
-### ✅ scrape.sh 无 git 推送逻辑（已修复，2026-04-10）
-- **现象**：脚本运行成功但数据未推送到 GitHub
-- **根因**：脚本末尾没有 `git add/commit/push`
-- **修复**：在脚本末尾加入 git 自动提交推送块（检查是否有变更才提交）
-- **同步修复**：主 Python 段 `python3 << 'EOF'` 改为 `python3 << 'EOF' 2>&1 | tee -a $LOG_FILE`，错误信息写入日志
+### ✅ load_js_array 二次转义 + 海外岗位显示0（2026-04-09）
+- 读取单引号字符串值后立即 unescape；禁止用正则直接 patch JS 字符串字段
 
-### ✅ load_js_array 二次转义 + 海外岗位显示0（已修复，2026-04-09）
-- **根因①**：`load_js_array()` 读取时不还原 JS 转义 → 每次写回多一层转义
-- **根因②**：用正则 patch JS 文件时遇到 `\'` 提前截断 → JS 语法错误
-- **修复**：`load_js_array()` 第1281行，读取单引号字符串值后立即 unescape
-- **教训**：**禁止用正则直接操作 JS 文件字符串字段**；description 截断必须在 Python 原始数据阶段完成
+### ✅ jobs-global.js 超过 GitHub 100MB 限制（2026-04-07）
+- 远程岛 description 含完整 HTML，累积 347MB；统一截断到 500 字符后降至 2.5MB
 
-### ✅ jobs-global.js 超过 GitHub 100MB 限制（已修复，2026-04-07）
-- **根因**：远程岛 description 含完整 HTML（单条最大 3.4MB），历史数据累积到 347MB
-- **修复**：所有数据源 description 统一截断到 500 字符，文件 347MB→2.5MB
-- **教训**：每次生成数据文件后检查文件大小；`description[:500]` 是硬性规则
+### ✅ who-is-hiring NoneType 错误（2026-04-07）
+- Rebase API 字段均可能为 null，全部用 `or ""` / `or []` 兜底；requirements 兼容 string/list/null
 
-### ✅ who-is-hiring NoneType 错误（已修复，2026-04-07）
-- **根因**：Rebase API 字段（work_mode/company/requirements 等）均可能为 null
-- **修复**：所有字段用 `or ""` / `or []` 兜底；requirements 兼容 string/list/null 三种类型
-- **修复位置**：`scrape.sh` who-is-hiring 处理段（约659-730行）、`build_job_desc()` 函数
+### ✅ Remote OK URL 重复拼接（2026-03-24）
+- API 返回 url 已是完整 URL，判断是否以 http 开头，避免重复拼接
 
-### ✅ Remote OK URL 重复拼接（已修复，2026-03-24）
-- **根因**：API 返回的 url 已是完整 URL，代码又拼接了域名前缀
-- **修复**：判断是否以 http 开头，避免重复拼接
+## UI 与数据规范
+- **列表页和详情页不可出现任何数据源/网站名称字样**
+- `description` 一律截断到 500 字符
+- `company` 兜底：V2EX → `"海外公司"`，远程中文网 → `""`
+- `sourceUrl` 为去重唯一键
+- 内推数据源：V2EX + who-is-hiring；`canRefer: true` 显示"内推岗"标签，详情页按钮改为"加入社群内推"
+- **非招聘帖过滤**：`scrape.sh` 约 1139 行 `TITLE_BLACKLIST` 是统一入口，命中关键词的 V2EX 标题直接跳过。已收录：`一直想做的远程工作集合网站`、`远程工作网站开放`、`从零开始远程工作指南`（2026-10-23 加入，付费课程推广帖）。发现新的非招聘/推广帖，往该列表追加关键词，而不是每次手删 jobs-cn.js（否则下次抓取会回来）
+- **手动添加内推岗位**：统一写入 `jobs-mainlist.js` 数组顶部（该文件不被 scrape.sh 覆盖），id 用 `manual-YYYYMMDD-NN`，`date` 填当天（列表按日期倒序才会排在最前），`canRefer: true`
 
-## UI 规范（硬性要求）
-> ⚠️ **列表页和详情页不可出现任何数据源/网站名称字样**
+## 会员权益与兑换系统（2026-10-24 建立）
+- 技术栈：Supabase + PostgreSQL；兑换码用脚本批量生成后导入
+- 核心文件：`supabase/schema.sql`（表+RLS+`redeem_code()` 原子函数）、`config.js`、`auth.js`（window.Auth）、`account.html` + `account.js`
+- 脚本：`scripts/gen-codes.mjs`（生成/导入兑换码）、`scripts/export-money-contacts.py` + `scripts/export-job-access.mjs`（导出权益数据）、`scripts/strip-gated-fields.mjs`（剥离前端敏感字段，需 --apply）
+- **防重复兑换双重保险**：`redeem_code()` 内 `SELECT ... FOR UPDATE` 行锁 + `redemptions.code` 唯一约束（并发第二个事务直接回滚）
+- `redeem_codes` 表**不给任何 RLS 策略** → 用户无法枚举兑换码，只能走 RPC
+- 会员专属数据（`apply_url` / `contact`）只能存在 `job_access` 表；**前端 jobs-*.js 里的这些字段必须剥离**，否则会员权益形同虚设
+- 执行顺序铁律：先导入 job-access.csv 到数据库，**再**跑 strip-gated-fields.mjs --apply，反了会丢数据
+- 密钥分工：anon key 可提交（受 RLS 保护）；service_role key 只放 `.env.local`（已 gitignore）
+- `config.js` 的 DEV_MODE 仅在 localhost 生效，线上自动失效（防止登录后门进生产）
+- **登录方式：邮箱验证码**（2026-10-24 由手机号改）。原因：手机号需自配短信服务商+国内短信签名审核+按条计费+短信轰炸风险；邮箱开箱即用、0 成本、覆盖海外用户；防小号价值在本项目很低（未付费账号是空号）
+- 邮箱登录配置见 `supabase/email-setup.md`。两个必踩的坑：①Supabase 勾了 `Confirm email` 会导致验证码登录被拦 ②邮件模板必须含 `{{ .Token }}`，否则收不到 6 位码
+- 内置 SMTP 免费额度每小时仅个位数封，上线前换自定义 SMTP（海外 Resend，国内阿里云/腾讯云邮件推送）
+- **schema.sql 顺序铁律**：`is_member()` 必须先于 RLS 策略创建（`job_access` 的 policy 引用它）。2026-10-26 首次在 Supabase SQL Editor 执行报 `42883 function public.is_member() does not exist`，已把函数移到第 6 节、RLS 顺延为第 7 节。脚本整体幂等，失败后可直接全文重跑
+- 接线清单见 `supabase/setup-checklist.md`（建项目 → 执行 schema → 填 config.js → 配邮箱 → 生成兑换码 → 导入权益数据）
+- 备选方案：`Auth.signInWithMagicLink(email)` 已实现，需要时暴露入口即可
 
-- 公司名无效值（`app.js` `formatCompany()`）：`（V2EX用户招聘）`、`远程中文网`、`Remote China`
-- 描述无效值（`INVALID_DESCRIPTIONS`）：`来自V2EX远程工作社区的招聘帖子`、`来自远程中文网的远程工作机会`
-- 职责/要求行过滤（`filterSourceLines()`）：含 `v2ex.com`、`remote-china.com` 的行
+## 每日精选板块（2026-10-26 建立）
+- 数据源 `jobs-featured.js`：手动维护，scrape.sh 不覆盖；id 规范 `featured-YYYYMMDD-NN`，date 填当天（板块默认展示最近 7 天，窗口内无数据则退回最新 6 条，默认露 6 条其余折叠）
+- 板块在岗位列表顶部，国内/海外两个 Tab 共享
+- **精选岗必须从普通列表排除**（`getCurrentJobs()` 过滤 featuredIdSet）——否则用户从普通列表点开就能看到申请链接，付费墙失效
+- **会员门控已移除（2026-10-26 用户决定）**：精选岗与普通岗统一走 `renderJobAccess()` → `defaultJobAction()`（内推岗→加入社群内推 / 有 applyUrl→申请职位 / 否则查看原帖 + 关闭），精选卡片无「会员解锁/已解锁」角标，板块头改为「每日人工筛选」。`jobs-featured.js` 里的 `contact`/`apply_url` 字段保留但前端暂不展示，将来恢复门控可直接启用
+- 精选字段：内推岗填 `contact`，直申岗填 `apply_url`（下划线命名，区别于抓取数据的驼峰 `applyUrl`）
+- `jobs-featured.js` 含明文权益数据，**提交前必须先跑 `strip-gated-fields.mjs --apply`**；scrape.sh 的 git add 已包含 jobs-featured.js 与 jobs-mainlist.js
+- mainlist 里 3 条 `manual-20261023-*` 已迁到 featured（mainlist 剩 20 条老数据）
 
-## 数据规范
-- `description` 字段：一律截断到 500 字符，禁止填占位语
-- `company` 兜底值：V2EX → `"海外公司"`，远程中文网 → `""` 空字符串
-- `sourceUrl`：去重唯一键（不用 id）
-
-## 列表排序策略（2026-06-22 简化）
-**前端展示（`app.js`）**：`getCurrentJobs()` 统一按日期倒序
-- 国内/海外所有岗位均按 `new Date(b.date) - new Date(a.date)` 排序
-- 已删除内推置顶、类别均衡等复杂策略（`sortWithReferralFirst`、`getBalancedReferralJobs`、`getBalancedJobs`）
-
-**数据写入（`scrape.sh`）**：`merge_jobs()` 函数处理
-- 新数据放在 `jobs-cn.js` / `jobs-global.js` 最前面
-- 现有数据追加在后面
-
-## 内推岗策略（硬性规则，2026-06-22 更新）
-**内推数据源**：V2EX + who-is-hiring（Rebase）
-
-**内推岗展示规则**：
-1. **列表页**：`canRefer: true` 岗位显示"内推岗"标签（svg 图标 + 文字）
-2. **详情页**：`canRefer: true` 岗位的"申请职位"按钮改为"加入社群内推"
-3. **排序**：无特殊排序，统一按日期倒序
-
-**scrape.sh 修改记录**：
-- who-is-hiring 职位：`canRefer` 从 `False` 改为 `True`，`tags` 改为 `["远程", "社群内推"]`
+## 列表排序策略（2026-06-22）
+- 前端 `getCurrentJobs()` 统一按日期倒序
+- 数据写入 `merge_jobs()`：新数据放前面，现有数据追加后面
 
 ## money.xlsx 结构
-- 第1行：标题"数字游民Junes 远程工作共创群"
-- 第2行：表头（12列）：公司、行业、职位类别、职位名称、地区、申请链接、内推、日期、工作职责&任职要求、薪资、内推方式、来源
-- 每天 V2EX 新帖 + who-is-hiring 数据插入第3行起
+- 第1行标题，第2行表头，第3行起为 V2EX + who-is-hiring 数据
 
-## AI 资讯功能（AI News）
+## money.xlsx 版本管理规则（2026-10-23 确立，长期有效）
+- **money.xlsx 只保留在本地机器，不提交到远程仓库**（含内推联系方式，敏感）
+- 已加入根目录 `.gitignore`，并 `git rm --cached` 从索引移除（commit `d53b7aa`）
+- `scrape.sh` 的 `git add` 已移除 money.xlsx，现仅提交 `jobs-cn.js jobs-global.js scrape.log app.js index.html .workbuddy/automations/automation/memory.md`
+- 脚本仍会读写**本地** money.xlsx（追加 V2EX + who-is-hiring 数据），只是不再入库
+- 注意：Git 历史中仍有旧版 money.xlsx，彻底清除需 `git filter-repo`（会改写历史，不轻易执行）
+- 排查时若 `git status` 看到 money.xlsx 不再出现属正常现象
 
-### 功能概述
-每天自动生成 AI 领域精选资讯网页，展示最有价值的深度内容。
+## AI 资讯功能
+- 生成脚本：`ai-news/gen-from-feed.py`
+- 内容规则：X 推文最多 8 位建造者、播客 1 段、博客 1 篇
+- 页面结构：Navbar / Hero / 建造者动态 / 播客 / 博客 / 历史存档 / 页脚
+- 入口：`index.html` 当天内容，`YYYY-MM-DD.html` 历史存档
 
-### 内容生成规则（硬性规则）
-| 内容类型 | 数量 | 来源 | 处理方式 |
-|----------|------|------|----------|
-| **X 推文** | 最多8位建造者 | Follow Builders | 按总点赞数排序，每位最多3条推文 |
-| **播客** | 1 段 | Follow Builders | 分段提取精华（1500字符） |
-| **博客** | 1 篇 | Follow Builders | 分段提取精华（1500字符） |
-
-### 数据源
-- **数据源项目**：[Follow Builders](https://github.com/zarazhangrui/follow-builders)
-- **数据文件路径**：`~/.workbuddy/skills/follow-builders/`
-  - `feed-x.json` - X/Twitter 开发者动态
-  - `feed-podcasts.json` - AI 播客内容
-  - `feed-blogs.json` - 技术博客文章
-
-### 技术实现（2026-04-21 更新）
-- **生成脚本**：`ai-news/gen-from-feed.py`（实时从 follow-builders 读取数据）
-- **执行参数**：`python3 gen-from-feed.py`（自动同步 GitHub 最新数据）
-- **数据源**：从 `https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/` 同步
-- **自动化任务**：每天 7:30 自动执行（Automation ID: `ai-news`）
-
-### 页面结构（对标 2026-04-13.html，硬性规范）
-1. **Navbar**：白色顶栏，含"远程岗位 / 科技公司 / AI资讯"链接 + 中英切换按钮 + 全文朗读
-2. **Hero**：蓝色渐变大头部（`#1E3A5F → #2563EB`），含日期 + 建造者/推文/播客/博客统计徽章
-3. **Section 建造者动态**：`tag 🐦 X / Twitter` + 建造者卡片（头像 + handle + bio + 多条推文）
-4. **Section 播客**：`tag green 🎙️` + podcast-card（标题 + 来源 + 字幕摘要黄色背景区）
-5. **Section 官方博客**：`tag purple 📝` + blog-card（来源 + 标题 + 链接）
-6. **历史存档**：底部 archive-list 展示最近10个日期
-7. **页脚**：数据来源 + 主站链接
-
-### 语音朗读参数
-- **语速**：0.5~1.5，默认 0.9，步长 0.05
-- **音调**：1.1（听起来更自然柔和）
-- **高质量语音筛选**：优先 `localService` + 关键词（google/microsoft/samantha/daniel/enhanced/natural/british/australian 等）
-- **偏好持久化**：`localStorage` 保存语速偏好
-
-### 中英文切换规范
-- 所有中文内容包裹 `<span class="zh-text">` 或带 class `zh-text`
-- 所有英文内容包裹 `<span class="en-text" style="display:none">`
-- 切换逻辑：`setLang('zh'/'en')` 批量切换所有 `.zh-text` / `.en-text` 的 `display`
-- 语音朗读按当前语言选读对应文本
-
-### 入口逻辑
-- 首页导航 → AI资讯 → 直接进入当天资讯详情页
-- `index.html` = 当天内容（每天自动更新）
-- `YYYY-MM-DD.html` = 历史存档
-
-## 自动化任务（2026-04-14）
-
-### 每日职位数据更新
-- **ID**: `jobs-scrape`
-- **路径**: `.workbuddy/automations/jobs-scrape/automation.toml`
-- **时间**: 每天 7:30
-- **执行**: 运行 `bash scrape.sh`，抓取所有数据源职位并推送到 GitHub
-
-### 每日AI资讯生成
-- **ID**: `ai-news`
-- **路径**: `.workbuddy/automations/ai-news/automation.toml`
-- **时间**: 每天 7:30
-- **执行**: 运行 `python3 gen-all.py 1`，生成当日 AI 资讯页面并推送到 GitHub
+## 自动化任务
+- `jobs-scrape`：每天 7:30 运行 `bash scrape.sh`（当前 PAUSED）
+- `ai-news`：每天 7:30 运行 `python3 gen-all.py 1`
 
 ## 数据历史（近期）
 | 日期 | CN | Global | 备注 |
 |------|-----|--------|------|
+| 2026-09-08 | 1168 | 2000 | V2EX 1条（跳过19非今日帖），who-is-hiring 432条，7892→8001转发，自动化触发 |
+| 2026-09-02 | 1151 | 2000 | V2EX 1条（跳过19非今日帖），who-is-hiring 432条，7892→8001转发，修复V2EX详情页代理为7892 |
+| 2026-08-17 | 1128 | 2000 | V2EX 0条（跳过20非今日帖），who-is-hiring 432条，7892→8001转发，自动推送成功 |
+| 2026-08-14 | 1120 | 2000 | V2EX 1条，所有数据源正常，7892→8001转发 |
+| 2026-08-12 | 1110 | 2000 | V2EX 2条，所有数据源正常，7892→8001转发 |
+| 2026-08-07 | 1092 | 2000 | V2EX 2条，远程岛/远程中文网恢复正常，手动触发 7892→8001 转发 |
+| 2026-07-31 | 1072 | 2000 | V2EX 0条，远程岛/远程中文网0条(异常)，手动触发 7892→7897 转发 |
+| 2026-07-27 | 1070 | 2000 | V2EX 2条，远程岛/远程中文网0条(异常)，手动触发 |
+| 2026-07-15 | 1064 | 2000 | V2EX 2条，远程岛/远程中文网0条(异常)，代理7897可用，手动触发 |
+| 2026-07-10 | 1058 | 2000 | 远程岛/远程中文网修复IndentationError后恢复，V2EX代理不可用0条，手动触发 |
+| 2026-07-08 | 1101 | 2000 | V2EX 2条，远程岛/远程中文网0条(异常)，手动触发7892→7897转发 |
+| 2026-07-07 | 1097 | 2000 | V2EX 3条，远程岛/远程中文网0条(异常)，手动触发7892→7897转发 |
+| 2026-07-06 | 1094 | 2000 | V2EX 1条，远程岛/远程中文网0条(异常)，手动触发7892→7897转发 |
+| 2026-07-03 | 1087 | 2000 | V2EX 5条，所有数据源正常，手动触发 |
+| 2026-07-01 | 1064 | 2000 | V2EX 3条，who-is-hiring JSON损坏解析失败0条，手动触发 |
+| 2026-06-29 | 1042 | 2000 | V2EX 0条，手动触发（自动化任务状态 PAUSED） |
 | 2026-06-26 | 1034 | 2000 | V2EX 0条，who-is-hiring 429条，手动触发并修复 SSH mux 推送挂起 |
 | 2026-06-22 | 1006 | 2000 | V2EX 2条，自动化触发 |
 | 2026-06-18 | 995 | 2000 | V2EX 0条，手动触发（自动化间隔2天未跑） |

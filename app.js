@@ -34,17 +34,42 @@ const formatCompany = (company) => {
 
 // ── 获取当前数据集 ──
 // 排序策略：所有岗位统一按日期倒序
+// ── 每日精选 ──
+// 精选岗是手动维护的（jobs-featured.js），会员可解锁申请链接与内推人联系方式。
+// 这些岗位只在精选板块出现，普通列表里会被排除——否则用户从普通列表点开
+// 就能看到申请链接，付费墙形同虚设。
+const FEATURED_WINDOW_DAYS = 7;   // 精选板块展示窗口：最近 N 天
+const FEATURED_PREVIEW = 6;       // 默认展示条数，其余折叠
+let featuredShowAll = false;
+
+const getFeaturedList = () => (typeof JOBS_FEATURED !== 'undefined') ? JOBS_FEATURED : [];
+const featuredIdSet = () => new Set(getFeaturedList().map(j => j.id));
+const isFeaturedJob = (job) => !!job && featuredIdSet().has(job.id);
+
+// 精选板块要展示的岗位：优先最近 FEATURED_WINDOW_DAYS 天；
+// 窗口内没有则退回最新的 FEATURED_PREVIEW 条，避免板块空白
+function getFeaturedJobs() {
+  const list = [...getFeaturedList()].sort((a, b) => new Date(b.date) - new Date(a.date));
+  if (!list.length) return [];
+  const cutoff = Date.now() - FEATURED_WINDOW_DAYS * 86400000;
+  const recent = list.filter(j => new Date(j.date).getTime() >= cutoff);
+  return recent.length ? recent : list.slice(0, FEATURED_PREVIEW);
+}
+
 function getCurrentJobs() {
+  const featuredIds = featuredIdSet();
   if (currentSource === 'cn') {
     const mainList = (typeof JOBS_MAINLIST !== 'undefined') ? JOBS_MAINLIST : [];
     const cnList   = (typeof JOBS_CN      !== 'undefined') ? JOBS_CN      : [];
     const seen = new Set(mainList.map(j => j.id));
-    const unique = cnList.filter(j => !seen.has(j.id));
-    const allJobs = [...mainList, ...unique];
+    const unique = cnList.filter(j => !seen.has(j.id) && !featuredIds.has(j.id));
+    const allJobs = [...mainList.filter(j => !featuredIds.has(j.id)), ...unique];
     return allJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
   }
   const globalList = (typeof JOBS_GLOBAL !== 'undefined') ? JOBS_GLOBAL : [];
-  return globalList.sort((a, b) => new Date(b.date) - new Date(a.date));
+  return globalList
+    .filter(j => !featuredIds.has(j.id))
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 // ── 切换国内/国外 ──
@@ -185,6 +210,65 @@ function renderJobs(jobs) {
       </div>
     </div>
   `}).join('');
+}
+
+// ── 渲染「每日精选」板块 ──
+function renderFeatured() {
+  const section = document.getElementById('featuredSection');
+  const list = document.getElementById('featuredList');
+  if (!section || !list) return;
+
+  const jobs = getFeaturedJobs();
+  if (!jobs.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+
+  const subtitle = document.getElementById('featuredSubtitle');
+  if (subtitle) {
+    subtitle.textContent = '每天人工筛选，含内推岗与直申岗 · 点开岗位查看详情';
+  }
+
+  const shown = featuredShowAll ? jobs : jobs.slice(0, FEATURED_PREVIEW);
+
+  list.innerHTML = shown.map(job => `
+    <div class="featured-card" onclick="openModal('${job.id}')">
+      <div class="featured-card-head">
+        <span class="featured-logo">${job.logo || '💼'}</span>
+        <div class="featured-main">
+          <div class="featured-job-title">${job.title}</div>
+          <div class="featured-job-meta">
+            <span class="f-company">${formatCompany(job.company)}</span>
+            <span class="f-loc">📍 ${job.location || '远程'}</span>
+            <span class="f-salary">${job.salary || '面议'}</span>
+          </div>
+        </div>
+        <div class="featured-right">
+          ${job.canRefer
+            ? '<span class="featured-tag refer">内推岗</span>'
+            : '<span class="featured-tag direct">直申岗</span>'}
+        </div>
+      </div>
+      <div class="featured-foot">
+        <span class="featured-date">${formatTimeAgo(job.date)}</span>
+        <span class="featured-cat">${job.category || ''}</span>
+      </div>
+    </div>
+  `).join('');
+
+  const moreBtn = document.getElementById('featuredMore');
+  const moreText = document.getElementById('featuredMoreText');
+  const moreCount = document.getElementById('featuredMoreCount');
+  if (moreBtn && jobs.length > FEATURED_PREVIEW) {
+    moreBtn.style.display = 'inline-flex';
+    if (moreText) moreText.textContent = featuredShowAll ? '收起' : '查看全部精选';
+    if (moreCount) moreCount.textContent = featuredShowAll ? '' : `（还有 ${jobs.length - FEATURED_PREVIEW} 条）`;
+  } else if (moreBtn) {
+    moreBtn.style.display = 'none';
+  }
+}
+
+function toggleFeaturedAll() {
+  featuredShowAll = !featuredShowAll;
+  renderFeatured();
 }
 
 // ── 海外岗位：构建筛选器 ──
@@ -462,15 +546,19 @@ function formatDate(dateStr) {
 
 // ── 弹窗详情 ──
 function openModal(id) {
+  const featuredList = (typeof JOBS_FEATURED !== 'undefined') ? JOBS_FEATURED : [];
   const mainList   = (typeof JOBS_MAINLIST !== 'undefined') ? JOBS_MAINLIST : [];
   const cnList     = (typeof JOBS_CN       !== 'undefined') ? JOBS_CN       : [];
   const globalList = (typeof JOBS_GLOBAL   !== 'undefined') ? JOBS_GLOBAL   : [];
-  const allJobs = [...mainList, ...cnList, ...globalList];
+  const allJobs = [...featuredList, ...mainList, ...cnList, ...globalList];
   const job = allJobs.find(j => j.id === id);
   if (!job) return;
 
+  const featured = isFeaturedJob(job);
   const sourceLabel = currentSource === 'global'
     ? `<span class="global-badge">🌍 海外岗位</span>` : '';
+  const featuredBadge = featured
+    ? `<span class="featured-badge-inline">每日精选</span>` : '';
   const referBadge = job.canRefer
     ? `<span class="refer-badge" style="background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:4px;font-size:12px;margin-left:8px;display:inline-flex;align-items:center;gap:4px;"><svg class="refer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>内推岗</span>`
     : '';
@@ -503,7 +591,7 @@ function openModal(id) {
   );
   content.innerHTML = `
     <div class="modal-logo">${job.logo}</div>
-    <div class="modal-title">${modalTitle} ${sourceLabel} ${referBadge}</div>
+    <div class="modal-title">${modalTitle} ${featuredBadge} ${sourceLabel} ${referBadge}</div>
     <div class="modal-company">${modalCompany}</div>
     <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">
       📍 ${job.location} ${job.work_style ? '| ' + job.work_style : ''}
@@ -557,65 +645,28 @@ function openModal(id) {
   renderJobAccess(job);
 }
 
-// ── 会员权益门控 ──
-// 未登录/非会员：显示上锁引导；会员：从服务端取申请链接与内推联系方式
-async function renderJobAccess(job) {
+// ── 详情页底部按钮（所有岗位统一逻辑，无会员门控）──
+//   内推岗 → 加入社群内推；有申请链接 → 申请职位；都没有 → 查看原帖
+const escapeHtml = (s) => String(s || '').replace(/[&<>"']/g, (c) => (
+  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+));
+
+function defaultJobAction(job) {
+  if (job.canRefer) {
+    return '<a href="community.html" target="_blank" class="btn btn-primary">加入社群内推 →</a>';
+  }
+  const url = job.applyUrl || job.sourceUrl || '#';
+  const label = job.applyUrl ? '申请职位 →' : '查看原帖投递 →';
+  return `<a href="${escapeHtml(url)}" target="_blank" class="btn btn-primary">${label}</a>`;
+}
+
+function renderJobAccess(job) {
   const box = document.getElementById('modalAccess');
   const actions = document.getElementById('modalActions');
   if (!box || !actions) return;
-
-  const A = window.Auth;
-  const esc = (s) => String(s || '').replace(/[&<>"']/g, (c) => (
-    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
-  ));
-
-  const fallbackAction = job.canRefer
-    ? '<a href="community.html" target="_blank" class="btn btn-primary">加入社群内推 →</a>'
-    : `<a href="${esc(job.sourceUrl || '#')}" target="_blank" class="btn btn-outline">查看原帖 →</a>`;
-
-  if (!A || !A.isMember()) {
-    const logged = !!(A && A.isLoggedIn());
-    box.innerHTML = `
-      <div class="locked-box">
-        <h4>🔒 会员专属</h4>
-        <p>${logged ? '开通会员后，可查看岗位申请链接与内推人联系方式' : '登录并开通会员后，可查看岗位申请链接与内推人联系方式'}</p>
-        <div class="locked-actions">
-          <a href="account.html" target="_blank" class="btn btn-primary">${logged ? '开通会员' : '登录 / 兑换码激活'} →</a>
-        </div>
-      </div>`;
-    actions.innerHTML = fallbackAction + '<button class="btn btn-outline" onclick="closeModal()">关闭</button>';
-    return;
-  }
-
-  box.innerHTML = '<div class="access-item"><span class="a-label">正在获取会员权益…</span></div>';
-
-  let acc = {};
-  try {
-    const map = await A.getJobAccess([job.id]);
-    acc = map[job.id] || {};
-  } catch (e) {
-    box.innerHTML = '<div class="access-item"><span class="a-label">权益获取失败，请稍后重试</span></div>';
-    return;
-  }
-
-  const parts = [];
-  if (acc.apply_url) {
-    parts.push(`<div class="access-item"><span class="a-label">申请链接</span><a href="${esc(acc.apply_url)}" target="_blank" rel="noopener">${esc(acc.apply_url)}</a></div>`);
-  }
-  if (acc.contact) {
-    parts.push(`<div class="access-item"><span class="a-label">内推联系</span><span>${esc(acc.contact)}</span></div>`);
-  }
-  box.innerHTML = parts.length
-    ? parts.join('')
-    : '<div class="access-item"><span class="a-label">该岗位暂无额外内推联系方式，可用下方方式投递</span></div>';
-
-  const applyBtn = acc.apply_url
-    ? `<a href="${esc(acc.apply_url)}" target="_blank" class="btn btn-primary">申请职位 →</a>`
-    : fallbackAction;
-
+  box.innerHTML = '';
   actions.innerHTML =
-    applyBtn +
-    (job.canRefer && acc.apply_url ? '<a href="community.html" target="_blank" class="btn btn-outline">加入社群内推 →</a>' : '') +
+    defaultJobAction(job) +
     '<button class="btn btn-outline" onclick="closeModal()">关闭</button>';
 }
 
@@ -650,12 +701,21 @@ function updateStats() {
   if (cnEl) cnEl.textContent = allCN.length;
   const globalEl = document.getElementById('globalJobCount');
   if (globalEl) globalEl.textContent = globalList.length;
+
+  // 精选岗单独成板块，不计入国内/海外计数，但要计入总数
+  const featuredList = getFeaturedList();
+  if (el) el.textContent = allCN.length + globalList.length + featuredList.length;
 }
 
 // ── 初始化 ──
 document.addEventListener('DOMContentLoaded', () => {
   const cnJobs = getCurrentJobs();
   updateStats();
+
+  // 每日精选板块（会员权益入口）
+  renderFeatured();
+  // 登录/会员状态变化时重渲染，让「已解锁」标记实时更新
+  if (window.Auth) window.Auth.onChange(() => renderFeatured());
   
   // 根据当前模式初始化
   if (currentSource === 'global') {

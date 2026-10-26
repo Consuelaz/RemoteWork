@@ -87,6 +87,21 @@
         <span class="sort-label">按最新发布排序 · 真实数据</span>
       </div>
 
+      <!-- 每日精选：会员可解锁申请链接与内推人联系方式 -->
+      <div class="featured-section" id="featuredSection" style="display:none">
+        <div class="featured-header">
+          <div class="featured-title-row">
+            <h3 class="featured-title">每日精选</h3>
+            <span class="featured-badge">每日人工筛选</span>
+          </div>
+          <p class="featured-subtitle" id="featuredSubtitle"></p>
+        </div>
+        <div class="featured-list" id="featuredList"></div>
+        <button class="featured-more" id="featuredMore" style="display:none" onclick="toggleFeaturedAll()">
+          <span id="featuredMoreText">查看全部精选</span><span id="featuredMoreCount"></span>
+        </button>
+      </div>
+
       <!-- 海外岗位列表 -->
       <div class="global-layout" id="globalLayout" style="display: none;">
         <div class="job-list global-job-list" id="globalJobList">
@@ -177,6 +192,7 @@
   <script src="config.js"></script>
   <script src="auth.js"></script>
 
+  <script src="jobs-featured.js"></script>
   <script src="jobs-mainlist.js"></script>
   <script src="jobs-cn.js"></script>
   <script src="jobs-global.js"></script>

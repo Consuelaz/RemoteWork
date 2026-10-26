@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个人中心 · Junes远程</title>
+  <meta name="description" content="管理你的会员权益与兑换码">
+  <link rel="icon" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🌐</span>
+        <span class="logo-text">Junes<span class="logo-accent">远程</span></span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">岗位列表</a>
+        <a href="account.html" class="active">个人中心</a>
+        <a href="community.html">加入社群</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container member-page">
+
+    <!-- 账号 -->
+    <section class="member-card">
+      <h2 class="member-card-title">账号</h2>
+
+      <div id="guestBox">
+        <p class="member-hint">用邮箱登录，兑换码权益会绑定到这个账号。验证码会发到邮箱，也可能落在垃圾箱。</p>
+        <div class="member-row">
+          <input id="emailInput" class="member-input" type="email" inputmode="email"
+                 placeholder="邮箱（如 you@example.com）" autocomplete="email">
+          <button id="sendCodeBtn" class="btn btn-primary">获取验证码</button>
+        </div>
+        <div class="member-row" id="otpRow" style="display:none">
+          <input id="otpInput" class="member-input" type="text" inputmode="numeric"
+                 placeholder="6 位验证码" autocomplete="one-time-code">
+          <button id="loginBtn" class="btn btn-primary">登录</button>
+        </div>
+        <p class="member-msg" id="loginMsg"></p>
+      </div>
+
+      <div id="userBox" style="display:none">
+        <div class="member-kv">
+          <span>邮箱</span><strong id="userEmail">-</strong>
+        </div>
+        <div class="member-kv">
+          <span>会员状态</span>
+          <strong id="memberStatus">未开通</strong>
+        </div>
+        <div class="member-kv" id="expireRow" style="display:none">
+          <span>有效期至</span><strong id="memberExpire">-</strong>
+        </div>
+        <button id="logoutBtn" class="btn btn-outline" style="margin-top:14px">退出登录</button>
+      </div>
+    </section>
+
+    <!-- 兑换码 -->
+    <section class="member-card">
+      <h2 class="member-card-title">会员兑换码</h2>
+      <p class="member-hint">在其它渠道购买的兑换码，在这里激活。一个兑换码只能绑定一个账号。</p>
+      <div class="member-row">
+        <input id="redeemInput" class="member-input" type="text"
+               placeholder="例如 JUNES-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false">
+        <button id="redeemBtn" class="btn btn-primary">激活会员</button>
+      </div>
+      <p class="member-msg" id="redeemMsg"></p>
+    </section>
+
+    <!-- 权益说明 -->
+    <section class="member-card">
+      <h2 class="member-card-title">会员权益</h2>
+      <ul class="member-benefits">
+        <li><span class="b-icon">🔗</span><div><strong>岗位申请链接</strong><p>直接拿到真实投递入口，不用自己在原帖里翻</p></div></li>
+        <li><span class="b-icon">👤</span><div><strong>内推人联系方式</strong><p>Telegram / 微信 / 邮箱，直接对接招聘方</p></div></li>
+        <li><span class="b-icon">🔒</span><div><strong>一码一账号</strong><p>兑换码激活后即与该账号绑定，不可重复兑换</p></div></li>
+      </ul>
+    </section>
+
+    <p class="member-devtip" id="devTip" style="display:none">
+      本地模拟模式：未配置 Supabase 或邮件服务，登录与兑换均为本地模拟，不会走真实校验。
+    </p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script src="account.js"></script>
+</body>
+</html>

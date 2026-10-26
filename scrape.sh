@@ -1568,7 +1568,10 @@ except:
 " 2>/dev/null || echo 0)
 
 # money.xlsx 仅保留本地（内推联系方式），已加入 .gitignore，不再提交到远程仓库
-git add jobs-cn.js jobs-global.js scrape.log app.js index.html .workbuddy/automations/automation/memory.md 2>/dev/null
+# jobs-featured.js（每日精选）必须提交，否则线上没有精选板块数据。
+# 提交前必须先跑 scripts/strip-gated-fields.mjs --apply 清空 apply_url / contact，
+# 否则会员专属数据会以明文进公开仓库。
+git add jobs-cn.js jobs-global.js jobs-featured.js jobs-mainlist.js scrape.log app.js index.html .workbuddy/automations/automation/memory.md 2>/dev/null
 if ! git diff --cached --quiet; then
     git commit -m "自动更新: $DATE CN=$CN_COUNT Global=$GLOBAL_COUNT" 2>&1 | tee -a $LOG_FILE
     git push 2>&1 | tee -a $LOG_FILE
