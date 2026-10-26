@@ -20,6 +20,48 @@
 
 const JOBS_FEATURED = [
   {
+    'id': 'featured-20261026-03',
+    'title': 'SEO 专员（百度 + Google 双平台）',
+    'company': '远程团队',
+    'logo': '🔍',
+    'category': '市场营销',
+    'tags': ['远程', 'SEO', '自然流量', '内容运营'],
+    'salary': '面议',
+    'location': '全国远程',
+    'date': '2026-10-26',
+    'isNew': true,
+    'isFeatured': true,
+    'canRefer': true,
+    'source': '社群招聘平台',
+    'sourceUrl': '',
+    'description': '负责网站自然流量增长，需具备百度与 Google 双平台成功案例，能独立制定并执行 SEO 策略：通过关键词研究、站内优化、技术 SEO 和外链建设，持续提升搜索引擎排名与自然流量。要求 2 年以上 SEO 实战经验，有独立操作网站从 0 到 1 或显著流量提升案例者优先，能适应远程办公模式。',
+    'responsibilities': [
+      '负责关键词研究与竞争分析，制定关键词布局与内容策略',
+      '执行站内优化：标题、描述、H 标签、内链、结构化数据等',
+      '进行技术 SEO 审计（爬虫、索引、网站速度、Core Web Vitals 等），并协调开发落地',
+      '规划并执行内容 SEO 策略，与内容团队协作产出 SEO 友好内容',
+      '开展外链建设与品牌曝光工作',
+      '使用 GA4、Search Console、百度统计、Ahrefs/SEMrush 等工具监控数据，定期输出分析报告',
+      '跟踪百度与 Google 算法更新，及时调整策略'
+    ],
+    'requirements': [
+      '2 年以上 SEO 实战经验（有独立操作网站从 0 到 1 或显著流量提升案例者优先）',
+      '熟悉 Google / 百度搜索引擎排名机制，掌握白帽 SEO 方法',
+      '精通主流 SEO 工具：Ahrefs、SEMrush、Screaming Frog、Google Search Console、GA4 等',
+      '具备良好的数据分析能力，能通过数据驱动优化决策',
+      '了解基础 HTML/CSS，能独立与开发沟通技术问题',
+      '英语读写能力良好（能阅读英文 SEO 资料与工具界面）',
+      '自驱力强、责任心强，能适应远程办公模式，沟通顺畅'
+    ],
+    'benefits': [],
+    'company_info': '',
+    'work_style': '远程工作',
+    // ↓ 会员专属：内推人联系方式（入库后由 strip 脚本清空前端明文）
+    'contact': '',
+    'contact_type': '',
+    'apply_url': '',
+  },
+  {
     'id': 'featured-20261026-02',
     'title': '全栈工程师（AI 伴侣方向）',
     'company': 'AI 伴侣产品团队',
