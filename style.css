@@ -378,6 +378,19 @@ body {
   flex-shrink: 0;
 }
 
+/* 直申岗标识：与 .refer-badge 同尺寸同位置，仅配色区分 */
+.job-source-badge.direct-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--accent-light);
+  color: #047857;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
 /* 分类标签：内推岗快捷按钮 */
 .tag.tag-refer {
   display: inline-flex;
@@ -1281,7 +1294,7 @@ body {
 
 .featured-card-head {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
 }
 
@@ -1314,24 +1327,11 @@ body {
   color: var(--text-muted);
 }
 
-.featured-job-meta > span + span:not(.featured-tag-inline)::before {
+.featured-job-meta > span + span:not(.job-source-badge)::before {
   content: '·';
   margin-right: 6px;
   color: #cbd5e1;
 }
-
-/* 内联标签：桌面隐藏（用右上角 .featured-tag），移动端显示在 meta 行内 */
-.featured-tag-inline {
-  display: none;
-  font-size: 11px;
-  font-weight: 600;
-  border-radius: 4px;
-  padding: 1px 7px;
-  white-space: nowrap;
-}
-
-.featured-tag-inline.refer { background: #DBEAFE; color: #1E40AF; }
-.featured-tag-inline.direct { background: var(--accent-light); color: #047857; }
 
 /* 人工摘要：两行截断 */
 .featured-desc {
@@ -1345,24 +1345,13 @@ body {
   overflow: hidden;
 }
 
-.featured-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 5px;
+/* 时间：位置与样式对齐普通列表的 .global-job-time（卡片右侧，垂直居中） */
+.featured-time {
   flex-shrink: 0;
-}
-
-.featured-tag {
-  font-size: 11px;
-  font-weight: 600;
-  border-radius: 4px;
-  padding: 2px 8px;
+  font-size: 13px;
+  color: var(--text-muted);
   white-space: nowrap;
 }
-
-.featured-tag.refer { background: #DBEAFE; color: #1E40AF; }
-.featured-tag.direct { background: var(--accent-light); color: #047857; }
 
 .featured-lock {
   font-size: 11px;
@@ -1421,8 +1410,7 @@ body {
   .featured-card:active { border-color: var(--primary); background: var(--primary-light); }
   .featured-card-head { gap: 10px; }
   .featured-logo { font-size: 20px; }
-  .featured-right { display: none; }
-  .featured-tag-inline { display: inline-flex; align-items: center; }
+  .featured-time { font-size: 12px; }
   .featured-job-meta { gap: 6px; }
   .featured-more { width: 100%; justify-content: center; }
 }

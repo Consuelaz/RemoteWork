@@ -248,22 +248,17 @@ function renderFeatured() {
           <div class="featured-job-title">${job.title}</div>
           <div class="featured-job-meta">
             <span class="f-company">${formatCompany(job.company)}</span>
-            <span class="featured-tag-inline ${job.canRefer ? 'refer' : 'direct'}">${job.canRefer ? '内推岗' : '直申岗'}</span>
+            ${job.canRefer
+              ? '<span class="job-source-badge refer-badge"><svg class="refer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>内推岗</span>'
+              : '<span class="job-source-badge direct-badge">直申岗</span>'}
             <span class="f-loc">📍 ${job.location || '远程'}</span>
             <span class="f-salary">${job.salary || '面议'}</span>
           </div>
         </div>
-        <div class="featured-right">
-          ${job.canRefer
-            ? '<span class="featured-tag refer">内推岗</span>'
-            : '<span class="featured-tag direct">直申岗</span>'}
-        </div>
+        <div class="featured-time">${formatTimeAgo(job.date)}</div>
       </div>
       ${job.description ? `<div class="featured-desc">${escapeHtml(String(job.description).replace(/\s+/g, ' ').trim().slice(0, 80))}</div>` : ''}
-      <div class="featured-foot">
-        <span class="featured-date">${formatTimeAgo(job.date)}</span>
-        <span class="featured-cat">${job.category || ''}</span>
-      </div>
+      ${job.category ? `<div class="featured-foot"><span class="featured-cat">${job.category}</span></div>` : ''}
     </div>
   `).join('');
 
