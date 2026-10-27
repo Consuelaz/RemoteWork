@@ -1,0 +1,17 @@
+# 本地工具与敏感数据，不部署到公网
+# review.html 是人工审核台，会加载待审池和会员权益数据（contact/apply_url），
+# 一旦部署等于把内推联系方式公开。jobs-featured-pending.js 同理。
+review.html
+jobs-featured-pending.js
+
+# 内推记录表（含联系方式，已 gitignore，也不要部署）
+money.xlsx
+
+# 本地脚本、数据库 schema、权益导出
+scripts/
+supabase/
+.workbuddy/
+
+# 日志与调试
+*.log
+debug-referral.html

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日精选 · 人工审核台</title>
+<style>
+  :root { --green:#2C5530; --green-l:#3a7d44; --bg:#f7f7f5; --line:#e5e3de; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB',sans-serif;
+    background:var(--bg); color:#1c1917; line-height:1.6; padding-bottom:96px;
+  }
+  .wrap { max-width:960px; margin:0 auto; padding:0 20px; }
+  .topbar { background:linear-gradient(135deg,var(--green) 0%,var(--green-l) 100%); color:#fff; padding:26px 0 22px; }
+  .topbar .tit { font-size:22px; font-weight:700; letter-spacing:-.3px; }
+  .topbar .sub { font-size:13px; opacity:.85; margin-top:4px; }
+  .stats { display:flex; gap:26px; margin-top:14px; font-size:13px; }
+  .stats b { font-size:19px; font-weight:700; display:block; }
+  .stats span { opacity:.8; font-size:12px; }
+  .tabs { display:flex; gap:8px; margin:20px auto 4px; flex-wrap:wrap; }
+  .tab {
+    padding:8px 16px; border:1px solid var(--line); background:#fff; border-radius:8px;
+    font-size:14px; cursor:pointer; color:#57534e; font-family:inherit;
+  }
+  .tab.active { background:var(--green); color:#fff; border-color:var(--green); }
+  .card {
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:16px 18px; margin-top:12px;
+  }
+  .card-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+  .card-title { font-size:16px; font-weight:600; line-height:1.45; }
+  .card-meta { font-size:13px; color:#78716c; margin-top:4px; }
+  .card-desc { font-size:13px; color:#57534e; margin-top:8px; line-height:1.65; }
+  .badge {
+    display:inline-block; font-size:11px; padding:2px 8px; border-radius:4px;
+    background:#f1efe8; color:#78716c; margin-left:6px;
+  }
+  .badge.from-cn { background:#e6f1fb; color:#185fa5; }
+  .badge.from-global { background:#f1efe8; color:#78716c; }
+  .badge.from-manual { background:#f0f7f0; color:#2C5530; }
+  .acts { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  .btn {
+    padding:7px 14px; border-radius:7px; border:1px solid var(--line); background:#fff;
+    font-size:13px; cursor:pointer; color:#3f3f46; font-family:inherit;
+  }
+  .btn:hover { border-color:var(--green); color:var(--green); }
+  .btn.primary { background:var(--green); color:#fff; border-color:var(--green); }
+  .btn.primary:hover { opacity:.9; color:#fff; }
+  .btn.danger:hover { border-color:#b91c1c; color:#b91c1c; }
+  .empty { text-align:center; padding:48px 20px; color:#a8a29e; font-size:14px; }
+  .libbar { display:flex; gap:10px; align-items:center; margin-top:12px; flex-wrap:wrap; }
+  .libbar select, .libbar input {
+    padding:8px 12px; border:1px solid var(--line); border-radius:8px;
+    font-size:14px; font-family:inherit; background:#fff;
+  }
+  .libbar input { flex:1; min-width:200px; }
+  .libcount { font-size:12px; color:#78716c; }
+  #libMore { margin:14px auto 40px; display:block; }
+  .exportbar {
+    position:sticky; bottom:0; background:rgba(255,255,255,.96);
+    backdrop-filter:blur(10px); border-top:1px solid var(--line); padding:14px 0;
+  }
+  .bar-inner { display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; }
+  .hint { font-size:12px; color:#78716c; }
+  .bar-btns { display:flex; gap:8px; flex-wrap:wrap; }
+  .modal {
+    position:fixed; inset:0; background:rgba(28,25,23,.5); display:flex;
+    align-items:flex-start; justify-content:center; padding:32px 16px; overflow:auto; z-index:50;
+  }
+  .modal-box {
+    background:#fff; border-radius:14px; padding:24px; width:100%; max-width:620px;
+  }
+  .modal-box h3 { font-size:17px; font-weight:600; margin-bottom:4px; }
+  .modal-tip { font-size:12px; color:#78716c; margin-bottom:16px; }
+  .fld { margin-bottom:12px; }
+  .fld label { display:block; font-size:12px; color:#57534e; margin-bottom:4px; }
+  .fld input, .fld textarea, .fld select {
+    width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:7px;
+    font-size:14px; font-family:inherit; background:#fff;
+  }
+  .fld textarea { min-height:88px; resize:vertical; line-height:1.6; }
+  .fld textarea.tall { min-height:150px; }
+  .fld-row { display:flex; gap:12px; }
+  .fld-row .fld { flex:1; }
+  .check { display:flex; align-items:center; gap:8px; font-size:14px; }
+  .check input { width:auto; }
+  .modal-acts { display:flex; gap:8px; justify-content:flex-end; margin-top:18px; }
+  .toast {
+    position:fixed; left:50%; transform:translateX(-50%); bottom:110px;
+    background:#1c1917; color:#fff; padding:10px 18px; border-radius:8px;
+    font-size:13px; z-index:99; opacity:0; transition:opacity .25s; pointer-events:none;
+  }
+  .toast.show { opacity:1; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="tit">每日精选 · 人工审核台</div>
+    <div class="sub">候选先进池，人工过目后才上线 —— 标准是「看起来不至于太离谱」</div>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<nav class="tabs wrap">
+  <button class="tab active" data-view="pending">待审候选</button>
+  <button class="tab" data-view="library">岗位库提候选</button>
+  <button class="tab" data-view="live">已上线</button>
+</nav>
+
+<main class="wrap">
+  <section id="view-pending"></section>
+
+  <section id="view-library" style="display:none">
+    <div class="libbar">
+      <select id="libSource">
+        <option value="cn">国内库</option>
+        <option value="global">海外库</option>
+      </select>
+      <input id="libQuery" placeholder="搜索标题 / 公司 / 关键词，例如 Rust、SEO、远程客服">
+      <span class="libcount" id="libCount"></span>
+    </div>
+    <div id="libList"></div>
+    <button class="btn" id="libMore" style="margin:14px auto 40px;display:block">加载更多</button>
+  </section>
+
+  <section id="view-live" style="display:none"></section>
+</main>
+
+<footer class="exportbar">
+  <div class="wrap bar-inner">
+    <div class="hint">操作只存在浏览器里，过完记得导出并覆盖仓库文件，否则刷新就丢了</div>
+    <div class="bar-btns">
+      <button class="btn primary" onclick="exportLive()">导出 jobs-featured.js</button>
+      <button class="btn" onclick="exportPending()">导出 jobs-featured-pending.js</button>
+    </div>
+  </div>
+</footer>
+
+<div class="modal" id="editModal" style="display:none">
+  <div class="modal-box">
+    <h3 id="editTitle">编辑</h3>
+    <div class="modal-tip">description 是人工摘要：一句话说清这岗位干啥、适合谁。上线前建议改写。</div>
+    <div class="fld"><label>岗位标题</label><input id="f_title"></div>
+    <div class="fld-row">
+      <div class="fld"><label>公司</label><input id="f_company"></div>
+      <div class="fld"><label>图标</label><input id="f_logo"></div>
+    </div>
+    <div class="fld-row">
+      <div class="fld"><label>分类</label><input id="f_category"></div>
+      <div class="fld"><label>薪资</label><input id="f_salary"></div>
+    </div>
+    <div class="fld-row">
+      <div class="fld"><label>地点 / 工作方式</label><input id="f_location"></div>
+      <div class="fld"><label>工作形式</label><input id="f_work_style"></div>
+    </div>
+    <div class="fld"><label>标签（英文逗号分隔）</label><input id="f_tags"></div>
+    <div class="fld"><label>人工摘要 description</label><textarea id="f_description"></textarea></div>
+    <div class="fld"><label>岗位职责（每行一条）</label><textarea id="f_responsibilities" class="tall"></textarea></div>
+    <div class="fld"><label>任职要求（每行一条）</label><textarea id="f_requirements" class="tall"></textarea></div>
+    <div class="fld"><label>福利待遇（每行一条）</label><textarea id="f_benefits"></textarea></div>
+    <div class="fld"><label>公司介绍</label><textarea id="f_company_info"></textarea></div>
+    <div class="fld"><label>原文链接 sourceUrl</label><input id="f_sourceUrl"></div>
+    <div class="fld check"><input type="checkbox" id="f_canRefer"><label for="f_canRefer" style="margin:0">内推岗（显示「内推岗」标签）</label></div>
+    <div class="fld-row">
+      <div class="fld"><label>内推联系方式 contact</label><input id="f_contact"></div>
+      <div class="fld"><label>直申链接 apply_url</label><input id="f_apply_url"></div>
+    </div>
+    <div class="modal-acts">
+      <button class="btn" onclick="closeEdit()">取消</button>
+      <button class="btn primary" id="editSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="jobs-featured.js"></script>
+<script src="jobs-featured-pending.js"></script>
+<script src="jobs-cn.js"></script>
+<script src="jobs-global.js"></script>
+<script>
+const liveList   = (typeof JOBS_FEATURED        !== 'undefined') ? [...JOBS_FEATURED]        : [];
+const pendingList= (typeof JOBS_FEATURED_PENDING!== 'undefined') ? [...JOBS_FEATURED_PENDING]: [];
+const rejectedList=(typeof JOBS_FEATURED_REJECTED!=='undefined')? [...JOBS_FEATURED_REJECTED]: [];
+const libCN      = (typeof JOBS_CN              !== 'undefined') ? JOBS_CN              : [];
+const libGlobal  = (typeof JOBS_GLOBAL          !== 'undefined') ? JOBS_GLOBAL          : [];
+
+const CATEGORY_LOGO = {
+  '技术开发':'💻','市场营销':'🔍','设计':'🎨','产品':'📱','运营':'📊','销售':'💼',
+  '客服':'🎧','教育培训':'📚','翻译':'🌐','金融':'💰','人力资源':'👥','远程工作':'🏠'
+};
+
+let libLimit = 60;
+let editing  = null;
+
+function today() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function trunc(s, n) {
+  s = String(s || '');
+  return s.length > n ? s.slice(0, n) + '…' : s;
+}
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+function statusOf(p) { return p.status || 'pending'; }
+function nextId(prefix, list) {
+  const t = today().replace(/-/g,'');
+  let n = list.filter(j => j.id && j.id.startsWith(prefix + t + '-')).length + 1;
+  let id;
+  do { id = prefix + t + '-' + String(n).padStart(2,'0'); n++; }
+  while (list.some(j => j.id === id));
+  return id;
+}
+function arr(v) { return Array.isArray(v) ? v : (v ? String(v).split('\n').map(s=>s.trim()).filter(Boolean) : []); }
+
+// ── 渲染统计 ──
+function renderStats() {
+  const pd = pendingList.filter(p => statusOf(p) === 'pending').length;
+  const td = liveList.filter(j => j.date === today()).length;
+  document.getElementById('stats').innerHTML =
+    '<div><b>' + pd + '</b><span>待审候选</span></div>' +
+    '<div><b>' + td + '</b><span>今日上线</span></div>' +
+    '<div><b>' + liveList.length + '</b><span>已上线总计</span></div>' +
+    '<div><b>' + rejectedList.length + '</b><span>已淘汰</span></div>';
+}
+
+// ── 视图：待审候选 ──
+function renderPending() {
+  const box = document.getElementById('view-pending');
+  const list = pendingList.filter(p => statusOf(p) === 'pending');
+  if (!list.length) {
+    box.innerHTML = '<div class="empty">待审池是空的。去「岗位库提候选」挑几条，或手动加进 jobs-featured-pending.js</div>';
+    return;
+  }
+  box.innerHTML = list.map(p => {
+    const from = p._from || 'manual';
+    const fromText = from === 'cn' ? '国内库' : from === 'global' ? '海外库' : '手动';
+    return '<div class="card">' +
+      '<div class="card-head"><div>' +
+        '<div class="card-title">' + esc(p.title) +
+          '<span class="badge from-' + esc(from) + '">' + fromText + '</span></div>' +
+        '<div class="card-meta">' + esc(p.company || '') +
+          (p.salary ? ' · ' + esc(p.salary) : '') +
+          (p.location ? ' · ' + esc(p.location) : '') +
+          (p.addedAt ? ' · 入池 ' + esc(p.addedAt) : '') + '</div>' +
+      '</div></div>' +
+      '<div class="card-desc">' + esc(trunc(p.description, 160)) + '</div>' +
+      '<div class="acts">' +
+        '<button class="btn primary" data-act="approve" data-id="' + esc(p.id) + '">上线</button>' +
+        '<button class="btn" data-act="edit" data-id="' + esc(p.id) + '">编辑 / 写摘要</button>' +
+        '<button class="btn danger" data-act="reject" data-id="' + esc(p.id) + '">淘汰</button>' +
+        (p.sourceUrl ? '<a class="btn" href="' + esc(p.sourceUrl) + '" target="_blank">看原文</a>' : '') +
+      '</div></div>';
+  }).join('');
+}
+
+// ── 视图：岗位库提候选 ──
+// 智联岗位只进库、不进精选池：零工/兼职占比高，与精选定位不符
+function isBlockedFromFeature(j) {
+  return j.noFeature === true || String(j.source || '').indexOf('zhaopin') !== -1;
+}
+
+function renderLibrary() {
+  const src = document.getElementById('libSource').value;
+  const q = document.getElementById('libQuery').value.trim().toLowerCase();
+  const base = src === 'cn' ? libCN : libGlobal;
+  const blocked = base.filter(isBlockedFromFeature).length;
+  let list = [...base].filter(j => !isBlockedFromFeature(j)).sort((a,b) => new Date(b.date||0) - new Date(a.date||0));
+  if (q) list = list.filter(j =>
+    String(j.title||'').toLowerCase().includes(q) ||
+    String(j.company||'').toLowerCase().includes(q) ||
+    String(j.description||'').toLowerCase().includes(q));
+  const proposed = new Set(pendingList.map(p => p._srcId).filter(Boolean));
+  const shown = list.slice(0, libLimit);
+  document.getElementById('libCount').textContent = '匹配 ' + list.length + ' 条，显示 ' + shown.length + ' 条' + (blocked ? '（已排除 ' + blocked + ' 条仅入库岗）' : '');
+  const box = document.getElementById('libList');
+  if (!shown.length) { box.innerHTML = '<div class="empty">没有匹配的岗位</div>'; return; }
+  box.innerHTML = shown.map(j => {
+    const done = proposed.has(j.id);
+    return '<div class="card">' +
+      '<div class="card-head"><div>' +
+        '<div class="card-title">' + esc(j.title) + '</div>' +
+        '<div class="card-meta">' + esc(j.company || '') +
+          (j.salary ? ' · ' + esc(j.salary) : '') +
+          (j.date ? ' · ' + esc(j.date) : '') + '</div>' +
+      '</div></div>' +
+      '<div class="card-desc">' + esc(trunc(j.description, 140)) + '</div>' +
+      '<div class="acts">' +
+        (done
+          ? '<span class="badge from-manual">已在候选池</span>'
+          : '<button class="btn primary" data-act="promote" data-id="' + esc(j.id) + '" data-src="' + src + '">提为候选</button>') +
+        (j.sourceUrl ? '<a class="btn" href="' + esc(j.sourceUrl) + '" target="_blank">看原文</a>' : '') +
+      '</div></div>';
+  }).join('');
+  document.getElementById('libMore').style.display = shown.length < list.length ? 'block' : 'none';
+}
+
+// ── 视图：已上线 ──
+function renderLive() {
+  const box = document.getElementById('view-live');
+  const list = [...liveList].sort((a,b) => new Date(b.date||0) - new Date(a.date||0));
+  if (!list.length) { box.innerHTML = '<div class="empty">还没有上线的精选岗</div>'; return; }
+  box.innerHTML = '<div style="font-size:12px;color:#78716c;margin-top:14px">共 ' + list.length + ' 条，线上精选板块展示最近 7 天</div>' +
+    list.map(j =>
+    '<div class="card">' +
+      '<div class="card-head"><div>' +
+        '<div class="card-title">' + esc(j.title) +
+          (j.canRefer ? '<span class="badge from-manual">内推岗</span>' : '<span class="badge">直申岗</span>') + '</div>' +
+        '<div class="card-meta">' + esc(j.company || '') + ' · ' + esc(j.date || '') +
+          (j.category ? ' · ' + esc(j.category) : '') + '</div>' +
+      '</div></div>' +
+      '<div class="card-desc">' + esc(trunc(j.description, 140)) + '</div>' +
+      '<div class="acts">' +
+        '<button class="btn" data-act="editlive" data-id="' + esc(j.id) + '">编辑</button>' +
+        '<button class="btn danger" data-act="offline" data-id="' + esc(j.id) + '">下线</button>' +
+      '</div></div>').join('');
+}
+
+function renderAll() { renderStats(); renderPending(); renderLibrary(); renderLive(); }
+
+// ── 操作 ──
+function findPending(id) { return pendingList.find(p => p.id === id); }
+function findLive(id) { return liveList.find(j => j.id === id); }
+
+function promote(id, src) {
+  const base = src === 'cn' ? libCN : libGlobal;
+  const j = base.find(x => x.id === id);
+  if (!j) return;
+  if (pendingList.some(p => p._srcId === id)) { toast('已经在候选池里了'); return; }
+  pendingList.unshift({
+    id: nextId('pending-', pendingList),
+    status: 'pending',
+    _from: src,
+    _srcId: j.id,
+    addedAt: today(),
+    title: j.title || '',
+    company: j.company || '',
+    logo: j.logo || (CATEGORY_LOGO[j.category] || '💼'),
+    category: j.category || '',
+    tags: arr(j.tags),
+    salary: j.salary || '面议',
+    location: j.location || '全国远程',
+    source: j.source || '',
+    sourceUrl: j.sourceUrl || '',
+    description: trunc(j.description, 120),
+    responsibilities: [],
+    requirements: arr(j.requirements),
+    benefits: [],
+    company_info: '',
+    work_style: '远程工作',
+    canRefer: !!j.canRefer,
+    contact: '', contact_type: '', apply_url: ''
+  });
+  renderAll();
+  toast('已提为候选，去「待审候选」过审');
+}
+
+function approve(id) {
+  const p = findPending(id);
+  if (!p) return;
+  const job = {
+    id: nextId('featured-', liveList),
+    title: p.title || '',
+    company: p.company || '',
+    logo: p.logo || (CATEGORY_LOGO[p.category] || '💼'),
+    category: p.category || '',
+    tags: arr(p.tags),
+    salary: p.salary || '面议',
+    location: p.location || '全国远程',
+    date: today(),
+    isNew: true,
+    isFeatured: true,
+    canRefer: !!p.canRefer,
+    source: p.source || '',
+    sourceUrl: p.sourceUrl || '',
+    description: p.description || '',
+    responsibilities: arr(p.responsibilities),
+    requirements: arr(p.requirements),
+    benefits: arr(p.benefits),
+    company_info: p.company_info || '',
+    work_style: p.work_style || '远程工作',
+    contact: p.contact || '',
+    contact_type: p.contact_type || '',
+    apply_url: p.apply_url || ''
+  };
+  liveList.unshift(job);
+  pendingList.splice(pendingList.indexOf(p), 1);
+  renderAll();
+  toast('已上线：' + trunc(job.title, 24));
+}
+
+function reject(id) {
+  const p = findPending(id);
+  if (!p) return;
+  rejectedList.unshift({ id: p.id, title: p.title || '', rejectedAt: today() });
+  pendingList.splice(pendingList.indexOf(p), 1);
+  renderAll();
+  toast('已淘汰');
+}
+
+function offline(id) {
+  const j = findLive(id);
+  if (!j) return;
+  pendingList.unshift({
+    id: nextId('pending-', pendingList), status: 'pending', _from: j._from || 'manual',
+    addedAt: today(), title: j.title, company: j.company, logo: j.logo, category: j.category,
+    tags: arr(j.tags), salary: j.salary, location: j.location, source: j.source,
+    sourceUrl: j.sourceUrl, description: j.description, responsibilities: arr(j.responsibilities),
+    requirements: arr(j.requirements), benefits: arr(j.benefits), company_info: j.company_info,
+    work_style: j.work_style, canRefer: j.canRefer, contact: j.contact,
+    contact_type: j.contact_type, apply_url: j.apply_url
+  });
+  liveList.splice(liveList.indexOf(j), 1);
+  renderAll();
+  toast('已下线，退回待审池');
+}
+
+// ── 编辑弹窗 ──
+function openEdit(obj, isLive) {
+  editing = { obj, isLive };
+  document.getElementById('editTitle').textContent = isLive ? '编辑已上线岗位' : '编辑候选 / 写人工摘要';
+  const set = (k, v) => { const el = document.getElementById(k); if (el) el.value = v == null ? '' : v; };
+  set('f_title', obj.title); set('f_company', obj.company); set('f_logo', obj.logo);
+  set('f_category', obj.category); set('f_salary', obj.salary); set('f_location', obj.location);
+  set('f_work_style', obj.work_style); set('f_tags', arr(obj.tags).join(', '));
+  set('f_description', obj.description);
+  set('f_responsibilities', arr(obj.responsibilities).join('\n'));
+  set('f_requirements', arr(obj.requirements).join('\n'));
+  set('f_benefits', arr(obj.benefits).join('\n'));
+  set('f_company_info', obj.company_info); set('f_sourceUrl', obj.sourceUrl);
+  set('f_contact', obj.contact); set('f_apply_url', obj.apply_url);
+  document.getElementById('f_canRefer').checked = !!obj.canRefer;
+  document.getElementById('editModal').style.display = 'flex';
+}
+function closeEdit() { document.getElementById('editModal').style.display = 'none'; editing = null; }
+
+document.getElementById('editSave').onclick = function () {
+  if (!editing) return;
+  const o = editing.obj;
+  const val = k => document.getElementById(k).value;
+  o.title = val('f_title'); o.company = val('f_company'); o.logo = val('f_logo');
+  o.category = val('f_category'); o.salary = val('f_salary'); o.location = val('f_location');
+  o.work_style = val('f_work_style'); o.description = val('f_description');
+  o.tags = val('f_tags').split(/[,，]/).map(s => s.trim()).filter(Boolean);
+  o.responsibilities = arr(val('f_responsibilities'));
+  o.requirements = arr(val('f_requirements'));
+  o.benefits = arr(val('f_benefits'));
+  o.company_info = val('f_company_info'); o.sourceUrl = val('f_sourceUrl');
+  o.canRefer = document.getElementById('f_canRefer').checked;
+  o.contact = val('f_contact'); o.apply_url = val('f_apply_url');
+  closeEdit(); renderAll(); toast('已保存');
+};
+
+// ── 序列化为单引号风格的 JS ──
+function jsStr(s) {
+  if (s == null) return "''";
+  return "'" + String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'")
+    .replace(/\r/g, '').replace(/\n/g, '\\n').replace(/\t/g, '\\t') + "'";
+}
+function jsVal(v, ind) {
+  const pad = ' '.repeat(ind), pad2 = ' '.repeat(ind + 2);
+  if (v === null) return 'null';
+  if (v === undefined) return "''";
+  if (typeof v === 'boolean' || typeof v === 'number') return String(v);
+  if (typeof v === 'string') return jsStr(v);
+  if (Array.isArray(v)) {
+    if (!v.length) return '[]';
+    return '[\n' + v.map(x => pad2 + jsVal(x, ind + 2)).join(',\n') + '\n' + pad + ']';
+  }
+  if (typeof v === 'object') {
+    const keys = Object.keys(v).filter(k => !k.startsWith('_') && v[k] !== undefined);
+    if (!keys.length) return '{}';
+    return '{\n' + keys.map(k => pad2 + jsStr(k) + ': ' + jsVal(v[k], ind + 2)).join(',\n') + '\n' + pad + '}';
+  }
+  return "''";
+}
+function dumpArray(name, list) {
+  return 'const ' + name + ' = [\n' +
+    list.map(j => '  ' + jsVal(j, 2)).join(',\n') + '\n' + (list.length ? '' : '') + '];\n';
+}
+
+function download(name, text) {
+  const blob = new Blob([text], { type: 'application/javascript;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+
+const LIVE_HEADER = '// ============================================================\n' +
+'// 每日精选岗位（已人工过审上线）\n' +
+'// ------------------------------------------------------------\n' +
+'// 手动维护，scrape.sh 不会覆盖。\n' +
+'// 新流程：候选先进 jobs-featured-pending.js → review.html 人工过审 → 导出覆盖本文件。\n' +
+'//\n' +
+'// 【重要：apply_url / contact 是会员专属数据】\n' +
+'//   写完这两个字段后必须先导出+入库，再跑剥离脚本：\n' +
+'//     node scripts/export-job-access.mjs          # 生成 supabase/job-access.csv\n' +
+'//     # 把 CSV 导入 Supabase 的 job_access 表\n' +
+'//     node scripts/strip-gated-fields.mjs --apply  # 清空前端明文\n' +
+'//   顺序反了会丢数据。\n' +
+'// ============================================================\n\n';
+
+const PENDING_HEADER = '// ============================================================\n' +
+'// 每日精选 · 待审池（人工把关前的数据都放这里）\n' +
+'// ------------------------------------------------------------\n' +
+'// 前端不引入本文件，内容绝不会直接展示。经 review.html 过审后才进 jobs-featured.js。\n' +
+'//   status: pending=待审   _from: cn/global/manual（导出时自动剔除）\n' +
+'//   JOBS_FEATURED_REJECTED 记录人工淘汰过的岗位，避免重复提议。\n' +
+'// ============================================================\n\n';
+
+function exportLive() {
+  const text = LIVE_HEADER + dumpArray('JOBS_FEATURED', liveList);
+  download('jobs-featured.js', text);
+  toast('已导出 jobs-featured.js，覆盖根目录同名文件');
+}
+function exportPending() {
+  const pend = pendingList.filter(p => statusOf(p) === 'pending');
+  const text = PENDING_HEADER + dumpArray('JOBS_FEATURED_PENDING', pend) +
+    '\n// 历史淘汰记录\n' + dumpArray('JOBS_FEATURED_REJECTED', rejectedList);
+  download('jobs-featured-pending.js', text);
+  toast('已导出 jobs-featured-pending.js');
+}
+
+// ── 事件绑定 ──
+document.querySelectorAll('.tab').forEach(t => {
+  t.onclick = () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    const v = t.dataset.view;
+    document.getElementById('view-pending').style.display = v === 'pending' ? 'block' : 'none';
+    document.getElementById('view-library').style.display = v === 'library' ? 'block' : 'none';
+    document.getElementById('view-live').style.display    = v === 'live'    ? 'block' : 'none';
+  };
+});
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]');
+  if (!el) return;
+  const act = el.dataset.act, id = el.dataset.id;
+  if (act === 'approve') approve(id);
+  else if (act === 'reject') reject(id);
+  else if (act === 'promote') promote(id, el.dataset.src);
+  else if (act === 'offline') offline(id);
+  else if (act === 'edit') { const p = findPending(id); if (p) openEdit(p, false); }
+  else if (act === 'editlive') { const j = findLive(id); if (j) openEdit(j, true); }
+});
+document.getElementById('libQuery').oninput = () => { libLimit = 60; renderLibrary(); };
+document.getElementById('libSource').onchange = () => { libLimit = 60; renderLibrary(); };
+document.getElementById('libMore').onclick = () => { libLimit += 60; renderLibrary(); };
+
+renderAll();
+</script>
+</body>
+</html>

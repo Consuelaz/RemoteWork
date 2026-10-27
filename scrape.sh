@@ -114,58 +114,6 @@ print(f"已保存 {len(remoteok_url_map)} 个Remote OK URL映射")
 PYEOF
 
 # ========================================
-# 2. 抓取远程中文网 - 直接连接
-# ========================================
-echo "正在抓取远程中文网..." >> $LOG_FILE
-curl -s -L "https://remote-china.com/jobs" -o /tmp/remote-china.html
-
-if [ -s /tmp/remote-china.html ]; then
-    echo "远程中文网 下载完成" >> $LOG_FILE
-else
-    echo "远程中文网 下载失败" >> $LOG_FILE
-fi
-
-# 预下载远程中文网详情页（提取申请职位链接）
-echo "正在预下载远程中文网岗位详情..." >> $LOG_FILE
-python3 << 'PYEOF'
-import os
-import re
-
-if not os.path.exists('/tmp/remote-china.html'):
-    print("远程中文网列表页不存在")
-else:
-    from bs4 import BeautifulSoup
-    with open('/tmp/remote-china.html', 'r', encoding='utf-8') as f:
-        html = f.read()
-    
-    soup = BeautifulSoup(html, 'html.parser')
-    items = soup.select('a.job-item')[:20]  # 只抓取前20个岗位的详情
-    
-    apply_url_map = {}
-    for i, item in enumerate(items):
-        href = item.get('href', '')
-        if href:
-            # 构建完整的详情页URL
-            if href.startswith('/'):
-                detail_url = "https://remote-china.com" + href
-            else:
-                detail_url = href
-            
-            # 下载详情页
-            fname = f"/tmp/remotechina_detail_{i}.html"
-            cmd = f'curl -s -L -A "Mozilla/5.0" "{detail_url}" -o "{fname}"'
-            os.system(cmd)
-            apply_url_map[i] = {'detail_url': detail_url, 'file': fname}
-            print(f"下载 {i}: {detail_url}")
-    
-    # 保存映射
-    import json
-    with open('/tmp/remotechina_url_map.json', 'w') as f:
-        json.dump(apply_url_map, f)
-    print(f"已保存 {len(apply_url_map)} 个远程中文网详情页映射")
-PYEOF
-
-# ========================================
 # 3. 抓取 V2EX 远程工作板块 (需要代理)
 # ========================================
 echo "正在抓取 V2EX..." >> $LOG_FILE
@@ -220,6 +168,46 @@ else:
             f.write(f"{url_key}|{idx}|{link}\n")
     print(f"已保存 {len(url_mapping)} 个URL映射")
 PYEOF
+
+# ========================================
+# 4. 抓取智联招聘 (HTML + __INITIAL_STATE__) - 国内远程办公岗位
+# ========================================
+# 实测：搜「居家办公」命中率约95%，「远程办公」约55%，而搜「远程」仅约45%
+# （「远程」会大量命中的"远程面试"陷阱 + 开票会计等无关岗），故用前两个词
+echo "正在抓取智联招聘..." >> $LOG_FILE
+curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0" "https://sou.zhaopin.com/?kw=%E5%B1%85%E5%AE%B6%E5%8A%9E%E5%85%AC" -o /tmp/zhaopin_jia.html
+sleep 1
+curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0" "https://sou.zhaopin.com/?kw=%E8%BF%9C%E7%A8%8B%E5%8A%9E%E5%85%AC" -o /tmp/zhaopin_yc.html
+
+if [ -s /tmp/zhaopin_jia.html ] || [ -s /tmp/zhaopin_yc.html ]; then
+    echo "智联招聘 下载完成" >> $LOG_FILE
+else
+    echo "智联招聘 下载失败" >> $LOG_FILE
+fi
+
+# ========================================
+# 5. 抓取 Working Nomads (JSON API) - 海外远程
+# ========================================
+echo "正在抓取 Working Nomads..." >> $LOG_FILE
+curl -s -L -A "Mozilla/5.0" "https://www.workingnomads.com/api/exposed_jobs/" -o /tmp/workingnomads.json
+
+if [ -s /tmp/workingnomads.json ]; then
+    echo "Working Nomads 下载完成" >> $LOG_FILE
+else
+    echo "Working Nomads 下载失败" >> $LOG_FILE
+fi
+
+# ========================================
+# 6. 抓取 Himalayas (RSS) - 海外远程
+# ========================================
+echo "正在抓取 Himalayas..." >> $LOG_FILE
+curl -s -L -A "Mozilla/5.0" "https://himalayas.app/jobs/rss" -o /tmp/himalayas.xml
+
+if [ -s /tmp/himalayas.xml ]; then
+    echo "Himalayas 下载完成" >> $LOG_FILE
+else
+    echo "Himalayas 下载失败" >> $LOG_FILE
+fi
 
 # ========================================
 # 3. 用 Python 处理数据
@@ -756,149 +744,6 @@ except Exception as e:
     import traceback
     traceback.print_exc()
 
-# ========== 处理远程中文网 ==========
-from bs4 import BeautifulSoup
-
-# 加载远程中文网详情页映射
-remotechina_detail_map = {}
-try:
-    import json
-    if os.path.exists('/tmp/remotechina_url_map.json'):
-        with open('/tmp/remotechina_url_map.json', 'r') as f:
-            remotechina_detail_map = json.load(f)
-except Exception as e:
-    print(f"加载远程中文网详情页映射失败: {e}")
-
-def parse_remotechina_detail(file_path):
-    """解析远程中文网详情页，提取申请职位链接、岗位描述、职责、要求等"""
-    if not os.path.exists(file_path):
-        return {}
-    
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            html = f.read()
-        
-        soup = BeautifulSoup(html, 'html.parser')
-        result = {}
-        
-        # ===== 申请职位链接 =====
-        apply_link = ''
-        for sel in ['a.btn-primary', 'a[href*="zhaopin"]', 'a[href*="zhipin"]',
-                    'a[href*="lagou"]', 'a[href*="eleduck"]', 'a[href*="liepin"]']:
-            btn = soup.select_one(sel)
-            if btn:
-                apply_link = btn.get('href', '')
-                break
-        if apply_link:
-            result['applyUrl'] = apply_link
-        
-        # ===== 从 .markdown-content 提取岗位描述 =====
-        mc = soup.select_one('.markdown-content')
-        if mc:
-            lines = [l.strip() for l in mc.get_text('\n').split('\n') if l.strip()]
-            
-            responsibilities = []
-            requirements = []
-            current_section = None
-            desc_lines = []
-            
-            RESP_KEYWORDS = ['岗位职责', '职位职责', '工作职责', '工作内容', '主要职责']
-            REQ_KEYWORDS  = ['技能要求', '任职要求', '岗位要求', '职位要求', '基本要求']
-            
-            for line in lines:
-                if any(kw in line for kw in RESP_KEYWORDS):
-                    current_section = 'resp'
-                    continue
-                elif any(kw in line for kw in REQ_KEYWORDS):
-                    current_section = 'req'
-                    continue
-                elif any(kw in line for kw in ['薪资待遇', '福利待遇', '工作时间', '行业和产品', '岗位名称']):
-                    current_section = None
-                    continue
-                
-                if current_section == 'resp' and len(line) > 5:
-                    responsibilities.append(line)
-                elif current_section == 'req' and len(line) > 5:
-                    requirements.append(line)
-                else:
-                    desc_lines.append(line)
-            
-            if responsibilities:
-                result['responsibilities'] = responsibilities[:20]
-            if requirements:
-                result['requirements'] = requirements[:15]
-            
-            # description 用前5行精华内容（跳过"行业和产品"这类 AI 生成的标题行）
-            skip_prefixes = ['行业和产品', '岗位名称', '推测常规名称', '薪资待遇', '福利待遇', '工作时间']
-            clean_desc = [l for l in desc_lines if not any(l.startswith(p) for p in skip_prefixes)]
-            if clean_desc:
-                result['description'] = ' | '.join(clean_desc[:5])
-        
-        return result
-    except Exception as e:
-        print(f"解析远程中文网详情页失败: {e}")
-        return {}
-
-remotechina_jobs = []
-try:
-    with open('/tmp/remote-china.html', 'r', encoding='utf-8') as f:
-        html = f.read()
-    
-    soup = BeautifulSoup(html, 'html.parser')
-    items = soup.select('a.job-item')[:2000]
-    
-    for i, item in enumerate(items):
-        title_elem = item.select_one('.job-title')
-        title = title_elem.get_text(strip=True) if title_elem else ""
-        
-        company_elem = item.select_one('.job-team-name')
-        company = company_elem.get_text(strip=True) if company_elem else ""
-        
-        salary_elem = item.select_one('.job-description')
-        salary = salary_elem.get_text(strip=True)[:50] if salary_elem else "面议"
-        
-        href = item.get('href', '')
-        link = "https://remote-china.com" + href if href else ""
-        
-        # 从详情页获取申请链接、描述等
-        apply_url = link  # 默认使用详情页链接
-        detail_info = {}
-        if str(i) in remotechina_detail_map:
-            detail_file = remotechina_detail_map[str(i)].get('file', '')
-            if detail_file:
-                detail_info = parse_remotechina_detail(detail_file)
-                if detail_info.get('applyUrl'):
-                    apply_url = detail_info['applyUrl']
-        
-        if title and link:
-            # 从链接中提取数字ID作为唯一标识，避免 hash 碰撞
-            url_id = re.search(r'/(\d+)', href).group(1) if href and re.search(r'/(\d+)', href) else str(i)
-            job = {
-                "id": f"cn-remotechina-{url_id}",
-                "title": title,
-                "company": company,
-                "logo": "🌐",
-                "category": guess_category_cn(title),
-                "tags": ["远程"],
-                "salary": salary,
-                "location": "全国远程",
-                "date": DATE,
-                "isNew": True,
-                "isFeatured": False,
-                "canRefer": False,
-                "source": "https://remote-china.com/jobs",
-                "sourceUrl": link,
-                "applyUrl": apply_url,
-                "description": detail_info.get('description', ''),
-                "responsibilities": detail_info.get('responsibilities', []),
-                "requirements": detail_info.get('requirements', []),
-                "benefits": []
-            }
-            remotechina_jobs.append(job)
-    print(f"远程中文网: {len(remotechina_jobs)} jobs")
-except Exception as e:
-    print(f"远程中文网 解析失败: {e}")
-
 # ========== 解析 V2EX 详情页 ==========
 def parse_v2ex_detail(file_path):
     """解析V2EX详情页，提取公司信息、岗位职责、任职要求等"""
@@ -1216,51 +1061,188 @@ try:
 except Exception as e:
     print(f"V2EX 解析失败: {e}")
 
+import hashlib
 
-# ========== 处理电鸭 ==========
-dianyu_jobs = []
+def stable_id(prefix, key):
+    """用 md5 生成稳定 id（内置 hash() 每次进程随机，会导致跨天去重失效）"""
+    return f"{prefix}-{hashlib.md5(str(key).encode('utf-8')).hexdigest()[:10]}"
+
+# ============================================================
+# 处理智联招聘（国内，严格过滤：只要明确远程工作）
+# ============================================================
+# 白名单：明确表示"工作本身远程"的信号
+ZL_REMOTE_WHITELIST = ['远程办公', '居家办公', '在家办公', '可远程', '远程工作', '全远程',
+                       '远程岗', '线上远程', '纯远程', '远程授课', '线上作业', '远程兼职',
+                       '在家工作', '在家办公', 'work from home', 'fully remote', 'remote work']
+# 黑名单：面试方式远程 ≠ 工作远程，是智联最大的噪音源
+ZL_BLACKLIST = ['远程面试']
+
+zhaopin_jobs = []
+zhaopin_seen = set()
 try:
-    with open('/tmp/dianyu.html', 'r', encoding='utf-8') as f:
-        html = f.read()
-    
-    soup = BeautifulSoup(html, 'html.parser')
-    # 电鸭可能有多种选择器
-    items = soup.select('div.post-item') or soup.select('li.topic-item') or soup.select('div.topic-item')
-    items = items[:200] if items else []
-    
-    for i, item in enumerate(items):
-        title_elem = item.select_one('h3 a, h4 a, .title a, a.title')
-        if not title_elem:
+    for fp in ['/tmp/zhaopin_jia.html', '/tmp/zhaopin_yc.html']:
+        if not os.path.exists(fp):
             continue
-        
-        title = title_elem.get_text(strip=True)
-        href = title_elem.get('href', '')
-        link = "https://eleduck.com" + href if href.startswith('/') else href
-        
-        if title and link:
-            job = {
-                "id": f"cn-dianyu-{i}{hash(title) % 10000}",
-                "title": title,
-                "company": "（电鸭用户招聘）",
-                "logo": "🦆",
-                "category": guess_category_cn(title),
-                "tags": ["远程", "电鸭"],
-                "salary": "面议",
-                "location": "全国远程",
-                "date": DATE,
+        with open(fp, 'r', encoding='utf-8') as f:
+            html = f.read()
+        m = re.search(r'__INITIAL_STATE__\s*=\s*(\{.*?\})\s*</script>', html, re.S)
+        if not m:
+            print(f"智联 {fp} 未找到 __INITIAL_STATE__（页面结构可能又变了）")
+            continue
+        plist = (json.loads(m.group(1)).get('positionList') or [])
+        for it in plist:
+            name = (it.get('name') or '').strip()
+            if not name:
+                continue
+            desc = (((it.get('jobDetailData') or {}).get('position') or {}).get('desc') or {})
+            desc_text = re.sub(r'<[^>]+>', ' ', desc.get('description') or '')
+            blob = name + ' ' + desc_text
+            if any(b in blob for b in ZL_BLACKLIST):
+                continue
+            if not any(w in blob for w in ZL_REMOTE_WHITELIST):
+                continue
+            purl = (it.get('positionUrl') or it.get('positionURL') or '').strip()
+            if not purl or purl in zhaopin_seen:
+                continue
+            zhaopin_seen.add(purl)
+            pub = (it.get('publishTime') or '')[:10]
+            if not re.match(r'\d{4}-\d{2}-\d{2}', pub):
+                pub = DATE
+            zhaopin_jobs.append({
+                "id": stable_id("cn-zhaopin", it.get('number') or it.get('jobId') or purl),
+                "title": name,
+                "company": (it.get('companyName') or '').strip(),
+                "logo": "💼",
+                "category": guess_category_cn(name),
+                "tags": ["远程"],
+                "salary": (it.get('salary60') or '').strip() or '面议',
+                "location": (it.get('workCity') or '').strip() or '全国远程',
+                "date": pub,
                 "isNew": True,
                 "isFeatured": False,
-                "canRefer": True,  # 电鸭可内推
-                "source": "https://eleduck.com/category/4",
-                "sourceUrl": link,
-                "description": "来自电鸭社区的远程工作机会",
+                "canRefer": False,
+                "source": "https://www.zhaopin.com",
+                "noFeature": True,
+                "sourceUrl": purl,
+                "applyUrl": purl,
+                "description": re.sub(r'\s+', ' ', desc_text).strip()[:500],
+                "responsibilities": [],
                 "requirements": [],
                 "benefits": []
-            }
-            dianyu_jobs.append(job)
-    print(f"电鸭: {len(dianyu_jobs)} jobs")
+            })
+    print(f"智联招聘: {len(zhaopin_jobs)} jobs (严格过滤后)")
 except Exception as e:
-    print(f"电鸭 解析失败: {e}")
+    print(f"智联招聘 解析失败: {e}")
+    zhaopin_jobs = []
+
+# ============================================================
+# 处理 Working Nomads（海外，公开 JSON API）
+# ============================================================
+workingnomads_jobs = []
+try:
+    with open('/tmp/workingnomads.json', 'r', encoding='utf-8') as f:
+        wn = json.load(f)
+    for it in wn:
+        title = (it.get('title') or '').strip()
+        url = (it.get('url') or '').strip()
+        if not title or not url:
+            continue
+        pub = (it.get('pub_date') or '')[:10]
+        if not re.match(r'\d{4}-\d{2}-\d{2}', pub):
+            pub = DATE
+        tags = it.get('tags') or []
+        if isinstance(tags, str):
+            tags = [t.strip() for t in tags.split(',') if t.strip()]
+        desc = re.sub(r'<[^>]+>', ' ', it.get('description') or '')
+        workingnomads_jobs.append({
+            "id": stable_id("global-workingnomads", url),
+            "title": title,
+            "company": (it.get('company_name') or '海外公司').strip(),
+            "logo": "🌍",
+            "category": guess_category_global(title),
+            "tags": list(tags)[:5],
+            "salary": "面议",
+            "location": (it.get('location') or '全球远程').strip(),
+            "date": pub,
+            "isNew": True,
+            "isFeatured": False,
+            "canRefer": False,
+            "source": "https://www.workingnomads.com",
+            "sourceUrl": url,
+            "currency": "USD",
+            "companyCountry": "海外",
+            "description": re.sub(r'\s+', ' ', desc).strip()[:500],
+            "requirements": [],
+            "benefits": [],
+            "company_info": ""
+        })
+    print(f"Working Nomads: {len(workingnomads_jobs)} jobs")
+except Exception as e:
+    print(f"Working Nomads 解析失败: {e}")
+    workingnomads_jobs = []
+
+# ============================================================
+# 处理 Himalayas（海外，公开 RSS）
+# ============================================================
+himalayas_jobs = []
+try:
+    with open('/tmp/himalayas.xml', 'r', encoding='utf-8') as f:
+        xml = f.read()
+
+    def rss_val(item, tag):
+        m = re.search(rf'<{tag}[^>]*>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</{tag}>', item, re.S)
+        return (m.group(1).strip() if m else '')
+
+    him_items = re.findall(r'<item>(.*?)</item>', xml, re.S)
+    for it in him_items:
+        title = rss_val(it, 'title')
+        link = rss_val(it, 'link') or rss_val(it, 'guid')
+        if not title or not link:
+            continue
+        # pubDate 形如 "Tue, 27 Oct 2026 03:59:53 GMT"
+        pub_date = DATE
+        raw_date = rss_val(it, 'pubDate')
+        if raw_date:
+            try:
+                from email.utils import parsedate_to_datetime
+                pub_date = parsedate_to_datetime(raw_date).strftime('%Y-%m-%d')
+            except Exception:
+                pub_date = DATE
+        desc = re.sub(r'<[^>]+>', ' ', rss_val(it, 'description'))
+        # 公司名在命名空间字段 himalayasJobs:companyName
+        company = rss_val(it, 'himalayasJobs:companyName') or '海外公司'
+        himalayas_jobs.append({
+            "id": stable_id("global-himalayas", link),
+            "title": title,
+            "company": company,
+            "logo": "🌍",
+            "category": guess_category_global(title),
+            "tags": [c.strip() for c in re.findall(
+                r'<category>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</category>', it, re.S) if c.strip()][:5],
+            "salary": "面议",
+            "location": "全球远程",
+            "date": pub_date,
+            "isNew": True,
+            "isFeatured": False,
+            "canRefer": False,
+            "source": "https://himalayas.app/jobs",
+            "sourceUrl": link,
+            "currency": "USD",
+            "companyCountry": "海外",
+            "description": re.sub(r'\s+', ' ', desc).strip()[:500],
+            "requirements": [],
+            "benefits": [],
+            "company_info": ""
+        })
+    print(f"Himalayas: {len(himalayas_jobs)} jobs")
+except Exception as e:
+    print(f"Himalayas 解析失败: {e}")
+    himalayas_jobs = []
+
+
+# ========== 读取现有数据 ==========
+
+
 
 # ========== 读取现有数据 ==========
 def load_js_array(file_path):
@@ -1355,9 +1337,9 @@ def merge_jobs(old_jobs, new_jobs):
 
 # V2EX 数据放最前面（最新抓取的社群内推岗位）
 # 国内上限2000条（包含 who-is-hiring 数据）
-merged_cn = merge_jobs(existing_cn, v2ex_jobs + remotechina_jobs + dianyu_jobs + rebase_jobs)[:2000]
+merged_cn = merge_jobs(existing_cn, v2ex_jobs + rebase_jobs + zhaopin_jobs)[:2000]
 # 海外上限2000条（Remote OK + Remotive + 远程岛）
-merged_global = merge_jobs(existing_global, remoteok_jobs + remotive_jobs + yuanchengdao_jobs)[:2000]
+merged_global = merge_jobs(existing_global, remoteok_jobs + remotive_jobs + yuanchengdao_jobs + workingnomads_jobs + himalayas_jobs)[:2000]
 
 print(f"合并去重后: CN={len(merged_cn)}, Global={len(merged_global)}")
 
@@ -1402,7 +1384,7 @@ def jobs_to_js(jobs, var_name):
 # 写入 CN
 header_cn = f"""// ============================================================
 // 国内远程工作岗位数据
-// 数据来源：远程中文网等
+// 数据来源：多源聚合
 // 最后更新：{DATE}
 // ============================================================
 
@@ -1544,7 +1526,7 @@ echo "数据更新完成: $DATE" >> $LOG_FILE
 echo "========================================" >> $LOG_FILE
 
 # 清理临时文件（保留详情页文件用于调试）
-rm -f /tmp/remoteok.json /tmp/remote-china.html /tmp/v2ex*.html /tmp/v2ex_url_map.txt /tmp/remoteok_url_map.pkl
+rm -f /tmp/remoteok.json /tmp/v2ex*.html /tmp/v2ex_url_map.txt /tmp/remoteok_url_map.pkl
 # rm -f /tmp/remoteok_detail*.html  # 暂时保留详情页文件
 
 # ========== Git 自动提交推送 ==========
