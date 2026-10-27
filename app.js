@@ -56,19 +56,30 @@ function getFeaturedJobs() {
   return recent.length ? recent : list.slice(0, FEATURED_PREVIEW);
 }
 
+// ── 岗位新鲜度窗口 ──
+// 超过 MAX_JOB_AGE_DAYS 天的岗位不再展示。数据清理脚本不是每次都跑，
+// 这里做一道兜底：只要列表里永不出现「3个月前」这种陈旧岗位。
+// 90 天与 formatTimeAgo() 的口径一致（Math.floor(days/30) < 3）。
+const MAX_JOB_AGE_DAYS = 90;
+function isFreshJob(job) {
+  if (!job || !job.date) return false;   // 无发布日期的岗位无法判断时效，不展示
+  const days = Math.floor((Date.now() - new Date(job.date)) / 86400000);
+  return days < MAX_JOB_AGE_DAYS;
+}
+
 function getCurrentJobs() {
   const featuredIds = featuredIdSet();
   if (currentSource === 'cn') {
     const mainList = (typeof JOBS_MAINLIST !== 'undefined') ? JOBS_MAINLIST : [];
     const cnList   = (typeof JOBS_CN      !== 'undefined') ? JOBS_CN      : [];
     const seen = new Set(mainList.map(j => j.id));
-    const unique = cnList.filter(j => !seen.has(j.id) && !featuredIds.has(j.id));
-    const allJobs = [...mainList.filter(j => !featuredIds.has(j.id)), ...unique];
+    const unique = cnList.filter(j => !seen.has(j.id) && !featuredIds.has(j.id) && isFreshJob(j));
+    const allJobs = [...mainList.filter(j => !featuredIds.has(j.id) && isFreshJob(j)), ...unique];
     return allJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
   }
   const globalList = (typeof JOBS_GLOBAL !== 'undefined') ? JOBS_GLOBAL : [];
   return globalList
-    .filter(j => !featuredIds.has(j.id))
+    .filter(j => !featuredIds.has(j.id) && isFreshJob(j))
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
@@ -237,6 +248,7 @@ function renderFeatured() {
           <div class="featured-job-title">${job.title}</div>
           <div class="featured-job-meta">
             <span class="f-company">${formatCompany(job.company)}</span>
+            <span class="featured-tag-inline ${job.canRefer ? 'refer' : 'direct'}">${job.canRefer ? '内推岗' : '直申岗'}</span>
             <span class="f-loc">📍 ${job.location || '远程'}</span>
             <span class="f-salary">${job.salary || '面议'}</span>
           </div>
@@ -247,6 +259,7 @@ function renderFeatured() {
             : '<span class="featured-tag direct">直申岗</span>'}
         </div>
       </div>
+      ${job.description ? `<div class="featured-desc">${escapeHtml(String(job.description).replace(/\s+/g, ' ').trim().slice(0, 80))}</div>` : ''}
       <div class="featured-foot">
         <span class="featured-date">${formatTimeAgo(job.date)}</span>
         <span class="featured-cat">${job.category || ''}</span>
