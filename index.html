@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8403146902177842" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8403146902177842" crossorigin="anonymous" onerror="window.__adsLoadFailed=true"></script>
 </head>
 <body>
 
@@ -128,11 +128,12 @@
     </div>
   </section>
 
-  <!-- Google 广告位 -->
-  <section style="padding: 16px 0; background: #f8fafc; min-height: 90px;">
-    <div class="container" style="text-align: center;">
+  <!-- Google 广告位（最小高度；未成功填充时自动折叠，不留空白） -->
+  <section id="adSlot" class="ad-slot">
+    <div class="container ad-slot-inner">
       <ins class="adsbygoogle"
-           style="display:block; width: 100%; max-width: 728px; height: 90px; margin: 0 auto;"
+           id="adSlotIns"
+           style="display:block; width: 100%; max-width: 728px; min-height: 50px; margin: 0 auto;"
            data-ad-client="ca-pub-8403146902177842"
            data-ad-slot="auto"
            data-ad-format="auto"
@@ -140,6 +141,53 @@
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </section>
+  <script>
+    // 广告未渲染（被拦截 / 无填充 / 脚本加载失败）时折叠整段，避免留下空白
+    (function () {
+      var section = document.getElementById('adSlot');
+      var ins = document.getElementById('adSlotIns');
+      if (!section || !ins) return;
+
+      function filled() {
+        if (ins.getAttribute('data-ad-status') === 'filled') return true;
+        var iframe = ins.querySelector('iframe');
+        return !!iframe && ins.offsetHeight > 20;
+      }
+      function show() { section.classList.remove('is-collapsed'); }
+      function collapse() { section.classList.add('is-collapsed'); }
+
+      var done = false;
+      function settle() {
+        if (done) return;
+        if (filled()) { done = true; show(); return true; }
+        return false;
+      }
+
+      // 脚本加载失败（广告拦截最常见）→ 立即折叠，不留空白
+      if (window.__adsLoadFailed) { done = true; collapse(); return; }
+
+      // AdSense 明确返回未填充 → 立即折叠
+      var mo = window.MutationObserver && new MutationObserver(function () {
+        if (ins.getAttribute('data-ad-status') === 'unfilled' && !filled()) { done = true; mo.disconnect(); clearInterval(timer); collapse(); return; }
+        if (settle()) { mo.disconnect(); clearInterval(timer); }
+      });
+      if (mo) mo.observe(ins, { attributes: true, childList: true, subtree: true });
+
+      // 状态机：
+      //  - 脚本加载失败 / AdSense 明确 unfilled → 立即折叠
+      //  - 8 秒仍未渲染 → 折叠（继续观察到 20 秒，慢网络迟到填充会重新展开）
+      var COLLAPSE_AT = 16;   // 8s
+      var STOP_AT = 40;       // 20s
+      var tries = 0;
+      var timer = setInterval(function () {
+        tries++;
+        if (filled()) { show(); clearInterval(timer); if (mo) mo.disconnect(); return; }
+        var failed = window.__adsLoadFailed || ins.getAttribute('data-ad-status') === 'unfilled';
+        if (failed || tries >= COLLAPSE_AT) collapse();
+        if (failed || tries >= STOP_AT) { clearInterval(timer); if (mo) mo.disconnect(); }
+      }, 500);
+    })();
+  </script>
 
   <!-- 订阅区域 -->
   <section class="subscribe-section">

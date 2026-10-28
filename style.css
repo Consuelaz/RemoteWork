@@ -1414,3 +1414,21 @@ body {
   .featured-job-meta { gap: 6px; }
   .featured-more { width: 100%; justify-content: center; }
 }
+
+/* ========== 首页广告位 ========== */
+/* 最小高度占位：50px（AdSense 最小标准横幅高），padding 收紧，避免大面积留白 */
+.ad-slot {
+  padding: 6px 0;
+  background: #f8fafc;
+  overflow: hidden;
+  transition: height 0.2s ease, padding 0.2s ease;
+}
+.ad-slot-inner { text-align: center; }
+
+/* 未成功填充 / 被广告拦截 / 脚本失败 → 整段折叠，不留空白 */
+.ad-slot.is-collapsed {
+  display: none !important;
+}
+.ad-slot ins.adsbygoogle[data-ad-status="unfilled"] {
+  display: none !important;
+}
