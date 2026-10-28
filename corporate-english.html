@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Junes远程 · 外企英语 — 影子跟读练习</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="corporate-english.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- 导航栏 -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🌐</span>
+        <span class="logo-text">Junes<span class="logo-accent">远程</span></span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">岗位列表</a>
+        <a href="corporate-english.html">外企英语</a>
+        <a href="companies.html">100+ fullyremote公司列表</a>
+        <a href="ai-indie/index.html">AI独立派</a>
+        <a href="indie-money-samples/index.html">一人公司赚钱样本</a>
+        <a href="community.html">加入社群</a>
+      </nav>
+      <a href="community.html" class="btn btn-primary nav-cta">加入社群</a>
+      <button class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="菜单">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero 区域 -->
+  <section class="ce-hero">
+    <div class="container ce-hero-inner">
+      <div class="ce-hero-badge">🗣️ 影子跟读 · 提升职场英语口语</div>
+      <h1 class="ce-hero-title">外企<span class="highlight">英语</span>实战练习</h1>
+      <p class="ce-hero-subtitle">精选全球顶尖远程公司创始人访谈，通过影子跟读法（Shadowing）模拟真实职场英语场景，让你的口语更自信。</p>
+      <div class="ce-hero-stats">
+        <div class="ce-stat"><strong id="statCompanies">8</strong><span>公司访谈</span></div>
+        <div class="ce-stat-divider"></div>
+        <div class="ce-stat"><strong>Shadowing</strong><span>跟读练习</span></div>
+        <div class="ce-stat-divider"></div>
+        <div class="ce-stat"><strong>0.75x</strong><span>推荐起步速度</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 主访谈视频区 -->
+  <section class="ce-main-video" id="mainVideoSection">
+    <div class="container">
+      <div class="section-header">
+        <h2>🎯 本期访谈</h2>
+        <span class="ce-company-tag" id="companyTag"></span>
+      </div>
+
+      <div class="ce-video-card">
+        <!-- YouTube 嵌入 -->
+        <div class="ce-yt-wrapper" id="mainYtWrapper">
+          <iframe
+            id="mainYtPlayer"
+            class="ce-yt-iframe"
+            src=""
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <!-- 视频信息 -->
+        <div class="ce-video-info">
+          <div class="ce-video-meta">
+            <h3 class="ce-video-title" id="mainVideoTitle"></h3>
+            <div class="ce-video-desc" id="mainVideoDesc"></div>
+          </div>
+          <div class="ce-video-tags" id="mainVideoTags"></div>
+          <div class="ce-shadowing-tip">
+            <span class="ce-tip-icon">💡</span>
+            <span>跟读练习：在 YouTube 中点击设置 → 速度 → 0.75x，开启字幕（CC）同步练习</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 影子跟读剪辑片段 -->
+  <section class="ce-clips" id="clipsSection">
+    <div class="container">
+      <div class="section-header">
+        <h2>🎙️ 影子跟读练习片段</h2>
+        <span class="ce-tip-text">点击卡片跳转到 YouTube 指定时间点 · 开启字幕（CC）同步跟读</span>
+      </div>
+
+      <div class="ce-clips-grid" id="clipsGrid">
+        <!-- 由 JS 动态生成 -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 更多公司访谈 -->
+  <section class="ce-more-interviews" id="moreInterviews">
+    <div class="container">
+      <div class="section-header">
+        <h2>🏢 更多远程公司创始人访谈</h2>
+        <span class="ce-tip-text">每个访谈都适合跟读练习 · 点击卡片跳转到 YouTube</span>
+      </div>
+
+      <div class="ce-interviews-grid" id="interviewsGrid">
+        <!-- 由 JS 动态生成 -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 跟读练习说明 -->
+  <section class="ce-guide">
+    <div class="container ce-guide-inner">
+      <h3>📖 影子跟读法（Shadowing）怎么做？</h3>
+      <div class="ce-guide-steps">
+        <div class="ce-step">
+          <div class="ce-step-num">1</div>
+          <div class="ce-step-content">
+            <strong>先听</strong>
+            <p>完整听一遍片段，理解内容和语调</p>
+          </div>
+        </div>
+        <div class="ce-step">
+          <div class="ce-step-num">2</div>
+          <div class="ce-step-content">
+            <strong>跟读</strong>
+            <p>在 YouTube 设置 0.75x 速度，跟着说话者同步模仿</p>
+          </div>
+        </div>
+        <div class="ce-step">
+          <div class="ce-step-num">3</div>
+          <div class="ce-step-content">
+            <strong>加速</strong>
+            <p>逐渐提速到 1x，直到能流畅跟读</p>
+          </div>
+        </div>
+        <div class="ce-step">
+          <div class="ce-step-num">4</div>
+          <div class="ce-step-content">
+            <strong>内化</strong>
+            <p>关闭字幕，用自己的方式表达相同内容</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 订阅区域 -->
+  <section class="subscribe-section">
+    <div class="container subscribe-inner">
+      <div class="subscribe-text">
+        <h3>💬 加入远程工作社群</h3>
+        <p>获取更多外企英语学习资源和远程工作内推机会。</p>
+      </div>
+      <a href="community.html" class="btn btn-primary">立即加入</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon">🌐</span>
+        <span class="logo-text">Junes<span class="logo-accent">远程</span></span>
+        <p>专注收集中国远程工作岗位，帮你找到在家工作的机会。</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <a href="index.html">首页</a>
+          <a href="corporate-english.html">外企英语</a>
+          <a href="companies.html">远程公司</a>
+          <a href="aggregate.html">远程工作网站聚合</a>
+        </div>
+        <div class="footer-col">
+          <h4>数据来源</h4>
+          <a href="#">数据来源于网络</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Junes远程 · 专注中国远程工作岗位收集平台 · 数据来自公开渠道整理</p>
+    </div>
+  </footer>
+
+  <!-- 数据配置 & 交互脚本 -->
+  <script src="corporate-english-data.js"></script>
+  <script src="corporate-english.js"></script>
+  <script>
+    function toggleNav() {
+      const nav = document.getElementById('navLinks');
+      const btn = document.getElementById('navToggle');
+      nav.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+    document.querySelectorAll('.nav-links a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        document.getElementById('navLinks').classList.remove('open');
+        document.getElementById('navToggle').classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>
