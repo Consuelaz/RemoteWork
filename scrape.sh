@@ -25,7 +25,7 @@ export GIT_SSH_COMMAND="ssh -o ControlMaster=no"
 # 1. 抓取 Remote OK (JSON API) - 直接连接
 # ========================================
 echo "正在抓取 Remote OK..." >> $LOG_FILE
-curl -s -L -A "Mozilla/5.0" "https://remoteok.com/remote-jobs.json" -o /tmp/remoteok.json
+curl -s -L -A "Mozilla/5.0" "https://remoteok.com/remote-jobs.json" --connect-timeout 12 --max-time 30 -o /tmp/remoteok.json
 
 if [ -s /tmp/remoteok.json ]; then
     echo "Remote OK 下载完成" >> $LOG_FILE
@@ -37,7 +37,11 @@ fi
 # 1.1 抓取 Remotive (JSON API) - 海外远程工作
 # ========================================
 echo "正在抓取 Remotive..." >> $LOG_FILE
-curl -s -L -A "Mozilla/5.0" "https://remotive.com/api/remote-jobs" -o /tmp/remotive.json
+# Remotive 直连会卡死（连接超时），必须走代理；代理不可用时再退回直连
+curl -s -L -A "Mozilla/5.0" $PROXY "https://remotive.com/api/remote-jobs" --connect-timeout 12 --max-time 30 -o /tmp/remotive.json
+if [ ! -s /tmp/remotive.json ]; then
+    curl -s -L -A "Mozilla/5.0" "https://remotive.com/api/remote-jobs" --connect-timeout 12 --max-time 30 -o /tmp/remotive.json
+fi
 
 if [ -s /tmp/remotive.json ]; then
     echo "Remotive 下载完成" >> $LOG_FILE
@@ -51,7 +55,7 @@ fi
 echo "正在抓取远程岛..." >> $LOG_FILE
 # 获取多页数据
 for page in 1 2 3 4 5; do
-    curl -s -L -A "Mozilla/5.0" "https://yuanchengdao.com/api/jobs?page=${page}&limit=30" -o /tmp/yuanchengdao_${page}.json
+    curl -s -L -A "Mozilla/5.0" "https://yuanchengdao.com/api/jobs?page=${page}&limit=30" --connect-timeout 12 --max-time 30 -o /tmp/yuanchengdao_${page}.json
     sleep 1
 done
 
@@ -65,7 +69,7 @@ fi
 # 1.3 抓取 who-is-hiring (Rebase社区) - JSON API
 # ========================================
 echo "正在抓取 who-is-hiring (Rebase)..." >> $LOG_FILE
-curl -s -L -A "Mozilla/5.0" "https://hire.rebase.network/jobs.normalized.json" -o /tmp/rebase_jobs.json
+curl -s -L -A "Mozilla/5.0" "https://hire.rebase.network/jobs.normalized.json" --connect-timeout 12 --max-time 30 -o /tmp/rebase_jobs.json
 
 if [ -s /tmp/rebase_jobs.json ]; then
     echo "who-is-hiring 下载完成" >> $LOG_FILE
@@ -79,24 +83,40 @@ python3 << 'PYEOF'
 import json
 import os
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
 
-if not os.path.exists('/tmp/remoteok.json'):
-    print("Remote OK JSON不存在")
-else:
+UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+
+data = []
+if os.path.exists('/tmp/remoteok.json'):
     with open('/tmp/remoteok.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
-    
-    # 下载前50个岗位的详情页（增加数量以获取更丰富的数据）
-    for i, item in enumerate(data[1:51]):
-        url = item.get("url", "")
-        if url and not url.startswith("http"):
-            url = "https://remoteok.com" + url
-        if url:
-            # 用hash作为文件名
-            fname = f"/tmp/remoteok_detail_{i}.html"
-            cmd = f'curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" "{url}" -o "{fname}" --max-time 15'
-            os.system(cmd)
-            print(f"下载 {i}: {url[:50]}")
+else:
+    print("Remote OK JSON不存在")
+
+# 收集前50个岗位的详情页 URL
+tasks = []
+for i, item in enumerate(data[1:51]):
+    url = item.get("url", "")
+    if url and not url.startswith("http"):
+        url = "https://remoteok.com" + url
+    if url:
+        tasks.append((i, url))
+
+def _dl(t):
+    i, url = t
+    subprocess.run(
+        ['curl', '-s', '-L', '-A', UA, '--connect-timeout', '12', '--max-time', '25',
+         url, '-o', f'/tmp/remoteok_detail_{i}.html'],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+    )
+    return i
+
+# 并发下载（最多 8 路）：串行 50 次最坏要 20 分钟，会让自动化任务挂死
+if tasks:
+    with ThreadPoolExecutor(max_workers=8) as ex:
+        list(ex.map(_dl, tasks))
+    print(f"并发下载完成: {len(tasks)} 个详情页")
 
 # 保存映射（使用idx作为key）
 remoteok_url_map = {}
@@ -117,7 +137,7 @@ PYEOF
 # 3. 抓取 V2EX 远程工作板块 (需要代理)
 # ========================================
 echo "正在抓取 V2EX..." >> $LOG_FILE
-curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" $PROXY "https://www.v2ex.com/go/remote" -o /tmp/v2ex.html
+curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" $PROXY "https://www.v2ex.com/go/remote" --connect-timeout 12 --max-time 30 -o /tmp/v2ex.html
 
 if [ -s /tmp/v2ex.html ]; then
     echo "V2EX 下载完成" >> $LOG_FILE
@@ -130,6 +150,11 @@ echo "正在预下载V2EX岗位详情..." >> $LOG_FILE
 python3 << 'PYEOF'
 import os
 import re
+import subprocess
+from concurrent.futures import ThreadPoolExecutor
+
+UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+PROXY = "http://127.0.0.1:7892"
 
 # 读取列表页
 if not os.path.exists('/tmp/v2ex.html'):
@@ -137,14 +162,15 @@ if not os.path.exists('/tmp/v2ex.html'):
 else:
     with open('/tmp/v2ex.html', 'r', encoding='utf-8') as f:
         html = f.read()
-    
+
     # 提取前10个帖子链接
     from bs4 import BeautifulSoup
     soup = BeautifulSoup(html, 'html.parser')
     items = soup.select('div.cell')[:200]
-    
+
     # 使用列表索引确保文件编号连续，同时保存URL映射
     url_mapping = []
+    tasks = []
     for i, item in enumerate(items):
         title_elem = item.select_one('span.item_title a') or item.select_one('a.topic-link')
         if not title_elem:
@@ -152,16 +178,28 @@ else:
         href = title_elem.get('href', '')
         if href.startswith('/t/'):
             link = "https://www.v2ex.com" + href
-            # curl 详情页，使用连续索引编号
             idx = len(url_mapping)
-            # 提取t/编号作为映射键
             url_key = re.search(r'(t/\d+)', href)
             if url_key:
                 url_mapping.append((url_key.group(1), idx, link))
-            cmd = f'curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" -x http://127.0.0.1:7892 "{link}" -o /tmp/v2ex_detail_{idx}.html'
-            os.system(cmd)
-            print(f"下载 {idx}: {href}")
-    
+            tasks.append((idx, link, href))
+
+    def _dl(t):
+        idx, link, href = t
+        subprocess.run(
+            ['curl', '-s', '-L', '-A', UA, '-x', PROXY,
+             '--connect-timeout', '12', '--max-time', '25',
+             link, '-o', f'/tmp/v2ex_detail_{idx}.html'],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
+        return idx
+
+    # 并发下载（走代理，6 路避免代理桥压力过大）
+    if tasks:
+        with ThreadPoolExecutor(max_workers=6) as ex:
+            list(ex.map(_dl, tasks))
+        print(f"并发下载完成: {len(tasks)} 个详情页")
+
     # 保存URL映射到文件供Python主逻辑使用
     with open('/tmp/v2ex_url_map.txt', 'w') as f:
         for url_key, idx, link in url_mapping:
@@ -175,9 +213,9 @@ PYEOF
 # 实测：搜「居家办公」命中率约95%，「远程办公」约55%，而搜「远程」仅约45%
 # （「远程」会大量命中的"远程面试"陷阱 + 开票会计等无关岗），故用前两个词
 echo "正在抓取智联招聘..." >> $LOG_FILE
-curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0" "https://sou.zhaopin.com/?kw=%E5%B1%85%E5%AE%B6%E5%8A%9E%E5%85%AC" -o /tmp/zhaopin_jia.html
+curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0" "https://sou.zhaopin.com/?kw=%E5%B1%85%E5%AE%B6%E5%8A%9E%E5%85%AC" --connect-timeout 12 --max-time 30 -o /tmp/zhaopin_jia.html
 sleep 1
-curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0" "https://sou.zhaopin.com/?kw=%E8%BF%9C%E7%A8%8B%E5%8A%9E%E5%85%AC" -o /tmp/zhaopin_yc.html
+curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0" "https://sou.zhaopin.com/?kw=%E8%BF%9C%E7%A8%8B%E5%8A%9E%E5%85%AC" --connect-timeout 12 --max-time 30 -o /tmp/zhaopin_yc.html
 
 if [ -s /tmp/zhaopin_jia.html ] || [ -s /tmp/zhaopin_yc.html ]; then
     echo "智联招聘 下载完成" >> $LOG_FILE
@@ -189,7 +227,7 @@ fi
 # 5. 抓取 Working Nomads (JSON API) - 海外远程
 # ========================================
 echo "正在抓取 Working Nomads..." >> $LOG_FILE
-curl -s -L -A "Mozilla/5.0" "https://www.workingnomads.com/api/exposed_jobs/" -o /tmp/workingnomads.json
+curl -s -L -A "Mozilla/5.0" "https://www.workingnomads.com/api/exposed_jobs/" --connect-timeout 12 --max-time 30 -o /tmp/workingnomads.json
 
 if [ -s /tmp/workingnomads.json ]; then
     echo "Working Nomads 下载完成" >> $LOG_FILE
@@ -201,7 +239,7 @@ fi
 # 6. 抓取 Himalayas (RSS) - 海外远程
 # ========================================
 echo "正在抓取 Himalayas..." >> $LOG_FILE
-curl -s -L -A "Mozilla/5.0" "https://himalayas.app/jobs/rss" -o /tmp/himalayas.xml
+curl -s -L -A "Mozilla/5.0" "https://himalayas.app/jobs/rss" --connect-timeout 12 --max-time 30 -o /tmp/himalayas.xml
 
 if [ -s /tmp/himalayas.xml ]; then
     echo "Himalayas 下载完成" >> $LOG_FILE
@@ -1335,11 +1373,34 @@ def merge_jobs(old_jobs, new_jobs):
     deduped = dedup_by_title_company(deduped)
     return deduped
 
+# 前端 app.js 的 MAX_JOB_AGE_DAYS = 90，超过即不展示。
+# 这里同步把过期岗位挡在数据文件之外，避免 jobs-*.js 越滚越大、
+# 用户却要下载一堆永远看不见的数据。
+# 取 89 天：前端 formatTimeAgo 用 Math.floor(days/30)，90 天整会显示「3个月前」。
+MAX_AGE_DAYS = 89
+
+def filter_fresh(jobs):
+    """丢弃超过 MAX_AGE_DAYS 天 / 无日期的岗位"""
+    from datetime import datetime, timedelta
+    cutoff = (datetime.now() - timedelta(days=MAX_AGE_DAYS)).strftime('%Y-%m-%d')
+    kept, dropped = [], 0
+    for job in jobs:
+        d = str(job.get('date') or '')[:10]
+        if d and d >= cutoff:
+            kept.append(job)
+        else:
+            dropped += 1
+    return kept, dropped
+
 # V2EX 数据放最前面（最新抓取的社群内推岗位）
 # 国内上限2000条（包含 who-is-hiring 数据）
 merged_cn = merge_jobs(existing_cn, v2ex_jobs + rebase_jobs + zhaopin_jobs)[:2000]
 # 海外上限2000条（Remote OK + Remotive + 远程岛）
 merged_global = merge_jobs(existing_global, remoteok_jobs + remotive_jobs + yuanchengdao_jobs + workingnomads_jobs + himalayas_jobs)[:2000]
+
+merged_cn, drop_cn = filter_fresh(merged_cn)
+merged_global, drop_global = filter_fresh(merged_global)
+print(f"时效过滤(>{MAX_AGE_DAYS}天): 丢弃 CN={drop_cn}, Global={drop_global}")
 
 print(f"合并去重后: CN={len(merged_cn)}, Global={len(merged_global)}")
 
