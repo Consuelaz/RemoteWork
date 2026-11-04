@@ -29,6 +29,51 @@
 
 const JOBS_FEATURED = [
   {
+    'id': 'featured-20261104-02',
+    'title': '【远程兼职】React Native 移动开发工程师（健身应用，美企直招）',
+    'company': '美国健身应用科技公司',
+    'logo': '💪',
+    'category': '移动开发',
+    'tags': ['远程兼职', 'React Native', 'Expo', 'iOS/Android', 'TypeScript'],
+    'salary': '面议（兼职/按经验）',
+    'location': '全远程（业务在美国，产研团队在中国）',
+    'date': '2026-11-04',
+    'canRefer': true,
+    'source': '社群招聘平台',
+    'sourceUrl': '',
+    'description': '美国创新健身应用公司直招兼职 React Native 移动开发工程师，业务在美国、产研团队在中国，远程办公。要求 5 年以上移动端经验（其中 3 年以上 RN 生产经验），精通 React Native 与 Expo（prebuild、config plugin、EAS 构建），能独立用 Swift/Kotlin 写改原生模块并处理 Xcode、CocoaPods、Gradle、签名与商店审核问题。需有独立上架并持续维护的 App，精通新架构（Fabric/TurboModules）、Reanimated 4、FlashList 与渲染性能优化，有离线优先（WatermelonDB/SQLite）与双端发版经验。接受小团队、端到端负责。',
+    'responsibilities': [
+      '负责健身应用 iOS / Android 双端的 RN 功能开发与持续迭代',
+      '独立编写和维护 Swift / Kotlin 原生模块，打通原生平台能力',
+      '负责应用发版全流程：双端签名、TestFlight / Play 内测、商店审核、灰度、OTA 热更新与回滚',
+      '定位并解决渲染卡顿、重渲染与跨页面状态一致性问题',
+      '维护离线优先数据层：数据迁移、增量同步与冲突处理',
+      '对不合理需求给出替代方案，端到端对产品质量负责'
+    ],
+    'requirements': [
+      '5 年以上移动端经验，其中 3 年以上 React Native 生产经验，有独立上架并持续维护的 App',
+      '精通 React Native 与 Expo：prebuild、config plugin、EAS 构建',
+      '同时精通 iOS 与 Android 原生：能独立用 Swift / Kotlin 写改原生模块，能解决 Xcode、CocoaPods、Gradle、签名与商店审核问题',
+      '精通 TypeScript：有 20 万行级代码库的维护经验',
+      '精通新架构与渲染性能：Fabric / TurboModules、Reanimated 4、FlashList、Gesture Handler，能独立定位卡顿与重渲染',
+      '有离线优先经验：WatermelonDB / SQLite / ORM、数据迁移、增量同步与冲突处理',
+      '熟悉状态与数据流：zustand、RxJS、SWR，能处理跨页面状态一致性与订阅泄漏',
+      '有线上质量意识：会用日志定位问题，修 bug 先写回归测试',
+      '英文技术文档阅读无障碍；AI 辅助开发有边界——能脱离 AI 独立完成同样的事，并对 AI 产出代码负责'
+    ],
+    'benefits': [
+      '美国公司直招，非猎头/中介，远程兼职，工作方式灵活',
+      '原生平台能力实战机会（至少涉及两项）：HealthKit / Health Connect、Live Activity / Widget、推送、ATT、动态图标',
+      '接受小团队、端到端负责，成长空间大',
+      '业务在美国、产研团队在中国，跨时区协作经验',
+      '薪资按经验面议'
+    ],
+    'company_info': '美国创新健身应用科技公司，业务在美国、产研团队在中国。目前业务量增加，App 开发团队扩招一名兼职 React Native 移动开发工程师，公司直招，远程办公。',
+    'work_style': '远程兼职（业务在美国，产研团队在中国）',
+    'contact': '',
+    'apply_url': ''
+  },
+  {
     'id': 'featured-20261104-01',
     'title': '【企业招聘】【远程】【AIsa】大模型聚合业务负责人（模型评测与接入方向）｜30K-50K/月',
     'company': 'AIsa（aisa.one）',
