@@ -29,6 +29,51 @@
 
 const JOBS_FEATURED = [
   {
+    'id': 'featured-20261104-01',
+    'title': '【企业招聘】【远程】【AIsa】大模型聚合业务负责人（模型评测与接入方向）｜30K-50K/月',
+    'company': 'AIsa（aisa.one）',
+    'logo': '🤖',
+    'category': '运营',
+    'tags': ['全职远程', '大模型评测', 'API 接入', '模型聚合', 'AI Agent 基础设施'],
+    'salary': '30K-50K/月',
+    'location': '全远程（居家办公）',
+    'date': '2026-11-04',
+    'isNew': true,
+    'isFeatured': true,
+    'canRefer': true,
+    'source': '社群招聘平台',
+    'sourceUrl': 'https://aisa.one/zh-cn',
+    'description': 'AI Agent 基础设施创业公司 AIsa（阿里、Tribe Capital、Draper Associates、住友商事、Saison Capital 投资，愿景是 "Amazon for AI Agents"）招聘大模型聚合业务负责人（模型评测与接入方向），月薪 30K-50K，全职远程居家办公。你将负责模型从发现、评估、接入到持续运营的完整链路：跟踪国内外模型动态并支撑选型、基于真实场景设计评测并给上线结论、监控可用性 / 延迟 / 错误率等服务质量、协同研发与厂商推进 API 接入交付、核验 Token 计费口径，并参与重大故障响应。要求 1 年以上大模型 / AI 平台 / 云 API 运营经验，能用 Python / Shell / curl 做接口验证，熟悉 OpenAI-compatible API 与 Tool Calling 等。',
+    'responsibilities': [
+      '持续跟踪国内外闭源与开源模型的发布、版本升级、能力变化、定价及服务策略，为模型引入和平台供给策略提供建议',
+      '基于真实用户与业务场景设计测试用例和评测标准，覆盖推理、代码、工具调用、多轮对话、结构化输出、多语言、长文本及多模态，输出评测结论与上线建议',
+      '监控接入模型的可用性、延迟、吞吐、并发限制、错误率与输出质量，识别限流、降级、动态路由、能力漂移等风险，推动优化、替换或下线决策',
+      '与研发团队及上游厂商协作推进模型 API 适配、参数映射、错误码规范、文档建设、监控告警与上线验收',
+      '维护模型价格与计费规则，核验输入 / 输出 Token、缓存 Token、推理 Token 及图片音视频计费口径，及时发现异常账单与计费偏差',
+      '支持模型调用异常的复现与定位（判断用户调用 / 平台 / 上游责任），参与重大故障响应，并将模型能力边界沉淀为公告、API 文档与测试报告'
+    ],
+    'requirements': [
+      '1 年以上大模型、AI 平台、云 API、开发者平台或相关技术产品运营经验；有模型 API 接入、模型评测、开发者支持或模型供应商协作经验者优先',
+      '熟悉大模型产品与技术生态，了解国内外主流模型厂商、开源模型及常见应用形态，能主动跟踪版本、能力、定价变化并形成清晰归纳',
+      '有模型或 API 实际测试经验，能用 Python、Shell、Postman、curl 完成接口验证与问题排查，理解 HTTP、SSE、鉴权、限流、超时、重试与并发机制',
+      '熟悉主流大模型 API 使用方式：OpenAI-compatible API、流式输出、Tool / Function Calling、JSON Schema、上下文管理、Embedding、Rerank 及多模态接口',
+      '具备独立判断能力，能结合真实测试结果而非厂商宣传或公开 Benchmark 对模型能力、稳定性、成本和适用场景形成结论',
+      '跨团队协作与书面表达良好，能阅读英文技术文档并跟进海外厂商更新；工作细致、责任心强，对模型真实性、稳定性与成本准确性敏感'
+    ],
+    'benefits': [
+      '月薪 30K-50K，全职远程居家办公',
+      '顶尖投资阵容：阿里巴巴、Tribe Capital、Draper Associates、住友商事、Saison Capital',
+      '小而精团队：成员具有 211/985、海外留学及大厂背景',
+      '站在模型生态、开发者平台与真实用户需求的交汇处，直接决定平台模型供给质量',
+      '加分项友好：熟悉 OpenRouter、AWS Bedrock、Google Vertex AI、Azure AI Foundry、阿里云百炼、火山方舟等模型聚合 / MaaS 平台；了解 LLM Gateway、模型路由、Fallback、负载均衡或统一计费机制；有模型质量监控、自动化评测、评测集建设、On-call 或线上故障响应经验'
+    ],
+    'company_info': 'AIsa 成立于 2025 年（官网 https://aisa.one/zh-cn ，需梯子访问），是一家专注于 AI 智能体基础设施的创业公司，为智能体生态提供统一的 API 网关、大模型智能路由、上下文管理、智能体原生支付协议等资源层服务。客户是智能体开发者和智能体本身，愿景是构建 "Amazon for AI Agents"——The Everything Store for AI Agents，让 AI Agents 更简单地接入、管理和部署 AI 能力。团队小而精，成员具有 211/985、海外留学及大厂背景。',
+    'work_style': '全职远程',
+    'contact': '',
+    'contact_type': '',
+    'apply_url': ''
+  },
+  {
     'id': 'featured-20261102-02',
     'title': '【企业招聘】【远程】【Bitget】开发 / 测试 / 安全 / 运维 / 产品 / 运营多岗位（全职远程）',
     'company': 'Bitget',
