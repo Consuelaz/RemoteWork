@@ -2,7 +2,27 @@
 
 > 规则变更（2026-10-23）：money.xlsx 已从 Git 索引移除并加入 .gitignore，**只保留本地**，不再提交/推送到远程。scrape.sh 仍在本地更新该文件（追加 V2EX + who-is-hiring 数据）。
 
-## 最近一次执行: 2026-10-23 10:20
+## 最近一次执行: 2026-11-04 11:10
+
+**结果**: ✅ 成功（代理 7892 已在监听，v2ex 验证返回 200，无需重建转发桥）
+- Remote OK: 99 条
+- Remotive: 10 条
+- 远程岛: 150 条
+- who-is-hiring: 431 条
+- Working Nomads: 35 条
+- Himalayas: 20 条
+- V2EX: 2 条（跳过 17 个非今日帖子）
+- 智联招聘: 25 条（居家办公+远程办公双词，严格过滤后）
+- **时效过滤(>89天)**: 丢弃 CN=386, Global=15
+- **汇总**: CN=131, Global=1985
+- **数据变化**: CN 108→131 (+23), Global 1979→1985 (+6)
+- **Git**: commit cdf931b push 成功；另补提交 b0f0cdf（日志尾巴）
+- **money.xlsx**: 更新成功（2 条 V2EX + 431 条 who-is-hiring），按规则未入库
+- **异常**: 无。精选 jobs-featured.js（14 条）与 review.html / jobs-featured-pending.js 均未被改动
+- **待观察**: 43 条 global description 仍 >500 字符（501-556，远程岛 26 / Working Nomads 16 / Remote OK 1）。体积风险已消除（global 文件 2.3MB），属轻微规范偏差
+- **脚本固有瑕疵**: scrape.sh 先 commit 再 `tee -a` 写 git 输出到 scrape.log，故每次运行后必留 5 行未提交日志尾巴，需手动补提交才干净
+
+## 上次执行: 2026-10-23 10:20
 
 **结果**: ✅ 成功（自动化触发，代理 7892 直接可用）
 - 汇总: CN=1190, Global=2000（基线 CN 1186 → 1190，+4）
