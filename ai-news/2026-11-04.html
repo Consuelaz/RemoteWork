@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-11-04</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* 控制栏 */
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,249,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .lang-switch { display: flex; gap: 4px; }
+        .lang-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .audio-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        .audio-btn:hover { background: var(--tag-bg); }
+        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn svg { width: 13px; height: 13px; }
+        .voice-select {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 760px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        .date { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 10px; }
+        .hero-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; }
+        .stats { font-size: 12px; color: var(--text-secondary); }
+
+        /* 文章列表 */
+        .articles {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .article {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article:last-child { border-bottom: none; }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .article-left { display: flex; align-items: center; gap: 12px; }
+        .article-number { font-size: 22px; font-weight: 700; color: var(--border); line-height: 1; min-width: 32px; }
+
+        .author-row { display: flex; align-items: center; gap: 10px; }
+        .author-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700; font-size: 11px; flex-shrink: 0;
+        }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; font-size: 13px; }
+        .author-handle { color: var(--accent); font-size: 12px; }
+        .author-bio { color: var(--text-secondary); font-size: 12px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .article-actions { display: flex; gap: 6px; }
+        .action-btn {
+            padding: 5px 12px; border: 1px solid var(--border);
+            background: white; cursor: pointer; font-size: 12px;
+            border-radius: 12px; display: flex; align-items: center; gap: 4px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .action-btn:hover { background: var(--tag-bg); }
+        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn svg { width: 11px; height: 11px; }
+
+        .article-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem; font-weight: 600; line-height: 1.4;
+            margin-bottom: 10px; margin-left: 46px;
+        }
+        .article-title.en { font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text-secondary); font-size: 0.95rem; }
+
+        .article-body { margin-left: 46px; }
+        .article-content {
+            font-size: 14px; line-height: 1.85; color: var(--text);
+            margin-bottom: 8px;
+        }
+        .article-content.en { color: var(--text-secondary); }
+
+        .article-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; margin-left: 46px;
+        }
+        .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
+        .article-link:hover { text-decoration: underline; }
+
+        /* 历史存档 */
+        .archive-section {
+            max-width: 760px; margin: 0 auto;
+            padding: 32px 40px; border-top: 1px solid var(--border);
+        }
+        .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
+        .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
+        .archive-item:hover { background: var(--accent); color: white; }
+
+        footer { text-align: center; padding: 32px 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .controls { padding: 10px 20px; }
+            .hero, .archive-section { padding: 28px 20px 20px; }
+            .hero h1 { font-size: 1.4rem; }
+            .articles { padding: 0 20px 60px; }
+            .article-title, .article-body, .article-footer { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 控制栏 -->
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span id="playAllLabel">全文朗读</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <header class="hero">
+        <p class="date" id="date-en">Wednesday, November 4, 2026</p>
+        <h1 id="title-zh">AI Builders 每日精选</h1>
+        <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="stats" id="stats-zh">📝 8 篇精选</p>
+    </header>
+
+    <!-- 文章列表 -->
+    <main class="articles">
+
+        <!-- 01 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">KM</div>
+                        <div class="author-info">
+                            <span class="author-name">Kimi / Moonshot AI</span>
+                            <span class="author-handle">@Kimi_Moonshot</span>
+                            <span class="author-bio">月之暗面 Kimi 官方账号，开源前沿模型</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(1, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Kimi K3.1 Pro: 2.8T MoE, 1M Context, and Open Weights Landing Today</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">月之暗面发布 Kimi K3.1 Pro，2.8 万亿总参数、1040 亿激活参数的多模态 MoE，上下文 100 万 token，今日（11 月 4 日）正式放出完整模型权重。它在 Artificial Analysis 智能指数拿到 55 分，仅次于 Opus 5.5 的 58 分和 Sonnet 5.5 的 56 分，首次把开源与闭源前沿的差距从 12 分压缩到 3 分。SWE Marathon 51.7% 反超 Opus 5.5 的 46.3%，网络能力指数 64% 为公开可访问模型最高。标准版输入 2 美元、输出 10 美元每百万 token，比 K3 降价三分之一；Highspeed 版本速度提升 2-3 倍。Simon Willison 称其为第一个可信的开源前沿挑战者。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Moonshot AI released Kimi K3.1 Pro, a multimodal mixture-of-experts model with 2.8 trillion total parameters and 104 billion active parameters, featuring a 1M-token context window and full weights promised today, November 4. It scores 55 on the Artificial Analysis Intelligence Index, behind only Opus 5.5 at 58 and Sonnet 5.5 at 56, narrowing the open-versus-proprietary gap from 12 points to three. It tops SWE Marathon at 51.7% against Opus 5.5's 46.3%, and hits 64% on the Cyber Index, the highest publicly accessible result. Pricing drops a third to $2 per million input tokens and $10 output, with a Highspeed variant running 2-3x faster at double the rate.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>开源权重</span><span>2.8T MoE</span><span>1M 上下文</span></div>
+                <a href="https://www.kimi.com/en/blog/kimi-k3-1-pro" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AF</div>
+                        <div class="author-info">
+                            <span class="author-name">Adam Fry</span>
+                            <span class="author-handle">@OpenAI</span>
+                            <span class="author-bio">OpenAI ChatGPT 消费者产品负责人</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(2, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">ChatGPT Search Volume Reaches 20% of Google as Weekly Users Hit 1.2 Billion</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">OpenAI 消费级产品负责人 Adam Fry 透露，ChatGPT 的搜索查询量已接近谷歌的五分之一，而这仅仅是它上线一年半的成绩。过去两个月 OpenAI 新增 2 亿用户，周活跃用户跃升至 12 亿；每周生成 15 亿张图片，语音模式周活跃用户达 2.5 亿。Fry 认为 ChatGPT 相对搜索的核心优势是个性化与上下文理解——问「埃菲尔铁塔有多高」，搜索引擎给出一个数字，ChatGPT 会推断你可能正在计划巴黎行程。皮尤研究显示 42% 的美国成年人已用 AI 查信息，其中 44% 用过 ChatGPT，Gemini 仅 24%。谷歌股价与搜索护城河正被重新定价。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI's head of ChatGPT consumer product Adam Fry says the chatbot's search query volume is now roughly one-fifth of Google's, just a year and a half after launch. OpenAI added 200 million users in the past two months, pushing weekly actives to 1.2 billion, with 1.5 billion images created weekly and 250 million weekly voice-mode users. Fry argues ChatGPT's edge is personalization and context: ask how tall the Eiffel Tower is and a search engine returns a number, while ChatGPT may infer you are planning a Paris trip. Pew research found 42% of US adults now use AI for information search, 44% of them via ChatGPT versus 24% for Gemini.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>搜索份额</span><span>12亿周活</span><span>OpenAI</span></div>
+                <a href="https://www.cls.cn/detail/2524551" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AN</div>
+                        <div class="author-info">
+                            <span class="author-name">Anthropic</span>
+                            <span class="author-handle">@AnthropicAI</span>
+                            <span class="author-bio">Claude 背后的 AI 安全公司</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(3, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Anthropic Posts $16.8B Q3 Revenue, Up 1127% YoY, as $2T IPO Roadshow Nears</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Anthropic 在 IPO 路演前交出了史上最陡的增长曲线：截至 9 月 30 日的第三季度营收 168 亿美元，同比增长 1127%，调整后营业利润 25 亿美元、利润率 15%，但会计口径下营业亏损 5.67 亿美元，净亏损 233 亿美元。招股书显示上半年营收 162 亿美元，第三季度环比增长 45%，较前两季超 140% 的环比增速明显放缓，被分析师称为「失望」。IPO 时间表已定：11 月 9 日当周启动路演，目标 11 月 26 日感恩节前挂牌，估值 1.8 至 2 万亿美元，募资或超 1000 亿美元。纽约市审计长已致信要求暂缓上市，先交代清楚 AI 安全治理。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic disclosed $16.8 billion in third-quarter revenue, a 1127% year-over-year jump, with $2.5 billion in adjusted operating profit at a 15% margin, though GAAP operating loss reached $567 million and net loss $23.3 billion. The prospectus shows $16.2 billion in first-half sales, and Q3 growth of 45% sequentially, a sharp slowdown from over 140% in prior quarters that one analyst called a disappointment. The IPO timeline is set: roadshow the week of November 9, listing targeted before Thanksgiving on November 26, at a $1.8-2 trillion valuation with a raise possibly exceeding $100 billion. New York City's comptroller has asked Anthropic to pause the IPO over AI safety governance concerns.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>IPO</span><span>营收 +1127%</span><span>$2T 估值</span></div>
+                <a href="https://www.ifre.com/equities/2499407/anthropic-pushes-ahead-with-mid-november-ipo" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GD</div>
+                        <div class="author-info">
+                            <span class="author-name">Google DeepMind</span>
+                            <span class="author-handle">@GoogleDeepMind</span>
+                            <span class="author-bio">谷歌前沿 AI 研究机构</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(4, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Gemini 4 Carbon Tops Intelligence Index at 59, But Ships Only to 47 Vetted Institutions</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">谷歌发布新一代旗舰 Gemini 4 Carbon，在 Artificial Analysis 智能指数 v5.0 上以 59 分登顶，压过 Claude Opus 5.5 的 58 分与 GPT-6 Astra 的 57 分。它最强的地方不是聊天，而是网络安全：能发现 88.2% 的真实软件漏洞（SEC-bench Pro），漏洞可利用性验证准确率 54.8%（ExploitGym），CWE-bench 71.0%，并能自动生成根因修复方案。但谷歌没有开放公开 API，只通过 Fairwind 计划向 47 家通过安全背景审查的机构提供。同期 OpenAI 被发现在 Codex 后台灰度测试 GPT-6.2 Astra（约 19.8% 请求），Anthropic 官网源码出现 Claude Mythos 5.5 字样。前沿厂商「先向特许机构开放、再逐步放开」的分级发布，正在成为行业新常态。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Google released Gemini 4 Carbon, which tops the Artificial Analysis Intelligence Index v5.0 at 59 points, ahead of Claude Opus 5.5 at 58 and GPT-6 Astra at 57. Its edge is not conversation but cybersecurity: it finds 88.2% of real software vulnerabilities on SEC-bench Pro, verifies exploitability with 54.8% accuracy on ExploitGym, scores 71.0% on CWE-bench, and can auto-generate root-cause fixes. Yet Google has not opened a public API, restricting access through its Fairwind program to 47 institutions that passed security background checks. Meanwhile OpenAI was observed canary-testing GPT-6.2 Astra in Codex backends on roughly 19.8% of requests, and Anthropic's site source code showed Claude Mythos 5.5 strings. Tiered release, first to vetted institutions, is becoming the norm at the frontier.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Gemini 4 Carbon</span><span>AA 指数 59</span><span>分级发布</span></div>
+                <a href="https://www.toutiao.com/a7703883059736691215" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">TI</div>
+                        <div class="author-info">
+                            <span class="author-name">The Information</span>
+                            <span class="author-handle">@theinformation</span>
+                            <span class="author-bio">硅谷最深度的科技商业调查媒体</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(5, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">OpenAI Cuts Model Prices 40% and Gives Away Credits to Poach Anthropic's Enterprise Customers</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">模型能力只差 1 分，价格战就先开打。The Information 披露，OpenAI 用超过 30% 的模型折扣、免费额度和工程师驻群支持，把美国 AI 编程平台 Replit 的大部分支出从 Anthropic 拉了过来，合同年价值超 1 亿美元。Anthropic 原本要求 Replit 承诺更高采购额才续折扣，OpenAI 直接报出六折；Replit 只用了几个小时改代码就完成切换，比和 Anthropic 谈合同的时间还短。Rippling 的工程师侧 Anthropic 占比从 5 月的 57% 掉到 10 月的 18%，OpenAI 升到 52%。一家银行本要试 Claude，OpenAI 把 ChatGPT 账户翻倍到 500 个、年费不变，折合每账户每月 6.67 美元。</p>
+                <p class="article-content en" data-lang="en" style="display:none">The Information reports OpenAI used discounts above 30%, free credits, and embedded engineers to pull most of Replit's AI spend away from Anthropic, on a contract worth over $100 million a year. Anthropic had demanded a higher spending commitment to renew its discount; OpenAI quoted roughly 40% off, and Replit completed the code migration in hours, faster than its contract talks with Anthropic had taken. At Rippling, Anthropic's share of engineering work fell from 57% in May to 18% by late October while OpenAI rose to 52%. One bank considering Claude was offered double the ChatGPT seats at the same annual fee, about $6.67 per seat per month. With frontier model scores one point apart, price and support now decide enterprise deals.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>价格战</span><span>企业客户</span><span>Replit</span></div>
+                <a href="https://www.toutiao.com/article/7703919287706173986/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LS</div>
+                        <div class="author-info">
+                            <span class="author-name">Latent Space</span>
+                            <span class="author-handle">@latentspacepod</span>
+                            <span class="author-bio">AI 工程师播客，swyx 与 Alessio Fanelli 主持</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(6, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">GPT-5 Codex-Max: Training Agents with Personality, Tools and Trust — Brian Fioca and Bill Chen, OpenAI</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">这期是理解「编程 Agent 怎么做产品化」的最好材料。OpenAI 的 Brian Fioca 和 Bill Chen 复盘了 Codex-Max 的训练思路：它不是把 GPT-5 调得更聪明，而是专门为长时间运行的编码任务做后训练，重心放在个性、沟通、规划和自检上。几个反直觉的细节：模型会自己发现 ripgrep 这个工具并形成使用习惯，工具偏好是训练中涌现的而不是写死的；verbosity 需要被显式设计，过度啰嗦和过度精简都会拖垮工程师的信任；他们用「面试模式」做多轮评测，让模型先澄清需求再动手，而不是一次性猜到底。讨论还涉及 Agent 抽象层、子 Agent 组合模式、真实场景 evals 与学术 benchmark 的鸿沟，以及 2026 年的三个预测：信任、computer use、以及能力民主化。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI's Brian Fioca and Bill Chen break down how Codex-Max was trained: not as a smarter GPT-5, but as a model post-trained specifically for long-running coding agents, with personality, communication, planning and self-checking as first-class objectives. A few counterintuitive details: the model discovered ripgrep on its own and turned it into a habit, meaning tool preferences emerge from training rather than being hardcoded; verbosity has to be explicitly designed, since both rambling and over-terseness erode engineer trust; and they evaluate with a job-interview pattern of multi-turn clarification instead of one-shot guessing. The conversation covers the agent abstraction layer, sub-agent composition, the gap between applied evals and academic benchmarks, and three 2026 predictions around trust, computer use and democratized excellence.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Codex-Max</span><span>Agent 训练</span><span>Evals</span></div>
+                <a href="https://latent.space/p/gpt5-codex-max-training-agents-with/" class="article-link" target="_blank">收听 →</a>
+            </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LF</div>
+                        <div class="author-info">
+                            <span class="author-name">Lex Fridman Podcast</span>
+                            <span class="author-handle">@lexfridman</span>
+                            <span class="author-bio">长对话播客，Lex Fridman 主持</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(7, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">AI Crisis in Math: Navier-Stokes, Riemann Hypothesis and Complexity Theory — Episode 503</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">11 月 1 日上线的第 503 期，三位数学家 Ankur Moitra、Steven Brunton、Alex Kontorovich 坐下来讨论一件刚刚发生的事：OpenAI 和 Anthropic 的自动定理证明系统，宣称解决了唯一游戏猜想、准黎曼猜想，以及三维 Navier-Stokes 方程的有限时间爆破。他们逐条检查这些证明在数学上是否真的成立，Lean 形式化验证在其中扮演了什么角色，以及当机器能在几小时内产出这种结果时，传统的学术职业路径和导师制会被怎样改写。最有意思的部分是对「难问题」的重新理解：Moitra 说物理学有「自然厌恶真空」，他的版本是「自然厌恶计算困难的问题」——真实世界的数据总能绕开理论最坏情况的密码学假设。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Episode 503, published November 1, gathers mathematicians Ankur Moitra, Steven Brunton and Alex Kontorovich to interrogate something that just happened: automated theorem provers from OpenAI and Anthropic claiming solutions to the Unique Games Conjecture, the Quasi-Riemann Hypothesis, and finite-time blowup in the 3D Navier-Stokes equations. They examine whether the proofs actually hold mathematically, what automated formal verification in Lean changes about scientific discovery, and how academic careers and mentorship get rewritten when machines produce such results in hours. The most striking thread is a reframing of hardness: Moitra notes physics says nature abhors a vacuum, and offers his version, that nature abhors computationally hard problems, since real-world data keeps sidestepping worst-case cryptographic assumptions.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>自动定理证明</span><span>Lean</span><span>数学危机</span></div>
+                <a href="https://www.thepodcastsummary.com/episodes/ZAzWPE9CItg" class="article-link" target="_blank">收听 →</a>
+            </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LM</div>
+                        <div class="author-info">
+                            <span class="author-name">Anthropic Engineering</span>
+                            <span class="author-handle">@AnthropicAI</span>
+                            <span class="author-bio">Anthropic 工程博客，Lance Martin 等撰写</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(8, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Scaling Managed Agents: Decoupling the Brain from the Hands</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">这篇工程博客回答的是一个比模型能力更基础的问题：怎么设计一套系统，去承载「今天还不存在的程序」。Anthropic 最初把 Claude 的推理循环、代码沙箱、会话日志全塞进一个容器，好处是简单，代价是容器变成了一只「宠物」——坏了就全完了，而且出了故障根本分不清是推理出问题、网络丢包还是容器挂了。他们的解法是把大脑（Claude 与 harness）、双手（沙箱与工具）、会话（append-only 事件日志）三层拆开，双手退化成极简接口 execute(name, input) → string，沙箱可以是容器、手机甚至宝可梦模拟器。效果是 p50 首 token 延迟降约 60%、p95 降超过 90%，凭证存在沙箱外的保险库，生成的代码永远碰不到真密钥。更深的一层洞察是：harness 里编码的都是对模型能力边界的假设，而这些假设会过期——他们为 Sonnet 4.5 的「上下文焦虑」加的上下文重置，换到 Opus 4.5 就成了累赘。</p>
+                <p class="article-content en" data-lang="en" style="display:none">This engineering post tackles a problem more foundational than model capability: how to design a system for programs as yet unthought of. Anthropic first packed Claude's reasoning loop, code sandbox and session log into a single container. Simple, but the container became a pet: lose it and everything is gone, and when it stalls you cannot tell whether the harness, the event stream or the container itself failed. The fix is to decouple three layers: the brain (Claude and its harness), the hands (sandboxes and tools), and the session (an append-only event log). Each hand collapses into a minimal interface, execute(name, input) to string, so a sandbox can be a container, a phone or a Pok&amp;eacute;mon emulator. Time-to-first-token dropped about 60% at p50 and over 90% at p95, credentials live in a vault outside the sandbox, and generated code never touches real keys. The deeper lesson: harnesses encode assumptions about model limits that expire. Context resets added for Sonnet 4.5's context anxiety became dead weight on Opus 4.5.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Agent 架构</span><span>Managed Agents</span><span>延迟 -60%</span></div>
+                <a href="https://www.anthropic.com/engineering/managed-agents" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+    </main>
+
+    
+        <!-- 历史存档 -->
+        <div class="archive-section">
+            <h3>📅 历史存档</h3>
+            <div class="archive-list">
+<a href="2026-10-24.html" class="archive-item">2026年10月24日</a>
+<a href="2026-05-22.html" class="archive-item">2026年5月22日</a>
+<a href="2026-05-17.html" class="archive-item">2026年5月17日</a>
+<a href="2026-05-15.html" class="archive-item">2026年5月15日</a>
+<a href="2026-05-09.html" class="archive-item">2026年5月9日</a>
+<a href="2026-05-07.html" class="archive-item">2026年5月7日</a>
+<a href="2026-05-06.html" class="archive-item">2026年5月6日</a>
+<a href="2026-05-03.html" class="archive-item">2026年5月3日</a>
+<a href="2026-04-30.html" class="archive-item">2026年4月30日</a>
+<a href="2026-04-29.html" class="archive-item">2026年4月29日</a>
+            </div>
+        </div>
+
+
+    <footer>
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
+    </footer>
+
+    <script>
+        var LANG = 'zh';
+        var voices = [];
+        var isPlaying = false;
+        var currentUtterance = null;
+        var selectedVoice = null;
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            var select = document.getElementById('voiceSelect');
+            select.innerHTML = '<option value="">默认语音</option>';
+            var zhGroup = document.createElement('optgroup');
+            zhGroup.label = '中文';
+            var enGroup = document.createElement('optgroup');
+            enGroup.label = 'English';
+            voices.forEach(function(v) {
+                var opt = document.createElement('option');
+                opt.value = v.name;
+                var label = v.name + (v.localService ? ' ★' : '');
+                opt.textContent = label;
+                if (v.lang.startsWith('zh')) zhGroup.appendChild(opt);
+                else if (v.lang.startsWith('en')) enGroup.appendChild(opt);
+            });
+            if (zhGroup.children.length) select.appendChild(zhGroup);
+            if (enGroup.children.length) select.appendChild(enGroup);
+            var highQ = voices.find(function(v) {
+                return v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en'));
+            });
+            if (highQ) { select.value = highQ.name; selectedVoice = highQ; }
+        }
+
+        document.getElementById('voiceSelect').addEventListener('change', function(e) {
+            selectedVoice = voices.find(function(v) { return v.name === e.target.value; }) || null;
+        });
+
+        var LABELS = {
+            'zh': {
+                'title':    'AI Builders 每日精选',
+                'subtitle': '每日精选 AI 领域最有价值的深度内容',
+                'stats':    '📝 8 篇精选',
+                'playBtn':  '朗读',
+                'stopBtn':  '停止',
+                'playAll':  '全文朗读',
+                'stopAll':  '停止',
+            },
+            'en': {
+                'title':    'AI Builders Daily Digest',
+                'subtitle': 'Daily curated deep content from AI builders',
+                'stats':    '📝 8 Articles',
+                'playBtn':  'Read',
+                'stopBtn':  'Stop',
+                'playAll':  'Read All',
+                'stopAll':  'Stop',
+            }
+        };
+
+        function setLang(lang) {
+            LANG = lang;
+            var ls = LABELS[lang];
+            document.getElementById('btn-zh').className = 'lang-btn' + (lang === 'zh' ? ' active' : '');
+            document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+            document.getElementById('title-zh').textContent = ls.title;
+            document.getElementById('subtitle-zh').textContent = ls.subtitle;
+            document.getElementById('stats-zh').textContent = ls.stats;
+            document.getElementById('playAllLabel').textContent = isPlaying ? ls.stopAll : ls.playAll;
+            document.querySelectorAll('.action-btn').forEach(function(btn) {
+                var playing = btn.classList.contains('playing');
+                btn.querySelector('.btn-text').textContent = playing ? ls.stopBtn : ls.playBtn;
+            });
+            document.querySelectorAll('[data-lang]').forEach(function(el) {
+                el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+            });
+            try { localStorage.setItem('ai-news-lang', lang); } catch(e) {}
+        }
+
+        function getTextForArticle(num, lang) {
+            var arts = document.querySelectorAll('.article');
+            if (!arts[num - 1]) return '';
+            var art = arts[num - 1];
+            var parts = [];
+            art.querySelectorAll('[data-lang="' + lang + '"]').forEach(function(el) {
+                if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+            });
+            return parts.join('。');
+        }
+
+        function playArticle(num, btn) {
+            var text = getTextForArticle(num, LANG);
+            if (!text) return;
+            if (isPlaying && currentUtterance) {
+                speechSynthesis.cancel();
+                isPlaying = false;
+                currentUtterance = null;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(function(b) {
+                    b.classList.remove('playing');
+                });
+                var ls = LABELS[LANG];
+                document.getElementById('playAllLabel').textContent = ls.playAll;
+                document.querySelectorAll('.action-btn .btn-text').forEach(function(t) { t.textContent = ls.playBtn; });
+                return;
+            }
+            var ls = LABELS[LANG];
+            var u = new SpeechSynthesisUtterance(text.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); btn.querySelector('.btn-text').textContent = ls.stopBtn; };
+            u.onend = u.onerror = function() {
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); btn.querySelector('.btn-text').textContent = ls.playBtn;
+            };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        function playAll() {
+            var btn = document.getElementById('playAllBtn');
+            var label = document.getElementById('playAllLabel');
+            var ls = LABELS[LANG];
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); label.textContent = ls.playAll;
+                document.querySelectorAll('.action-btn').forEach(function(b) {
+                    b.classList.remove('playing'); b.querySelector('.btn-text').textContent = ls.playBtn;
+                });
+                return;
+            }
+            var texts = [];
+            document.querySelectorAll('.article').forEach(function(art) {
+                var parts = [];
+                art.querySelectorAll('[data-lang="' + LANG + '"]').forEach(function(el) {
+                    if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+                });
+                if (parts.length) texts.push(parts.join('。'));
+            });
+            var fullText = texts.join('。');
+            var u = new SpeechSynthesisUtterance(fullText.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); label.textContent = ls.stopAll; };
+            u.onend = u.onerror = function() { isPlaying = false; currentUtterance = null; btn.classList.remove('playing'); label.textContent = ls.playAll; };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+        try { var saved = localStorage.getItem('ai-news-lang'); if (saved) setLang(saved); } catch(e) {}
+    </script>
+</body>
+</html>
