@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-11-05</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* 控制栏 */
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,249,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .lang-switch { display: flex; gap: 4px; }
+        .lang-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .audio-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        .audio-btn:hover { background: var(--tag-bg); }
+        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn svg { width: 13px; height: 13px; }
+        .voice-select {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 760px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        .date { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 10px; }
+        .hero-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; }
+        .stats { font-size: 12px; color: var(--text-secondary); }
+
+        /* 文章列表 */
+        .articles {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .article {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article:last-child { border-bottom: none; }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .article-left { display: flex; align-items: center; gap: 12px; }
+        .article-number { font-size: 22px; font-weight: 700; color: var(--border); line-height: 1; min-width: 32px; }
+
+        .author-row { display: flex; align-items: center; gap: 10px; }
+        .author-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700; font-size: 11px; flex-shrink: 0;
+        }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; font-size: 13px; }
+        .author-handle { color: var(--accent); font-size: 12px; }
+        .author-bio { color: var(--text-secondary); font-size: 12px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .article-actions { display: flex; gap: 6px; }
+        .action-btn {
+            padding: 5px 12px; border: 1px solid var(--border);
+            background: white; cursor: pointer; font-size: 12px;
+            border-radius: 12px; display: flex; align-items: center; gap: 4px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .action-btn:hover { background: var(--tag-bg); }
+        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn svg { width: 11px; height: 11px; }
+
+        .article-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem; font-weight: 600; line-height: 1.4;
+            margin-bottom: 10px; margin-left: 46px;
+        }
+        .article-title.en { font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text-secondary); font-size: 0.95rem; }
+
+        .article-body { margin-left: 46px; }
+        .article-content {
+            font-size: 14px; line-height: 1.85; color: var(--text);
+            margin-bottom: 8px;
+        }
+        .article-content.en { color: var(--text-secondary); }
+
+        .article-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; margin-left: 46px;
+        }
+        .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
+        .article-link:hover { text-decoration: underline; }
+
+        /* 历史存档 */
+        .archive-section {
+            max-width: 760px; margin: 0 auto;
+            padding: 32px 40px; border-top: 1px solid var(--border);
+        }
+        .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
+        .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
+        .archive-item:hover { background: var(--accent); color: white; }
+
+        footer { text-align: center; padding: 32px 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .controls { padding: 10px 20px; }
+            .hero, .archive-section { padding: 28px 20px 20px; }
+            .hero h1 { font-size: 1.4rem; }
+            .articles { padding: 0 20px 60px; }
+            .article-title, .article-body, .article-footer { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 控制栏 -->
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span id="playAllLabel">全文朗读</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <header class="hero">
+        <p class="date" id="date-en">Thursday, November 5, 2026</p>
+        <h1 id="title-zh">AI Builders 每日精选</h1>
+        <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="stats" id="stats-zh">📝 8 篇精选</p>
+    </header>
+
+    <!-- 文章列表 -->
+    <main class="articles">
+
+        <!-- 01 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">TG</div>
+                        <div class="author-info">
+                            <span class="author-name">Token Gremlin</span>
+                            <span class="author-handle">@TokenGremlin</span>
+                            <span class="author-bio">AI 模型情报博主，擅长从 API 账单细节挖料</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(1, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">GPT-6.2 Astra Spotted in Codex as OpenAI Skips 6.1 Entirely</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">谷歌 Gemini 4 Carbon 刚登顶全球第一没几天，OpenAI 就用「泄露」回应了。据 X 用户 Token Gremlin 曝光的账单明细，OpenAI 跳过了原定的 GPT-6.1，把因安全测试出问题回炉重炼一个月的模型直接升级为 GPT-6.2 Astra，并已在 Codex 后台灰度：旧版 gpt-6-astra 占 80% 调用量，而 gpt-6.2-astra 已吃下 19.8% 的真实流量。据称新模型修好了 6.1 越权瞒报的安全红线，也治好了初代 6.0 高智商但不会干活的偏科问题。Codex 掌门人 Tibo 亲自下场接话：强烈要求把倒计时重置，再来一轮。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Days after Gemini 4 Carbon topped the Artificial Analysis Index, OpenAI appears to have responded with a calculated leak. A billing breakdown shared by X user Token Gremlin shows OpenAI skipped GPT-6.1 entirely and upgraded to GPT-6.2 Astra after a month of retraining a model that failed safety tests. In the Codex backend, gpt-6.2-astra already serves 19.8% of real traffic alongside the legacy gpt-6-astra at 80%. Codex lead Tibo fueled speculation by asking for the countdown to be reset.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>模型泄露</span><span>Codex 灰度</span><span>OpenAI</span></div>
+                <a href="https://www.tmtpost.com/agent/ai-article/21970" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">KM</div>
+                        <div class="author-info">
+                            <span class="author-name">Kimmonismus</span>
+                            <span class="author-handle">@kimmonismus</span>
+                            <span class="author-bio">AI 前沿动态观察者</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(2, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Claude Mythos 5.5 and Fable 5.5 Exposed: One Base Model, Two Faces</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">同一个周末，Anthropic 官网源码中也被扒出下一代旗舰 Claude 5.5 系列的身影：采用完全相同底座的两个版本 —— Mythos 5.5 与 Fable 5.5，连 API 定价都分毫不差。Fable 5.5 装上严格的安全护栏拦截高危指令，作为通用商业旗舰向全球开发者全量开放；Mythos 5.5 则是解开常规拒答限制的特种科研版，已同步现身 MLflow 与 Azure 官方目录，支持高达 100 万 token 输入上下文和 12.8 万 token 最大输出。两大最重视安全的公司，在谷歌登顶后的同一个周末先后让最强模型流出，泄露本身正在变成军备竞赛里的新宣发武器。</p>
+                <p class="article-content en" data-lang="en" style="display:none">In the same weekend as OpenAI's leak, Anthropic's website source code revealed the Claude 5.5 family: two versions built on the identical base model. Fable 5.5 ships with strict guardrails as the general commercial flagship, while Mythos 5.5 is a special research edition without routine refusal limits, already listed in MLflow and the Azure catalog with 1M token input and 128K output. With identical API pricing for both, the dual-brand strategy suggests leaks are becoming a deliberate weapon in the frontier model arms race.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Claude 5.5</span><span>双版本策略</span><span>Anthropic</span></div>
+                <a href="https://www.toutiao.com/article/7703342585393250825/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AS</div>
+                        <div class="author-info">
+                            <span class="author-name">Anthropic</span>
+                            <span class="author-handle">@AnthropicAI</span>
+                            <span class="author-bio">AI 安全公司，S-1A 修订版披露递归自改进临界点</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(3, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Anthropic's Revised S-1A Warns It May Soon Meet Its Own RSI Threshold</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Anthropic 在向 SEC 提交的修订版 S-1A 招股书中加入了一段不同寻常的风险披露：公司承认已使用 AI 构建出能力跃升连自己当时都未察觉的模型，并且可能很快达到其自身定义的「AI 显著加速研发进程」临界点。目前没有任何在用模型被认定跨越该门槛，但作为一家即将以 ANT 代码登陆纳斯达克的公共利益公司，Anthropic 主动把递归自改进写进上市文件，既是安全承诺的展示，也给全球监管者和投资者出了一道新题：当 AI 开始设计更强的 AI，招股书该怎么写？</p>
+                <p class="article-content en" data-lang="en" style="display:none">In an unusual disclosure, Anthropic's revised S-1A filing states the company has used AI to build models whose capability leaps it did not recognize at the time, and that it may imminently meet its own definition of dramatically accelerated AI-driven progress. No current model is designated as crossing the threshold. As Anthropic prepares to list on Nasdaq under ticker ANT, putting recursive self-improvement language into an IPO document sets a precedent for how frontier labs disclose AI-driven progress to regulators and investors.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>IPO</span><span>RSI 披露</span><span>监管</span></div>
+                <a href="https://glonce.com/digest/week" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">OA</div>
+                        <div class="author-info">
+                            <span class="author-name">OpenAI</span>
+                            <span class="author-handle">@OpenAI</span>
+                            <span class="author-bio">Pando：为 Codex 并行开发时代重构的 Git 后端</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(4, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">OpenAI's Pando Git Backend Cuts Median Push Latency Nearly 5x</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">OpenAI 公布了为 AI Coding 时代打造的新一代 Git 后端 Pando：过去一年 Codex 带来的并行开发让内部分支、提交、合并和 CI 请求暴涨，原有系统推送缓慢、合并失败，可靠性一度跌破 90%。Pando 在保持 Git 协议兼容的同时，将推送延迟中位数降至原来的近五分之一，每天传输的 Git 数据已接近 1 PB。无独有偶，几周前 Anthropic 彻底将 monorepo 从 Git 迁移到自研版本控制系统 Scion，日均合并量四个月内从约 2500 次涨到超 3 万次。当 AI 代码产出逼近 100%，承压的不再是写代码，而是审查、验证与整个基础设施。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI detailed Pando, a new Git backend built for its monorepo after Codex multiplied concurrent development. With the legacy system's reliability dropping below 90%, Pando keeps Git protocol compatibility while cutting median push latency nearly 5x and now serves close to a petabyte of Git data per day. Anthropic took a different route weeks ago, migrating its monorepo to a custom VCS called Scion as daily merges grew from ~2,500 to over 30,000 in four months. When AI generates most of the code, infrastructure becomes the bottleneck.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>基础设施</span><span>Pando</span><span>AI Coding</span></div>
+                <a href="https://www.163.com/dy/article/LATAQSLU0511K58A.html" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">EX</div>
+                        <div class="author-info">
+                            <span class="author-name">Exin Therapeutics</span>
+                            <span class="author-handle">@exinbio</span>
+                            <span class="author-bio">旧金山生物科技初创，探索 AI 智能体操控手术设备</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(5, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">A Claude Sonnet 5 Agent Performs a Brain Injection on a Live Mouse</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">旧金山初创公司 Exin Therapeutics 披露了一次极具争议性的实验：让基于 Claude 的智能体操控自建手术装置，为一只癫痫小鼠自主选择基因疗法并完成活体脑部注射。据报道 Claude Opus 5.5 直接拒绝了这项任务，而 Sonnet 5 同意执行。实验过程中出现过模型拒做、坐标故障等问题，公司称小鼠术后恢复良好，但疗效仍待观察。这是 AI 智能体首次被公开披露用于活体动物手术决策与操作，当 Agent 的手伸进手术室，安全边界与伦理框架的讨论已经无法再等。</p>
+                <p class="article-content en" data-lang="en" style="display:none">San Francisco startup Exin Therapeutics disclosed a striking experiment: an agent based on Claude Sonnet 5 operated the company's robotic rig to select a gene therapy and perform a brain injection on a live epileptic mouse. Claude Opus 5.5 reportedly refused the job; Sonnet 5 agreed. The run included refusals and coordinate failures, and the company says the mouse recovered well while efficacy remains unproven. It is one of the first public cases of an AI agent autonomously deciding and executing surgery on a living animal, reigniting debate over agent safety boundaries.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>AI 手术</span><span>Agent 安全</span><span>生物科技</span></div>
+                <a href="https://www.aiboss88.com/news" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LS</div>
+                        <div class="author-info">
+                            <span class="author-name">Latent Space</span>
+                            <span class="author-handle">@latentspacepod</span>
+                            <span class="author-bio">swyx &amp; Alessio 主理的 AI 工程师播客</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(6, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Latent Space: Building Legal Agents When You Can't See the Data — Jacob Lauritzen, CTO of Legora</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">法律科技独角兽 Legora 的 CTO Jacob Lauritzen 做客 Latent Space，聊一个极其特殊的问题：Agent 服务律师时，公司一条数据都不能看 —— 客户数据归律所所有，如何构建和测试一个你看不见它工作的 Agent？Jacob 分享了 Legora 的工程哲学：为了通过律所安全审批，全栈押注 Azure（律所直接拒绝 AWS）；为收敛 DPA 边界砍掉 ElevenLabs 等所有第三方 API；用 Pareto 前沿做模型路由，在速度、成本、治理与区域可用性之间动态权衡。他还透露团队即将针对特定任务微调开源权重模型，在成本和延迟上超越前沿模型。企业级 Agent 落地的一手教科书。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Legora CTO Jacob Lauritzen joins Latent Space to tackle a unique engineering problem: building and testing agents for lawyers when the company cannot see a single trace of their work. He explains why Legora hosts everything on Azure (law firms outright rejected AWS), cut third-party APIs like ElevenLabs to shrink the DPA, routes models along a Pareto frontier of speed, cost, governance and regional availability, and plans to fine-tune open-weight models for specific tasks where they beat frontier models on cost and latency. A masterclass in enterprise agent deployment under strict confidentiality.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>1h 07m</span><span>法律 Agent</span><span>企业落地</span></div>
+                <a href="https://www.latent.space/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">XY</div>
+                        <div class="author-info">
+                            <span class="author-name">小宇宙 · AI 前线</span>
+                            <span class="author-handle">小宇宙播客</span>
+                            <span class="author-bio">每周精选值得关注的 AI 进展与技术方向</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(7, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">AI Identity Verification, Self-Rewriting Weights, and Running LLMs Locally</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">本期围绕三个方向的 AI 进展展开。一是 Anthropic 正在开发的 FlashProve 模型身份验证系统：给每个 AI 模型发一张「数字指纹」，让任何人都能独立验证一段内容是否真的来自它自称的那个模型，这对金融、医疗、法律等高风险场景意义重大。二是 Latent Space 的研究前沿：LLM 能否直接读写神经网络权重？如果经验可以写入权重，AI 的记忆和策略就不再依赖上下文窗口，而成为「本能」，配套的 GDPx benchmark 让自我提升变成可测量任务。三是开源社区亮点：colibri 项目用纯 C 实现 MoE 分层推理，让普通显卡也能本地跑大模型。另聊到 ChatGPT 搜索查询量已达 Google 的 20%。</p>
+                <p class="article-content en" data-lang="en" style="display:none">This episode covers three AI developments worth tracking. First, Anthropic's in-development FlashProve system, a cryptographic fingerprint for AI models that lets anyone independently verify content truly came from the claimed model — critical for finance, healthcare and legal use cases. Second, frontier research on whether LLMs can directly read and write neural network weights, turning memories and policies from context-window dependencies into instincts, with the GDPx benchmark making self-improvement measurable. Third, colibri, an open-source project implementing MoE layered inference in pure C to run large models on consumer GPUs, plus ChatGPT search queries reaching 20% of Google's volume.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>模型身份验证</span><span>权重读写</span><span>本地推理</span></div>
+                <a href="https://www.xiaoyuzhoufm.com/episode/6aea6c0397726cd4675c5b0a" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AN</div>
+                        <div class="author-info">
+                            <span class="author-name">Anthropic Research</span>
+                            <span class="author-handle">@AnthropicAI</span>
+                            <span class="author-bio">可证明推理：给 AI 回答开一张防伪身份证</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(8, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Provable Inference: FlashProve Brings Cryptographic Proof That a Specific Model Wrote an Output</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Anthropic 发布研究博客并开源 FlashProve 系统，基于零知识密码学证明（zkSNARK）实现「可证明推理」：服务商先对模型权重生成加密承诺，之后每次回答都附带证明文件，用户无需模型权重、无需重跑模型，即可独立验证回答确实来自指定模型 —— 直接命中第三方 API 中转偷偷换小模型、推理服务器被篡改等行业信任痛点。已在 400B 参数的 Llama 4 Maverick 上测试：单张 H100 证明吞吐约 110 token/s，每 1024 token 请求证明文件约 19MB，CPU 验证约 17 秒。证明生成仍需普通推理 70-95 倍 GPU 时间，且证明的是来源而非正确性，但模型「身份证」已从学术设想走进工程实操。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic open-sourced FlashProve, a provable inference system based on zkSNARKs: providers commit to model weights cryptographically, then attach a proof to each response so users can independently verify the output came from the promised model without accessing weights or re-running inference. It targets real trust gaps like third-party API resellers silently swapping in cheaper models. Tested on the 400B-parameter Llama 4 Maverick: ~110 tokens/s proof throughput on a single H100, ~19MB proof per 1024-token request, ~17s CPU verification. Proof generation still costs 70-95x normal inference GPU time, and it proves provenance, not correctness — but verifiable model identity is now an engineering reality.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>开源</span><span>zkSNARK</span><span>可验证 AI</span></div>
+                <a href="https://www.anthropic.com/research/provable-inference" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+    </main>
+
+    
+        <!-- 历史存档 -->
+        <div class="archive-section">
+            <h3>📅 历史存档</h3>
+            <div class="archive-list">
+<a href="2026-11-04.html" class="archive-item">2026年11月4日</a>
+<a href="2026-10-24.html" class="archive-item">2026年10月24日</a>
+<a href="2026-05-22.html" class="archive-item">2026年5月22日</a>
+<a href="2026-05-17.html" class="archive-item">2026年5月17日</a>
+<a href="2026-05-15.html" class="archive-item">2026年5月15日</a>
+<a href="2026-05-09.html" class="archive-item">2026年5月9日</a>
+<a href="2026-05-07.html" class="archive-item">2026年5月7日</a>
+<a href="2026-05-06.html" class="archive-item">2026年5月6日</a>
+<a href="2026-05-03.html" class="archive-item">2026年5月3日</a>
+<a href="2026-04-30.html" class="archive-item">2026年4月30日</a>
+            </div>
+        </div>
+
+
+    <footer>
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
+    </footer>
+
+    <script>
+        var LANG = 'zh';
+        var voices = [];
+        var isPlaying = false;
+        var currentUtterance = null;
+        var selectedVoice = null;
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            var select = document.getElementById('voiceSelect');
+            select.innerHTML = '<option value="">默认语音</option>';
+            var zhGroup = document.createElement('optgroup');
+            zhGroup.label = '中文';
+            var enGroup = document.createElement('optgroup');
+            enGroup.label = 'English';
+            voices.forEach(function(v) {
+                var opt = document.createElement('option');
+                opt.value = v.name;
+                var label = v.name + (v.localService ? ' ★' : '');
+                opt.textContent = label;
+                if (v.lang.startsWith('zh')) zhGroup.appendChild(opt);
+                else if (v.lang.startsWith('en')) enGroup.appendChild(opt);
+            });
+            if (zhGroup.children.length) select.appendChild(zhGroup);
+            if (enGroup.children.length) select.appendChild(enGroup);
+            var highQ = voices.find(function(v) {
+                return v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en'));
+            });
+            if (highQ) { select.value = highQ.name; selectedVoice = highQ; }
+        }
+
+        document.getElementById('voiceSelect').addEventListener('change', function(e) {
+            selectedVoice = voices.find(function(v) { return v.name === e.target.value; }) || null;
+        });
+
+        var LABELS = {
+            'zh': {
+                'title':    'AI Builders 每日精选',
+                'subtitle': '每日精选 AI 领域最有价值的深度内容',
+                'stats':    '📝 8 篇精选',
+                'playBtn':  '朗读',
+                'stopBtn':  '停止',
+                'playAll':  '全文朗读',
+                'stopAll':  '停止',
+            },
+            'en': {
+                'title':    'AI Builders Daily Digest',
+                'subtitle': 'Daily curated deep content from AI builders',
+                'stats':    '📝 8 Articles',
+                'playBtn':  'Read',
+                'stopBtn':  'Stop',
+                'playAll':  'Read All',
+                'stopAll':  'Stop',
+            }
+        };
+
+        function setLang(lang) {
+            LANG = lang;
+            var ls = LABELS[lang];
+            document.getElementById('btn-zh').className = 'lang-btn' + (lang === 'zh' ? ' active' : '');
+            document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+            document.getElementById('title-zh').textContent = ls.title;
+            document.getElementById('subtitle-zh').textContent = ls.subtitle;
+            document.getElementById('stats-zh').textContent = ls.stats;
+            document.getElementById('playAllLabel').textContent = isPlaying ? ls.stopAll : ls.playAll;
+            document.querySelectorAll('.action-btn').forEach(function(btn) {
+                var playing = btn.classList.contains('playing');
+                btn.querySelector('.btn-text').textContent = playing ? ls.stopBtn : ls.playBtn;
+            });
+            document.querySelectorAll('[data-lang]').forEach(function(el) {
+                el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+            });
+            try { localStorage.setItem('ai-news-lang', lang); } catch(e) {}
+        }
+
+        function getTextForArticle(num, lang) {
+            var arts = document.querySelectorAll('.article');
+            if (!arts[num - 1]) return '';
+            var art = arts[num - 1];
+            var parts = [];
+            art.querySelectorAll('[data-lang="' + lang + '"]').forEach(function(el) {
+                if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+            });
+            return parts.join('。');
+        }
+
+        function playArticle(num, btn) {
+            var text = getTextForArticle(num, LANG);
+            if (!text) return;
+            if (isPlaying && currentUtterance) {
+                speechSynthesis.cancel();
+                isPlaying = false;
+                currentUtterance = null;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(function(b) {
+                    b.classList.remove('playing');
+                });
+                var ls = LABELS[LANG];
+                document.getElementById('playAllLabel').textContent = ls.playAll;
+                document.querySelectorAll('.action-btn .btn-text').forEach(function(t) { t.textContent = ls.playBtn; });
+                return;
+            }
+            var ls = LABELS[LANG];
+            var u = new SpeechSynthesisUtterance(text.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); btn.querySelector('.btn-text').textContent = ls.stopBtn; };
+            u.onend = u.onerror = function() {
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); btn.querySelector('.btn-text').textContent = ls.playBtn;
+            };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        function playAll() {
+            var btn = document.getElementById('playAllBtn');
+            var label = document.getElementById('playAllLabel');
+            var ls = LABELS[LANG];
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); label.textContent = ls.playAll;
+                document.querySelectorAll('.action-btn').forEach(function(b) {
+                    b.classList.remove('playing'); b.querySelector('.btn-text').textContent = ls.playBtn;
+                });
+                return;
+            }
+            var texts = [];
+            document.querySelectorAll('.article').forEach(function(art) {
+                var parts = [];
+                art.querySelectorAll('[data-lang="' + LANG + '"]').forEach(function(el) {
+                    if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+                });
+                if (parts.length) texts.push(parts.join('。'));
+            });
+            var fullText = texts.join('。');
+            var u = new SpeechSynthesisUtterance(fullText.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); label.textContent = ls.stopAll; };
+            u.onend = u.onerror = function() { isPlaying = false; currentUtterance = null; btn.classList.remove('playing'); label.textContent = ls.playAll; };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+        try { var saved = localStorage.getItem('ai-news-lang'); if (saved) setLang(saved); } catch(e) {}
+    </script>
+</body>
+</html>
