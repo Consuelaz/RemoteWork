@@ -29,6 +29,42 @@
 
 const JOBS_FEATURED = [
   {
+    'id': 'featured-20261106-03',
+    'title': '【远程】AI YouTube 视频剪辑师（AI 时代新工种）',
+    'company': 'Green Tomato Media',
+    'logo': '🎬',
+    'category': '市场营销',
+    'tags': ['远程', '视频剪辑', 'YouTube', 'AI 工具链', 'Premiere'],
+    'salary': '面议（未公布）',
+    'location': '全球远程',
+    'date': '2026-11-06',
+    'canRefer': true,
+    'source': '社群招聘平台',
+    'sourceUrl': '',
+    'description': 'Green Tomato Media（专注 iGaming 与科技领域的 SEO / YouTube 效果型媒体）招聘 AI YouTube 视频剪辑师——一个典型的 AI 时代新工种：用 Adobe Premiere + AI 工具链（Runway、Midjourney 视频版、ElevenLabs）完成从脚本到成片的全流程，语音旁白由 AI 生成、无需真人配音。你负责的是品味、节奏、叙事和发布策略，生产环节全部交给 AI。要求英语流利、网络稳定（可能测速）。招聘流程三段式：HR 初面（30-45 分钟）→ 实操测试（一周完成）→ 直属上级终面（1 小时）+ 背调。',
+    'responsibilities': [
+      '使用 Adobe Premiere + AI 工具链（Runway、Midjourney 视频版、ElevenLabs 等）完成从脚本到成片的全流程制作',
+      '把控视频的品味、节奏与叙事质量，这是你的核心职责',
+      '制定并执行 YouTube 发布策略',
+      '语音旁白由 AI 生成，负责审核与最终质量把关，无需真人配音'
+    ],
+    'requirements': [
+      '英语流利（工作语言为英文）',
+      '网络稳定，应聘过程中可能需要测速',
+      '有品味、懂节奏、具备叙事能力——生产环节交给 AI，判断力必须是你自己的',
+      '熟悉 Adobe Premiere 及主流 AI 视频工具链（Runway、Midjourney 视频版、ElevenLabs 等）'
+    ],
+    'benefits': [
+      '典型的 AI 时代新工种：专注判断与创意决策，生产环节全部由 AI 完成',
+      '招聘流程三段式：HR 初面（30-45 分钟）→ 实操测试（一周完成，公司原话「如果你喜欢这份工作，你会享受它」）→ 直属上级终面（1 小时）+ 背调',
+      '与同司 UI/UX 设计师岗位同属全球 100+ 人、40+ 国家的远程团队'
+    ],
+    'company_info': 'Green Tomato Media 是一家效果驱动的 SEO 与 YouTube 媒体公司，专注 iGaming（在线博彩）与科技领域，全球 100+ 员工分布于 40+ 国家。注意：所在行业为 iGaming 联盟营销，求职前请自行评估行业偏好。',
+    'work_style': '全球远程',
+    'contact': '',
+    'apply_url': ''
+  },
+  {
     'id': 'featured-20261106-02',
     'title': '【远程】UI/UX & 视觉设计师（中级，iGaming / 科技媒体）',
     'company': 'Green Tomato Media',
