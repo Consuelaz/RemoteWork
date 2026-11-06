@@ -38,7 +38,6 @@ const formatCompany = (company) => {
 // 精选岗是手动维护的（jobs-featured.js），会员可解锁申请链接与内推人联系方式。
 // 这些岗位只在精选板块出现，普通列表里会被排除——否则用户从普通列表点开
 // 就能看到申请链接，付费墙形同虚设。
-const FEATURED_WINDOW_DAYS = 7;   // 精选板块展示窗口：最近 N 天
 const FEATURED_PREVIEW = 6;       // 默认展示条数，其余折叠
 let featuredShowAll = false;
 
@@ -46,14 +45,11 @@ const getFeaturedList = () => (typeof JOBS_FEATURED !== 'undefined') ? JOBS_FEAT
 const featuredIdSet = () => new Set(getFeaturedList().map(j => j.id));
 const isFeaturedJob = (job) => !!job && featuredIdSet().has(job.id);
 
-// 精选板块要展示的岗位：优先最近 FEATURED_WINDOW_DAYS 天；
-// 窗口内没有则退回最新的 FEATURED_PREVIEW 条，避免板块空白
+// 精选板块展示全部精选岗（按日期倒序），不设时间窗口——
+// 精选是人工筛选内容，条数有限，过期了也仍有参考价值，
+// 避免出现「精选板块因过期隐藏、普通列表又因精选 ID 被排除」的双向不可见。
 function getFeaturedJobs() {
-  const list = [...getFeaturedList()].sort((a, b) => new Date(b.date) - new Date(a.date));
-  if (!list.length) return [];
-  const cutoff = Date.now() - FEATURED_WINDOW_DAYS * 86400000;
-  const recent = list.filter(j => new Date(j.date).getTime() >= cutoff);
-  return recent.length ? recent : list.slice(0, FEATURED_PREVIEW);
+  return [...getFeaturedList()].sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 // ── 岗位新鲜度窗口 ──
