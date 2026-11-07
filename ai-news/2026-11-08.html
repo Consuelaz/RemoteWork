@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-11-08</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* 控制栏 */
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,249,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .lang-switch { display: flex; gap: 4px; }
+        .lang-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .audio-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        .audio-btn:hover { background: var(--tag-bg); }
+        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn svg { width: 13px; height: 13px; }
+        .voice-select {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 760px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        .date { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 10px; }
+        .hero-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; }
+        .stats { font-size: 12px; color: var(--text-secondary); }
+
+        /* 文章列表 */
+        .articles {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .article {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article:last-child { border-bottom: none; }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .article-left { display: flex; align-items: center; gap: 12px; }
+        .article-number { font-size: 22px; font-weight: 700; color: var(--border); line-height: 1; min-width: 32px; }
+
+        .author-row { display: flex; align-items: center; gap: 10px; }
+        .author-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700; font-size: 11px; flex-shrink: 0;
+        }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; font-size: 13px; }
+        .author-handle { color: var(--accent); font-size: 12px; }
+        .author-bio { color: var(--text-secondary); font-size: 12px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .article-actions { display: flex; gap: 6px; }
+        .action-btn {
+            padding: 5px 12px; border: 1px solid var(--border);
+            background: white; cursor: pointer; font-size: 12px;
+            border-radius: 12px; display: flex; align-items: center; gap: 4px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .action-btn:hover { background: var(--tag-bg); }
+        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn svg { width: 11px; height: 11px; }
+
+        .article-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem; font-weight: 600; line-height: 1.4;
+            margin-bottom: 10px; margin-left: 46px;
+        }
+        .article-title.en { font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text-secondary); font-size: 0.95rem; }
+
+        .article-body { margin-left: 46px; }
+        .article-content {
+            font-size: 14px; line-height: 1.85; color: var(--text);
+            margin-bottom: 8px;
+        }
+        .article-content.en { color: var(--text-secondary); }
+
+        .article-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; margin-left: 46px;
+        }
+        .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
+        .article-link:hover { text-decoration: underline; }
+
+        /* 历史存档 */
+        .archive-section {
+            max-width: 760px; margin: 0 auto;
+            padding: 32px 40px; border-top: 1px solid var(--border);
+        }
+        .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
+        .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
+        .archive-item:hover { background: var(--accent); color: white; }
+
+        footer { text-align: center; padding: 32px 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .controls { padding: 10px 20px; }
+            .hero, .archive-section { padding: 28px 20px 20px; }
+            .hero h1 { font-size: 1.4rem; }
+            .articles { padding: 0 20px 60px; }
+            .article-title, .article-body, .article-footer { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 控制栏 -->
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span id="playAllLabel">全文朗读</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <header class="hero">
+        <p class="date" id="date-en">Sunday, November 8, 2026</p>
+        <h1 id="title-zh">AI Builders 每日精选</h1>
+        <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="stats" id="stats-zh">📝 8 篇精选</p>
+    </header>
+
+    <!-- 文章列表 -->
+    <main class="articles">
+
+        <!-- 01 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">OA</div>
+                        <div class="author-info">
+                            <span class="author-name">OpenAI</span>
+                            <span class="author-handle">@OpenAI</span>
+                            <span class="author-bio">OpenAI 官方账号</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(1, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">GPT-6 Cyber launches: 948 Linux kernel flaws found, 588 previously unknown, bug bounties quadrupled</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">OpenAI 正式面向获批的 Daybreak Red 客户推出网络安全专用模型 GPT-6 Cyber，定价每百万输入 Token 20 美元。该模型能发现并验证可被利用的漏洞、开发 Exploit 并给出补丁建议，同时始终不超出研究人员设定的行动范围。在一次 30 小时的自动化流水线运行中，它成功在 Linux 内核里发现 948 个本地提权漏洞，其中 588 个为此前未知，API 成本约 120 万美元。OpenAI 同时将漏洞赏金提高了约四倍，最高单项达 17.2 万美元。前沿实验室公开交付攻击性安全模型，标志着 AI 在漏洞研究与自动化审计中进入实战阶段。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI shipped GPT-6 Cyber, a security-focused model rated 'Critical' in cybersecurity, to vetted Daybreak Red customers via API and Codex at $20 per million input tokens. The model finds and validates exploitable vulnerabilities, develops exploits and proposes patches while staying within researcher-defined rules of engagement. In a 30-hour autonomous run, an upcoming cyber model identified 948 local privilege-escalation flaws in the Linux kernel - 588 of them previously unknown - at roughly $1.2M in API costs. OpenAI also quadrupled bug bounty payouts to as much as $172K per exceptional finding. A frontier lab openly shipping offensive-capable security tooling marks a new phase for defenders and attackers alike.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>OpenAI</span><span>网络安全</span><span>Daybreak Red</span></div>
+                <a href="https://aibriefing.dev/story/20a0a0a5a7ea" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">OA</div>
+                        <div class="author-info">
+                            <span class="author-name">OpenAI</span>
+                            <span class="author-handle">@OpenAI</span>
+                            <span class="author-bio">OpenAI 官方账号</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(2, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">OpenAI closes $11B round at $1.25T valuation, pledges grid costs and transparency after data center backlash</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">OpenAI 宣布完成 110 亿美元新一轮融资，估值达 1.25 万亿美元，与 GPT-6 Cyber 发布落在同一周。此前中期选举中，41 项数据中心地方公投有 40 项遭选民否决，社区阻力成为 AI 基础设施扩张的真实约束。作为回应，OpenAI 承诺终止与地方官员签署的保密协议、公开 Compute Campus 政策与国家社区契约、承担电网与基础设施成本，并签署电网灵活性协议——例如允许佐治亚电力在电网紧张时将其园区负载削减 1000 兆瓦。公司同时把数据中心更名为更友好的计算园区，凸显公众参与已成前沿实验室的必修课。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI closed $11 billion in new funding at a $1.25 trillion valuation, the same week it shipped GPT-6 Cyber and announced new data center commitments. The round lands after voters rejected data center projects in 40 of 41 local ballot measures, making community opposition a real constraint on AI infrastructure buildout. In response, OpenAI committed to ending NDAs with public officials, publishing a Compute Campus Policy and National Community Compact, and paying for electricity and infrastructure costs. It also agreed to grid flexibility deals, letting Georgia Power cut its campus load by 1,000 MW during grid stress, and rebranded its data centers as compute campuses. Public buy-in is now table stakes for frontier labs.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>OpenAI</span><span>融资</span><span>基础设施</span></div>
+                <a href="https://buttondown.com/gavan/archive/the-630-openais-cyber-model-goes-live-as-data" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GD</div>
+                        <div class="author-info">
+                            <span class="author-name">Google DeepMind</span>
+                            <span class="author-handle">@GoogleDeepMind</span>
+                            <span class="author-bio">Google 旗下 AI 研究机构</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(3, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Gemini Omni 1.2 Flash goes GA: 15-second video with native audio at 30% lower prices</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Google DeepMind 在 AI Studio 和 Gemini API 中正式全面开放 Gemini Omni 1.2 Flash，取代 gemini-omni-1.1-flash 等旧端点。新模型接受文本、图像、音频和视频输入，可生成最长 15 秒、带原生音频的高分辨率视频，并支持多轮对话式自然语言编辑与增强的参考遵循能力。价格较上一代下调 30%，720p 分辨率降至每秒约 0.07 美元。更长的片段加更低的成本，正在把 AI 视频生成推向实际生产可用区间，也给 Sora、Veo 等竞品带来直接价格压力。对做视频评测的团队来说，新一轮基准重测已经在路上。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Google DeepMind released Gemini Omni 1.2 Flash in AI Studio and the Gemini API, replacing older 1.1 endpoints. The model accepts text, image, audio and video inputs, generates high-resolution clips up to 15 seconds with native audio, and supports multi-turn conversational editing through natural-language instructions. Pricing drops 30% versus the previous generation, to about $0.07 per second of 720p video. Longer clips at lower cost push AI video generation closer to practical production use and intensify the video race against Sora and Veo. Teams running multimodal evaluations will want to re-run their benchmarks to see whether cheaper generation holds up in their iteration loops.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Google</span><span>视频生成</span><span>降价 30%</span></div>
+                <a href="https://aibriefing.dev/story/3e93342c42d6" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">ME</div>
+                        <div class="author-info">
+                            <span class="author-name">METR</span>
+                            <span class="author-handle">@METR_AI</span>
+                            <span class="author-bio">独立 AI 模型评估机构</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(4, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">METR study: Anthropic models improving 1.9x faster, with 80% of the speedup driven by AI-assisted R&amp;D</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">独立评估机构 METR 发布了一项为期 11 周（8 月至 10 月）的评估，覆盖 Anthropic 的机密研究与未发布模型。结果显示，Anthropic 模型的能力提升速度约为一年前的 1.9 倍，而主要驱动力不是新增算力，而是 AI 辅助研发本身——内部估计约 80% 的加速来自研发环节使用自家模型。这与此前 Opus 4.7 迭代版本、跨会话记忆与 dreaming 机制研究相互印证。当 AI 开始实质性加速 AI 研发，即使 CEO Dario Amodei 公开呼吁行业减速，进步的节奏也可能比预想更难放慢。递归自改进的临界点正在从假设变成可测量的趋势。</p>
+                <p class="article-content en" data-lang="en" style="display:none">METR ran an 11-week assessment from August through October 2026 covering Anthropic's confidential research and unreleased models. It found capability gains running about 1.9x faster than the prior year, driven mainly by AI-assisted development rather than added compute - internal estimates attribute roughly 80% of the acceleration to AI use in the R&amp;D loop itself. The finding lands alongside Anthropic's cross-session agent memory and dreaming research and its amended S-1A warning that it may soon reach its own definition of recursive self-improvement. If AI meaningfully accelerates AI development, the pace of progress may be harder to slow than industry leaders suggest, even as Dario Amodei publicly calls for restraint.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>METR</span><span>Anthropic</span><span>RSI 前夜</span></div>
+                <a href="https://buttondown.com/gavan/archive/the-630-openais-cyber-model-goes-live-as-data" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">MV</div>
+                        <div class="author-info">
+                            <span class="author-name">Menlo Ventures</span>
+                            <span class="author-handle">@MenloVentures</span>
+                            <span class="author-bio">硅谷知名风险投资机构</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(5, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">89% of US enterprise open-source model spend goes to Chinese models: Kimi 61%, DeepSeek 15%, GLM 11%</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Menlo Ventures 发布《2026 年企业 AI 现状报告》：美国企业用于开源模型的支出中，89% 流向了中国模型，前三名为 Kimi（61%）、DeepSeek（15%）、GLM（11%）。在全球模型聚合平台 OpenRouter 上，中国大模型的词元调用量已连续 27 周超过美国模型，最近一周调用量前五名中中国模型占四席。与此同时，Moonshot 的 Kimi K3.1 Pro（Highspeed）正式登陆 Amazon Bedrock，2.8T 参数、100 万 Token 上下文，瞄准高吞吐智能体编程与文档处理场景。中国开源模型正在从追赶者变成企业采购清单上的默认选项，西方闭源策略面临持续压力。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Menlo Ventures' State of AI in 2026 report finds that 89% of US enterprise spending on open-source models goes to Chinese models, led by Kimi (61%), DeepSeek (15%) and GLM (11%). On OpenRouter, Chinese models have out-tokened US models for 27 consecutive weeks, holding four of the top five spots last week. Moonshot's Kimi K3.1 Pro (Highspeed) also landed on Amazon Bedrock with a 1M-token context, explicit prompt caching and a 3T-parameter-class architecture targeting high-throughput agentic coding and document processing. Chinese open-weight labs have shifted from challengers to default options on enterprise shortlists, keeping sustained pressure on Western closed-model strategies.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Menlo Ventures</span><span>开源模型</span><span>中国力量</span></div>
+                <a href="https://36kr.com/p/4058997417563266" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LS</div>
+                        <div class="author-info">
+                            <span class="author-name">Latent Space</span>
+                            <span class="author-handle">@latentspacepod</span>
+                            <span class="author-bio">AI 工程师社区播客</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(6, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Anthropic reached 50% compute margins on 7x inference gains - Jamin Ball on why frontier labs need public debt</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Latent Space 最新一期邀请云分析机构 Jamin Ball 拆解 Anthropic 的 S-1 文件：尽管账面出现约 807 亿美元 GAAP 亏损（主要由可转债驱动），业务现金流实际为正。核心数据是推理效率——Anthropic 营收同比增长 14 倍，而模型服务算力支出仅增长 2.3 倍，相当于 7 倍的推理效率增益，推理毛利率已达 50%。总算力中只有 27% 在服务客户模型，其余 73% 投向训练、对齐与内部研究。Ball 还论证前沿实验室的数万亿美元物理算力建设，仅靠风投股权无法融资，需要公开债市入场，而债券投资人会要求审计财报与信用评级。算力分配正在成为实验室 CEO 之间的零和博弈。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Jamin Ball joins Latent Space to unpack Anthropic's S-1 filing. Behind the headline $80.7B GAAP loss - driven largely by convertible notes - the business generates positive cash flow. The striking number is inference efficiency: revenue grew 14x year-over-year while model-serving compute spend rose just 2.3x, an effective 7x gain, pushing inference compute margins to 50%. Only 27% of total compute actively serves customer models; 73% goes to training, alignment and internal research. Ball argues that frontier labs face multi-trillion-dollar physical compute buildouts that venture equity alone cannot finance - public debt markets must step in, and credit providers will demand audited filings and ratings. Compute allocation is becoming a zero-sum executive trade-off, with coding offering the highest ROI per token served.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Latent Space</span><span>算力经济学</span><span>Anthropic S-1</span></div>
+                <a href="https://www.latent.space/podcast" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LS</div>
+                        <div class="author-info">
+                            <span class="author-name">Latent Space</span>
+                            <span class="author-handle">@latentspacepod</span>
+                            <span class="author-bio">AI 工程师社区播客</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(7, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Behind Latent Space: Kill My SaaS, Jev and AI in 2026 - live from AIEi Shanghai</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Latent Space 在上海 AIEi 大会现场录制 72 分钟特别节目，回顾 2026 年 AI 工程生态的三个关键词：Kill My SaaS、Jev 悖论与智能体基础设施。团队复盘了此前用 AI 智能体替换一套年费 4.3 万美元 SaaS 工具的全过程，讨论当智能体让软件生产成本趋近于零时，传统订阅制 SaaS 的护城河如何被侵蚀；同时 Jev 悖论意味着效率提升反而放大总消耗，Token 需求持续指数增长。节目还聊到中国开源模型在全球调用量上的崛起、智能体记账与可观测性工具的爆发，以及 AI 工程师这一职业在 2026 年的真实供需状况。对关注智能体商业化落地的开发者是一场高密度复盘。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Recorded live at AIEi Shanghai, this 72-minute special revisits the defining AI-engineering stories of 2026: Kill My SaaS, the Jev paradox, and agent infrastructure. The team retraces their experiment replacing a $43K/yr SaaS tool with AI agents, and what it means for subscription moats when software production cost trends toward zero. The Jev paradox cuts the other way - efficiency gains amplify total consumption, and token demand keeps compounding. They also cover the rise of Chinese open models on global usage charts, the explosion of agent billing and observability tooling, and what the AI engineer job market actually looks like in 2026. A dense, practitioner-level retrospective for anyone shipping agents this year.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Latent Space</span><span>AIEi 上海</span><span>2026 复盘</span></div>
+                <a href="https://www.latent.space/podcast" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">TM</div>
+                        <div class="author-info">
+                            <span class="author-name">Thinking Machines Lab</span>
+                            <span class="author-handle">@Thmllab</span>
+                            <span class="author-bio">Mira Murati 创办的 AI 实验室</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(8, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Inkling 2 Small: 594B MoE with 17B active params, trained in 68 hours on 12T tokens, now in Tinker</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Thinking Machines 发布深度文章，拆解 Inkling 2 Small 的完整训练过程：594B 总参、17B 激活的 MoE 模型，在 12T Token 上仅训练 68 小时即完成，性能在开放权重基准线上超越 Meta 的 Muse Spark，与 DeepSeek V4.1 Flash、GLM-5.3-Flash 并列，同时在高级智能体工具调用上表现突出。模型现已在 Tinker 平台提供推理与微调，Apache 2.0 权重即将开放，官方还展示了针对 Qwen3.5-4B 的自动化微调流程。这篇文章最有价值的部分是把训练配方、算力预算和失败案例全部公开，为中小团队复现前沿级开源模型提供了一份可参考的工程蓝图。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Thinking Machines Lab published a deep dive into Inkling 2 Small's training run: a 594B-parameter MoE with 17B active parameters, trained on 12T tokens in just 68 hours. The model beats Meta's Muse Spark on open-weight benchmarks and sits alongside DeepSeek V4.1 Flash and GLM-5.3-Flash, while showing particular strength in advanced agentic tool calling. It is available now in Tinker for inference and fine-tuning, with Apache 2.0 weights coming soon, and the team demonstrated automated fine-tuning on Qwen3.5-4B. The most valuable part of the writeup is its transparency - the training recipe, compute budget and failure cases are all on the table, giving smaller teams a reference blueprint for reproducing frontier-class open models. Pair it with METR's study of AI research at Anthropic in the same issue.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Thinking Machines</span><span>MoE</span><span>开源权重</span></div>
+                <a href="https://latent.space/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+    </main>
+
+    
+        <!-- 历史存档 -->
+        <div class="archive-section">
+            <h3>📅 历史存档</h3>
+            <div class="archive-list">
+<a href="2026-11-05.html" class="archive-item">2026年11月5日</a>
+<a href="2026-11-04.html" class="archive-item">2026年11月4日</a>
+<a href="2026-10-24.html" class="archive-item">2026年10月24日</a>
+<a href="2026-05-22.html" class="archive-item">2026年5月22日</a>
+<a href="2026-05-17.html" class="archive-item">2026年5月17日</a>
+<a href="2026-05-15.html" class="archive-item">2026年5月15日</a>
+<a href="2026-05-09.html" class="archive-item">2026年5月9日</a>
+<a href="2026-05-07.html" class="archive-item">2026年5月7日</a>
+<a href="2026-05-06.html" class="archive-item">2026年5月6日</a>
+<a href="2026-05-03.html" class="archive-item">2026年5月3日</a>
+            </div>
+        </div>
+
+
+    <footer>
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
+    </footer>
+
+    <script>
+        var LANG = 'zh';
+        var voices = [];
+        var isPlaying = false;
+        var currentUtterance = null;
+        var selectedVoice = null;
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            var select = document.getElementById('voiceSelect');
+            select.innerHTML = '<option value="">默认语音</option>';
+            var zhGroup = document.createElement('optgroup');
+            zhGroup.label = '中文';
+            var enGroup = document.createElement('optgroup');
+            enGroup.label = 'English';
+            voices.forEach(function(v) {
+                var opt = document.createElement('option');
+                opt.value = v.name;
+                var label = v.name + (v.localService ? ' ★' : '');
+                opt.textContent = label;
+                if (v.lang.startsWith('zh')) zhGroup.appendChild(opt);
+                else if (v.lang.startsWith('en')) enGroup.appendChild(opt);
+            });
+            if (zhGroup.children.length) select.appendChild(zhGroup);
+            if (enGroup.children.length) select.appendChild(enGroup);
+            var highQ = voices.find(function(v) {
+                return v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en'));
+            });
+            if (highQ) { select.value = highQ.name; selectedVoice = highQ; }
+        }
+
+        document.getElementById('voiceSelect').addEventListener('change', function(e) {
+            selectedVoice = voices.find(function(v) { return v.name === e.target.value; }) || null;
+        });
+
+        var LABELS = {
+            'zh': {
+                'title':    'AI Builders 每日精选',
+                'subtitle': '每日精选 AI 领域最有价值的深度内容',
+                'stats':    '📝 8 篇精选',
+                'playBtn':  '朗读',
+                'stopBtn':  '停止',
+                'playAll':  '全文朗读',
+                'stopAll':  '停止',
+            },
+            'en': {
+                'title':    'AI Builders Daily Digest',
+                'subtitle': 'Daily curated deep content from AI builders',
+                'stats':    '📝 8 Articles',
+                'playBtn':  'Read',
+                'stopBtn':  'Stop',
+                'playAll':  'Read All',
+                'stopAll':  'Stop',
+            }
+        };
+
+        function setLang(lang) {
+            LANG = lang;
+            var ls = LABELS[lang];
+            document.getElementById('btn-zh').className = 'lang-btn' + (lang === 'zh' ? ' active' : '');
+            document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+            document.getElementById('title-zh').textContent = ls.title;
+            document.getElementById('subtitle-zh').textContent = ls.subtitle;
+            document.getElementById('stats-zh').textContent = ls.stats;
+            document.getElementById('playAllLabel').textContent = isPlaying ? ls.stopAll : ls.playAll;
+            document.querySelectorAll('.action-btn').forEach(function(btn) {
+                var playing = btn.classList.contains('playing');
+                btn.querySelector('.btn-text').textContent = playing ? ls.stopBtn : ls.playBtn;
+            });
+            document.querySelectorAll('[data-lang]').forEach(function(el) {
+                el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+            });
+            try { localStorage.setItem('ai-news-lang', lang); } catch(e) {}
+        }
+
+        function getTextForArticle(num, lang) {
+            var arts = document.querySelectorAll('.article');
+            if (!arts[num - 1]) return '';
+            var art = arts[num - 1];
+            var parts = [];
+            art.querySelectorAll('[data-lang="' + lang + '"]').forEach(function(el) {
+                if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+            });
+            return parts.join('。');
+        }
+
+        function playArticle(num, btn) {
+            var text = getTextForArticle(num, LANG);
+            if (!text) return;
+            if (isPlaying && currentUtterance) {
+                speechSynthesis.cancel();
+                isPlaying = false;
+                currentUtterance = null;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(function(b) {
+                    b.classList.remove('playing');
+                });
+                var ls = LABELS[LANG];
+                document.getElementById('playAllLabel').textContent = ls.playAll;
+                document.querySelectorAll('.action-btn .btn-text').forEach(function(t) { t.textContent = ls.playBtn; });
+                return;
+            }
+            var ls = LABELS[LANG];
+            var u = new SpeechSynthesisUtterance(text.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); btn.querySelector('.btn-text').textContent = ls.stopBtn; };
+            u.onend = u.onerror = function() {
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); btn.querySelector('.btn-text').textContent = ls.playBtn;
+            };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        function playAll() {
+            var btn = document.getElementById('playAllBtn');
+            var label = document.getElementById('playAllLabel');
+            var ls = LABELS[LANG];
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); label.textContent = ls.playAll;
+                document.querySelectorAll('.action-btn').forEach(function(b) {
+                    b.classList.remove('playing'); b.querySelector('.btn-text').textContent = ls.playBtn;
+                });
+                return;
+            }
+            var texts = [];
+            document.querySelectorAll('.article').forEach(function(art) {
+                var parts = [];
+                art.querySelectorAll('[data-lang="' + LANG + '"]').forEach(function(el) {
+                    if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+                });
+                if (parts.length) texts.push(parts.join('。'));
+            });
+            var fullText = texts.join('。');
+            var u = new SpeechSynthesisUtterance(fullText.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); label.textContent = ls.stopAll; };
+            u.onend = u.onerror = function() { isPlaying = false; currentUtterance = null; btn.classList.remove('playing'); label.textContent = ls.playAll; };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+        try { var saved = localStorage.getItem('ai-news-lang'); if (saved) setLang(saved); } catch(e) {}
+    </script>
+</body>
+</html>
