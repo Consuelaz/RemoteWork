@@ -2,6 +2,25 @@
 
 > 规则变更（2026-10-23）：money.xlsx 已从 Git 索引移除并加入 .gitignore，**只保留本地**，不再提交/推送到远程。scrape.sh 仍在本地更新该文件（追加 V2EX + who-is-hiring 数据）。
 
+## 最近一次执行: 2026-11-08 07:26
+
+**结果**: ✅ 成功（自动化触发，代理桥 7892 已在监听无需重建，v2ex 验证返回 200）
+- Remote OK: 99 条
+- Remotive: 12 条
+- 远程岛: 150 条
+- who-is-hiring: 433 条
+- Working Nomads: 17 条
+- Himalayas: 20 条
+- V2EX: 0 条（跳过 20 个非今日帖子，当日无新帖）
+- 智联招聘: 29 条（居家办公+远程办公双词，严格过滤后）
+- **时效过滤(>89天)**: 丢弃 CN=385, Global=13
+- **汇总**: CN=171, Global=1987（基线 CN=150 / Global=1997 → +21 / -10）
+- **分源存量**: CN = 智联121 + who-is-hiring 41 + V2EX 9；Global = 远程岛1508 + RemoteOK 296 + Himalayas 119 + WorkingNomads 37 + Remotive 27
+- **Git**: commit 384bfd8 push 成功（3 files: jobs-cn.js / jobs-global.js / scrape.log）；另补提交 92fee2c（日志尾巴 5 行）
+- **money.xlsx**: 更新成功（0 条 V2EX + 433 条 who-is-hiring），按规则未入库
+- **异常**: 无。jobs-featured.js（19 条）/ jobs-mainlist.js / review.html / jobs-featured-pending.js 均未被改动
+- **数据质量**: 无 date 岗位 0 条；jobs-global.js 3.5MB；28 条 description 超 500 字符（501-547，轻微规范偏差，与历史一致）
+
 ## 最近一次执行: 2026-11-04 12:19
 
 **结果**: ✅ 成功（自动化触发，代理桥 7892 已在监听，v2ex 验证 200，无需重建）
