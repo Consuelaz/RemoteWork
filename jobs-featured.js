@@ -29,6 +29,48 @@
 
 const JOBS_FEATURED = [
   {
+    'id': 'featured-20261110-05',
+    'title': '【企业直招】【全职远程】高级运维工程师（SRE / 混合云）｜招 2 人',
+    'company': 'FineStar',
+    'logo': '🖥️',
+    'category': '运维DevOps',
+    'tags': ['远程', 'SRE', 'K8s', 'AWS', 'GPU集群', '混合云'],
+    'salary': '面议（USDT 结算，未公布金额）',
+    'location': '全球远程（需人在非中国大陆）',
+    'date': '2026-11-10',
+    'canRefer': true,
+    'source': '企业直招',
+    'sourceUrl': '',
+    'description': 'FineStar（伦敦总部，全球 1500+ 人）直招 2 名高级运维工程师，负责 AWS + 自建机房混合云架构、多套 K8s 集群与 NVIDIA GPU 集群运维（driver/CUDA/gpu-operator、Xid 故障、推理训练调度），并承担加密存储、堡垒机管控与 CI/CD 供应链安全。要求 5 年以上运维/SRE 经验、精通 K8s/Docker、深耕 AWS 核心服务，有敏感数据加密实战案例。⚠️ 需人在非中国大陆；薪资以 USDT 结算；每日约 9 小时、单休。',
+    'responsibilities': [
+      '混合云架构：负责 AWS 和自建机房的整合与资源调度，规划跨云、跨机房的服务迁移、容量和成本',
+      '管理 Proxmox 虚拟化平台的模板、迁移和存储，处理物理机上下架',
+      '容器化运维：管理多套 K8s 集群的升级、节点扩缩、网络和存储，保障核心服务高可用',
+      'GPU 集群运维：NVIDIA driver、CUDA、gpu-operator 版本管理；处理 GPU 故障（Xid、掉卡、功耗），做推理/训练服务的资源调度和镜像分发',
+      '安全与数据保护：加密存储、密钥与证书管理（轮换、最小权限）、数据脱敏；SSH/堡垒机访问控制与 CI/CD 供应链安全（Runner 隔离、Token 治理）',
+      '监控与事件处理：建设告警体系并治理告警缺口，主导故障排查、根因分析（RCA）和入侵事件应急响应（取证、止血、加固）'
+    ],
+    'requirements': [
+      '5 年以上运维/SRE 经验，有混合云或自建机房实战经验，38 岁以下',
+      '精通 K8s 和 Docker，熟悉 Terraform、Ansible、Helm，理解 GitOps',
+      '深耕 AWS 核心服务（VPC、EKS、EC2、S3、IAM），有多账号治理和成本优化经验',
+      '熟悉 Linux 内核和系统排障，熟悉 TCP/IP、DNS、TLS 和 HTTP',
+      '有敏感数据加密、静态存储加密（Encryption at Rest）实际案例，熟悉 KMS、SOPS、Sealed Secrets 等方案',
+      '熟练使用 Python、Go 或 Bash 开发自动化工具，能自己写 operator 或 bot 的优先；能接受远程协作和 on-call，文档和沟通习惯良好'
+    ],
+    'benefits': [
+      '加分项：NVIDIA GPU 集群运维经验（driver、MIG/time-slicing、RDMA、DCGM 监控）',
+      '熟悉 Proxmox/KVM、Ceph/ZFS、NFS 等存储，或有 MySQL 高可用、ClickHouse/MongoDB 调优等数据库运维经验',
+      '有安全事件应急响应经验（挖矿、后门、凭证外泄）或做过 CIS/K8s 加固',
+      '熟悉 Cloudflare 全家桶，或 CDN 自建过节点',
+      '薪酬方式：薪资以 USDT（U）结算，远程，工资准时发放；每日工作约 9 小时，单休，法定节假日正常放假，春节 12 天、年假 12 天'
+    ],
+    'company_info': 'FineStar 是一家全球化信息技术企业，总部位于英国伦敦，在中国台北、日本东京、新加坡、吉隆坡、洛杉矶等地设有分支机构，全球员工超 1500 人。公司是主流媒体、视频平台、线上社区论坛的一站式综合服务商，核心管理团队深耕 Web 业务及多赛道产品运营，组建了数据、创意与技术研发人才队伍，面向全球客户提供 IT 解决方案。',
+    'work_style': '全职远程（需人在非中国大陆；每日约 9 小时、单休、接受 on-call）',
+    'contact': null,
+    'apply_url': null
+  },
+  {
     'id': 'featured-20261110-04',
     'title': '【企业直招】【全职远程】AI Agent + 智能合约工程师（Web3）｜$8K-10K/月',
     'company': 'Starclub',
