@@ -29,6 +29,44 @@
 
 const JOBS_FEATURED = [
   {
+    'id': 'featured-20261110-01',
+    'title': '【企业直招】【全职远程】AI 应用工程师（Python / FastAPI / RAG / Agent）',
+    'company': 'AdmitPlus',
+    'logo': '🧠',
+    'category': '后端开发',
+    'tags': ['远程', 'AI应用', 'RAG', 'Agent', 'FastAPI', 'React'],
+    'salary': '面议（未公布）',
+    'location': '全远程',
+    'date': '2026-11-10',
+    'canRefer': true,
+    'source': '企业直招',
+    'sourceUrl': '',
+    'description': 'AdmitPlus 直招的 AI 应用工程师，以后端和 AI 应用为主、兼顾前端。核心是把模型能力接到真实业务并上线：RAG 与知识库方向做多模态文档解析、增量索引、混合检索与重排序；Agent 方向做任务规划、工具调用、多 Agent 协作与 MCP；另有长期记忆管理、FastAPI 后端、React 对话交互、评测与成本追踪。要求做过已上线的 AI 应用或 RAG / Agent 项目，能独立从需求做到上线。',
+    'responsibilities': [
+      'RAG 与知识库：多模态文档解析、清洗、分段、embedding、增量索引、混合检索、重排序',
+      'Agent 开发：任务规划、工具调用、结构化输出、多 Agent 协作、MCP / Skills',
+      '长期记忆：上下文裁剪、按需召回、去重、冲突处理；结构化数据和向量数据分开存',
+      '后端开发：FastAPI 接口、异步任务、幂等、重试、超时、失败恢复',
+      '前端交互：对话、流式输出、任务进度、局部编辑、重新生成',
+      '质量与安全：评测集、回归测试、调用追踪、成本控制、权限和数据隔离'
+    ],
+    'requirements': [
+      '做过已经上线的 AI 应用、RAG 或 Agent 项目，能独立从需求做到上线',
+      'Python 扎实，能维护 FastAPI 服务和后台任务',
+      '能写 React / TypeScript 的页面、状态和接口',
+      '能用测试、日志和链路追踪自己把问题查完'
+    ],
+    'benefits': [
+      '技术栈：Python、FastAPI、PostgreSQL、Redis、MongoDB、向量库、React 18、TypeScript、Vite、Tailwind、Docker、Cloud Run',
+      '团队态度开放：「栈会变，更看重你能不能把边界和假设验证清楚」——不绑定特定技术，看重工程判断力',
+      '端到端负责：从需求、模型接入到上线完整链路，成长空间大'
+    ],
+    'company_info': 'AdmitPlus 是一家以 AI 应用为核心的公司，团队以后端和 AI 应用为主，同时要求具备前端能力，目标是把模型能力接到真实业务并上线。企业直招，非猎头/中介。',
+    'work_style': '全职远程',
+    'contact': null,
+    'apply_url': null
+  },
+  {
     'id': 'featured-20261106-03',
     'title': '【远程】AI YouTube 视频剪辑师（AI 时代新工种）',
     'company': 'Green Tomato Media',
