@@ -29,6 +29,49 @@
 
 const JOBS_FEATURED = [
   {
+    'id': 'featured-20261110-04',
+    'title': '【企业直招】【全职远程】AI Agent + 智能合约工程师（Web3）｜$8K-10K/月',
+    'company': 'Starclub',
+    'logo': '⛓️',
+    'category': '全栈开发',
+    'tags': ['远程', 'Web3', 'AI Agent', 'Solidity', '智能合约', 'LLM'],
+    'salary': '$8,000-10,000/月（按经验定）',
+    'location': '全球远程',
+    'date': '2026-11-10',
+    'canRefer': true,
+    'source': '企业直招',
+    'sourceUrl': '',
+    'description': 'Starclub 直招的 AI Agent + 智能合约工程师，做 Web3 与 AI 结合的早期项目：链上自动化执行、自主 Agent 工作流、面向真实金融场景的去中心化应用。要求全栈能力——设计 AI Agent 的链上执行流程（工具调用、审批、任务恢复）、集成区块链网络与 Web3 钱包、构建前后端服务。必备 JS/TS 或 Solidity、React/Next.js、Node.js；理想情况有 ethers.js/viem、LangChain/ElizaOS、DeFi 与智能合约安全经验。月薪 8000-10000 美元。',
+    'responsibilities': [
+      '开发与维护以 AI Agent + Web3 功能为重点的可扩展应用',
+      '设计并实现 AI Agent 的链上执行流程：工具调用、审批、任务恢复',
+      '构建响应式、用户友好的前端界面，设计与实现后端服务、API 与数据库集成',
+      '集成区块链网络、智能合约与 Web3 钱包，构建安全的钱包认证与交易流程',
+      '为 AI Agent 设计可扩展的后端服务与执行框架',
+      '优化应用性能、可靠性与安全性，参与代码评审、技术讨论与架构决策'
+    ],
+    'requirements': [
+      '具备全栈、前端或后端软件开发经验，深入理解 Web 应用架构与现代开发实践',
+      '精通 JavaScript / TypeScript 或 Solidity，熟悉 React / Next.js 等现代前端框架',
+      '具备 Node.js 后端开发经验，了解 REST API、数据库与应用架构',
+      '具备 Web3 / 区块链 / 去中心化应用经验，理解钱包与区块链交互',
+      '了解 AI Agent 架构、LLM 集成与工具调用（API 调用、上下文管理）',
+      '了解安全性、性能优化与可扩展系统设计，熟悉 Git 协作流程'
+    ],
+    'benefits': [
+      '理想情况加分：Solidity 与智能合约开发经验，熟悉 Ethereum / EVM 兼容网络',
+      '有 ethers.js / viem / Web3.js 使用经验，了解 AI Agent 框架（LangChain、ElizaOS 等）',
+      '了解 DeFi、NFT、代币化，熟悉智能合约安全与区块链交易流程',
+      '了解 RAG、向量数据库、Prompt Engineering 或 Agent 记忆机制',
+      '有 Docker、云服务与 CI/CD 流水线经验',
+      '灵活的远程工作环境，协作型团队，接触现代技术与新兴区块链生态'
+    ],
+    'company_info': 'Starclub 是一个处于早期发展阶段的技术项目，专注于 Web3、区块链技术、数字资产及去中心化应用，正在组建技术团队，探索将 AI Agent 与智能合约相结合的解决方案——包括链上自动化执行、自主 Agent 工作流以及面向真实金融场景的去中心化应用。',
+    'work_style': '全职远程',
+    'contact': null,
+    'apply_url': null
+  },
+  {
     'id': 'featured-20261110-03',
     'title': '【企业直招】【全职远程】运营推广（AI 口语写作练习产品）',
     'company': 'AdmitPlus',
