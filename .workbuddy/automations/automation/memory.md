@@ -2,6 +2,23 @@
 
 > 规则变更（2026-10-23）：money.xlsx 已从 Git 索引移除并加入 .gitignore，**只保留本地**，不再提交/推送到远程。scrape.sh 仍在本地更新该文件（追加 V2EX + who-is-hiring 数据）。
 
+## 最近一次执行: 2026-11-09 07:28
+
+**结果**: ✅ 成功（自动化触发，代理桥 7892 已在监听无需重建，v2ex 验证返回 200）
+- Remote OK: 99 条
+- Remotive: 13 条
+- 远程岛: 150 条
+- who-is-hiring: 433 条
+- Working Nomads: 17 条
+- Himalayas: 20 条
+- V2EX: 0 条（跳过 20 个非今日帖子，当日无新帖）
+- 智联招聘: 29 条（居家办公+远程办公双词，严格过滤后）
+- **时效过滤(>89天)**: 丢弃 CN=385, Global=5
+- **汇总**: CN=177, Global=1995（基线 CN=171 / Global=1987 → +6 / +8）
+- **Git**: commit c8be0e4 push 成功（4 files: jobs-cn.js / jobs-global.js / scrape.log / ai-news 相关）；另补提交 1aa9c9d（日志尾巴 5 行）
+- **money.xlsx**: 更新成功（0 条 V2EX + 433 条 who-is-hiring），按规则未入库
+- **异常**: 无。jobs-featured.js / jobs-mainlist.js / review.html / jobs-featured-pending.js 均未被改动
+
 ## 最近一次执行: 2026-11-08 07:26
 
 **结果**: ✅ 成功（自动化触发，代理桥 7892 已在监听无需重建，v2ex 验证返回 200）

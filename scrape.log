@@ -1418,3 +1418,39 @@ Himalayas: 20 jobs
 To github.com:Consuelaz/RemoteWork.git
    527e67e..c8be0e4  master -> master
 ✅ Git 推送完成
+========================================
+开始抓取: 2026-11-10
+正在抓取 Remote OK...
+Remote OK 下载完成
+正在抓取 Remotive...
+Remotive 下载完成
+正在抓取远程岛...
+远程岛 下载完成
+正在抓取 who-is-hiring (Rebase)...
+who-is-hiring 下载完成
+正在预下载Remote OK岗位详情...
+正在抓取 V2EX...
+V2EX 下载完成
+正在预下载V2EX岗位详情...
+正在抓取智联招聘...
+智联招聘 下载完成
+正在抓取 Working Nomads...
+Working Nomads 下载完成
+正在抓取 Himalayas...
+Himalayas 下载完成
+Remote OK: 99 jobs
+Remotive: 12 jobs
+远程岛: 150 jobs
+who-is-hiring: 434 jobs (含联系方式的 434 条)
+已建立 20 个详情页映射
+V2EX: 0 jobs（跳过非今日帖子: 20）
+智联招聘: 29 jobs (严格过滤后)
+Working Nomads: 35 jobs
+Himalayas: 20 jobs
+现有数据: CN=177, Global=1995
+时效过滤(>89天): 丢弃 CN=385, Global=4
+合并去重后: CN=186, Global=1996
+✅ 数据更新完成!
+✅ money.xlsx 已更新，插入 0 条V2EX数据 + 434 条who-is-hiring数据
+数据更新完成: 2026-11-10
+========================================
