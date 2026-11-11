@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-11-11</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* 控制栏 */
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,249,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .lang-switch { display: flex; gap: 4px; }
+        .lang-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .audio-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        .audio-btn:hover { background: var(--tag-bg); }
+        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn svg { width: 13px; height: 13px; }
+        .voice-select {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 760px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        .date { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 10px; }
+        .hero-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; }
+        .stats { font-size: 12px; color: var(--text-secondary); }
+
+        /* 文章列表 */
+        .articles {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .article {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article:last-child { border-bottom: none; }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .article-left { display: flex; align-items: center; gap: 12px; }
+        .article-number { font-size: 22px; font-weight: 700; color: var(--border); line-height: 1; min-width: 32px; }
+
+        .author-row { display: flex; align-items: center; gap: 10px; }
+        .author-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700; font-size: 11px; flex-shrink: 0;
+        }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; font-size: 13px; }
+        .author-handle { color: var(--accent); font-size: 12px; }
+        .author-bio { color: var(--text-secondary); font-size: 12px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .article-actions { display: flex; gap: 6px; }
+        .action-btn {
+            padding: 5px 12px; border: 1px solid var(--border);
+            background: white; cursor: pointer; font-size: 12px;
+            border-radius: 12px; display: flex; align-items: center; gap: 4px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .action-btn:hover { background: var(--tag-bg); }
+        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn svg { width: 11px; height: 11px; }
+
+        .article-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem; font-weight: 600; line-height: 1.4;
+            margin-bottom: 10px; margin-left: 46px;
+        }
+        .article-title.en { font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text-secondary); font-size: 0.95rem; }
+
+        .article-body { margin-left: 46px; }
+        .article-content {
+            font-size: 14px; line-height: 1.85; color: var(--text);
+            margin-bottom: 8px;
+        }
+        .article-content.en { color: var(--text-secondary); }
+
+        .article-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; margin-left: 46px;
+        }
+        .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
+        .article-link:hover { text-decoration: underline; }
+
+        /* 历史存档 */
+        .archive-section {
+            max-width: 760px; margin: 0 auto;
+            padding: 32px 40px; border-top: 1px solid var(--border);
+        }
+        .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
+        .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
+        .archive-item:hover { background: var(--accent); color: white; }
+
+        footer { text-align: center; padding: 32px 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .controls { padding: 10px 20px; }
+            .hero, .archive-section { padding: 28px 20px 20px; }
+            .hero h1 { font-size: 1.4rem; }
+            .articles { padding: 0 20px 60px; }
+            .article-title, .article-body, .article-footer { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 控制栏 -->
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span id="playAllLabel">全文朗读</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <header class="hero">
+        <p class="date" id="date-en">Wednesday, November 11, 2026</p>
+        <h1 id="title-zh">AI Builders 每日精选</h1>
+        <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="stats" id="stats-zh">📝 8 篇精选</p>
+    </header>
+
+    <!-- 文章列表 -->
+    <main class="articles">
+
+        <!-- 01 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GD</div>
+                        <div class="author-info">
+                            <span class="author-name">Google DeepMind</span>
+                            <span class="author-handle">@GoogleDeepMind</span>
+                            <span class="author-bio">Gemini 4 Carbon now GA, two weeks after Argon</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(1, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Gemini 4 Carbon goes fully available, sweeping CursorBench 4.0 and Zapier AutomationBench at under half the cost per task</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Google DeepMind 于 11 月 10 日正式向开发者、企业和消费者开放 Gemini 4 Carbon。它在 Artificial Analysis 智能指数 v5.0 拿到 59 分登顶，并在 CursorBench 4.0、Perplexity 的 WANDR、Zapier 的 AutomationBench 三项真实工作流基准上排第一，官方称单任务成本比次优外部模型低 2 倍以上。网络安全三项全线刷新：SEC-bench Pro 88.2%、ExploitGym 54.8%、CWE-bench 71.0%。对齐侧有个细节值得看：Carbon 把 Terminal-Bench 4.0 上的作弊成功率压到 0.0%，内部团队实测高严重度错位告警下降近 80%。定价沿用 Argon 的介绍价 2 美元/10 美元每百万 token，11 月 30 日起涨到 4 美元/20 美元。产品分层也清晰了：Argon 跑大多数编码与知识工作，Carbon 专啃多步调试和开放式科研。Antigravity 同步预览 /swarm，用协调器把一句提示拆成隔离 git worktree 里的并行智能体，再配对抗性验证器逐条挑战 diff。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Google made Gemini 4 Carbon generally available on November 10 to developers, enterprises, researchers and consumers. Google calls it its strongest model, ranking first on the updated v5.0 Artificial Analysis Intelligence Index at 59 and first on CursorBench 4.0, Perplexity's WANDR and Zapier's AutomationBench, at more than 2x lower cost per task than the next-best external model. Cybersecurity results set new highs: 88.2% on SEC-bench Pro for finding vulnerabilities, 54.8% on ExploitGym for exploitation and 71.0% on CWE-bench for patching. On alignment, Carbon cut successful cheating on Terminal-Bench 4.0 to 0.0% while high-severity misalignment alerts in internal coding environments dropped nearly 80%. Introductory pricing matches Argon at $2/$10 per million tokens, rising to $4/$20 from November 30. Google splits the line deliberately: Argon for most coding and knowledge work, Carbon for hard multi-step debugging and open-ended science. Antigravity is previewing /swarm, turning one prompt into coordinated agents in isolated git worktrees with adversarial verifiers.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>官方发布</span><span>基准第一</span></div>
+                <a href="https://deepmind.google/blog/gemini-4-carbon-our-next-frontier-model" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AN</div>
+                        <div class="author-info">
+                            <span class="author-name">Anthropic</span>
+                            <span class="author-handle">@AnthropicAI</span>
+                            <span class="author-bio">Nasdaq ticker ANT, pricing expected Nov 18</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(2, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Anthropic prices its IPO at $70 to $78 a share, with seven chip and cloud giants buying $26 billion in a parallel placement</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Anthropic 于 11 月 10 日启动 IPO 路演：发行 8.25 亿股 A 类普通股，价格区间 70 至 78 美元，申请在纳斯达克全球精选市场挂牌，代码 ANT，按上限测算公开募资约 644 亿美元。更值得拆的是配套的 260 亿美元私募：谷歌和英伟达各 100 亿，AMD 25 亿，博通、美光、微软各 10 亿，台积电 5 亿，以与 IPO 同价认购无投票权的 N 类普通股，且不受承销商锁定期约束。财务侧，截至 9 月 30 日的九个月营收 332 亿美元、同比增约 1206%，净亏 1040 亿美元（主要来自可转债与衍生负债公允价值变动）；10 月底年化营收约 810 亿美元，年付超 10 万美元的客户达 11900 家，总采购承诺约 9009 亿美元。按上限 78 美元、完全稀释口径估值约 1.4 万亿美元，相比此前流传的 2 万亿目标近乎腰斩。定价预计 11 月 18 日，19 日开始交易。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic opened its IPO roadshow on November 10, offering 825 million Class A shares at $70 to $78 and applying to list on the Nasdaq Global Select Market under the symbol ANT, raising up to roughly $64.4 billion at the top of the range. The more revealing part is the parallel $26 billion private placement: Google and Nvidia at $10 billion each, AMD at $2.5 billion, Broadcom, Micron and Microsoft at $1 billion each and TSMC at $500 million, buying non-voting Class N shares at the IPO price and exempt from underwriter lockups. For the nine months to September 30, revenue reached $33.2 billion, up about 1,206% year over year, against a $104 billion net loss driven mainly by fair-value moves on convertible notes and derivative liabilities. Annualized revenue was about $81 billion by late October, with 11,900 customers spending over $100,000 a year and total purchase commitments near $900.9 billion. At $78 the fully diluted valuation lands around $1.4 trillion, roughly half the $2 trillion once floated.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>IPO</span><span>资本市场</span></div>
+                <a href="https://www.cnstock.com/commonDetail/826818" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">OA</div>
+                        <div class="author-info">
+                            <span class="author-name">OpenAI</span>
+                            <span class="author-handle">@OpenAI</span>
+                            <span class="author-bio">Business Hub and Business Agents, beta in the US</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(3, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">OpenAI opens Businesses in ChatGPT, letting companies claim a verified profile and run their own customer-facing Business Agent</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">11 月 10 日，OpenAI 推出 Businesses in ChatGPT 测试版，面向其 12 亿周活用户。Business Hub 让企业在 ChatGPT 里认领并验证身份，更新关键信息，上传带价格与库存的自助产品 feed，Shopify 商家可以从后台直连。数据侧给的是聚合洞察：被提及次数、网站点击量、以及哪些话题下企业被引用；用户对话与 Business Agent 聊天记录不共享，且互动量低于阈值不出数。Business Agent 让美国符合条件的电商与在线服务企业创建、测试并发布对话式智能体：当企业出现在模型回答里，用户可以点进资料页单独与它对话，界面明确标注、与原来的 ChatGPT 对话隔离。企业还能给 Business Agent 投赞助位，把它当作 ChatGPT Ads 的落地页。这条路线值得对照：今年 3 月 OpenAI 关停了购物车加佣金抽成的电商尝试，现在转向信息分发与决策辅助，逻辑上更接近搜索广告而不是电商。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI launched Businesses in ChatGPT in beta on November 10, aimed at the 1.2 billion people who use ChatGPT weekly. Through Business Hub, companies claim and verify their organization, update key details and add self-service product feeds with pricing and availability; Shopify merchants can connect a store from Business Hub or the Shopify admin. Insights are aggregated: how often a business is mentioned, website clicks and the discovery topics attached to conversations where it is cited. OpenAI says individual conversations and Business Agent chats are never shared, and insights only appear once activity crosses thresholds. Business Agents let eligible US ecommerce and online service businesses build, test and launch conversational assistants. When a business appears in a response, users can open its profile and start a separate, clearly labeled conversation. Businesses can also sponsor their agent as a destination for ChatGPT Ads. The contrast matters: OpenAI shut down its cart-and-commission commerce experiment in March, and this version looks far more like search advertising than retail.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>产品发布</span><span>商业化</span></div>
+                <a href="https://openai.com/index/introducing-businesses-chatgpt/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GD</div>
+                        <div class="author-info">
+                            <span class="author-name">Google DeepMind</span>
+                            <span class="author-handle">@GoogleDeepMind</span>
+                            <span class="author-bio">VLA model, 96% kitting on live Mercedes lines</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(4, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Gemini Robotics 2.5 hits 96% parts-kitting success on live Mercedes-Benz lines with Apptronik's Apollo 2 humanoid</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">11 月 10 日，DeepMind 发布迄今最强的视觉-语言-动作模型 Gemini Robotics 2.5，在 200 多项不同任务上做了评测：用食品夹分餐、给礼盒系蝴蝶结、液体移液。相比此前基线，按任务类型成功率高出 30% 到 100%，完成速度快 20% 到 30%。真正有产业信号的是落地：在奔驰位于匈牙利凯奇凯梅特和德国辛德尔芬根的在用产线上，Apptronik 的 Apollo 2 人形机器人（SharpaWave 五指 22 自由度手）自主完成零件分拣 kitting，从散装料箱里按每台车的顺序抓取金属支架放入排序容器，成功率 96%。架构上是双模型分工：Gemini Robotics ER 追踪整体工作流，2.5 控制手臂与手部，并在线修正装配间隙。Apptronik 称后训练数周能力就有明显跃升，迁到真实产线掉点很小。安全侧，推理时引导让障碍物周边任务成功率提升 33%、人员周边提升 43%；同时开源 ASIMOV-Jailbreak 机器人越狱基准，Gemini 4 Argon 抗越狱 99.5%，前代 ER 2 为 82%。模型目前仅向机器人伙伴开放。</p>
+                <p class="article-content en" data-lang="en" style="display:none">DeepMind introduced Gemini Robotics 2.5 on November 10, calling it its most capable vision-language-action model. It was evaluated across more than 200 distinct tasks including serving food with tongs, tying a bow on a gift box and pipetting liquid, with success rates 30% to 100% higher than previous baselines depending on task type and completions 20% to 30% faster. The industrial signal is the deployment: on active Mercedes-Benz lines in Kecskemét, Hungary and Sindelfingen, Germany, Apptronik's Apollo 2 humanoid autonomously performed automotive kitting, sorting metal brackets from bulk bins into sequencing trays in each vehicle's order, at a 96% success rate. Two models split the job: Gemini Robotics ER tracks the workflow while 2.5 controls hands and arms, correcting for gaps. Apptronik says capability improved sharply after a few weeks of post-training with little drop-off in the plant. On safety, inference-time guidance raised success on tasks near obstacles by 33% and near people by 43%, and DeepMind open-sourced ASIMOV-Jailbreak, a robotics jailbreak benchmark where Gemini 4 Argon resists 99.5% versus 82% for the prior ER 2 baseline.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>具身智能</span><span>产线验证</span></div>
+                <a href="https://deepmind.google/blog/gemini-robotics-2-5-accelerates-real-world-physical-intelligence/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GD</div>
+                        <div class="author-info">
+                            <span class="author-name">Google DeepMind</span>
+                            <span class="author-handle">@GoogleDeepMind</span>
+                            <span class="author-bio">AlphaProof Code, 6.5M lines of Lean in four weeks</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(5, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">AlphaProof Code formally verifies Signal's libsignal at the machine-code level, generating 6.5 million lines of Lean in four weeks</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">11 月 10 日，DeepMind 公布 AlphaProof Code：一个把形式化验证拆成研究团队分工的多 LLM 智能体框架。流程是人和模型一起把 Signal 的安全目标翻译成 Lean 规格、每条都由人类专家复核；随后由 Gemini Carbon 驱动的证明智能体写出约 650 万行机器可检的 Lean 证明，建立在约 2.6 万行可信规格与 AArch64 机器码语义之上。覆盖面是 libsignal 的 PQXDH 后量子握手与 Triple Ratchet，证明了前向保密、认证、妥协后安全与握手保密，而且是对 rustc 编译出的、未经修改的 AArch64 二进制。同类工作历史上要专家团队做数年，这次四周。最有说服力的是反向验证：把两个已修复的真实 bug 重新注入隔离副本，系统两次都产出了「该版本不安全」的机器可检证明，而不是一味说没问题。智能体还自查并只把约 1% 的代码标给人类二看。作者自己的判断很清醒：下一个前沿不是证明，而是规格——没被写进规格的性质，等于什么都没证明。</p>
+                <p class="article-content en" data-lang="en" style="display:none">DeepMind published AlphaProof Code on November 10, a multi-LLM agentic framework that splits formal verification the way a research team would. Humans and a mix of models translate Signal's security goals into Lean specifications, with human experts reviewing every one; prover agents powered by Gemini Carbon then generated about 6.5 million lines of machine-checked Lean proof, resting on roughly 26,000 lines of trusted specifications and AArch64 machine-code semantics. The proofs cover libsignal's post-quantum PQXDH handshake and Triple Ratchet, establishing forward secrecy, authentication, post-compromise security and handshake secrecy, against the unmodified AArch64 binary produced by the standard Rust compiler. Work that historically takes expert teams years took four weeks. The sanity check is what earns trust: two real, previously fixed bugs were reintroduced into an isolated copy, and both times the system produced a machine-checked proof that the buggy version was insecure. Agents also audited their own output and flagged about 1% of the codebase for human review. As the authors put it, the next frontier is not proof but specification: a property never specified is a property never proven.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>形式化验证</span><span>安全研究</span></div>
+                <a href="https://deepmind.google/blog/introducing-alphaproof-code/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LS</div>
+                        <div class="author-info">
+                            <span class="author-name">Latent Space</span>
+                            <span class="author-handle">@latentspacepod</span>
+                            <span class="author-bio">swyx + Alessio, AI Engineer podcast</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(6, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">What Frontier Labs Buy: a data deep dive with Handshake AI's Garrett Lord and team</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">这是 Latent Space 第一次深挖一家 AI 数据公司。Handshake 的 AI 训练业务在约一年内从零做到 10 亿美元年化毛收入，那么前沿实验室到底在买什么？节目用 164 分钟把工程、科学、金融、对齐四条线的主持人凑到一起，直接上机演示。金融段最扎心：智能体要在银行邮箱里自己找到任务、判断哪些文件约束这笔交易、再交出工作簿。模型能口头讲清税务处理，却在「这一行代码才是规则适用处」上翻车——它把客户邮件里提到的既有商誉带进 Python 减掉了。生物段是 VIALS 基准：九张脑肿瘤组织切片里挑出血管坏死最严重的两张，模型选对了 H 和 I，却又多选了 G；看专家指着组织说「缺了什么」，比看分数更有信息量。编码与对齐段则可以检查智能体读了哪些文件、有没有核对副本、事后怎么改 shell 历史——只看最终回复会漏掉大部分被评估的东西。结论很直接：专家判断与 rubric 之间的那道缝隙，就是数据公司的护城河。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Latent Space's first deep dive into an AI data company. Handshake's AI training business went from launch to $1 billion in gross annualized revenue in roughly a year, so what are frontier labs actually buying at that scale? Across 164 minutes, the hosts of the Science, Engineering and Finance shows walk through live environments. In the finance demo, an agent must find its assignment in a bank's inbox, work out which files govern the deal and deliver a workbook. The model can explain the tax treatment when asked directly, but fails to recognize that one specific line of code is where the rule applies, carrying an existing goodwill figure from the client's email into Python and subtracting it. In biology, the VIALS benchmark shows nine brain-tumor slides and asks which two show the most advanced vessel necrosis; the model picks the right two and adds a third. The coding and alignment segments inspect which files an agent read, whether it checked copies and how it edited shell history afterward. The thesis: the gap between expert judgment and rubrics is the moat.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>训练数据</span><span>Evals</span></div>
+                <a href="https://latent.space/p/handshake/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">ME</div>
+                        <div class="author-info">
+                            <span class="author-name">Mihail Eric</span>
+                            <span class="author-handle">@mihail_eric</span>
+                            <span class="author-bio">Stanford CS146S, leads AI at Monaco</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(7, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">How Stanford teaches AI-native engineering: what you assign when an agent finishes last year's homework in one prompt</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">这期的起点是一个很实际的问题：当编码智能体一句提示就能做完去年的作业，你还该布置什么？Mihail Eric 在斯坦福开的 CS146S《The Modern Software Developer》第二期给出了答案——把开源维护者请进课堂。学生要自己啃一个不熟悉的仓库、提出一处改动，然后把这个 patch 讲给「可能真的会合并它」的那个人听。这一个改动就把考核重心从语法正确挪到了系统理解和沟通。节目里他还打开完整十周大纲，逐条对照哪些内容在自己的工程团队里真的活下来了，哪些只是课堂好看。Monaco 这边的做法同样有意思：智能体工作区自研，代码评审工具直接买，给 on-call 智能体开了 Datadog 和 GitHub 的权限——他讲的是一条判断标准，什么工具该自己造、什么该买。配套文章也很硬：《The Emperor Has No Clothes》从零手搓一个编码智能体，《Demystifying Claude Code》则完整拆解真实 harness 的调用链。想做 AI 编程产品的人，这套课程设计本身就是一份需求文档。</p>
+                <p class="article-content en" data-lang="en" style="display:none">The episode starts from a practical question: what do you assign when a coding agent can finish last year's homework in a single prompt? For the second run of Stanford's CS146S, The Modern Software Developer, Mihail Eric brought open-source maintainers into the course. Students have to learn an unfamiliar repository, propose a change, and then explain the patch to the person who might actually merge it, which moves the grading weight from syntax to system understanding and communication. He opens the full ten-week syllabus and shows which lessons survived contact with his own engineering team at Monaco and which only looked good in class. Monaco's split is instructive: it built its own agent workspaces, bought its code review tools, and gave an on-call agent access to Datadog and GitHub, which becomes a general rule for what to own versus buy. The companion essays are worth the read too: The Emperor Has No Clothes builds a coding agent from scratch, while Demystifying Claude Code traces a real agent harness. For anyone building AI coding products, the syllabus is effectively a requirements document.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>AI 原生工程</span><span>教育</span></div>
+                <a href="https://latent.space/p/one_million_ai_engineer_special_how_stanford_teaches_ai-native_engineering_mihail_eric_monaco/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AW</div>
+                        <div class="author-info">
+                            <span class="author-name">AWS Architecture</span>
+                            <span class="author-handle">@awscloud</span>
+                            <span class="author-bio">Bedrock AgentCore reference architecture</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(8, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">AWS publishes a seven-layer reference architecture for production AI agents on Bedrock AgentCore</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">11 月 9 日，AWS 的四位解决方案架构师发布了一套以 Bedrock AgentCore 为底座的七层可组合参考架构，目标是把多智能体系统从脆弱的 demo 推向可运维的生产系统。文章对失败原因的归纳很准：多数企业 AI 项目卡住不是模型推理能力不够，而是架构债——把模型 API 硬编码进业务逻辑、给单个巨型智能体开一堆工具权限、只在报错之后才去看执行链路。Agent 一旦堆上工具、指令和会话历史，三种失效模式必然出现：上下文膨胀拉高成本并稀释注意力、串行调用导致延迟叠加、工具泛滥引发越权和幻觉操作。七层的切法因此是：数据与知识、模型与推理（用 LiteLLM 这类路由代理做模型分级）、编排（supervisor 加 specialist，通过 A2A 注册表发现专家）、集成与工具（所有调用过 AgentCore Gateway 做参数校验与细粒度权限）、安全与治理（拦截提示注入、执行脱敏与合规边界）、可观测（跨每次委派与工具调用打同一个 trace ID）、应用接口。配套的退款流程例子把职责边界讲得很清楚：订单智能体和退款智能体并行跑，谁都没有直接动钱的权限，最后由 supervisor 过策略层才放行。核心主张是可插拔——每个边界都是稳定的请求响应契约，避免被单一厂商锁死。</p>
+                <p class="article-content en" data-lang="en" style="display:none">On November 9, four AWS solutions architects published a seven-layer composable reference architecture on Bedrock AgentCore aimed at moving multi-agent systems from fragile prototypes to operable production systems. Their diagnosis of why projects stall is the useful part: it is rarely model reasoning capability, but architectural debt. Teams hardcode model API calls into business logic, grant broad tool access to one monolithic agent, and only inspect execution traces after errors appear. Once an agent accumulates tools, instructions and history, three failure modes follow: context window bloat that degrades attention and inflates token cost, latency compounding from sequential unoptimized calls, and tool sprawl that produces hallucinated or out-of-scope actions. The seven layers are data and knowledge, model and inference (routing proxies like LiteLLM so small models handle classification), orchestration (supervisor plus specialists discovered through an A2A registry), integration and tools (every call passes AgentCore Gateway for parameter validation and fine-grained access control), security and governance (prompt-injection interception, redaction, compliance boundaries), observability (one trace ID across every delegation and tool call) and the application interface. A refund workflow shows the boundaries: order and refund agents run in parallel, neither can touch payouts, and the supervisor clears the policy layer first. The core claim is pluggability through stable request-and-response contracts.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Agent 架构</span><span>工程实践</span></div>
+                <a href="https://ainewstodays.com/aws-details-seven-layer-architecture-for-production-ai-agents" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+    </main>
+
+    
+        <!-- 历史存档 -->
+        <div class="archive-section">
+            <h3>📅 历史存档</h3>
+            <div class="archive-list">
+<a href="2026-11-10.html" class="archive-item">2026年11月10日</a>
+<a href="2026-11-09.html" class="archive-item">2026年11月9日</a>
+<a href="2026-11-08.html" class="archive-item">2026年11月8日</a>
+<a href="2026-11-05.html" class="archive-item">2026年11月5日</a>
+<a href="2026-11-04.html" class="archive-item">2026年11月4日</a>
+<a href="2026-10-24.html" class="archive-item">2026年10月24日</a>
+<a href="2026-05-22.html" class="archive-item">2026年5月22日</a>
+<a href="2026-05-17.html" class="archive-item">2026年5月17日</a>
+<a href="2026-05-15.html" class="archive-item">2026年5月15日</a>
+<a href="2026-05-09.html" class="archive-item">2026年5月9日</a>
+            </div>
+        </div>
+
+
+    <footer>
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
+    </footer>
+
+    <script>
+        var LANG = 'zh';
+        var voices = [];
+        var isPlaying = false;
+        var currentUtterance = null;
+        var selectedVoice = null;
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            var select = document.getElementById('voiceSelect');
+            select.innerHTML = '<option value="">默认语音</option>';
+            var zhGroup = document.createElement('optgroup');
+            zhGroup.label = '中文';
+            var enGroup = document.createElement('optgroup');
+            enGroup.label = 'English';
+            voices.forEach(function(v) {
+                var opt = document.createElement('option');
+                opt.value = v.name;
+                var label = v.name + (v.localService ? ' ★' : '');
+                opt.textContent = label;
+                if (v.lang.startsWith('zh')) zhGroup.appendChild(opt);
+                else if (v.lang.startsWith('en')) enGroup.appendChild(opt);
+            });
+            if (zhGroup.children.length) select.appendChild(zhGroup);
+            if (enGroup.children.length) select.appendChild(enGroup);
+            var highQ = voices.find(function(v) {
+                return v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en'));
+            });
+            if (highQ) { select.value = highQ.name; selectedVoice = highQ; }
+        }
+
+        document.getElementById('voiceSelect').addEventListener('change', function(e) {
+            selectedVoice = voices.find(function(v) { return v.name === e.target.value; }) || null;
+        });
+
+        var LABELS = {
+            'zh': {
+                'title':    'AI Builders 每日精选',
+                'subtitle': '每日精选 AI 领域最有价值的深度内容',
+                'stats':    '📝 8 篇精选',
+                'playBtn':  '朗读',
+                'stopBtn':  '停止',
+                'playAll':  '全文朗读',
+                'stopAll':  '停止',
+            },
+            'en': {
+                'title':    'AI Builders Daily Digest',
+                'subtitle': 'Daily curated deep content from AI builders',
+                'stats':    '📝 8 Articles',
+                'playBtn':  'Read',
+                'stopBtn':  'Stop',
+                'playAll':  'Read All',
+                'stopAll':  'Stop',
+            }
+        };
+
+        function setLang(lang) {
+            LANG = lang;
+            var ls = LABELS[lang];
+            document.getElementById('btn-zh').className = 'lang-btn' + (lang === 'zh' ? ' active' : '');
+            document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+            document.getElementById('title-zh').textContent = ls.title;
+            document.getElementById('subtitle-zh').textContent = ls.subtitle;
+            document.getElementById('stats-zh').textContent = ls.stats;
+            document.getElementById('playAllLabel').textContent = isPlaying ? ls.stopAll : ls.playAll;
+            document.querySelectorAll('.action-btn').forEach(function(btn) {
+                var playing = btn.classList.contains('playing');
+                btn.querySelector('.btn-text').textContent = playing ? ls.stopBtn : ls.playBtn;
+            });
+            document.querySelectorAll('[data-lang]').forEach(function(el) {
+                el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+            });
+            try { localStorage.setItem('ai-news-lang', lang); } catch(e) {}
+        }
+
+        function getTextForArticle(num, lang) {
+            var arts = document.querySelectorAll('.article');
+            if (!arts[num - 1]) return '';
+            var art = arts[num - 1];
+            var parts = [];
+            art.querySelectorAll('[data-lang="' + lang + '"]').forEach(function(el) {
+                if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+            });
+            return parts.join('。');
+        }
+
+        function playArticle(num, btn) {
+            var text = getTextForArticle(num, LANG);
+            if (!text) return;
+            if (isPlaying && currentUtterance) {
+                speechSynthesis.cancel();
+                isPlaying = false;
+                currentUtterance = null;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(function(b) {
+                    b.classList.remove('playing');
+                });
+                var ls = LABELS[LANG];
+                document.getElementById('playAllLabel').textContent = ls.playAll;
+                document.querySelectorAll('.action-btn .btn-text').forEach(function(t) { t.textContent = ls.playBtn; });
+                return;
+            }
+            var ls = LABELS[LANG];
+            var u = new SpeechSynthesisUtterance(text.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); btn.querySelector('.btn-text').textContent = ls.stopBtn; };
+            u.onend = u.onerror = function() {
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); btn.querySelector('.btn-text').textContent = ls.playBtn;
+            };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        function playAll() {
+            var btn = document.getElementById('playAllBtn');
+            var label = document.getElementById('playAllLabel');
+            var ls = LABELS[LANG];
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); label.textContent = ls.playAll;
+                document.querySelectorAll('.action-btn').forEach(function(b) {
+                    b.classList.remove('playing'); b.querySelector('.btn-text').textContent = ls.playBtn;
+                });
+                return;
+            }
+            var texts = [];
+            document.querySelectorAll('.article').forEach(function(art) {
+                var parts = [];
+                art.querySelectorAll('[data-lang="' + LANG + '"]').forEach(function(el) {
+                    if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+                });
+                if (parts.length) texts.push(parts.join('。'));
+            });
+            var fullText = texts.join('。');
+            var u = new SpeechSynthesisUtterance(fullText.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); label.textContent = ls.stopAll; };
+            u.onend = u.onerror = function() { isPlaying = false; currentUtterance = null; btn.classList.remove('playing'); label.textContent = ls.playAll; };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+        try { var saved = localStorage.getItem('ai-news-lang'); if (saved) setLang(saved); } catch(e) {}
+    </script>
+</body>
+</html>
