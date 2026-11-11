@@ -2,6 +2,25 @@
 
 > 规则变更（2026-10-23）：money.xlsx 已从 Git 索引移除并加入 .gitignore，**只保留本地**，不再提交/推送到远程。scrape.sh 仍在本地更新该文件（追加 V2EX + who-is-hiring 数据）。
 
+## 最近一次执行: 2026-11-11 09:35
+
+**结果**: ✅ 成功（自动化触发，代理桥 7892 已在监听无需重建，v2ex 验证返回 200）
+- Remote OK: 99 条
+- Remotive: 13 条
+- 远程岛: 150 条
+- who-is-hiring: 433 条
+- Working Nomads: 36 条
+- Himalayas: 20 条
+- V2EX: 1 条（跳过 19 个非今日帖子）
+- 智联招聘: 30 条（居家办公+远程办公双词，严格过滤后）
+- **时效过滤(>89天)**: 丢弃 CN=384, Global=4
+- **汇总**: CN=200, Global=1996（基线 CN=186 / Global=1996 → +14 / 0）
+- **Git**: commit 014ca13 push 成功（3 files: jobs-cn.js / jobs-global.js / scrape.log）；另补提交 a070b7c（日志尾巴 5 行）
+- **money.xlsx**: 更新成功（1 条 V2EX + 433 条 who-is-hiring，13.6MB），按规则未入库
+- **异常**: 无。jobs-featured.js(26 条) / jobs-mainlist.js / review.html / jobs-featured-pending.js 均未被改动
+- **数据质量**: 无 date 岗位 0 条；ID 全部唯一（200/1996）；2 空格缩进正常；45 条 global description 501-550 字符（历史轻微偏差）
+- **备注**: 本次 jobs-global.js diff 约 4 万行，因新数据前插导致整数组位移，git 视为重写，属既有现象（11-09 亦如此），非格式损坏
+
 ## 最近一次执行: 2026-11-09 07:28
 
 **结果**: ✅ 成功（自动化触发，代理桥 7892 已在监听无需重建，v2ex 验证返回 200）
