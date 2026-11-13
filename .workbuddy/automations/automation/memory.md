@@ -2,7 +2,24 @@
 
 > 规则变更（2026-10-23）：money.xlsx 已从 Git 索引移除并加入 .gitignore，**只保留本地**，不再提交/推送到远程。scrape.sh 仍在本地更新该文件（追加 V2EX + who-is-hiring 数据）。
 
-## 最近一次执行: 2026-11-11 09:35
+## 最近一次执行: 2026-11-13 10:40
+
+**结果**: ✅ 成功（自动化触发；7892 无监听 → 重启 scripts/proxy_bridge.py，v2ex 验证返回 200）
+- Remote OK: 98 条 / Remotive: 14 条 / 远程岛: 150 条
+- who-is-hiring: 433 条（含联系方式 433 条）
+- Working Nomads: 37 条 / Himalayas: 20 条
+- V2EX: 0 条（跳过 20 个非今日帖子，当日无新帖）
+- 智联招聘: 31 条（居家办公+远程办公双词，严格过滤后）
+- **时效过滤(>89天)**: 丢弃 CN=387, Global=0
+- **汇总**: CN=216, Global=2000（基线 CN=200 / Global=1996 → +16 / +4）
+- **分源存量**: CN = 智联164 + who-is-hiring 44 + V2EX 8；Global = 远程岛1578 + RemoteOK 178 + Himalayas 178 + WorkingNomads 49 + Remotive 17
+- **Git**: commit 6d95da4 push 成功（8515156..6d95da4，3 files）
+- **money.xlsx**: 更新成功（0 条 V2EX + 433 条 who-is-hiring），按规则未入库
+- **异常**: 无。jobs-featured.js(26 条) / jobs-mainlist.js / review.html / jobs-featured-pending.js md5 均未变
+- **数据质量**: 条数与唯一 URL/ID 完全一致（216/2000）；无 date 岗位 0；46 条 global description 501-547 字符（历史轻微偏差，合规范围内）
+- **间隔**: 距上次 11-11 已隔 1 天（11-12 未触发），CN 存量侧丢弃 387 条过期岗属正常补偿
+
+## 上次执行: 2026-11-11 09:35
 
 **结果**: ✅ 成功（自动化触发，代理桥 7892 已在监听无需重建，v2ex 验证返回 200）
 - Remote OK: 99 条
