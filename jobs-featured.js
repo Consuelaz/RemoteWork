@@ -29,6 +29,41 @@
 
 const JOBS_FEATURED = [
   {
+    'id': 'featured-20261113-01',
+    'title': '【企业直招】【全职/兼职 远程】Python 开发工程师｜15-20K/月',
+    'company': 'AI Agent 自动化开发团队',
+    'logo': '🤖',
+    'category': '后端开发',
+    'tags': ['远程', 'Python', 'Django', 'Vue', 'Dify', 'AI Agent'],
+    'salary': '15K-20K/月（全职/兼职均可）',
+    'location': '国内远程',
+    'date': '2026-11-13',
+    'canRefer': true,
+    'source': '企业直招',
+    'sourceUrl': '',
+    'description': '团队为企业客户提供 AI Agent 与自动化功能开发，主要在 Dify 上搭建工作流，极少数场景用 Python 单独开发。项目技术栈 Django + Vue + PostgreSQL + Redis + Docker。要求 1-3 年 Python 经验，熟 Django、会 Vue，用过 PostgreSQL、Redis、Docker；Dify 或类似平台经验不作硬性要求，入职后需要使用。业务需求与技术实现方案都会提前设计清楚（接口选用、数据处理流程等明确给出），你主要负责按方案完成编码、按任务节点交付。全职/兼职均可远程，要求按节点交付、工作时段保持可联系。',
+    'responsibilities': [
+      '在 Dify 上搭建 AI Agent 工作流，实现企业客户的自动化功能',
+      '极少数场景用 Python 单独开发功能模块',
+      '按提前设计好的技术方案完成编码（Django + Vue 项目）',
+      '按任务节点交付，保证进度与质量'
+    ],
+    'requirements': [
+      '1-3 年 Python 开发经验，熟悉 Django',
+      '会 Vue 前端开发',
+      '用过 PostgreSQL、Redis、Docker',
+      'Dify 或类似平台经验不要求，但工作中需要使用，需有学习能力'
+    ],
+    'benefits': [
+      '薪资 15K-20K/月，全职/兼职两种方式均可',
+      '远程办公，时间地点灵活',
+      '业务需求与技术方案提前设计清楚，专注编码本身，不用背需求分析',
+      '接触 AI Agent / Dify 工作流等热门方向，技术栈全面（后端 + 前端 + 数据库 + 容器化）',
+      '远程纪律：按节点交付、工作时段保持可联系'
+    ],
+    'company_info': '为企业客户提供 AI Agent 与自动化功能开发的技术团队，核心业务是在 Dify 平台上为客户搭建 AI 工作流与自动化方案。'
+  },
+  {
     'id': 'featured-20261110-07',
     'title': '【企业直招】【全职远程】客户开发经理（海外公关）｜8-12K 底薪 + 8-15% 成交佣金',
     'company': '优兔海外传播（YoutuPR）',
