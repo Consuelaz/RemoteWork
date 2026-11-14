@@ -2,7 +2,23 @@
 
 > 规则变更（2026-10-23）：money.xlsx 已从 Git 索引移除并加入 .gitignore，**只保留本地**，不再提交/推送到远程。scrape.sh 仍在本地更新该文件（追加 V2EX + who-is-hiring 数据）。
 
-## 最近一次执行: 2026-11-13 10:40
+## 最近一次执行: 2026-11-14 07:27
+
+**结果**: ✅ 成功（自动化触发；代理桥 7892 已在监听无需重建，v2ex 验证返回 200）
+- Remote OK: 98 条 / Remotive: 16 条 / 远程岛: 150 条
+- who-is-hiring: 433 条（含联系方式 433 条）
+- Working Nomads: 36 条 / Himalayas: 20 条
+- V2EX: 0 条（跳过 20 个非今日帖子，当日无新帖）
+- 智联招聘: 24 条（居家办公+远程办公双词，严格过滤后）
+- **时效过滤(>89天)**: 丢弃 CN=385, Global=0
+- **汇总**: CN=236, Global=2000（基线 CN=223 / Global=2000 → +13 / 0）
+- **Git**: commit 458d01a push 成功（fd1d90b..458d01a，3 files, +20432/-20105）；另补提交 9ae7e66（scrape.log 尾巴 5 行）
+- **money.xlsx**: 更新成功（0 条 V2EX + 433 条 who-is-hiring），按规则未入库
+- **异常**: 无。jobs-featured.js / jobs-featured-pending.js / jobs-mainlist.js / review.html 均未被改动
+- **前置说明**: 本次运行基线为 fd1d90b（用户 11-13 晚手动添加精选岗「AI 视频创作与剪辑师」并提交），故 CN 基线从 216 升至 223
+- **耗时**: 全流程仅 1 分 37 秒（最快记录之一）
+
+## 上次执行: 2026-11-13 10:40
 
 **结果**: ✅ 成功（自动化触发；7892 无监听 → 重启 scripts/proxy_bridge.py，v2ex 验证返回 200）
 - Remote OK: 98 条 / Remotive: 14 条 / 远程岛: 150 条
