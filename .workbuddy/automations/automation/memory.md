@@ -2,7 +2,23 @@
 
 > 规则变更（2026-10-23）：money.xlsx 已从 Git 索引移除并加入 .gitignore，**只保留本地**，不再提交/推送到远程。scrape.sh 仍在本地更新该文件（追加 V2EX + who-is-hiring 数据）。
 
-## 最近一次执行: 2026-11-15 07:27
+## 最近一次执行: 2026-11-16 09:48
+
+**结果**: ✅ 成功（自动化触发；代理桥 7892 已在监听无需重建，v2ex 验证返回 200）
+- Remote OK: 97 条 / Remotive: 16 条 / 远程岛: 150 条
+- who-is-hiring: 434 条（含联系方式 434 条）
+- Working Nomads: 34 条 / Himalayas: 20 条
+- V2EX: 0 条（跳过 20 个非今日帖子，当日无新帖）
+- 智联招聘: 30 条（居家办公+远程办公双词，严格过滤后）
+- **时效过滤(>89天)**: 丢弃 CN=386, Global=0
+- **汇总**: CN=256, Global=2000（基线 CN=247 / Global=2000 → +9 / 0）
+- **Git**: commit e1a8992 push 成功（4 files, +20415/-20166）；另补提交 f58e489（scrape.log 尾巴 5 行）
+- **money.xlsx**: 更新成功（0 条 V2EX + 434 条 who-is-hiring），按规则未入库
+- **异常**: 无。jobs-featured.js / jobs-mainlist.js / review.html / jobs-featured-pending.js 均未被改动
+- **前置说明**: 本次运行基线为 8c91be5（11-15 的 scrape.log 补提交）
+- **耗时**: 全流程约 2 分钟
+
+## 上次执行: 2026-11-15 07:27
 
 **结果**: ✅ 成功（自动化触发；代理桥 7892 已在监听无需重建，v2ex 验证返回 200）
 - Remote OK: 97 条 / Remotive: 16 条 / 远程岛: 150 条
