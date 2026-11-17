@@ -44,6 +44,12 @@ let featuredShowAll = false;
 const getFeaturedList = () => (typeof JOBS_FEATURED !== 'undefined') ? JOBS_FEATURED : [];
 const featuredIdSet = () => new Set(getFeaturedList().map(j => j.id));
 const isFeaturedJob = (job) => !!job && featuredIdSet().has(job.id);
+// 精选岗若直接取自普通列表（id 是 featured- 前缀、与普通列表的 sourceId 不同），
+// 需额外按 sourceUrl 排除，否则同一岗位在精选与普通列表双份出现、绕过付费墙。
+// 空值不入集合，避免误伤所有无 sourceUrl 的岗位。
+const featuredSourceUrlSet = () => new Set(
+  getFeaturedList().map(j => (j.sourceUrl || '').trim()).filter(Boolean)
+);
 
 // 精选板块展示全部精选岗（按日期倒序），不设时间窗口——
 // 精选是人工筛选内容，条数有限，过期了也仍有参考价值，
@@ -65,17 +71,21 @@ function isFreshJob(job) {
 
 function getCurrentJobs() {
   const featuredIds = featuredIdSet();
+  const featuredUrls = featuredSourceUrlSet();
+  const notFeatured = (j) => !featuredIds.has(j.id) &&
+                              !featuredUrls.has((j.sourceUrl || '').trim()) &&
+                              isFreshJob(j);
   if (currentSource === 'cn') {
     const mainList = (typeof JOBS_MAINLIST !== 'undefined') ? JOBS_MAINLIST : [];
     const cnList   = (typeof JOBS_CN      !== 'undefined') ? JOBS_CN      : [];
     const seen = new Set(mainList.map(j => j.id));
-    const unique = cnList.filter(j => !seen.has(j.id) && !featuredIds.has(j.id) && isFreshJob(j));
-    const allJobs = [...mainList.filter(j => !featuredIds.has(j.id) && isFreshJob(j)), ...unique];
+    const unique = cnList.filter(j => !seen.has(j.id) && notFeatured(j));
+    const allJobs = [...mainList.filter(notFeatured), ...unique];
     return allJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
   }
   const globalList = (typeof JOBS_GLOBAL !== 'undefined') ? JOBS_GLOBAL : [];
   return globalList
-    .filter(j => !featuredIds.has(j.id) && isFreshJob(j))
+    .filter(notFeatured)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
