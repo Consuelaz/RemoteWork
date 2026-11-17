@@ -224,7 +224,24 @@ else
 fi
 
 # ========================================
-# 5. 抓取 Working Nomads (JSON API) - 海外远程
+# 5. 抓取 远程.work (yuancheng.work, SSR 站点) - 国内远程直招岗
+#    2026-11-17 新增：详情页有 JSON-LD JobPosting 结构化数据，
+#    以客服/BD/销售/助理等非技术直招岗为主，补智联的兼职零工缺口
+# ========================================
+echo "正在抓取 远程.work..." >> $LOG_FILE
+curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" "https://yuancheng.work/" --connect-timeout 12 --max-time 30 -o /tmp/ycw_home.html
+sleep 1
+# 分页无尾斜杠（带斜杠会 301）
+curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" "https://yuancheng.work/page/2" --connect-timeout 12 --max-time 30 -o /tmp/ycw_page2.html
+
+if [ -s /tmp/ycw_home.html ]; then
+    echo "远程.work 下载完成" >> $LOG_FILE
+else
+    echo "远程.work 下载失败" >> $LOG_FILE
+fi
+
+# ========================================
+# 6. 抓取 Working Nomads (JSON API) - 海外远程
 # ========================================
 echo "正在抓取 Working Nomads..." >> $LOG_FILE
 curl -s -L -A "Mozilla/5.0" "https://www.workingnomads.com/api/exposed_jobs/" --connect-timeout 12 --max-time 30 -o /tmp/workingnomads.json
@@ -236,7 +253,7 @@ else
 fi
 
 # ========================================
-# 6. 抓取 Himalayas (RSS) - 海外远程
+# 7. 抓取 Himalayas (RSS) - 海外远程
 # ========================================
 echo "正在抓取 Himalayas..." >> $LOG_FILE
 curl -s -L -A "Mozilla/5.0" "https://himalayas.app/jobs/rss" --connect-timeout 12 --max-time 30 -o /tmp/himalayas.xml
@@ -254,6 +271,7 @@ python3 << 'EOF' 2>&1 | tee -a $LOG_FILE
 import json
 import os
 import re
+import subprocess
 from datetime import datetime
 from bs4 import BeautifulSoup
 
@@ -1174,6 +1192,128 @@ except Exception as e:
     zhaopin_jobs = []
 
 # ============================================================
+# 处理 远程.work（国内，SSR 详情页 + JSON-LD JobPosting）
+# 2026-11-17 新增。解析链路：列表页提 N.html 链接 → 并发下载详情 →
+# 解析 JSON-LD（title/company/datePosted/TELECOMMUTE）→ 正则补抽薪资。
+# 注意：分页 /page/2 无尾斜杠；详情页正文在 job-detail 容器，兜底用。
+# ============================================================
+YCW_BLACKLIST = ['招聘：行政前台', '培训费', '保证金', '入职押金']
+
+def _extract_salary(text):
+    """从正文抽薪资，如 5K-8K / 15-20K / 300-500 元/天，失败返回面议"""
+    m = re.search(r'(\d{1,3})(?:\.\d)?[kK千万]\s*[-~到至]\s*(\d{1,3})(?:\.\d)?[kK千万]', text)
+    if m:
+        return f"{m.group(0).replace(' ','')}"
+    m = re.search(r'(\d{3,6})\s*[-~到至]\s*(\d{3,6})\s*元\s*[/每]?\s*[日天月]', text)
+    if m:
+        return m.group(0)
+    return '面议'
+
+def _parse_ycw_detail(fname, jid, job_url):
+    """解析单个远程.work详情页，返回 job dict 或 None"""
+    try:
+        with open(fname, 'r', encoding='utf-8') as f:
+            html = f.read()
+        m = re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+        if not m:
+            return None
+        jp = None
+        for item in json.loads(m.group(1)).get('@graph', []):
+            if item.get('@type') == 'JobPosting':
+                jp = item
+                break
+        if not jp:
+            return None
+        title = (jp.get('title') or '').strip()
+        if not title:
+            return None
+        # 黑名单过滤（诈骗/垃圾岗）
+        blob = title + ' ' + re.sub(r'<[^>]+>', ' ', jp.get('description') or '')
+        if any(kw in blob for kw in YCW_BLACKLIST):
+            return None
+        org = jp.get('hiringOrganization') or {}
+        company = (org.get('name') or '').strip() or '远程.work 发布方'
+        date = (jp.get('datePosted') or '')[:10]
+        if not re.match(r'\d{4}-\d{2}-\d{2}', date):
+            date = DATE
+        desc_text = re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', ' ', jp.get('description') or '')).strip()
+        etype_raw = jp.get('employmentType') or ''
+        if isinstance(etype_raw, list):
+            # 有的页面是数组，如 ["FULL_TIME", "CONTRACTOR"]，取第一个
+            etype_raw = etype_raw[0] if etype_raw else ''
+        etype = str(etype_raw).upper()
+        etype_map = {'FULL_TIME': '全职', 'PART_TIME': '兼职', 'CONTRACTOR': '合同工',
+                     'INTERN': '实习', 'TEMPORARY': '兼职', 'OTHER': ''}
+        emp_tag = etype_map.get(etype, '')
+        tags = ['远程'] + ([emp_tag] if emp_tag else [])
+        return {
+            "id": stable_id("cn-ycw", jid),
+            "title": title,
+            "company": company,
+            "logo": "🧭",
+            "category": guess_category_cn(title),
+            "tags": tags,
+            "salary": _extract_salary(desc_text),
+            "location": '全国远程',
+            "date": date,
+            "isNew": True,
+            "isFeatured": False,
+            "canRefer": False,
+            "source": "https://yuancheng.work",
+            "sourceUrl": job_url,
+            "applyUrl": job_url,
+            "description": desc_text[:500] or f"{company} 招聘 {title}",
+            "responsibilities": [],
+            "requirements": [],
+            "benefits": []
+        }
+    except Exception:
+        return None
+
+ycw_jobs = []
+try:
+    job_ids = []
+    seen_ids = set()
+    for fp in ['/tmp/ycw_home.html', '/tmp/ycw_page2.html']:
+        if not os.path.exists(fp):
+            continue
+        with open(fp, 'r', encoding='utf-8') as f:
+            lp = f.read()
+        for jid in re.findall(r'href="https://yuancheng\.work/(\d+)\.html"', lp):
+            if jid not in seen_ids:
+                seen_ids.add(jid)
+                job_ids.append(jid)
+    if job_ids:
+        from concurrent.futures import ThreadPoolExecutor
+        UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+
+        def _dl(t):
+            idx, jid = t
+            subprocess.run(
+                ['curl', '-s', '-L', '-A', UA,
+                 '--connect-timeout', '12', '--max-time', '25',
+                 f'https://yuancheng.work/{jid}.html',
+                 '-o', f'/tmp/ycw_detail_{idx}.html'],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+            )
+            return idx
+
+        tasks = [(i, jid) for i, jid in enumerate(job_ids)]
+        with ThreadPoolExecutor(max_workers=8) as ex:
+            list(ex.map(_dl, tasks))
+
+        for i in range(len(job_ids)):
+            df = f'/tmp/ycw_detail_{i}.html'
+            if os.path.exists(df):
+                j = _parse_ycw_detail(df, job_ids[i], f'https://yuancheng.work/{job_ids[i]}.html')
+                if j:
+                    ycw_jobs.append(j)
+    print(f"远程.work: {len(ycw_jobs)} jobs (共发现 {len(job_ids)} 个链接)")
+except Exception as e:
+    print(f"远程.work 解析失败: {e}")
+    ycw_jobs = []
+
+# ============================================================
 # 处理 Working Nomads（海外，公开 JSON API）
 # ============================================================
 workingnomads_jobs = []
@@ -1394,7 +1534,7 @@ def filter_fresh(jobs):
 
 # V2EX 数据放最前面（最新抓取的社群内推岗位）
 # 国内上限2000条（包含 who-is-hiring 数据）
-merged_cn = merge_jobs(existing_cn, v2ex_jobs + rebase_jobs + zhaopin_jobs)[:2000]
+merged_cn = merge_jobs(existing_cn, v2ex_jobs + rebase_jobs + zhaopin_jobs + ycw_jobs)[:2000]
 # 海外上限2000条（Remote OK + Remotive + 远程岛）
 merged_global = merge_jobs(existing_global, remoteok_jobs + remotive_jobs + yuanchengdao_jobs + workingnomads_jobs + himalayas_jobs)[:2000]
 
