@@ -241,6 +241,24 @@ else
 fi
 
 # ========================================
+# 5.5 抓取 远程工作网 (yuanchenggongzuo.net, 公开 API) - 国内远程聚合
+#    2026-11-18 新增：robots.txt 声明的开放 API，全字段含 source_url 原始直链，
+#    上游为电鸭/猎聘/前程无忧/智联/LinkedIn 远程岗聚合（market 全 cn）
+# ========================================
+echo "正在抓取 远程工作网..." >> $LOG_FILE
+rm -f /tmp/ycgz_page_*.json
+# 该 API 有频控（并发抓取会返回「访问太频繁」），必须串行 + 间隔 1.5s
+for p in $(seq 1 40); do
+    curl -s --connect-timeout 12 --max-time 25 \
+        -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" \
+        "https://yuanchenggongzuo.net/api/remote-jobs/public?page=${p}&pageSize=20" \
+        -o /tmp/ycgz_page_${p}.json
+    sleep 1.5
+done
+YCGZ_OK=$(grep -l '"items"' /tmp/ycgz_page_*.json 2>/dev/null | wc -l)
+echo "远程工作网 下载完成: ${YCGZ_OK}/40 页有效" >> $LOG_FILE
+
+# ========================================
 # 6. 抓取 Working Nomads (JSON API) - 海外远程
 # ========================================
 echo "正在抓取 Working Nomads..." >> $LOG_FILE
@@ -1314,6 +1332,85 @@ except Exception as e:
     ycw_jobs = []
 
 # ============================================================
+# 处理 远程工作网（国内聚合公开 API，全字段含原始直链）
+# ============================================================
+YCGZ_BLACKLIST = ['培训费', '保证金', '入职押金', '刷单', '兼职打字']
+
+def _ycw_type_tag(jt):
+    m = {'full_time': '全职', 'part_time': '兼职', 'contract': '合同工',
+         'freelance': '自由职业', 'intern': '实习', 'temporary': '兼职'}
+    return m.get((jt or '').lower(), '')
+
+def _parse_ycgz_item(it):
+    try:
+        if not it.get('is_active', True):
+            return None
+        title = (it.get('title') or '').strip()
+        url = (it.get('source_url') or it.get('apply_url') or '').strip()
+        if not title or not url:
+            return None
+        if any(kw in title for kw in YCGZ_BLACKLIST):
+            return None
+        # 被用户举报且带警告的岗位跳过（站点自有公示机制）
+        if it.get('is_report_warning'):
+            return None
+        company = (it.get('company') or '').strip() or ''
+        date = (it.get('published_at') or '')[:10]
+        if not re.match(r'\d{4}-\d{2}-\d{2}', date):
+            date = DATE
+        desc_text = re.sub(r'\s+', ' ', (it.get('description') or '')).strip()
+        emp_tag = _ycw_type_tag(it.get('job_type'))
+        tags = ['远程'] + ([emp_tag] if emp_tag else [])
+        return {
+            "id": stable_id("cn-ycgz", url),
+            "title": title,
+            "company": company,
+            "logo": "🌐",
+            "category": guess_category_cn(title),
+            "tags": tags,
+            "salary": (it.get('salary_range') or '').strip() or '面议',
+            "location": (it.get('location') or '').strip() or '全国远程',
+            "date": date,
+            "isNew": True,
+            "isFeatured": False,
+            "canRefer": False,
+            "source": "https://yuanchenggongzuo.net",
+            "sourceUrl": url,
+            "applyUrl": (it.get('apply_url') or url),
+            "description": desc_text[:500] or f"{company} 招聘 {title}".strip(),
+            "responsibilities": [],
+            "requirements": [],
+            "benefits": []
+        }
+    except Exception:
+        return None
+
+ycgz_jobs = []
+try:
+    import glob as _glob
+    seen_urls = set()
+    raw_items = []
+    _pages_with_items = 0
+    for fp in sorted(_glob.glob('/tmp/ycgz_page_*.json')):
+        with open(fp, 'r', encoding='utf-8') as f:
+            d = json.load(f)
+        if not isinstance(d, dict) or 'items' not in d:
+            continue  # 限流页返回 {"detail": "访问太频繁..."}
+        _pages_with_items += 1
+        for it in (d.get('items') or []):
+            u = (it.get('source_url') or it.get('apply_url') or '').strip()
+            if u and u not in seen_urls:
+                seen_urls.add(u)
+                raw_items.append(it)
+    ycgz_jobs = [j for j in (_parse_ycgz_item(it) for it in raw_items) if j]
+    print(f"远程工作网: {len(ycgz_jobs)} jobs (有效页 {_pages_with_items}, 去重后 {len(raw_items)} 条)")
+    if _pages_with_items == 0:
+        print("⚠️ 远程工作网全部页面被限流（「访问太频繁」），本批次 0 条")
+except Exception as e:
+    print(f"远程工作网 解析失败: {e}")
+    ycgz_jobs = []
+
+# ============================================================
 # 处理 Working Nomads（海外，公开 JSON API）
 # ============================================================
 workingnomads_jobs = []
@@ -1534,7 +1631,7 @@ def filter_fresh(jobs):
 
 # V2EX 数据放最前面（最新抓取的社群内推岗位）
 # 国内上限2000条（包含 who-is-hiring 数据）
-merged_cn = merge_jobs(existing_cn, v2ex_jobs + rebase_jobs + zhaopin_jobs + ycw_jobs)[:2000]
+merged_cn = merge_jobs(existing_cn, v2ex_jobs + rebase_jobs + zhaopin_jobs + ycw_jobs + ycgz_jobs)[:2000]
 # 海外上限2000条（Remote OK + Remotive + 远程岛）
 merged_global = merge_jobs(existing_global, remoteok_jobs + remotive_jobs + yuanchengdao_jobs + workingnomads_jobs + himalayas_jobs)[:2000]
 
