@@ -29,6 +29,46 @@
 
 const JOBS_FEATURED = [
   {
+    'id': 'featured-20261118-01',
+    'title': '【企业直招】【全职远程】AI 软件工程师（巴黎 AI 创业公司 Prestance）｜25K-38K × 14薪',
+    'company': 'Prestance（法国巴黎 AI 创业公司）',
+    'logo': '🇫🇷',
+    'category': 'AI/算法',
+    'tags': ['AI Agent', 'TypeScript', 'Python', 'PostgreSQL', '远程', '全职', '英语工作环境', '内推岗'],
+    'salary': '25K-38K/月 × 14薪',
+    'location': '全国远程（英语工作环境）',
+    'date': '2026-11-18',
+    'isNew': true,
+    'isFeatured': true,
+    'canRefer': true,
+    'contact': '',
+    'apply_url': '',
+    'source': '',
+    'sourceUrl': '',
+    'description': 'Prestance 是位于法国巴黎的 AI 创业公司，为法国企业打造生产环境运行的 AI 助理：电话语音 agent、邮件 agent、业务流程自动化。你将开发和改进 AI agents 及后端服务，参与 agent 架构、工具调用、上下文管理、权限与审批、评估与可观测性、失败恢复等工程问题，让 agents 从辅助执行逐步走向更高自主权并在生产环境稳定运行。技术栈：TypeScript、Python、PostgreSQL、LLM/agents。要求 985 计算机专业本科或硕士，英语 IELTS 6.5+ / TOEFL 90+（工作语言为英语，需通过英文视频面试），有真实项目经验（GitHub/实习/个人项目），日常使用 AI 编程工具。加分项：海外交换、TS/Python 生产经验、LLM/agent 经验、AI 实验室实习（DeepSeek、月之暗面、字节 Seed、通义千问等）。不加班无 996，扁平团队直接与创始人合作，薪资对标一线大厂应届生。',
+    'responsibilities': [
+      '开发和改进 AI agents 及后端服务',
+      '参与 agent 架构、工具调用、上下文管理、权限与审批、评估与可观测性、失败恢复等工程问题',
+      '让 agents 从辅助执行逐步走向更高自主权，并在生产环境稳定运行',
+      '从设计到上线负责真实产品，直接与创始人合作'
+    ],
+    'requirements': [
+      '985 计算机专业，本科或硕士',
+      '英语 IELTS 6.5+ / TOEFL 90+，工作语言为英语，需通过英文视频面试',
+      '有真实项目经验：GitHub、实习，或能详细讲解的个人项目',
+      '日常使用 AI 编程工具'
+    ],
+    'benefits': [
+      '薪资 25K-38K × 14薪，对标一线大厂应届生 offer',
+      '不加班文化，没有 996',
+      '扁平团队，直接与创始人合作',
+      '从第一天起负责真实上线的 AI 产品',
+      '英语工作环境，国际化履历'
+    ],
+    'company_info': 'Prestance，法国巴黎 AI 创业公司，为法国企业打造生产环境中运行的 AI 助理（电话语音 agent、邮件 agent、业务流程自动化）。加分项：海外交换经历、TypeScript/Python 生产环境经验、LLM/AI agent 经验、PostgreSQL 经验、AI 实验室实习经历（如 DeepSeek、月之暗面、字节 Seed、通义千问）。招聘流程：投递简历+GitHub 链接 → 带薪小项目 → 终面。',
+    'postedAt': '2026-11-18'
+  },
+  {
     'id': 'featured-20261117-02',
     'title': '【企业直招】【全职远程】外贸跟单员｜底薪12K-15K',
     'company': '跨境贸易公司（外贸跟单方向）',
