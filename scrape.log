@@ -1935,3 +1935,68 @@ Himalayas: 20 jobs
 ✅ money.xlsx 已更新，插入 0 条V2EX数据 + 0 条who-is-hiring数据
 数据更新完成: 2026-11-18
 ========================================
+[master 28a6d16] 自动更新: 2026-11-18 CN=328 Global=2000
+ 3 files changed, 21013 insertions(+), 20786 deletions(-)
+mux_client_request_session: read from master failed: Broken pipe
+To github.com:Consuelaz/RemoteWork.git
+   15038f2..28a6d16  master -> master
+✅ Git 推送完成
+========================================
+开始抓取: 2026-11-18
+正在抓取 Remote OK...
+Remote OK 下载完成
+正在抓取 Remotive...
+Remotive 下载完成
+正在抓取远程岛...
+远程岛 下载完成
+正在抓取 who-is-hiring (Rebase)...
+who-is-hiring 下载完成
+正在预下载Remote OK岗位详情...
+正在抓取 V2EX...
+V2EX 下载失败
+正在预下载V2EX岗位详情...
+正在抓取智联招聘...
+智联招聘 下载完成
+正在抓取 远程.work...
+远程.work 下载完成
+正在抓取 远程工作网...
+远程工作网 下载完成:       40/40 页有效
+正在抓取 Working Nomads...
+Working Nomads 下载完成
+正在抓取 Himalayas...
+Himalayas 下载完成
+Traceback (most recent call last):
+  File "<stdin>", line 437, in <module>
+  File "/Users/qisoong/.workbuddy/binaries/python/versions/3.13.12/lib/python3.13/json/__init__.py", line 298, in load
+    return loads(fp.read(),
+        cls=cls, object_hook=object_hook,
+        parse_float=parse_float, parse_int=parse_int,
+        parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)
+  File "/Users/qisoong/.workbuddy/binaries/python/versions/3.13.12/lib/python3.13/json/__init__.py", line 352, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/Users/qisoong/.workbuddy/binaries/python/versions/3.13.12/lib/python3.13/json/decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/qisoong/.workbuddy/binaries/python/versions/3.13.12/lib/python3.13/json/decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 133 column 23 (char 4619)
+Remote OK 解析失败: Unterminated string starting at: line 1 column 715 (char 714)
+Remotive: 16 jobs
+远程岛: 150 jobs
+who-is-hiring 解析失败: Unterminated string starting at: line 133 column 23 (char 4619)
+已建立 0 个详情页映射
+V2EX 解析失败: [Errno 2] No such file or directory: '/tmp/v2ex.html'
+智联招聘: 30 jobs (严格过滤后)
+远程.work: 39 jobs (共发现 40 个链接)
+远程工作网: 800 jobs (有效页 40, 去重后 800 条)
+Working Nomads: 35 jobs
+Himalayas: 20 jobs
+现有数据: CN=328, Global=2000
+时效过滤(>89天): 丢弃 CN=0, Global=0
+合并去重后: CN=1098, Global=2000
+✅ 数据更新完成!
+✅ money.xlsx 已更新，插入 0 条V2EX数据 + 0 条who-is-hiring数据
+数据更新完成: 2026-11-18
+========================================
