@@ -1885,3 +1885,53 @@ Himalayas: 20 jobs
 ✅ money.xlsx 已更新，插入 2 条V2EX数据 + 0 条who-is-hiring数据
 数据更新完成: 2026-11-17
 ========================================
+[master 78532a4] 自动更新: 2026-11-17 CN=320 Global=2000
+ 4 files changed, 2861 insertions(+), 1927 deletions(-)
+To github.com:Consuelaz/RemoteWork.git
+   6dbe957..78532a4  master -> master
+✅ Git 推送完成
+========================================
+开始抓取: 2026-11-18
+正在抓取 Remote OK...
+Remote OK 下载完成
+正在抓取 Remotive...
+Remotive 下载完成
+正在抓取远程岛...
+远程岛 下载完成
+正在抓取 who-is-hiring (Rebase)...
+who-is-hiring 下载失败
+正在预下载Remote OK岗位详情...
+正在抓取 V2EX...
+V2EX 下载失败
+正在预下载V2EX岗位详情...
+正在抓取智联招聘...
+智联招聘 下载完成
+正在抓取 远程.work...
+远程.work 下载完成
+正在抓取 远程工作网...
+远程工作网 下载完成:       40/40 页
+正在抓取 Working Nomads...
+Working Nomads 下载完成
+正在抓取 Himalayas...
+Himalayas 下载完成
+Traceback (most recent call last):
+  File "<stdin>", line 436, in <module>
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/rebase_jobs.json'
+Remote OK: 97 jobs
+Remotive: 16 jobs
+远程岛: 150 jobs
+who-is-hiring 解析失败: [Errno 2] No such file or directory: '/tmp/rebase_jobs.json'
+已建立 0 个详情页映射
+V2EX 解析失败: [Errno 2] No such file or directory: '/tmp/v2ex.html'
+智联招聘: 27 jobs (严格过滤后)
+远程.work: 39 jobs (共发现 40 个链接)
+远程工作网: 0 jobs (原始 0 条去重后)
+Working Nomads: 35 jobs
+Himalayas: 20 jobs
+现有数据: CN=320, Global=2000
+时效过滤(>89天): 丢弃 CN=0, Global=0
+合并去重后: CN=328, Global=2000
+✅ 数据更新完成!
+✅ money.xlsx 已更新，插入 0 条V2EX数据 + 0 条who-is-hiring数据
+数据更新完成: 2026-11-18
+========================================
