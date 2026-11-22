@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-11-23</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* 控制栏 */
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,249,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .lang-switch { display: flex; gap: 4px; }
+        .lang-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .audio-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        .audio-btn:hover { background: var(--tag-bg); }
+        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn svg { width: 13px; height: 13px; }
+        .voice-select {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 760px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        .date { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 10px; }
+        .hero-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; }
+        .stats { font-size: 12px; color: var(--text-secondary); }
+
+        /* 文章列表 */
+        .articles {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .article {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article:last-child { border-bottom: none; }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .article-left { display: flex; align-items: center; gap: 12px; }
+        .article-number { font-size: 22px; font-weight: 700; color: var(--border); line-height: 1; min-width: 32px; }
+
+        .author-row { display: flex; align-items: center; gap: 10px; }
+        .author-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700; font-size: 11px; flex-shrink: 0;
+        }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; font-size: 13px; }
+        .author-handle { color: var(--accent); font-size: 12px; }
+        .author-bio { color: var(--text-secondary); font-size: 12px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .article-actions { display: flex; gap: 6px; }
+        .action-btn {
+            padding: 5px 12px; border: 1px solid var(--border);
+            background: white; cursor: pointer; font-size: 12px;
+            border-radius: 12px; display: flex; align-items: center; gap: 4px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .action-btn:hover { background: var(--tag-bg); }
+        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn svg { width: 11px; height: 11px; }
+
+        .article-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem; font-weight: 600; line-height: 1.4;
+            margin-bottom: 10px; margin-left: 46px;
+        }
+        .article-title.en { font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text-secondary); font-size: 0.95rem; }
+
+        .article-body { margin-left: 46px; }
+        .article-content {
+            font-size: 14px; line-height: 1.85; color: var(--text);
+            margin-bottom: 8px;
+        }
+        .article-content.en { color: var(--text-secondary); }
+
+        .article-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; margin-left: 46px;
+        }
+        .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
+        .article-link:hover { text-decoration: underline; }
+
+        /* 历史存档 */
+        .archive-section {
+            max-width: 760px; margin: 0 auto;
+            padding: 32px 40px; border-top: 1px solid var(--border);
+        }
+        .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
+        .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
+        .archive-item:hover { background: var(--accent); color: white; }
+
+        footer { text-align: center; padding: 32px 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .controls { padding: 10px 20px; }
+            .hero, .archive-section { padding: 28px 20px 20px; }
+            .hero h1 { font-size: 1.4rem; }
+            .articles { padding: 0 20px 60px; }
+            .article-title, .article-body, .article-footer { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 控制栏 -->
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span id="playAllLabel">全文朗读</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <header class="hero">
+        <p class="date" id="date-en">Monday, November 23, 2026</p>
+        <h1 id="title-zh">AI Builders 每日精选</h1>
+        <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="stats" id="stats-zh">📝 8 篇精选</p>
+    </header>
+
+    <!-- 文章列表 -->
+    <main class="articles">
+
+        <!-- 01 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LA</div>
+                        <div class="author-info">
+                            <span class="author-name">Levent Alpöge</span>
+                            <span class="author-handle"></span>
+                            <span class="author-bio">Anthropic 数学家，1992年生</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(1, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Claude-assisted proof of the Riemann Hypothesis passes Lean and Mathlib verification</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">困扰数学界167年的黎曼猜想迎来里程碑时刻。11月20日，Anthropic数学家Levent Alpöge宣布与Claude合作找到证明，并公开约1700万行Lean形式化代码——他没有发布传统论文，而这份证明若转成数学文本估计超过25万页。次日，Lean与Mathlib社区发布联合声明，确认命题表述与证明全部正确：175187个模块由数十位研究者独立编译通过，comparator与con-leche两套工具确认所证命题与Mathlib标准定义完全一致，多个独立检查器交叉验证。菲尔兹奖得主Maynard表示倾向于相信证明成立，但强调理解远比证明重要；陶哲轩也撰文提醒，数学界消化这份成果仍需时日。克雷研究所尚未正式认定，但AI叩开千禧年难题大门已成事实。</p>
+                <p class="article-content en" data-lang="en" style="display:none">On November 20, Anthropic mathematician Levent Alpoge released a proof of the Riemann Hypothesis built with Claude, published as roughly 17 million lines of Lean code instead of a traditional paper. Within 24 hours, the Lean and Mathlib communities issued a joint statement certifying that both the statement and the proof are correct: 175,187 modules compiled independently by dozens of researchers, with two independent tools confirming the formalized claim matches the standard definition. Fields medalist James Maynard says he believes the proof is correct but stresses that understanding matters more than proving. The Clay Institute has not yet recognized the result, but AI has now cracked the door open on a millennium problem.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>黎曼猜想</span><span>Lean认证</span><span>1700万行</span></div>
+                <a href="https://m.thepaper.cn/newsDetail_forward_34534422" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">VV</div>
+                        <div class="author-info">
+                            <span class="author-name">Vipul Ved Prakash</span>
+                            <span class="author-handle">@togetherai</span>
+                            <span class="author-bio">Together AI 联合创始人 &amp; CEO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(2, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Together AI prompt leak: its own coding agent committed the exposed credential</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Together AI于11月21日披露一起颇具讽刺意味的安全事件：公司自有的AI编程Agent在开发公开仓库xorl时，把一个可访问私有Hugging Face仓库的凭证提交进了公开代码。自动扫描虽捕获并回滚了提交，但暴露窗口内已有未授权方下载了存档的客户prompt样本（来自MiniMax M3、GLM-5.2、Kimi K2.6的6-7月请求）。对方还在样本中搜寻其他服务凭证并逐一验证，其中5个正是Dragos「金丝雀」实验布下的诱饵。同一周，Dragos的200万条金丝雀prompt研究还迫使OpenRouter下架三家供应商、移除125个ZDR端点。当AI Agent能读写一切代码时，凭证泄露已成为供应链级风险。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Together AI disclosed on November 21 that an unauthorized party downloaded stored samples of customer prompts after an AI coding agent, working in its public xorl GitHub repository, committed a credential that unlocked a private Hugging Face repository. Automated scanning caught and reverted the commit, but during the exposure window the samples - from June and July requests to MiniMax M3, GLM-5.2 and Kimi K2.6 - were downloaded and searched for working credentials; five tested were canaries from the Dragos security experiment. The disclosure lands alongside a two-million-prompt canary study that pushed OpenRouter to off-board three providers and strip 125 endpoints of zero-retention labels. Agents that can read everything will eventually leak everything.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>安全事件</span><span>Agent泄露凭证</span><span>金丝雀</span></div>
+                <a href="https://automater.ai/news/together-ai-prompt-leakage-june-july-2026-coding-agent-credential" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">JC</div>
+                        <div class="author-info">
+                            <span class="author-name">Jason Calacanis</span>
+                            <span class="author-handle">@Jason</span>
+                            <span class="author-bio">All-In 播客主持人，投资人</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(3, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Anthropic offers a fresh CS graduate $40M over four years as OpenAI endures its worst week</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Anthropic上市后改写了抢人游戏规则。Jason Calacanis在All-In最新一期爆料：一位刚毕业的CS本科生收到了4年4000万美元股权的offer，年薪折合1000万美元——已追平NBA选秀第5、6顺位的新秀合同。背景是OpenAI正经历「成立以来最糟的一周」：GPT-6.2 Astra被开发者Theo公开差评，跑7天优化Rust编译器零有效改进还让程序慢了56%；Arena盲测显示编程涨50分、日常对话跌54分，写作满意率从91.2%降至85.9%，奥特曼亲自发文认错。而Anthropic手握每日有公开报价的流通股，员工上市首日即可出售最多10%。当分数拉不开代差，能随时兑现的股票正在决定天才的去向。</p>
+                <p class="article-content en" data-lang="en" style="display:none">On the latest All-In episode, Jason Calacanis revealed that a freshly graduated computer science undergraduate received a four-year, $40 million equity offer from Anthropic - roughly $10 million a year, matching an NBA lottery-pick rookie contract. The backdrop is what insiders call OpenAI's worst week ever: GPT-6.2 Astra drew a public lambasting from developer Theo after running seven days on a Rust compiler optimization with zero valid improvements and a 56% slowdown, blind-test data showed coding gains of 50 points paid for by a 54-point drop in everyday conversation, and Sam Altman publicly conceded the team has more work to do. With Anthropic now trading on Nasdaq, liquid stock is deciding where top talent signs.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>人才战争</span><span>4000万美元offer</span><span>OpenAI</span></div>
+                <a href="https://x.com/firesidealpha/status/2123929808027680911" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">OA</div>
+                        <div class="author-info">
+                            <span class="author-name">OpenAI</span>
+                            <span class="author-handle">@OpenAI</span>
+                            <span class="author-bio">AI 研究与部署公司</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(4, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">OpenAI suffers a 211-minute outage as twin auth-database replicas crash simultaneously</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">11月21日，OpenAI经历了一次长达211分钟的重大事故，ChatGPT与API的请求失败率一度飙升至75%。根因出人意料地简单：计划内的数据库维护期间，认证网关背后的两个PostgreSQL只读副本同时崩溃——恰恰是本该互为冗余的一对副本双双失效。工程师最终通过紧急配置替换副本并重新调整连接池才恢复服务。这次事故发生在Anthropic刚创下人类最大IPO、Gemini 4 Neon夺走编程Agent榜首的敏感时点，给OpenAI的「史上最惨一周」又添了一笔。对依赖单一云数据库冗余架构的团队而言，这也是一堂公开课：副本复制不等于故障隔离，共享的维护窗口就是共享的单点故障。</p>
+                <p class="article-content en" data-lang="en" style="display:none">On November 21, OpenAI went through a 211-minute incident in which request failure rates peaked at 75% across ChatGPT and the API. The trigger was scheduled database maintenance during which both PostgreSQL read replicas behind the authentication gateway crashed at the same time - the very pair meant to provide redundancy. Engineers restored service by provisioning replacement replicas and retuning connection pooling. The outage lands at a delicate moment, with Anthropic fresh off the largest IPO in history and Gemini 4 Neon taking the top coding-agent spot. The lesson for any team is blunt: replicated databases are not fault isolation, and a shared maintenance window is a shared single point of failure.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>宕机211分钟</span><span>失败率75%</span><span>架构复盘</span></div>
+                <a href="https://aibriefing.dev/story/3e93342c42d6" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">OA</div>
+                        <div class="author-info">
+                            <span class="author-name">OpenAI</span>
+                            <span class="author-handle">@OpenAI</span>
+                            <span class="author-bio">AI 研究与部署公司</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(5, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">OpenAI ships MedChemBench and reports reasoning-extraction attacks collapsing from 54% to 0.2%</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">OpenAI连发两项安全与科学进展。新基准MedChemBench从117篇论文与专利中抽取99道真实药物化学题，覆盖761种分子结构，考察模型将分子结构与实验证据关联、解释结果、比较化合物与预测性质的能力：GPT-6.2 Astra在xhigh档拿下84.5%，但化合物选择与性质预测仅获约一半得分——AI辅助制药仍有明显短板。安全侧，OpenAI披露针对模型受保护推理的攻击平均成功率从GPT-6 Astra的54.0%降至GPT-6.2 Astra的0.2%，核心防线是保护思维链不被对抗蒸馏窃取。前沿模型的推理过程正在成为和权重一样需要重兵把守的战略资产。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI introduced MedChemBench, a benchmark of 99 problems drawn from 117 published medicinal chemistry papers and patents covering 761 distinct molecular structures, testing whether models can link molecular structure to experimental evidence, explain results, compare compounds and predict properties. GPT-6.2 Astra earned 84.5% of available credit at the xhigh setting, though only about half credit on compound selection and property prediction - a reminder that AI-assisted drug discovery still has sharp edges. On the security side, OpenAI reports that the average success rate of attacks recovering a model's protected reasoning fell from 54.0% against GPT-6 Astra to 0.2% against GPT-6.2 Astra, with chain-of-thought protection front and center against adversarial distillation.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>MedChemBench</span><span>推理保护</span><span>药物化学</span></div>
+                <a href="https://aibreakingwire.com/news/ai-brief-anthropic-ipo-gao-chatbot-tests-medchembench" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">CC</div>
+                        <div class="author-info">
+                            <span class="author-name">Cristina Cordova</span>
+                            <span class="author-handle">@cjc</span>
+                            <span class="author-bio">Linear COO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(6, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Scaling Linear's GTM to $100M ARR - Cristina Cordova, COO</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Latent Space 11月19日对话Linear COO Cristina Cordova，复盘一款开发者工具如何在几乎不打广告的情况下做到1亿美元ARR。Cordova来自Stripe与Notion，她把Linear的增长哲学概括为「产品即分发」：软件品质本身就是口碑引擎，用户主动安利替代了投放预算。她详细拆解了从种子期到规模化各阶段的GTM重心切换——早期靠创始人亲写changelog与社区答疑建立信任，中期转向定价与产品线的取舍，规模化后则要让PLG引擎与企业销售协作而非互搏。对于正在做AI产品的独立开发者，这期节目的价值在于：当模型能力趋同、发布节奏趋同，真正稀缺的护城河是工作流粘性与口碑复利。</p>
+                <p class="article-content en" data-lang="en" style="display:none">In a November 19 Latent Space conversation, Linear COO Cristina Cordova - previously at Stripe and Notion - walks through how a developer tool reached $100M ARR with essentially no paid marketing. Her thesis: product quality is the distribution channel, and delighted users do the selling. She breaks down how the GTM center of gravity shifts across stages - founder-written changelogs and community support to build early trust, pricing and packaging decisions in the middle years, and finally getting the product-led engine to cooperate with enterprise sales instead of fighting it. For builders shipping AI products, the takeaway lands at the right moment: as model capabilities and release cadences converge, the scarce moat is workflow stickiness compounded by reputation.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Latent Space</span><span>$100M ARR</span><span>PLG</span></div>
+                <a href="https://latent.space/p/linear-scaling/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AK</div>
+                        <div class="author-info">
+                            <span class="author-name">Alex Kantrowitz</span>
+                            <span class="author-handle">@Kantrowitz</span>
+                            <span class="author-bio">Big Technology 播客主持人</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(7, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Anthropic's Moment of Truth, Jensen in Limbo, Apple's AI Agent</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Big Technology 11月21日周报节目，Margins作者Ranjan Roy与Alex Kantrowitz复盘本周三大悬案。第一，Anthropic IPO究竟是成是败：募资930亿美元创下历史纪录，但开盘冲高后回落、随后撞上全市场AI抛售，Nasdaq年内涨幅被抹平——上市给了Anthropic公开记分牌，也给了做空者靶子。第二，黄仁勋至今悬而未决的去向与英伟达治理风险如何影响整个AI算力链条。第三，Apple悄悄入局AI Agent的动向。节目最有价值的部分是对「Anthropic上市是否改变了人才、资本与模型竞争底层逻辑」的讨论：当实验室变成上市公司，每个季度都要向公开市场交代烧钱速度。</p>
+                <p class="article-content en" data-lang="en" style="display:none">In the November 21 weekly edition of Big Technology, Ranjan Roy joins Alex Kantrowitz to unpack the week's three open questions. First, did Anthropic's IPO succeed or fail: the company raised a record $81.3 billion (over $93 billion including private placements), but shares faded after an opening pop and collided with a market-wide AI sell-off that erased the Nasdaq's 2026 gains - a public scoreboard cuts both ways. Second, Jensen Huang remains in limbo, and Nvidia's governance risk now propagates through the entire AI compute supply chain. Third, Apple's quiet moves into AI agents. The sharpest segment examines how becoming a public company forces a frontier lab to justify its burn rate every single quarter.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Big Technology</span><span>IPO复盘</span><span>AI抛售</span></div>
+                <a href="https://www.bigtechnology.com/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">HF</div>
+                        <div class="author-info">
+                            <span class="author-name">Hugging Face</span>
+                            <span class="author-handle">@huggingface</span>
+                            <span class="author-bio">开源 AI 社区</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(8, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Introducing harness adapters: adapt your favorite model to your harness to improve performance and cost</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Hugging Face 11月20日发布harness adapters工程实践：同一个模型在不同Agent运行框架下表现差异巨大，因为模型是按通用性能调优的，而非针对你的框架与任务。团队用强化学习为Qwen3.8-27B分别训练适配Pi 1.5.2、OpenCode 2.2.7、Hermes Agent v0.22.6的LoRA适配器，并把三者合并为一个通用适配器。效果显著：Terminal-Bench 2.1上pass@1从39%升至55%，平均token消耗从2.9K降到1.5K——一半收益来自「想得更少、调用工具更少、一次做对」。训练在Hub Jobs上用TRL的AsyncGRPOTrainer完成，任务集经语义与难度双重过滤。适配器、GGUF、RL任务全部开源。对跑Agent管线的团队，这是不换模型就能白捡的性能。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Hugging Face's November 20 post introduces harness adapters: the observation that a model tuned for general performance leaves accuracy and efficiency on the table when paired with a specific agent harness. Using reinforcement learning, the team trained LoRA adapters for Qwen3.8-27B against Pi 1.5.2, OpenCode 2.2.7 and Hermes Agent v0.22.6, then merged them into one super adapter. On Terminal-Bench 2.1 with the pi harness, pass@1 rose from 39% to 55% while average token usage per task fell from 2.9K to 1.5K - most of the gain came from reasoning less, calling fewer tools, and succeeding on the first attempt. Training ran on Hub Jobs with TRL's AsyncGRPOTrainer over a carefully filtered 278-task set, and all artifacts ship openly.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Hugging Face</span><span>RL适配器</span><span>开源</span></div>
+                <a href="https://huggingface.co/blog/harness-adapters-at-scale" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+    </main>
+
+    
+        <!-- 历史存档 -->
+        <div class="archive-section">
+            <h3>📅 历史存档</h3>
+            <div class="archive-list">
+<a href="2026-11-20.html" class="archive-item">2026年11月20日</a>
+<a href="2026-11-19.html" class="archive-item">2026年11月19日</a>
+<a href="2026-11-17.html" class="archive-item">2026年11月17日</a>
+<a href="2026-11-16.html" class="archive-item">2026年11月16日</a>
+<a href="2026-11-15.html" class="archive-item">2026年11月15日</a>
+<a href="2026-11-14.html" class="archive-item">2026年11月14日</a>
+<a href="2026-11-13.html" class="archive-item">2026年11月13日</a>
+<a href="2026-11-11.html" class="archive-item">2026年11月11日</a>
+<a href="2026-11-10.html" class="archive-item">2026年11月10日</a>
+<a href="2026-11-09.html" class="archive-item">2026年11月9日</a>
+            </div>
+        </div>
+
+
+    <footer>
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
+    </footer>
+
+    <script>
+        var LANG = 'zh';
+        var voices = [];
+        var isPlaying = false;
+        var currentUtterance = null;
+        var selectedVoice = null;
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            var select = document.getElementById('voiceSelect');
+            select.innerHTML = '<option value="">默认语音</option>';
+            var zhGroup = document.createElement('optgroup');
+            zhGroup.label = '中文';
+            var enGroup = document.createElement('optgroup');
+            enGroup.label = 'English';
+            voices.forEach(function(v) {
+                var opt = document.createElement('option');
+                opt.value = v.name;
+                var label = v.name + (v.localService ? ' ★' : '');
+                opt.textContent = label;
+                if (v.lang.startsWith('zh')) zhGroup.appendChild(opt);
+                else if (v.lang.startsWith('en')) enGroup.appendChild(opt);
+            });
+            if (zhGroup.children.length) select.appendChild(zhGroup);
+            if (enGroup.children.length) select.appendChild(enGroup);
+            var highQ = voices.find(function(v) {
+                return v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en'));
+            });
+            if (highQ) { select.value = highQ.name; selectedVoice = highQ; }
+        }
+
+        document.getElementById('voiceSelect').addEventListener('change', function(e) {
+            selectedVoice = voices.find(function(v) { return v.name === e.target.value; }) || null;
+        });
+
+        var LABELS = {
+            'zh': {
+                'title':    'AI Builders 每日精选',
+                'subtitle': '每日精选 AI 领域最有价值的深度内容',
+                'stats':    '📝 8 篇精选',
+                'playBtn':  '朗读',
+                'stopBtn':  '停止',
+                'playAll':  '全文朗读',
+                'stopAll':  '停止',
+            },
+            'en': {
+                'title':    'AI Builders Daily Digest',
+                'subtitle': 'Daily curated deep content from AI builders',
+                'stats':    '📝 8 Articles',
+                'playBtn':  'Read',
+                'stopBtn':  'Stop',
+                'playAll':  'Read All',
+                'stopAll':  'Stop',
+            }
+        };
+
+        function setLang(lang) {
+            LANG = lang;
+            var ls = LABELS[lang];
+            document.getElementById('btn-zh').className = 'lang-btn' + (lang === 'zh' ? ' active' : '');
+            document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+            document.getElementById('title-zh').textContent = ls.title;
+            document.getElementById('subtitle-zh').textContent = ls.subtitle;
+            document.getElementById('stats-zh').textContent = ls.stats;
+            document.getElementById('playAllLabel').textContent = isPlaying ? ls.stopAll : ls.playAll;
+            document.querySelectorAll('.action-btn').forEach(function(btn) {
+                var playing = btn.classList.contains('playing');
+                btn.querySelector('.btn-text').textContent = playing ? ls.stopBtn : ls.playBtn;
+            });
+            document.querySelectorAll('[data-lang]').forEach(function(el) {
+                el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+            });
+            try { localStorage.setItem('ai-news-lang', lang); } catch(e) {}
+        }
+
+        function getTextForArticle(num, lang) {
+            var arts = document.querySelectorAll('.article');
+            if (!arts[num - 1]) return '';
+            var art = arts[num - 1];
+            var parts = [];
+            art.querySelectorAll('[data-lang="' + lang + '"]').forEach(function(el) {
+                if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+            });
+            return parts.join('。');
+        }
+
+        function playArticle(num, btn) {
+            var text = getTextForArticle(num, LANG);
+            if (!text) return;
+            if (isPlaying && currentUtterance) {
+                speechSynthesis.cancel();
+                isPlaying = false;
+                currentUtterance = null;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(function(b) {
+                    b.classList.remove('playing');
+                });
+                var ls = LABELS[LANG];
+                document.getElementById('playAllLabel').textContent = ls.playAll;
+                document.querySelectorAll('.action-btn .btn-text').forEach(function(t) { t.textContent = ls.playBtn; });
+                return;
+            }
+            var ls = LABELS[LANG];
+            var u = new SpeechSynthesisUtterance(text.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); btn.querySelector('.btn-text').textContent = ls.stopBtn; };
+            u.onend = u.onerror = function() {
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); btn.querySelector('.btn-text').textContent = ls.playBtn;
+            };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        function playAll() {
+            var btn = document.getElementById('playAllBtn');
+            var label = document.getElementById('playAllLabel');
+            var ls = LABELS[LANG];
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); label.textContent = ls.playAll;
+                document.querySelectorAll('.action-btn').forEach(function(b) {
+                    b.classList.remove('playing'); b.querySelector('.btn-text').textContent = ls.playBtn;
+                });
+                return;
+            }
+            var texts = [];
+            document.querySelectorAll('.article').forEach(function(art) {
+                var parts = [];
+                art.querySelectorAll('[data-lang="' + LANG + '"]').forEach(function(el) {
+                    if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+                });
+                if (parts.length) texts.push(parts.join('。'));
+            });
+            var fullText = texts.join('。');
+            var u = new SpeechSynthesisUtterance(fullText.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); label.textContent = ls.stopAll; };
+            u.onend = u.onerror = function() { isPlaying = false; currentUtterance = null; btn.classList.remove('playing'); label.textContent = ls.playAll; };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+        try { var saved = localStorage.getItem('ai-news-lang'); if (saved) setLang(saved); } catch(e) {}
+    </script>
+</body>
+</html>
