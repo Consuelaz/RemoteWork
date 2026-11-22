@@ -2,7 +2,23 @@
 
 > 规则变更（2026-10-23）：money.xlsx 已从 Git 索引移除并加入 .gitignore，**只保留本地**，不再提交/推送到远程。scrape.sh 仍在本地更新该文件（追加 V2EX + who-is-hiring 数据）。
 
-## 最近一次执行: 2026-11-17 10:46
+## 最近一次执行: 2026-11-20 07:35
+
+**结果**: ✅ 成功（自动化触发；7892 无监听 → 重建 scripts/proxy_bridge.py，v2ex 验证返回 200）
+- Remote OK: 97 条 / Remotive: 15 条 / 远程岛: 150 条
+- who-is-hiring: 435 条（含联系方式 435 条）
+- V2EX: 0 条（跳过 20 个非今日帖子）
+- 智联招聘: 28 条 / 远程.work: 41 条 / 远程工作网: 800 条（40/40 页有效）
+- Working Nomads: 36 条 / Himalayas: 20 条
+- **时效过滤(>89天)**: 丢弃 CN=388, Global=0
+- **汇总**: CN=1147, Global=2000（基线 CN=1098 → +49）
+- **Git**: commit a50e454 push 成功（3 files, +28469/-27371）；另补提交 a738217（scrape.log 尾巴 5 行），HEAD 与 origin/master 一致
+- **money.xlsx**: 更新成功（0 条 V2EX + 435 条 who-is-hiring），按规则未入库
+- **异常**: 无。jobs-featured.js / jobs-mainlist.js / review.html / jobs-featured-pending.js md5 均未变
+- **耗时**: 约 7 分钟（远程工作网 40 页串行限速 + 合并写盘是主要耗时，比历史 2-3 分钟长）
+- **附带**: MEMORY.md 注入时因超限被截断，本次已重写精简
+
+## 上次执行: 2026-11-17 10:46
 
 **结果**: ✅ 成功（自动化触发；代理桥 7892 已在监听无需重建，v2ex 验证返回 200）
 - Remote OK: 97 条 / Remotive: 17 条 / 远程岛: 150 条
