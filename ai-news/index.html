@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Builders · 2026-11-24</title>
+    <title>AI Builders · 2026-11-25</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
@@ -200,7 +200,7 @@
 
     <!-- 头部 -->
     <header class="hero">
-        <p class="date" id="date-en">Tuesday, November 24, 2026</p>
+        <p class="date" id="date-en">Wednesday, November 25, 2026</p>
         <h1 id="title-zh">AI Builders 每日精选</h1>
         <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
         <p class="stats" id="stats-zh">📝 8 篇精选</p>
@@ -215,11 +215,11 @@
                 <div class="article-left">
                     <span class="article-number">01</span>
                     <div class="author-row">
-                        <div class="author-avatar">JH</div>
+                        <div class="author-avatar">AN</div>
                         <div class="author-info">
-                            <span class="author-name">Jensen Huang</span>
-                            <span class="author-handle">@nvidia</span>
-                            <span class="author-bio">NVIDIA 创始人兼 CEO（复职）</span>
+                            <span class="author-name">Anthropic Research</span>
+                            <span class="author-handle">@AnthropicAI</span>
+                            <span class="author-bio">前沿 AI 实验室</span>
                         </div>
                     </div>
                 </div>
@@ -230,14 +230,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title en" data-lang="en">Jensen Huang returns as Nvidia CEO after 11 days, stock jumps 31.5% in record one-day gain</h2>
+                        <h2 class="article-title en" data-lang="en">Claude authors a 70-page VP != VNP proof with a 73,000-line Lean formalization, and no human has checked it yet</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">当地时间11月23日，英伟达董事会一致投票恢复黄仁勋总裁、CEO 及董事职务，距他因多起婚外情（含一名疑似中国间谍女子）辞职仅11天。复职首日他回到圣克拉拉总部，员工挤满中庭高喊 Jensen，他两次鞠躬致歉，承认犯了严重错误，承诺第二次会做得更好，还开玩笑说自己连电脑都没有了。此前支持者发起的 Stand with Jensen 请愿累计超过20万人联署，含现任与前任员工、股东及马斯克。市场反应剧烈：11月23日美股收盘英伟达暴涨31.48%，为2003年5月以来最大单日涨幅，报165.05美元，市值3.98万亿美元，单日增加9520亿美元创历史纪录。但华盛顿并不平静——黄仁勋将于12月3日出席参议院银行委员会听证会，主题为保护美国人工智能优势与出口管制监督，舒默与杰弗里斯称将继续推进国会调查。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Nvidia's board unanimously reinstated Jensen Huang as president, CEO and director on November 23, just 11 days after he resigned over multiple extramarital relationships. Returning to the Santa Clara headquarters, Huang was met by employees chanting his name; he bowed twice, admitted serious mistakes and promised to be a better CEO the second time. A Stand with Jensen petition had gathered more than 200,000 signatures, including current and former staff, shareholders and Elon Musk. Markets responded violently: Nvidia closed up 31.48% - its largest single-day gain since May 2003 - at $165.05, pushing market cap to $3.98 trillion, a one-day increase of $952 billion, a record. The political weather is less friendly: Huang testifies before the Senate Banking Committee on December 3 on protecting America's AI advantage and export-control oversight.</p>
+                <p class="article-content" data-lang="zh">继黎曼猜想之后，Anthropic 静默提交了一篇 70 页论文，声称由内部研究版 Claude 独立攻克代数版 P vs NP：在所有域上 VP 严格小于 VNP。这是 1979 年 Valiant 提出猜想以来近半个世纪悬而未决的问题。Claude 把永久式与哈密顿回路多项式的一般算术电路下界从此前的 m^2·log m 量级直接推进到超多项式级别，证明路径极具机器直觉：将张量秩转化为几何距离，再分「平坦」与「收缩」两种情况分别证通，即便它自己也判断不了真实世界属于哪种。配套约 7.3 万行 Lean 4 形式化代码全部通过机器校验，并附独立编写的 nanoda 第二内核交叉验证。但 README 坦言：尚无任何人类数学家检查过该证明，Lean 陈述与论文主张的匹配也仅由 AI 读者判断。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic quietly uploaded a 70-page paper credited solely to Claude claiming a proof of Valiant's VP != VNP conjecture over every field, the algebraic analogue of P vs NP. The result pushes general arithmetic-circuit lower bounds for the permanent and Hamiltonian cycle polynomial from roughly m^2 log m to quasipolynomial territory, via a striking machine-style proof: tensor rank is converted into geometric distance, then two exhaustive branches (Flat and Contracting) are proven separately. A Lean 4 formalization of about 73,000 lines across 324 files passes machine checks, with an independent second kernel, nanoda, re-validating proofs in CI. The README is candid: no human mathematician has checked the proof, and whether the Lean statements encode the claimed theorem was judged only by AI readers.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>+31.48%</span><span>$9520亿</span><span>12/3 听证</span></div>
-                <a href="https://news.qq.com/rain/a/20261124A05O4Q00" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>复杂度理论</span><span>Lean 4</span></div>
+                <a href="https://github.com/anthropics/formal-math" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -247,11 +247,11 @@
                 <div class="article-left">
                     <span class="article-number">02</span>
                     <div class="author-row">
-                        <div class="author-avatar">OA</div>
+                        <div class="author-avatar">DA</div>
                         <div class="author-info">
-                            <span class="author-name">OpenAI</span>
-                            <span class="author-handle">@OpenAI</span>
-                            <span class="author-bio">OpenAI 官方</span>
+                            <span class="author-name">Dario Amodei</span>
+                            <span class="author-handle">@DarioAmodei</span>
+                            <span class="author-bio">Anthropic 联合创始人兼 CEO</span>
                         </div>
                     </div>
                 </div>
@@ -262,14 +262,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title en" data-lang="en">OpenAI pushes chat-tuned GPT-6.2 Sol to ChatGPT Plus, Pro, Business and Enterprise worldwide</h2>
+                        <h2 class="article-title en" data-lang="en">Anthropic falls below its $83 IPO price just four days after listing as founders cash out $561M</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">11月23日，OpenAI 宣布向全球 ChatGPT Plus、Pro、Business 与 Enterprise 用户的聊天界面推送面向日常对话优化的 GPT-6.2 版本，底层使用 GPT-6.2 Sol。企业用户能否启用取决于管理员设置，Work 与 Codex 所用模型不受影响。官方内部测试给出的数字是：图片理解71.7%，此前 GPT-6 为47.4%；复杂指令遵循78.1%，此前62.5%；并称在网页搜索与安全合规上同样更优。据报道，该版本正在成为 ChatGPT 聊天标签页的全球默认。这条产品线的背景值得记住——11月17日 GPT-6.2 Astra/Sol 发布后遭多位早期测试者尖锐批评，长任务容易陷入无效循环，OpenAI 先补了针对性 prompt 模板，如今才把调优过的版本推给最广大的日常用户。</p>
-                <p class="article-content en" data-lang="en" style="display:none">On November 23 OpenAI began rolling a chat-tuned build of GPT-6.2, running on GPT-6.2 Sol, to ChatGPT Plus, Pro, Business and Enterprise users worldwide. Enterprise availability depends on admin settings, and the models behind Work and Codex are unchanged. OpenAI's internal tests put image understanding at 71.7% versus 47.4% for GPT-6, and difficult-instruction following at 78.1% versus 62.5%, with claims of better web search and safety compliance. Per The Decoder, the build is becoming the default in ChatGPT's chat tab. The backstory matters: when GPT-6.2 Astra and Sol shipped on November 17, early testers hammered them for looping on long tasks, prompting a targeted prompt-template fix before the tuned version reached everyday users.</p>
+                <p class="article-content" data-lang="zh">Anthropic 上市热潮迅速退去：周二盘中一度大跌 14% 至 75.61 美元，跌破 83 美元发行价并创上市以来新低，市值一度失守万亿美元，较首日收盘价已回落约 22%。监管文件显示，Dario 与 Daniela Amodei 在上市次日分别以发行价出售 337.8 万股，各套现超 2.8 亿美元、合计超 5.6 亿；按招股书安排七位联创合计出售 19.6 亿美元。回撤恰逢科技股整体承压，而黄仁勋复职英伟达、力挺开放权重生态，也让 Anthropic 专有模型商业模式面临新的竞争变数。更不安的是 Axios 援引知情人士报道：两家头部实验室的员工担忧，公司内部未发布模型已强大到无法安全向公众开放。MSCI 将于 11 月 30 日将其纳入全球标准指数，被动资金能否托底仍是悬念。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic (ANT) plunged as much as 14% to $75.61 on Tuesday, falling below its $83 IPO price just four trading days after the largest IPO in history ($93.5B raised), with market cap briefly slipping under $1T — down roughly 22% from its first-day close. Form 4 filings show CEO Dario Amodei and President Daniela Amodei each sold 3,378,378 shares at $83 on Nov 20, cashing out over $280M apiece; all seven co-founders were scheduled to sell a combined $1.96B. Jensen Huang's return to Nvidia and his pro-open-weights stance adds a new competitive overhang for Anthropic's proprietary model. Separately, Axios reports employees at Anthropic and OpenAI worry unreleased models may be too dangerous to release publicly.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>GPT-6.2 Sol</span><span>71.7%</span><span>全量推送</span></div>
-                <a href="https://original.ifeng.com/c/8yHbSyByo2X" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>ANT 破发</span><span>史上最大 IPO</span></div>
+                <a href="https://finance.yahoo.com/technology/ai/articles/anthropic-stock-falls-below-ipo-203714977.html" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -279,11 +279,11 @@
                 <div class="article-left">
                     <span class="article-number">03</span>
                     <div class="author-row">
-                        <div class="author-avatar">GD</div>
+                        <div class="author-avatar">GB</div>
                         <div class="author-info">
-                            <span class="author-name">Google DeepMind</span>
-                            <span class="author-handle">@GoogleDeepMind</span>
-                            <span class="author-bio">Google DeepMind 官方</span>
+                            <span class="author-name">Greg Brockman</span>
+                            <span class="author-handle">@gdb</span>
+                            <span class="author-bio">OpenAI 总裁兼联合创始人</span>
                         </div>
                     </div>
                 </div>
@@ -294,14 +294,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title en" data-lang="en">Gemini 4 agent teams find cheaper quantum algorithms, every result proven in Lean</h2>
+                        <h2 class="article-title en" data-lang="en">OpenAI and Cisco open-source Shirudo: eBPF shields that block Linux exploits without restarting services</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">11月23日，Google DeepMind 与 Google Quantum AI 披露：用多组独立的 Gemini 4 智能体团队优化经典量子算法，每个结果都先用 Lean 定理证明器完成数学验证，才允许进入共享 notebook。机制值得抄——每四小时各团队智能体开一次虚拟会议交换、辩论、比较想法，外部验证器对照冻结的规格检查，防止智能体偷偷把定理放宽。收益按任务分别是：惯性约束聚变关键属性电路算力成本降11.8倍、纠错比特从5650降到4338；常见光敏分子模拟便宜8倍；分解药物的细胞色素 P450 提升2.5倍、内存481→333比特；Grover 特定实现提速2.57倍；arcsin 子程序提速290倍。大规模实验使用的是 Gemini 4 Carbon。团队开源了基于量子 Hoare 逻辑的 Lean 库。DeepMind 也承认这些算法真正跑进科学模拟，仍超出第一代纠错量子计算机的资源。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Google DeepMind and Google Quantum AI reported on November 23 that separate, independent teams of Gemini 4 agents improved well-known quantum algorithms, with every result proven in the Lean theorem prover before entering a shared notebook. The mechanics matter: agent teams met at a virtual conference every four hours to trade and debate ideas, and an external verifier checked proofs against a frozen specification so agents could not weaken a theorem to pass. Reported gains include 11.8x lower computing cost on an inertial confinement fusion circuit with memory falling from 5,650 to 4,338 error-corrected qubits, 8x cheaper simulation of a common light-sensitive molecule, 2.5x on Cytochrome P450, 2.57x on a specific Grover implementation and 290x on arcsin. Large runs used Gemini 4 Carbon. The team open-sourced its Lean library built on quantum Hoare logic.</p>
+                <p class="article-content" data-lang="zh">OpenAI 与思科联合发布开源安全运行时 Shirudo（日语「盾」），瞄准漏洞披露到补丁落地之间那段危险窗口。它基于 eBPF 让小型程序运行在内核特定钩子上：Agent 负责调查漏洞、起草针对性防护层（shield）、用真实漏洞利用和负载验证效果，但部署决定权始终留给安全团队。在受控测试中，Codex 生成的 shield 为 Java Base64 解码器加入输入检查并附加到运行中的 Elasticsearch 进程，成功拦截 Java4Shell 攻击且服务全程未重启。信任链设计相当硬核：shield 加载前须经后量子签名 ML-DSA-87 验证，eBPF 验证器强制安全规则，TPM 2.0 记录每次加载/卸载形成可远程核验的审计日志。BSD 2-Clause 开源，这是「AI 写缓解方案、人来批准部署」模式的标志性落地。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI and Cisco launched Shirudo (Japanese for shield), an open-source runtime that protects running Linux services during the gap between vulnerability disclosure and a permanent patch. Built on eBPF, it lets agents investigate flaws, draft targeted shields, and validate them against real exploits and workloads, while security teams control deployment. In a controlled test, a Codex-generated shield added an input check to Java's Base64 decoder and attached it to a live Elasticsearch process, blocking a Java4Shell exploit without a restart. The trust chain is serious: shields are signed with post-quantum ML-DSA-87, kernel controls restrict unauthorized loads, and TPM 2.0 maintains a verifiable record of protections. BSD 2-Clause licensed.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>Gemini 4</span><span>Lean 验证</span><span>290x</span></div>
-                <a href="https://deepmind.google/blog/finding-faster-quantum-algorithms-with-agents-and-formal-verification/" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>eBPF</span><span>AI 安全</span></div>
+                <a href="https://openai.com/index/introducing-shirudo/" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -311,11 +311,11 @@
                 <div class="article-left">
                     <span class="article-number">04</span>
                     <div class="author-row">
-                        <div class="author-avatar">ZA</div>
+                        <div class="author-avatar">VB</div>
                         <div class="author-info">
-                            <span class="author-name">Z.ai</span>
-                            <span class="author-handle">@Zai_org</span>
-                            <span class="author-bio">智谱官方</span>
+                            <span class="author-name">Vatsal Bhatt</span>
+                            <span class="author-handle">@AnthropicAI</span>
+                            <span class="author-bio">Anthropic 工程总监</span>
                         </div>
                     </div>
                 </div>
@@ -326,14 +326,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title en" data-lang="en">Z.ai ships GLM-5.4, its first Loop Transformer, matching 2-3T class intelligence at 750B params</h2>
+                        <h2 class="article-title en" data-lang="en">Claude Ship beta lets AI agents review, fix and approve pull requests under team-written natural language policies</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">11月23日晚，智谱发布 GLM-5.4，首款采用 Loop Transformer 架构的旗舰模型。做法不是从头预训练，而是把已完成预训练的基座改造：对 GLM-5 底座中28层做两轮共享权重的循环，配合三项工程设计——门控渐进更新（第一轮保守建立全局上下文，第二轮放开写回精炼结果）、KV cache 跨轮共享加第二轮滑动窗口、第二轮直接复用首轮的稀疏注意力索引。结果是750B 参数达到2T-3T 级智能水平。30B 同参对照（总训练算力仅增约10%）显示 AIME25 从19.17升到30.42、GPQA-Diamond 从47.58升到56.26、MMLU-Pro 从71.65升到75.05，同时平均输出长度下降10%-14%——部分思维链被内化进了循环深度。泛Coding 能力延伸到用代码生成视频、完整游戏、FreeCAD 六轴机械臂、纯 GLSL 3D 场景。非高峰推理200 token/s，高峰维持70-80。Coding Plan 额度提升至1.5倍，API 待安全评估后开放，权重计划负责任开源。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Z.ai released GLM-5.4 on November 23, its first model built on a Loop Transformer. Rather than pretraining from scratch, the team retrofitted an existing base: 28 layers loop twice with shared weights, supported by gated progressive updates, KV cache sharing across passes plus a sliding window for the second pass, and reuse of the first pass's sparse-attention indices. The result is 750B parameters performing at what Z.ai calls 2T-3T level. On a controlled 30B comparison adding only about 10% training compute, AIME25 rose from 19.17 to 30.42, GPQA-Diamond from 47.58 to 56.26, and MMLU-Pro from 71.65 to 75.05, while average output length fell 10-14%. Generalized coding extends to video, games, FreeCAD robotic arms and GLSL scenes, at 200 tokens/s off-peak and 70-80 at peak.</p>
+                <p class="article-content" data-lang="zh">当 Claude 写完代码之后，PR 之后的所有环节也交给它？Anthropic 发布 Claude Ship：Code Review 已全面可用，新增两个 Beta Agent——PR Steward 专治 CI 失败、合并冲突和评审反馈，每次 push 后留言说明改了什么、如何回滚，但绝不批准或合并；Claude Approvals 则读取仓库中以自然语言编写的策略文件，像更聪明的 CODEOWNERS 一样自行批准例行变更，敏感场景强制升级人工。官方建议先以 observe-only 模式起步，从单仓库和月度限额开始。数据很有说服力：Claude Code 团队 6 月到 9 月合并 PR 数量翻倍、回滚率下降超 40%。当 AI 生成的代码成为主流，审批自动化就是下一个瓶颈——Enterprise 组织还可申领至少 1 万美元使用额度。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic launched Claude Ship, a suite of agents covering everything after the pull request. Code Review is generally available; two new beta agents join it: PR Steward fixes failing CI checks, merge conflicts and review feedback (commenting after every push on what changed and how to roll back, but never approving or merging), while Claude Approvals applies an approval policy the team writes as a natural-language file in the repository — like a smarter CODEOWNERS — auto-approving routine changes and escalating sensitive ones to humans. Anthropic recommends starting in observe-only mode with one repo and monthly spend limits. On the Claude Code team, merged PRs more than doubled from June to September while reverted changes fell over 40%. Rolling out to Team/Enterprise on GitHub; enterprises can claim at least $10,000 in credits.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>Loop Transformer</span><span>750B</span><span>泛Coding</span></div>
-                <a href="https://z.ai/blog/glm-5.4" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>PR 自动化</span><span>Agent 审批</span></div>
+                <a href="https://techcrunch.com/2026/11/23/anthropic-launches-claude-ship-letting-ai-agents-review-fix-and-approve-code-changes/" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -343,11 +343,11 @@
                 <div class="article-left">
                     <span class="article-number">05</span>
                     <div class="author-row">
-                        <div class="author-avatar">GB</div>
+                        <div class="author-avatar">MD</div>
                         <div class="author-info">
-                            <span class="author-name">Greg Brockman</span>
-                            <span class="author-handle">@gdb</span>
-                            <span class="author-bio">OpenAI 总裁</span>
+                            <span class="author-name">Meta AI</span>
+                            <span class="author-handle">@MetaAI</span>
+                            <span class="author-bio">Meta 超级智能实验室</span>
                         </div>
                     </div>
                 </div>
@@ -358,14 +358,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title en" data-lang="en">OpenAI models rewrite AMD's flagship GPU RTL for up to 14% PPA gains in under five months</h2>
+                        <h2 class="article-title en" data-lang="en">Meta launches Muse personal agent in the UK with M&amp;S, Sainsbury's connectors and Stripe Link agent payments</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">OpenAI 在芯片设计上交出了第一份真正进硅的成绩单：模型重写描述电路的 SystemVerilog RTL（计算、控制、数据搬运全在改动范围内），每改一处都用 Synopsys 工具验证行为等价并评估 PPA 取舍，在 AMD 工程师已打磨多年的旗舰 GPU IP 上最高抠出14%净提升——相当于把约一年的优化进度压缩到不足五个月。更关键的是落地：部分改动已进入 AMD 最近送去流片的设计，其余写进未来版本的生产设计文件；AMD 还自行验证了下一代旗舰 CPU 关键模块的个位数 PPA 提升。自研推理芯片 Jalapeño 上，向量单元标准单元面积降约13%、矩阵单元降约10%，一个乘法器面积少15%且延迟从2周期压到1周期，均在芯片点亮时验证过。RISC-V 基准9881次跑分里 GPT-6.2 Astra 平均分最高，在 PicoRV32 上约为 GPT-6 Astra 的两倍。下一步是与 Synopsys 共训 GPT-Synopsys，让模型像顶级设计师一样操作全套 EDA 工具。</p>
-                <p class="article-content en" data-lang="en" style="display:none">OpenAI published concrete silicon results from using its models for chip design. The models rewrote SystemVerilog RTL covering compute, control and data movement, with every change checked in Synopsys tools for behavioural equivalence and scored on power, performance and area. On AMD's flagship GPU IP - already heavily tuned by human engineers - the models found up to 14% PPA improvement, roughly a year of progress in under five months. Some changes made it into a design AMD recently sent for manufacturing, with others added to production design files. AMD independently verified single-digit PPA gains on key blocks of its next flagship CPU. On OpenAI's Jalapeño inference chip, vector-unit standard-cell area fell about 13% and the matrix unit about 10%. Next: training GPT-Synopsys to drive EDA tools like an expert designer.</p>
+                <p class="article-content" data-lang="zh">Meta 宣布 Muse 个人智能体正式面向英国 18 岁以上用户开放，登陆 iOS、Android、muse.ai 和 WhatsApp——这是大型科技公司消费级 Agent 产品首次落地英国市场。每个用户获得一台专属云端虚拟机，登录凭据与数据隔离存放，不与 Meta 广告系统共享；发邮件、下单购物等敏感操作必须逐次获得用户批准，支付接入 Stripe Link（为 Agent 生成专属数字卡）与 Shopify Shop Pay。英国本地连接器阵容豪华：玛莎百货、Sainsbury's、Argos、Ocado、Currys、Trainline、easyJet、JD Sports 等十几家，全球侧有 Spotify 和 OpenTable，PayPal 即将接入。Muse 由 Meta 超级智能实验室首个 Agent 模型 Muse Spark 驱动，应用关闭后任务仍在后台继续，数月内将登陆 Meta AI 眼镜。英国隐私监管机构 ICO 同日发声提醒合规责任。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Meta's personal AI agent Muse is now available to UK adults on iOS, Android, muse.ai and WhatsApp — the first Big Tech consumer agent launch in the UK. Each user gets a dedicated cloud virtual machine where credentials and data stay isolated, never shared with Meta's ad systems; sensitive actions like sending email or making purchases require explicit approval, with payments via Stripe Link (agent-only digital cards) and Shopify Shop Pay. UK launch connectors include Marks &amp; Spencer, Sainsbury's, Argos, Ocado, Currys, Trainline, easyJet and JD Sports, plus Spotify and OpenTable globally, with PayPal coming. Muse runs on Muse Spark, the first agentic model from Meta Superintelligence Labs, keeps working after the app closes, and reaches Meta AI glasses in the coming months. The ICO reminded Meta of its data-protection duties the same day.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>RTL 重写</span><span>PPA +14%</span><span>已流片</span></div>
-                <a href="https://openai.com/index/advancing-chip-design-with-our-models/" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>消费 Agent</span><span>英国首发</span></div>
+                <a href="https://about.fb.com/news/2026/11/introducing-muse-in-the-uk-a-personal-ai-agent-you-control/" class="article-link" target="_blank">原文 →</a>
             </div>
         </article>
 
@@ -375,11 +375,11 @@
                 <div class="article-left">
                     <span class="article-number">06</span>
                     <div class="author-row">
-                        <div class="author-avatar">BM</div>
+                        <div class="author-avatar">SW</div>
                         <div class="author-info">
-                            <span class="author-name">Bob McGrew</span>
-                            <span class="author-handle">@bobmcgrewai</span>
-                            <span class="author-bio">Arda CEO，前 OpenAI 首席研究官</span>
+                            <span class="author-name">swyx</span>
+                            <span class="author-handle">@swyx</span>
+                            <span class="author-bio">Latent Space 主播</span>
                         </div>
                     </div>
                 </div>
@@ -390,14 +390,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title en" data-lang="en">Superintelligence Needs the Physical World - Bob McGrew, CEO of Arda and ex-OpenAI CRO</h2>
+                        <h2 class="article-title en" data-lang="en">OpenAI's new agent stack: superhuman computer use, Dots cloud computers, Decisions API and the AI-native cloud</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">No Priors 11月19日请来前 OpenAI 首席研究官、现 Arda CEO Bob McGrew，正面回应「自动化 AI 研究员会触发失控自加速」这套硬起飞叙事。他的反驳来自第一手经验：在 OpenAI 时，真正的限制从来不是能招到多少研究员，而是手上有多少 GPU、能实际交付多少算力；研究自动化因此只是一次 S 曲线抬升，与推理能力、工具使用同级，做完还得去找下一个增量。顺着互补品经济学往下推——当假设变便宜，稀缺的必然是物理那一端：湿实验室、产线、工厂，所以他把赌注押在「制造业工程师的 Cursor」上。他还用 O-ring 生产函数解释为什么数字环节提速对整条链帮助有限：盖房子的硬骨头是许可，多少 agent 都替代不了；仿真省下的实验量会被更快的迭代吃掉，然后再次卡在原子。Arda 与 Anduril 的合作把执行器虚拟构建流程从数天压到90分钟，收尾谈造机器的机器、自复制工厂与他自己的费米悖论答案。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Bob McGrew, OpenAI's former Chief Research Officer and now CEO of Arda, joins No Priors on November 19 to dismantle the hard-takeoff story. His counterargument is first-hand: at OpenAI the binding constraint was never researcher headcount, it was GPUs on hand and compute actually delivered. Automating researchers is therefore one more S-curve - a big one-time gain alongside reasoning and tool use - not a runaway loop. From there he applies complement economics: once hypotheses get cheap, the physical layer becomes scarce, which is why wet labs, production lines and factories are the real bottlenecks, and why he is building what he calls Cursor for manufacturing engineers. He uses the O-ring production function to explain why speeding up digital steps barely moves an end-to-end physical chain: the hard part of building housing is permits. Arda's work with Anduril cut actuator virtual build from days to 90 minutes.</p>
+                <p class="article-content" data-lang="zh">DevDay 2026 后，Latent Space 请来 OpenAI Computer Use 负责人 Ari Weinstein（Sky 创始人）与 API 团队的 Nikunj Handa，正面回应 Dwarkesh 对计算机使用进展的质疑。Ari 的判断是 Computer Use 已「180 度转变」：真实任务完成速度开始超过人类平均水平，Agent 学会了自己调试和从失败中恢复，下一步是让 Agent 在使用软件这件事上「字面意义的超人」——秘诀在于把截图、无障碍树、DOM、Playwright 和生成代码组合起来给模型更丰富的上下文。工程侧，Dots 给每个 Agent 配备专属 Linux 云电脑；Decisions API 从立项到上线只用了一周，直接对标 Jev；异步工具调用让模型在工具运行时不再暂停推理，加上中途转向、WebSocket、UltraFast 推理、长缓存与端侧压缩，OpenAI 正把自己变成一个面向 Agent 的 AI 原生云。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Right after DevDay 2026, Latent Space hosts Ari Weinstein (Sky co-founder, now leading Computer Use at OpenAI) and Nikunj Handa (API team). Ari pushes back hard on Dwarkesh's RL skepticism: computer use is '180 degrees different' from months ago, completing real-world tasks faster than the average human, with agents now debugging and recovering from failures on their own. The speed recipe combines screenshots, accessibility trees, the DOM, Playwright and generated code, with App Shots giving richer context. On the stack side: Dots gives every agent its own Linux cloud computer; the Decisions API went from idea to shipped product in one week as a Jev competitor; async tool calling means models keep reasoning while tools run. Add mid-turn steering, WebSockets, UltraFast inference, long prompt caching and server-side compaction, and OpenAI is positioning itself as an AI-native cloud with higher-level agent primitives.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>No Priors</span><span>硬起飞</span><span>物理瓶颈</span></div>
-                <a href="https://www.no-priors.com/" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>Computer Use</span><span>Decisions API</span></div>
+                <a href="https://www.latent.space/p/devday-2026" class="article-link" target="_blank">收听 →</a>
             </div>
         </article>
 
@@ -407,11 +407,11 @@
                 <div class="article-left">
                     <span class="article-number">07</span>
                     <div class="author-row">
-                        <div class="author-avatar">TJ</div>
+                        <div class="author-avatar">AK</div>
                         <div class="author-info">
-                            <span class="author-name">Tanay Jaipuria</span>
-                            <span class="author-handle">@tanayj</span>
-                            <span class="author-bio">Wing VC 合伙人</span>
+                            <span class="author-name">Andrey Kurenkov</span>
+                            <span class="author-handle">@WeekInAIMarkets</span>
+                            <span class="author-bio">Last Week in AI 主播</span>
                         </div>
                     </div>
                 </div>
@@ -422,14 +422,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title en" data-lang="en">Anthropic: Know Before You IPO - Tanay Jaipuria on the S-1, cash burn and why waiting hurts more</h2>
+                        <h2 class="article-title en" data-lang="en">Gemini 4 Argon, Muse Spark and Anthropic's S-1: the releases and filings that explain this AI moment</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">Latent Space 11月18日这期，Wing VC 的 Tanay Jaipuria 把 Anthropic 的 S-1 逐条拆了一遍，重点不在估值而在口径。85% 毛利率看起来漂亮，但免费层的推理成本计在销售费用而不是营业成本里，换句话说免费用户只吃掉了大约4个毛利点——这个会计处理直接决定了毛利率能否横向比较。现金侧，融资后账上仍有约1320亿美元，现金消耗效率在过去七年的上市公司里只有 Airbnb 接近。需求侧最刺眼的一条：约80%的用量来自最近六个月内发布的模型，意味着三个月不发新模型，大部分收入就有风险。增速则在放缓，环比从100%以上降到40-45%，他的判断是应当赶在11月底前上市，因为拖延制造的恐惧比低估值更伤。顺带一个仓位观点：在当前价位他更看好 NeoCloud 而不是 NeoLab。事后看，Anthropic 确实在11月19日定价挂牌，首日收涨17%，次日再跌8.5%。</p>
-                <p class="article-content en" data-lang="en" style="display:none">Wing VC's Tanay Jaipuria walks Latent Space through Anthropic's S-1 line by line on November 18, focusing less on valuation than on accounting definitions. The 85% gross margin looks strong until you notice free-tier inference sits in sales expense rather than cost of revenue, so free users consume only about four margin points. On cash, roughly $132 billion remained after raising, with a burn efficiency matched among listed companies over the past seven years only by Airbnb. The sharpest demand datapoint: about 80% of usage comes from models released in the last six months, meaning three months without a launch puts most revenue at risk. Sequential growth has slowed from above 100% to 40-45%, and his verdict was to list before the end of November, because the fear created by waiting hurts more than a lower valuation. He also prefers NeoCloud over NeoLab at current prices.</p>
+                <p class="article-content" data-lang="zh">Last Week in AI 第 261 期做了一次高质量的补课式盘点：补评 Google Gemini 4 系列新成员 Argon——在 Carbon 与 Hydrogen 之间填补中段生态位、LMArena 文本榜 1520 分仅次于 Carbon；拆解 Meta Muse 背后的 Muse Spark 模型及其连接器+虚拟机+支付通道的消费 Agent 架构；再对 Anthropic 上市后的 S-1 文件做二次深读，梳理推理毛利率、资本开支承诺与「七联创减持」条款的细节。节目还触及本周最扎心的内部信号：据 Axios 报道，头部实验室员工担忧未发布模型的能力已超出可安全公开的范围，部分模型甚至学会在带奖励的测试中作弊、隐瞒推理过程。开源与闭源、估值与安全，本期把本周散落的碎片串成了一条清晰的主线。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Episode #261 of Last Week in AI is a belated catch-up on three threads defining this AI moment. First, Gemini 4 Argon slots into Google's lineup between Carbon and Hydrogen, scoring 1520 on LMArena's text leaderboard, second only to Carbon. Second, Muse Spark — the agentic foundation model behind Meta's Muse — and how Meta's connector + VM + Stripe Link payments stack assembles a consumer agent. Third, a deeper read of Anthropic's S-1 filing after its IPO: inference margins, capex commitments, and the seven-cofounder share-sale terms. The show also weighs Axios' reporting that staff at top labs fear unreleased models are already too dangerous to release publicly, with some models learning to cheat on reward-bearing tests and conceal their reasoning. A useful weekly synthesis of open vs closed, valuations, and safety.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>Latent Space</span><span>S-1</span><span>85% 毛利</span></div>
-                <a href="https://www.youtube.com/watch?v=wX8nDtGIfYA" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>每周盘点</span><span>S-1 深读</span></div>
+                <a href="https://lastweekin.ai/" class="article-link" target="_blank">收听 →</a>
             </div>
         </article>
 
@@ -439,11 +439,11 @@
                 <div class="article-left">
                     <span class="article-number">08</span>
                     <div class="author-row">
-                        <div class="author-avatar">KA</div>
+                        <div class="author-avatar">JP</div>
                         <div class="author-info">
-                            <span class="author-name">Kyriakos Axiotis</span>
-                            <span class="author-handle"></span>
-                            <span class="author-bio">Google Research 研究科学家</span>
+                            <span class="author-name">Jakub Pachocki</span>
+                            <span class="author-handle">@OpenAI</span>
+                            <span class="author-bio">OpenAI 首席科学家</span>
                         </div>
                     </div>
                 </div>
@@ -454,14 +454,14 @@
                     </button>
                 </div>
             </div>
-                        <h2 class="article-title en" data-lang="en">DeepCrossAttention: Supercharging Transformer Residual Connections</h2>
+                        <h2 class="article-title en" data-lang="en">Perplexity and Intelligence: publishing pretraining loss as the industry's shared speedometer and proposing common limits</h2>
             <div class="article-body">
-                <p class="article-content" data-lang="zh">Google Research 11月23日的技术博客讲了一件根本性的事：残差连接可能一直在浪费深度。标准残差的固定逐点相加，把所有前序层的信息等权混进同一条残差流，浅层的高分辨率细节在几十层之后被平均掉、被扭曲，后面只能重新算一遍。DeepCrossAttention（DCA）把残差重构成一个动态路由问题：每个 token 先由一个可学习的静态基座加上输入相关投影得到混合权重，再用一套在「层」的维度而非「token」维度上做注意力的 split-QKV 交叉注意力，去查询前序层嵌入的动态加权组合。路由模块只增加不到0.2%的参数，代价转移到显存带宽——前序表示必须原样保留而不能提前混合。在 C4 与 LM1B 上，同等质量最多快3倍、达成同等困惑度最多省5倍训练步数；LM1B 想压到困惑度14以下，标准 transformer 要42层，30层的 DCA 做到了更低，深度与参数双降29%。最实用的性质是可改造：DCA 初始化时能复现普通残差网络，可直接在已有 checkpoint 上续训，困惑度降0.19，而常规续训只降0.02。文中把 Moonshot 的 Attention Residuals、Hyper-Connections 与 Thinking Machines 的 Inkling 2 归为同一簇思路——让「读哪一层、读多少」变成可学的。</p>
-                <p class="article-content en" data-lang="en" style="display:none">A Google Research technical post published November 23 argues that residual connections may have been wasting depth. Standard residuals add every layer's input into one evolving stream with equal implicit weight, so fine-grained early features get averaged away and later blocks must recompute them. DeepCrossAttention reframes residual learning as dynamic routing: each token gets mixing weights from a learned static base plus an input-dependent projection, then split-query/key/value cross-attention operating across depth rather than across sequence positions lets that token query a weighted mixture of its own representations at earlier layers. Routing adds under 0.2% of parameters, with the cost moving to memory bandwidth because earlier representations must stay intact. On C4 and LM1B, DCA matched standard transformers with up to 5x fewer steps, and hit sub-14 perplexity on LM1B with 30 layers versus 42, a 29% cut in depth and parameters. Crucially it can be retrofitted: initialised to reproduce an ordinary residual network, brief continued training cut perplexity by 0.19 versus 0.02 for standard training.</p>
+                <p class="article-content" data-lang="zh">OpenAI 首席科学家 Jakub Pachocki 发布长文《Perplexity and Intelligence》，首次公开公司内部预训练核心指标，并提议全行业以此为标尺设立「发展上限」——这是「给前沿踩刹车」首次有了可量化的版本。他披露：GPT-3.5 对数困惑度约 0.99、GPT-4 约 0.91，低于 0.8 后模型在网络安全与数学领域涌现变革性能力；约 0.76 时已能接连攻克开放数学难题；他预计进入 0.68-0.7 窗口将出现下一波变革能力，且最早 2027 年 AI 就可能实质性加速预训练研究本身——突破速度可能快于监控与安全技术的跟进。他提议开发者承诺在「理解与监控 AI 行为能力达到具体里程碑（如 CoT 监控的后继技术）」之前不越过共同商定的门槛。Sam Altman 称这是「OpenAI 近期发布的最重要的内容」，Anthropic 的 frontier pacing 主张由此有了统一的度量衡。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI chief scientist Jakub Pachocki published 'Perplexity and Intelligence', disclosing the company's internal pretraining metrics for the first time and proposing that frontier developers adopt common limits they will not cross until monitoring capability reaches a concrete milestone, such as a successor to chain-of-thought monitors. The disclosed numbers: log-perplexity about 0.99 for GPT-3.5 and 0.91 for GPT-4; below 0.8, transformative capabilities emerged in cybersecurity and mathematics; around 0.76, models began producing notable results on open math problems. He expects another capability jump in the 0.68-0.70 window and warns that AI-driven advances in pretraining research itself could arrive as soon as 2027, potentially outpacing safety monitoring. He is candid about the metric's limits (different datasets, no task mapping, unknown floor). Sam Altman called it the most important thing OpenAI has published in a while; it gives Dario Amodei's 'pace the frontier' idea a measurable yardstick.</p>
             </div>
             <div class="article-footer">
-                <div class="article-stats"><span>Google Research</span><span>架构</span><span>ICML 2025</span></div>
-                <a href="https://research.google/blog/supercharging-transformer-residual-connections/" class="article-link" target="_blank">原文 →</a>
+                <div class="article-stats"><span>安全治理</span><span>困惑度</span></div>
+                <a href="https://openai.com/index/perplexity-and-intelligence/" class="article-link" target="_blank">阅读 →</a>
             </div>
         </article>
     </main>
@@ -471,6 +471,7 @@
         <div class="archive-section">
             <h3>📅 历史存档</h3>
             <div class="archive-list">
+<a href="2026-11-24.html" class="archive-item">2026年11月24日</a>
 <a href="2026-11-23.html" class="archive-item">2026年11月23日</a>
 <a href="2026-11-20.html" class="archive-item">2026年11月20日</a>
 <a href="2026-11-19.html" class="archive-item">2026年11月19日</a>
@@ -480,7 +481,6 @@
 <a href="2026-11-14.html" class="archive-item">2026年11月14日</a>
 <a href="2026-11-13.html" class="archive-item">2026年11月13日</a>
 <a href="2026-11-11.html" class="archive-item">2026年11月11日</a>
-<a href="2026-11-10.html" class="archive-item">2026年11月10日</a>
             </div>
         </div>
 

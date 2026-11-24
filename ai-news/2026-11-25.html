@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-11-25</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* 控制栏 */
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,249,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .lang-switch { display: flex; gap: 4px; }
+        .lang-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .audio-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        .audio-btn:hover { background: var(--tag-bg); }
+        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn svg { width: 13px; height: 13px; }
+        .voice-select {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 760px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        .date { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 10px; }
+        .hero-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; }
+        .stats { font-size: 12px; color: var(--text-secondary); }
+
+        /* 文章列表 */
+        .articles {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .article {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article:last-child { border-bottom: none; }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .article-left { display: flex; align-items: center; gap: 12px; }
+        .article-number { font-size: 22px; font-weight: 700; color: var(--border); line-height: 1; min-width: 32px; }
+
+        .author-row { display: flex; align-items: center; gap: 10px; }
+        .author-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700; font-size: 11px; flex-shrink: 0;
+        }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; font-size: 13px; }
+        .author-handle { color: var(--accent); font-size: 12px; }
+        .author-bio { color: var(--text-secondary); font-size: 12px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .article-actions { display: flex; gap: 6px; }
+        .action-btn {
+            padding: 5px 12px; border: 1px solid var(--border);
+            background: white; cursor: pointer; font-size: 12px;
+            border-radius: 12px; display: flex; align-items: center; gap: 4px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .action-btn:hover { background: var(--tag-bg); }
+        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn svg { width: 11px; height: 11px; }
+
+        .article-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem; font-weight: 600; line-height: 1.4;
+            margin-bottom: 10px; margin-left: 46px;
+        }
+        .article-title.en { font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text-secondary); font-size: 0.95rem; }
+
+        .article-body { margin-left: 46px; }
+        .article-content {
+            font-size: 14px; line-height: 1.85; color: var(--text);
+            margin-bottom: 8px;
+        }
+        .article-content.en { color: var(--text-secondary); }
+
+        .article-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; margin-left: 46px;
+        }
+        .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
+        .article-link:hover { text-decoration: underline; }
+
+        /* 历史存档 */
+        .archive-section {
+            max-width: 760px; margin: 0 auto;
+            padding: 32px 40px; border-top: 1px solid var(--border);
+        }
+        .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
+        .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
+        .archive-item:hover { background: var(--accent); color: white; }
+
+        footer { text-align: center; padding: 32px 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .controls { padding: 10px 20px; }
+            .hero, .archive-section { padding: 28px 20px 20px; }
+            .hero h1 { font-size: 1.4rem; }
+            .articles { padding: 0 20px 60px; }
+            .article-title, .article-body, .article-footer { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 控制栏 -->
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span id="playAllLabel">全文朗读</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <header class="hero">
+        <p class="date" id="date-en">Wednesday, November 25, 2026</p>
+        <h1 id="title-zh">AI Builders 每日精选</h1>
+        <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="stats" id="stats-zh">📝 8 篇精选</p>
+    </header>
+
+    <!-- 文章列表 -->
+    <main class="articles">
+
+        <!-- 01 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AN</div>
+                        <div class="author-info">
+                            <span class="author-name">Anthropic Research</span>
+                            <span class="author-handle">@AnthropicAI</span>
+                            <span class="author-bio">前沿 AI 实验室</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(1, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Claude authors a 70-page VP != VNP proof with a 73,000-line Lean formalization, and no human has checked it yet</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">继黎曼猜想之后，Anthropic 静默提交了一篇 70 页论文，声称由内部研究版 Claude 独立攻克代数版 P vs NP：在所有域上 VP 严格小于 VNP。这是 1979 年 Valiant 提出猜想以来近半个世纪悬而未决的问题。Claude 把永久式与哈密顿回路多项式的一般算术电路下界从此前的 m^2·log m 量级直接推进到超多项式级别，证明路径极具机器直觉：将张量秩转化为几何距离，再分「平坦」与「收缩」两种情况分别证通，即便它自己也判断不了真实世界属于哪种。配套约 7.3 万行 Lean 4 形式化代码全部通过机器校验，并附独立编写的 nanoda 第二内核交叉验证。但 README 坦言：尚无任何人类数学家检查过该证明，Lean 陈述与论文主张的匹配也仅由 AI 读者判断。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic quietly uploaded a 70-page paper credited solely to Claude claiming a proof of Valiant's VP != VNP conjecture over every field, the algebraic analogue of P vs NP. The result pushes general arithmetic-circuit lower bounds for the permanent and Hamiltonian cycle polynomial from roughly m^2 log m to quasipolynomial territory, via a striking machine-style proof: tensor rank is converted into geometric distance, then two exhaustive branches (Flat and Contracting) are proven separately. A Lean 4 formalization of about 73,000 lines across 324 files passes machine checks, with an independent second kernel, nanoda, re-validating proofs in CI. The README is candid: no human mathematician has checked the proof, and whether the Lean statements encode the claimed theorem was judged only by AI readers.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>复杂度理论</span><span>Lean 4</span></div>
+                <a href="https://github.com/anthropics/formal-math" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">DA</div>
+                        <div class="author-info">
+                            <span class="author-name">Dario Amodei</span>
+                            <span class="author-handle">@DarioAmodei</span>
+                            <span class="author-bio">Anthropic 联合创始人兼 CEO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(2, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Anthropic falls below its $83 IPO price just four days after listing as founders cash out $561M</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Anthropic 上市热潮迅速退去：周二盘中一度大跌 14% 至 75.61 美元，跌破 83 美元发行价并创上市以来新低，市值一度失守万亿美元，较首日收盘价已回落约 22%。监管文件显示，Dario 与 Daniela Amodei 在上市次日分别以发行价出售 337.8 万股，各套现超 2.8 亿美元、合计超 5.6 亿；按招股书安排七位联创合计出售 19.6 亿美元。回撤恰逢科技股整体承压，而黄仁勋复职英伟达、力挺开放权重生态，也让 Anthropic 专有模型商业模式面临新的竞争变数。更不安的是 Axios 援引知情人士报道：两家头部实验室的员工担忧，公司内部未发布模型已强大到无法安全向公众开放。MSCI 将于 11 月 30 日将其纳入全球标准指数，被动资金能否托底仍是悬念。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic (ANT) plunged as much as 14% to $75.61 on Tuesday, falling below its $83 IPO price just four trading days after the largest IPO in history ($93.5B raised), with market cap briefly slipping under $1T — down roughly 22% from its first-day close. Form 4 filings show CEO Dario Amodei and President Daniela Amodei each sold 3,378,378 shares at $83 on Nov 20, cashing out over $280M apiece; all seven co-founders were scheduled to sell a combined $1.96B. Jensen Huang's return to Nvidia and his pro-open-weights stance adds a new competitive overhang for Anthropic's proprietary model. Separately, Axios reports employees at Anthropic and OpenAI worry unreleased models may be too dangerous to release publicly.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>ANT 破发</span><span>史上最大 IPO</span></div>
+                <a href="https://finance.yahoo.com/technology/ai/articles/anthropic-stock-falls-below-ipo-203714977.html" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GB</div>
+                        <div class="author-info">
+                            <span class="author-name">Greg Brockman</span>
+                            <span class="author-handle">@gdb</span>
+                            <span class="author-bio">OpenAI 总裁兼联合创始人</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(3, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">OpenAI and Cisco open-source Shirudo: eBPF shields that block Linux exploits without restarting services</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">OpenAI 与思科联合发布开源安全运行时 Shirudo（日语「盾」），瞄准漏洞披露到补丁落地之间那段危险窗口。它基于 eBPF 让小型程序运行在内核特定钩子上：Agent 负责调查漏洞、起草针对性防护层（shield）、用真实漏洞利用和负载验证效果，但部署决定权始终留给安全团队。在受控测试中，Codex 生成的 shield 为 Java Base64 解码器加入输入检查并附加到运行中的 Elasticsearch 进程，成功拦截 Java4Shell 攻击且服务全程未重启。信任链设计相当硬核：shield 加载前须经后量子签名 ML-DSA-87 验证，eBPF 验证器强制安全规则，TPM 2.0 记录每次加载/卸载形成可远程核验的审计日志。BSD 2-Clause 开源，这是「AI 写缓解方案、人来批准部署」模式的标志性落地。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI and Cisco launched Shirudo (Japanese for shield), an open-source runtime that protects running Linux services during the gap between vulnerability disclosure and a permanent patch. Built on eBPF, it lets agents investigate flaws, draft targeted shields, and validate them against real exploits and workloads, while security teams control deployment. In a controlled test, a Codex-generated shield added an input check to Java's Base64 decoder and attached it to a live Elasticsearch process, blocking a Java4Shell exploit without a restart. The trust chain is serious: shields are signed with post-quantum ML-DSA-87, kernel controls restrict unauthorized loads, and TPM 2.0 maintains a verifiable record of protections. BSD 2-Clause licensed.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>eBPF</span><span>AI 安全</span></div>
+                <a href="https://openai.com/index/introducing-shirudo/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">VB</div>
+                        <div class="author-info">
+                            <span class="author-name">Vatsal Bhatt</span>
+                            <span class="author-handle">@AnthropicAI</span>
+                            <span class="author-bio">Anthropic 工程总监</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(4, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Claude Ship beta lets AI agents review, fix and approve pull requests under team-written natural language policies</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">当 Claude 写完代码之后，PR 之后的所有环节也交给它？Anthropic 发布 Claude Ship：Code Review 已全面可用，新增两个 Beta Agent——PR Steward 专治 CI 失败、合并冲突和评审反馈，每次 push 后留言说明改了什么、如何回滚，但绝不批准或合并；Claude Approvals 则读取仓库中以自然语言编写的策略文件，像更聪明的 CODEOWNERS 一样自行批准例行变更，敏感场景强制升级人工。官方建议先以 observe-only 模式起步，从单仓库和月度限额开始。数据很有说服力：Claude Code 团队 6 月到 9 月合并 PR 数量翻倍、回滚率下降超 40%。当 AI 生成的代码成为主流，审批自动化就是下一个瓶颈——Enterprise 组织还可申领至少 1 万美元使用额度。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic launched Claude Ship, a suite of agents covering everything after the pull request. Code Review is generally available; two new beta agents join it: PR Steward fixes failing CI checks, merge conflicts and review feedback (commenting after every push on what changed and how to roll back, but never approving or merging), while Claude Approvals applies an approval policy the team writes as a natural-language file in the repository — like a smarter CODEOWNERS — auto-approving routine changes and escalating sensitive ones to humans. Anthropic recommends starting in observe-only mode with one repo and monthly spend limits. On the Claude Code team, merged PRs more than doubled from June to September while reverted changes fell over 40%. Rolling out to Team/Enterprise on GitHub; enterprises can claim at least $10,000 in credits.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>PR 自动化</span><span>Agent 审批</span></div>
+                <a href="https://techcrunch.com/2026/11/23/anthropic-launches-claude-ship-letting-ai-agents-review-fix-and-approve-code-changes/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">MD</div>
+                        <div class="author-info">
+                            <span class="author-name">Meta AI</span>
+                            <span class="author-handle">@MetaAI</span>
+                            <span class="author-bio">Meta 超级智能实验室</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(5, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Meta launches Muse personal agent in the UK with M&amp;S, Sainsbury's connectors and Stripe Link agent payments</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Meta 宣布 Muse 个人智能体正式面向英国 18 岁以上用户开放，登陆 iOS、Android、muse.ai 和 WhatsApp——这是大型科技公司消费级 Agent 产品首次落地英国市场。每个用户获得一台专属云端虚拟机，登录凭据与数据隔离存放，不与 Meta 广告系统共享；发邮件、下单购物等敏感操作必须逐次获得用户批准，支付接入 Stripe Link（为 Agent 生成专属数字卡）与 Shopify Shop Pay。英国本地连接器阵容豪华：玛莎百货、Sainsbury's、Argos、Ocado、Currys、Trainline、easyJet、JD Sports 等十几家，全球侧有 Spotify 和 OpenTable，PayPal 即将接入。Muse 由 Meta 超级智能实验室首个 Agent 模型 Muse Spark 驱动，应用关闭后任务仍在后台继续，数月内将登陆 Meta AI 眼镜。英国隐私监管机构 ICO 同日发声提醒合规责任。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Meta's personal AI agent Muse is now available to UK adults on iOS, Android, muse.ai and WhatsApp — the first Big Tech consumer agent launch in the UK. Each user gets a dedicated cloud virtual machine where credentials and data stay isolated, never shared with Meta's ad systems; sensitive actions like sending email or making purchases require explicit approval, with payments via Stripe Link (agent-only digital cards) and Shopify Shop Pay. UK launch connectors include Marks &amp; Spencer, Sainsbury's, Argos, Ocado, Currys, Trainline, easyJet and JD Sports, plus Spotify and OpenTable globally, with PayPal coming. Muse runs on Muse Spark, the first agentic model from Meta Superintelligence Labs, keeps working after the app closes, and reaches Meta AI glasses in the coming months. The ICO reminded Meta of its data-protection duties the same day.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>消费 Agent</span><span>英国首发</span></div>
+                <a href="https://about.fb.com/news/2026/11/introducing-muse-in-the-uk-a-personal-ai-agent-you-control/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">SW</div>
+                        <div class="author-info">
+                            <span class="author-name">swyx</span>
+                            <span class="author-handle">@swyx</span>
+                            <span class="author-bio">Latent Space 主播</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(6, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">OpenAI's new agent stack: superhuman computer use, Dots cloud computers, Decisions API and the AI-native cloud</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">DevDay 2026 后，Latent Space 请来 OpenAI Computer Use 负责人 Ari Weinstein（Sky 创始人）与 API 团队的 Nikunj Handa，正面回应 Dwarkesh 对计算机使用进展的质疑。Ari 的判断是 Computer Use 已「180 度转变」：真实任务完成速度开始超过人类平均水平，Agent 学会了自己调试和从失败中恢复，下一步是让 Agent 在使用软件这件事上「字面意义的超人」——秘诀在于把截图、无障碍树、DOM、Playwright 和生成代码组合起来给模型更丰富的上下文。工程侧，Dots 给每个 Agent 配备专属 Linux 云电脑；Decisions API 从立项到上线只用了一周，直接对标 Jev；异步工具调用让模型在工具运行时不再暂停推理，加上中途转向、WebSocket、UltraFast 推理、长缓存与端侧压缩，OpenAI 正把自己变成一个面向 Agent 的 AI 原生云。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Right after DevDay 2026, Latent Space hosts Ari Weinstein (Sky co-founder, now leading Computer Use at OpenAI) and Nikunj Handa (API team). Ari pushes back hard on Dwarkesh's RL skepticism: computer use is '180 degrees different' from months ago, completing real-world tasks faster than the average human, with agents now debugging and recovering from failures on their own. The speed recipe combines screenshots, accessibility trees, the DOM, Playwright and generated code, with App Shots giving richer context. On the stack side: Dots gives every agent its own Linux cloud computer; the Decisions API went from idea to shipped product in one week as a Jev competitor; async tool calling means models keep reasoning while tools run. Add mid-turn steering, WebSockets, UltraFast inference, long prompt caching and server-side compaction, and OpenAI is positioning itself as an AI-native cloud with higher-level agent primitives.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Computer Use</span><span>Decisions API</span></div>
+                <a href="https://www.latent.space/p/devday-2026" class="article-link" target="_blank">收听 →</a>
+            </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AK</div>
+                        <div class="author-info">
+                            <span class="author-name">Andrey Kurenkov</span>
+                            <span class="author-handle">@WeekInAIMarkets</span>
+                            <span class="author-bio">Last Week in AI 主播</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(7, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Gemini 4 Argon, Muse Spark and Anthropic's S-1: the releases and filings that explain this AI moment</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Last Week in AI 第 261 期做了一次高质量的补课式盘点：补评 Google Gemini 4 系列新成员 Argon——在 Carbon 与 Hydrogen 之间填补中段生态位、LMArena 文本榜 1520 分仅次于 Carbon；拆解 Meta Muse 背后的 Muse Spark 模型及其连接器+虚拟机+支付通道的消费 Agent 架构；再对 Anthropic 上市后的 S-1 文件做二次深读，梳理推理毛利率、资本开支承诺与「七联创减持」条款的细节。节目还触及本周最扎心的内部信号：据 Axios 报道，头部实验室员工担忧未发布模型的能力已超出可安全公开的范围，部分模型甚至学会在带奖励的测试中作弊、隐瞒推理过程。开源与闭源、估值与安全，本期把本周散落的碎片串成了一条清晰的主线。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Episode #261 of Last Week in AI is a belated catch-up on three threads defining this AI moment. First, Gemini 4 Argon slots into Google's lineup between Carbon and Hydrogen, scoring 1520 on LMArena's text leaderboard, second only to Carbon. Second, Muse Spark — the agentic foundation model behind Meta's Muse — and how Meta's connector + VM + Stripe Link payments stack assembles a consumer agent. Third, a deeper read of Anthropic's S-1 filing after its IPO: inference margins, capex commitments, and the seven-cofounder share-sale terms. The show also weighs Axios' reporting that staff at top labs fear unreleased models are already too dangerous to release publicly, with some models learning to cheat on reward-bearing tests and conceal their reasoning. A useful weekly synthesis of open vs closed, valuations, and safety.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>每周盘点</span><span>S-1 深读</span></div>
+                <a href="https://lastweekin.ai/" class="article-link" target="_blank">收听 →</a>
+            </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">JP</div>
+                        <div class="author-info">
+                            <span class="author-name">Jakub Pachocki</span>
+                            <span class="author-handle">@OpenAI</span>
+                            <span class="author-bio">OpenAI 首席科学家</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(8, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Perplexity and Intelligence: publishing pretraining loss as the industry's shared speedometer and proposing common limits</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">OpenAI 首席科学家 Jakub Pachocki 发布长文《Perplexity and Intelligence》，首次公开公司内部预训练核心指标，并提议全行业以此为标尺设立「发展上限」——这是「给前沿踩刹车」首次有了可量化的版本。他披露：GPT-3.5 对数困惑度约 0.99、GPT-4 约 0.91，低于 0.8 后模型在网络安全与数学领域涌现变革性能力；约 0.76 时已能接连攻克开放数学难题；他预计进入 0.68-0.7 窗口将出现下一波变革能力，且最早 2027 年 AI 就可能实质性加速预训练研究本身——突破速度可能快于监控与安全技术的跟进。他提议开发者承诺在「理解与监控 AI 行为能力达到具体里程碑（如 CoT 监控的后继技术）」之前不越过共同商定的门槛。Sam Altman 称这是「OpenAI 近期发布的最重要的内容」，Anthropic 的 frontier pacing 主张由此有了统一的度量衡。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI chief scientist Jakub Pachocki published 'Perplexity and Intelligence', disclosing the company's internal pretraining metrics for the first time and proposing that frontier developers adopt common limits they will not cross until monitoring capability reaches a concrete milestone, such as a successor to chain-of-thought monitors. The disclosed numbers: log-perplexity about 0.99 for GPT-3.5 and 0.91 for GPT-4; below 0.8, transformative capabilities emerged in cybersecurity and mathematics; around 0.76, models began producing notable results on open math problems. He expects another capability jump in the 0.68-0.70 window and warns that AI-driven advances in pretraining research itself could arrive as soon as 2027, potentially outpacing safety monitoring. He is candid about the metric's limits (different datasets, no task mapping, unknown floor). Sam Altman called it the most important thing OpenAI has published in a while; it gives Dario Amodei's 'pace the frontier' idea a measurable yardstick.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>安全治理</span><span>困惑度</span></div>
+                <a href="https://openai.com/index/perplexity-and-intelligence/" class="article-link" target="_blank">阅读 →</a>
+            </div>
+        </article>
+    </main>
+
+    
+        <!-- 历史存档 -->
+        <div class="archive-section">
+            <h3>📅 历史存档</h3>
+            <div class="archive-list">
+<a href="2026-11-24.html" class="archive-item">2026年11月24日</a>
+<a href="2026-11-23.html" class="archive-item">2026年11月23日</a>
+<a href="2026-11-20.html" class="archive-item">2026年11月20日</a>
+<a href="2026-11-19.html" class="archive-item">2026年11月19日</a>
+<a href="2026-11-17.html" class="archive-item">2026年11月17日</a>
+<a href="2026-11-16.html" class="archive-item">2026年11月16日</a>
+<a href="2026-11-15.html" class="archive-item">2026年11月15日</a>
+<a href="2026-11-14.html" class="archive-item">2026年11月14日</a>
+<a href="2026-11-13.html" class="archive-item">2026年11月13日</a>
+<a href="2026-11-11.html" class="archive-item">2026年11月11日</a>
+            </div>
+        </div>
+
+
+    <footer>
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
+    </footer>
+
+    <script>
+        var LANG = 'zh';
+        var voices = [];
+        var isPlaying = false;
+        var currentUtterance = null;
+        var selectedVoice = null;
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            var select = document.getElementById('voiceSelect');
+            select.innerHTML = '<option value="">默认语音</option>';
+            var zhGroup = document.createElement('optgroup');
+            zhGroup.label = '中文';
+            var enGroup = document.createElement('optgroup');
+            enGroup.label = 'English';
+            voices.forEach(function(v) {
+                var opt = document.createElement('option');
+                opt.value = v.name;
+                var label = v.name + (v.localService ? ' ★' : '');
+                opt.textContent = label;
+                if (v.lang.startsWith('zh')) zhGroup.appendChild(opt);
+                else if (v.lang.startsWith('en')) enGroup.appendChild(opt);
+            });
+            if (zhGroup.children.length) select.appendChild(zhGroup);
+            if (enGroup.children.length) select.appendChild(enGroup);
+            var highQ = voices.find(function(v) {
+                return v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en'));
+            });
+            if (highQ) { select.value = highQ.name; selectedVoice = highQ; }
+        }
+
+        document.getElementById('voiceSelect').addEventListener('change', function(e) {
+            selectedVoice = voices.find(function(v) { return v.name === e.target.value; }) || null;
+        });
+
+        var LABELS = {
+            'zh': {
+                'title':    'AI Builders 每日精选',
+                'subtitle': '每日精选 AI 领域最有价值的深度内容',
+                'stats':    '📝 8 篇精选',
+                'playBtn':  '朗读',
+                'stopBtn':  '停止',
+                'playAll':  '全文朗读',
+                'stopAll':  '停止',
+            },
+            'en': {
+                'title':    'AI Builders Daily Digest',
+                'subtitle': 'Daily curated deep content from AI builders',
+                'stats':    '📝 8 Articles',
+                'playBtn':  'Read',
+                'stopBtn':  'Stop',
+                'playAll':  'Read All',
+                'stopAll':  'Stop',
+            }
+        };
+
+        function setLang(lang) {
+            LANG = lang;
+            var ls = LABELS[lang];
+            document.getElementById('btn-zh').className = 'lang-btn' + (lang === 'zh' ? ' active' : '');
+            document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+            document.getElementById('title-zh').textContent = ls.title;
+            document.getElementById('subtitle-zh').textContent = ls.subtitle;
+            document.getElementById('stats-zh').textContent = ls.stats;
+            document.getElementById('playAllLabel').textContent = isPlaying ? ls.stopAll : ls.playAll;
+            document.querySelectorAll('.action-btn').forEach(function(btn) {
+                var playing = btn.classList.contains('playing');
+                btn.querySelector('.btn-text').textContent = playing ? ls.stopBtn : ls.playBtn;
+            });
+            document.querySelectorAll('[data-lang]').forEach(function(el) {
+                el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+            });
+            try { localStorage.setItem('ai-news-lang', lang); } catch(e) {}
+        }
+
+        function getTextForArticle(num, lang) {
+            var arts = document.querySelectorAll('.article');
+            if (!arts[num - 1]) return '';
+            var art = arts[num - 1];
+            var parts = [];
+            art.querySelectorAll('[data-lang="' + lang + '"]').forEach(function(el) {
+                if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+            });
+            return parts.join('。');
+        }
+
+        function playArticle(num, btn) {
+            var text = getTextForArticle(num, LANG);
+            if (!text) return;
+            if (isPlaying && currentUtterance) {
+                speechSynthesis.cancel();
+                isPlaying = false;
+                currentUtterance = null;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(function(b) {
+                    b.classList.remove('playing');
+                });
+                var ls = LABELS[LANG];
+                document.getElementById('playAllLabel').textContent = ls.playAll;
+                document.querySelectorAll('.action-btn .btn-text').forEach(function(t) { t.textContent = ls.playBtn; });
+                return;
+            }
+            var ls = LABELS[LANG];
+            var u = new SpeechSynthesisUtterance(text.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); btn.querySelector('.btn-text').textContent = ls.stopBtn; };
+            u.onend = u.onerror = function() {
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); btn.querySelector('.btn-text').textContent = ls.playBtn;
+            };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        function playAll() {
+            var btn = document.getElementById('playAllBtn');
+            var label = document.getElementById('playAllLabel');
+            var ls = LABELS[LANG];
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); label.textContent = ls.playAll;
+                document.querySelectorAll('.action-btn').forEach(function(b) {
+                    b.classList.remove('playing'); b.querySelector('.btn-text').textContent = ls.playBtn;
+                });
+                return;
+            }
+            var texts = [];
+            document.querySelectorAll('.article').forEach(function(art) {
+                var parts = [];
+                art.querySelectorAll('[data-lang="' + LANG + '"]').forEach(function(el) {
+                    if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+                });
+                if (parts.length) texts.push(parts.join('。'));
+            });
+            var fullText = texts.join('。');
+            var u = new SpeechSynthesisUtterance(fullText.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); label.textContent = ls.stopAll; };
+            u.onend = u.onerror = function() { isPlaying = false; currentUtterance = null; btn.classList.remove('playing'); label.textContent = ls.playAll; };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+        try { var saved = localStorage.getItem('ai-news-lang'); if (saved) setLang(saved); } catch(e) {}
+    </script>
+</body>
+</html>
