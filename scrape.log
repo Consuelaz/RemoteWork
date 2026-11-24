@@ -2141,3 +2141,50 @@ Himalayas: 100 jobs
 ✅ money.xlsx 已更新，插入 1 条V2EX数据 + 434 条who-is-hiring数据
 数据更新完成: 2026-11-24
 ========================================
+[master 5d53e42] 自动更新: 2026-11-24 CN=1238 Global=2000
+ 4 files changed, 24037 insertions(+), 23252 deletions(-)
+To github.com:Consuelaz/RemoteWork.git
+   e099919..5d53e42  master -> master
+✅ Git 推送完成
+========================================
+开始抓取: 2026-11-24
+正在抓取 Remote OK...
+Remote OK 下载完成
+正在抓取 Remotive...
+Remotive 下载完成
+正在抓取远程岛...
+远程岛 下载完成
+正在抓取 who-is-hiring (Rebase)...
+who-is-hiring 下载完成
+正在预下载Remote OK岗位详情...
+正在抓取 V2EX...
+V2EX 下载完成
+正在预下载V2EX岗位详情...
+正在抓取智联招聘...
+智联招聘 下载完成
+正在抓取 远程.work...
+远程.work 下载完成
+正在抓取 远程工作网...
+远程工作网 下载完成:       40/40 页有效
+正在抓取 Working Nomads...
+Working Nomads 下载完成
+正在抓取 Himalayas...
+Himalayas 下载完成
+Remote OK: 100 jobs
+Remotive: 15 jobs
+远程岛: 150 jobs
+who-is-hiring: 434 jobs (含联系方式的 434 条)
+已建立 20 个详情页映射
+V2EX: 1 jobs（跳过非今日帖子: 19）
+智联招聘: 29 jobs (严格过滤后)
+远程.work: 40 jobs (共发现 42 个链接)
+远程工作网: 800 jobs (有效页 40, 去重后 800 条)
+Working Nomads: 37 jobs
+Himalayas: 100 jobs
+现有数据: CN=1238, Global=2000
+时效过滤(>89天): 丢弃 CN=385, Global=0
+合并去重后: CN=1250, Global=2000
+✅ 数据更新完成!
+✅ money.xlsx 已更新，插入 1 条V2EX数据 + 434 条who-is-hiring数据
+数据更新完成: 2026-11-24
+========================================
