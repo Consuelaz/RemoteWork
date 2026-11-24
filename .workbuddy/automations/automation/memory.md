@@ -2,7 +2,24 @@
 
 > 规则变更（2026-10-23）：money.xlsx 已从 Git 索引移除并加入 .gitignore，**只保留本地**，不再提交/推送到远程。scrape.sh 仍在本地更新该文件（追加 V2EX + who-is-hiring 数据）。
 
-## 最近一次执行: 2026-11-20 07:35
+## 最近一次执行: 2026-11-23 07:27
+
+**结果**: ✅ 成功（自动化触发；7892 无监听 → 启动 scripts/proxy_bridge.py，v2ex 验证返回 200）
+- Remote OK: 100 条 / Remotive: 16 条 / 远程岛: 150 条
+- who-is-hiring: 434 条（含联系方式 434 条）
+- V2EX: 2 条（跳过 18 个非今日帖子）
+- 智联招聘: 27 条 / 远程.work: 39 条 / 远程工作网: 800 条（40/40 页有效）
+- Working Nomads: 35 条 / Himalayas: 20 条
+- **时效过滤(>89天)**: 丢弃 CN=385, Global=0
+- **汇总**: CN=1204, Global=2000（基线 CN=1147 → +57）
+- **Git**: commit 8e67758 push 成功（4 files, +30844/-29573）；另补提交 9d6ca17（scrape.log 尾巴 5 行），HEAD 与 origin/master 一致
+- **money.xlsx**: 更新成功（2 条 V2EX + 434 条 who-is-hiring），按规则未入库
+- **异常**: 无。jobs-featured.js / jobs-mainlist.js / review.html / jobs-featured-pending.js md5 均未变
+- **数据质量**: ID/URL 全唯一（1204 / 2000）；缺 date/title/description 0 条；description >500 字符 CN=2(502)、Global=46(≤514)，与历史一致
+- **耗时**: 约 4 分钟
+- **前置说明**: 本次基线为 8e6f64a（ai-news 自动化 11-23 已先推送「AI 资讯 2026-11-23」）
+
+## 上次执行: 2026-11-20 07:35
 
 **结果**: ✅ 成功（自动化触发；7892 无监听 → 重建 scripts/proxy_bridge.py，v2ex 验证返回 200）
 - Remote OK: 97 条 / Remotive: 15 条 / 远程岛: 150 条
