@@ -2,7 +2,22 @@
 
 > 规则变更（2026-10-23）：money.xlsx 已从 Git 索引移除并加入 .gitignore，**只保留本地**，不再提交/推送到远程。scrape.sh 仍在本地更新该文件（追加 V2EX + who-is-hiring 数据）。
 
-## 最近一次执行: 2026-11-23 07:27
+## 最近一次执行: 2026-11-25 07:26
+
+**结果**: ✅ 成功（自动化触发；7892 已在监听无需重建，v2ex 验证返回 200）
+- Remote OK: 100 条 / Remotive: 15 条 / 远程岛: 150 条
+- who-is-hiring: 435 条（含联系方式 435 条）
+- V2EX: 0 条（跳过 20 个非今日帖子）
+- 智联招聘: 31 条 / 远程.work: 40 条 / 远程工作网: 800 条（40/40 页有效）
+- Working Nomads: 37 条 / Himalayas: 100 条
+- **时效过滤(>89天)**: 丢弃 CN=386, Global=0
+- **汇总**: CN=1265, Global=2000（基线 CN=1204 → +61）
+- **Git**: commit 1fb65d2 push 成功（3 files, +21567/-21194）；另补提交 442f181（scrape.log 尾部），HEAD 与 origin/master 一致
+- **money.xlsx**: 更新成功（0 条 V2EX + 435 条 who-is-hiring），按规则未入库
+- **异常**: 无。jobs-featured.js / jobs-mainlist.js / review.html / jobs-featured-pending.js 均未改动
+- **备注**: Himalayas 本次抓到 100 条（历史常为 20）；本次运行基线为 461e86c（ai-news 自动化 11-25 已先推送「AI 资讯 2026-11-25」）
+
+## 上一次执行: 2026-11-23 07:27
 
 **结果**: ✅ 成功（自动化触发；7892 无监听 → 启动 scripts/proxy_bridge.py，v2ex 验证返回 200）
 - Remote OK: 100 条 / Remotive: 16 条 / 远程岛: 150 条
