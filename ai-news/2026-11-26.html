@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-11-26</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* 控制栏 */
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,249,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .lang-switch { display: flex; gap: 4px; }
+        .lang-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .audio-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        .audio-btn:hover { background: var(--tag-bg); }
+        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn svg { width: 13px; height: 13px; }
+        .voice-select {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 760px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        .date { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 10px; }
+        .hero-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; }
+        .stats { font-size: 12px; color: var(--text-secondary); }
+
+        /* 文章列表 */
+        .articles {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .article {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article:last-child { border-bottom: none; }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .article-left { display: flex; align-items: center; gap: 12px; }
+        .article-number { font-size: 22px; font-weight: 700; color: var(--border); line-height: 1; min-width: 32px; }
+
+        .author-row { display: flex; align-items: center; gap: 10px; }
+        .author-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700; font-size: 11px; flex-shrink: 0;
+        }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; font-size: 13px; }
+        .author-handle { color: var(--accent); font-size: 12px; }
+        .author-bio { color: var(--text-secondary); font-size: 12px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .article-actions { display: flex; gap: 6px; }
+        .action-btn {
+            padding: 5px 12px; border: 1px solid var(--border);
+            background: white; cursor: pointer; font-size: 12px;
+            border-radius: 12px; display: flex; align-items: center; gap: 4px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .action-btn:hover { background: var(--tag-bg); }
+        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn svg { width: 11px; height: 11px; }
+
+        .article-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem; font-weight: 600; line-height: 1.4;
+            margin-bottom: 10px; margin-left: 46px;
+        }
+        .article-title.en { font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text-secondary); font-size: 0.95rem; }
+
+        .article-body { margin-left: 46px; }
+        .article-content {
+            font-size: 14px; line-height: 1.85; color: var(--text);
+            margin-bottom: 8px;
+        }
+        .article-content.en { color: var(--text-secondary); }
+
+        .article-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; margin-left: 46px;
+        }
+        .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
+        .article-link:hover { text-decoration: underline; }
+
+        /* 历史存档 */
+        .archive-section {
+            max-width: 760px; margin: 0 auto;
+            padding: 32px 40px; border-top: 1px solid var(--border);
+        }
+        .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
+        .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
+        .archive-item:hover { background: var(--accent); color: white; }
+
+        footer { text-align: center; padding: 32px 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .controls { padding: 10px 20px; }
+            .hero, .archive-section { padding: 28px 20px 20px; }
+            .hero h1 { font-size: 1.4rem; }
+            .articles { padding: 0 20px 60px; }
+            .article-title, .article-body, .article-footer { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 控制栏 -->
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span id="playAllLabel">全文朗读</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <header class="hero">
+        <p class="date" id="date-en">Thursday, November 26, 2026</p>
+        <h1 id="title-zh">AI Builders 每日精选</h1>
+        <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="stats" id="stats-zh">📝 8 篇精选</p>
+    </header>
+
+    <!-- 文章列表 -->
+    <main class="articles">
+
+        <!-- 01 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GB</div>
+                        <div class="author-info">
+                            <span class="author-name">Greg Brockman</span>
+                            <span class="author-handle">@gdb</span>
+                            <span class="author-bio">OpenAI 总裁</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(1, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">OpenAI's president says cybersecurity will become a bigger business than coding</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">The Information 独家专访 OpenAI 总裁 Greg Brockman 与 CFO Sarah Friar：两人明确表态，网络安全将成为比编程更大的业务机会。Brockman 目前已接管公司大部分日常运营，并把大量精力押在安全方向上，给出的落地路径分三步：先构建高质量的安全专用模型，再只交付给经过审核的可信客户，最后教会客户如何使用——他强调强大的安全产品不能不加区分地售卖。Friar 则认为外界 3000 亿美元以上的网络安全市场估算仍被严重低估。这一表态发生在 OpenAI 上季度收入约 100 亿、亏损近 110 亿的背景下：编程曾是其最快的变现赛道，如今公司显然在为下一个增长曲线寻找更宽的护城河。</p>
+                <p class="article-content en" data-lang="en" style="display:none">In an exclusive with The Information, OpenAI President Greg Brockman and CFO Sarah Friar said point blank that cybersecurity will become a bigger opportunity for the company than coding. Brockman, who now oversees much of OpenAI's daily operations, laid out a three-step plan: build high-quality security-specific models, deliver them only to vetted trusted customers, and teach those customers how to use them - noting that powerful security products cannot be sold indiscriminately. Friar argued that market estimates putting cybersecurity TAM above $300 billion still underestimate its potential. The bet lands as OpenAI lost nearly $11 billion last quarter on $10 billion in revenue, making a second growth curve beyond coding strategically urgent.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>📰 The Information 独家</span><span>💸 商业战略</span><span>2026-11-25</span></div>
+                <a href="https://aitop.news/item/60413" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">OM</div>
+                        <div class="author-info">
+                            <span class="author-name">OpenAI Math</span>
+                            <span class="author-handle">@OpenAI</span>
+                            <span class="author-bio">OpenAI 数学团队</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(2, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">OpenAI preprint claims the matrix multiplication exponent is exactly 9/4, refuting the omega-equals-2 conjecture</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">OpenAI 发布 111 页预印本，宣称证明矩阵乘法指数 omega 在任意域上恰为 9/4，并给出匹配下界——这意味着「可以逼近 n^2」的 Omega-2 猜想被否定，这个悬置 57 年的问题迎来了决定性答案。矩阵乘法是深度学习训练与推理的算术底座，指数每降一点都直接改写算力成本曲线：从 Strassen 的 2.81 到如今宣称的 2.25，理论上意味着大规模矩阵运算还有可观的加速空间。论文尚未经同行评审，但延续 Anthropic 黎曼猜想、VP 不等于 VNP 之后，AI 公司正在把数学前沿当作模型能力的试金石，且节奏从月缩短到天。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI released a 111-page preprint claiming to prove that the matrix multiplication exponent omega is exactly 9/4 over every field, with a matching lower bound - refuting the long-held conjecture that omega could approach 2 and settling a question open for 57 years. Since matrix multiplication is the arithmetic foundation of training and inference for every large model, each drop in the exponent reshapes the compute cost curve; moving from Strassen's 2.81 toward 2.25 implies meaningful theoretical headroom for large-scale linear algebra. The paper has not been peer reviewed. Following Anthropic's Riemann and VP-vs-VNP claims, frontier labs are now using pure mathematics as a benchmark for model capability - and the cadence has shrunk from months to days.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>📄 111 页预印本</span><span>57 年悬案</span><span>2026-11-24</span></div>
+                <a href="https://github.com/openai/math" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">CA</div>
+                        <div class="author-info">
+                            <span class="author-name">Character.AI</span>
+                            <span class="author-handle">@Character_AI</span>
+                            <span class="author-bio">AI 角色扮演平台</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(3, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">42 state attorneys general move to block Character.AI's plan to auction off users' private chats in bankruptcy</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Character.AI 去年 10 月申请破产保护后，计划在 12 月 1 日拍卖包括用户聊天记录在内的数据资产，但遭到 42 个州总检察长的联合阻止。他们指出，这批数据涉及超过 2100 万个美国账户，其中约 210 万属于未成年人，而公司此前曾公开承诺不出售用户个人信息——破产程序不应成为绕开隐私承诺的通道。这是 AI 行业迄今最大的数据处置争议之一：当一家消费级 AI 公司倒闭，对话历史的归属、隐私与情感价值同时被摆上拍卖台。事件也将倒逼行业重新审视数据资产的破产隔离安排与用户协议中的数据处置条款。</p>
+                <p class="article-content en" data-lang="en" style="display:none">After filing for bankruptcy protection in October, Character.AI planned to auction off its data assets - including users' private chats - on December 1. Forty-two state attorneys general have now intervened to block the sale, arguing the trove covers more than 21 million US accounts, roughly 2.1 million of them minors, and that the company previously promised not to sell personal information; bankruptcy should not become a loophole around privacy commitments. It is the largest data-disposal fight in consumer AI to date: when an AI companion company dies, the ownership, privacy and emotional weight of millions of conversations all land on the auction block. Expect tighter bankruptcy carve-outs for AI data and much sharper data-handling clauses in consumer terms of service.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>⚖️ 监管介入</span><span>2100 万用户数据</span><span>2026-11-25</span></div>
+                <a href="https://techcrunch.com/2026/11/25/state-ags-fight-character-ais-plan-to-auction-off-users-private-chats/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">NV</div>
+                        <div class="author-info">
+                            <span class="author-name">NVIDIA</span>
+                            <span class="author-handle">@NVIDIA</span>
+                            <span class="author-bio">AI 计算平台公司</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(4, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">NVIDIA quietly open-sources Nemotron-Labs-Image-30B-A3B, a MoE image model that beats GPT Image 2 on long-text rendering</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">英伟达在 Hugging Face 上悄然放出开源生图模型 Nemotron-Labs-Image-30B-A3B：总参数 300 亿、每步仅激活 30 亿的 MoE 自回归架构，在长文字渲染基准 LongTextBench 和综合评测 GenEval 上超过 GPT Image 2，不过部分基准仍落后于闭源旗舰。这是英伟达第一次把自研生图模型以开放权重形式发布，意义在于：芯片公司开始用开源模型证明自家硬件上的推理栈能力，同时把「长文字渲染」这类长期痛点当作差异化切口。对开发者来说，300 亿级 MoE 生图模型的开源权重意味着可以本地部署、微调并嵌入产品管线，商业闭源模型的溢价空间正在被持续压缩。</p>
+                <p class="article-content en" data-lang="en" style="display:none">NVIDIA quietly published Nemotron-Labs-Image-30B-A3B on Hugging Face: a 30B-total / 3B-active MoE autoregressive image model that beats GPT Image 2 on LongTextBench and GenEval, though it trails closed flagships on some benchmarks. It is NVIDIA's first open-weights image generation release, and the signal is clear - the chip company is using open models to prove out its own inference stack, while targeting long-text rendering, a long-standing pain point, as its differentiation wedge. For builders, open weights at this scale mean local deployment, fine-tuning, and embedding into production pipelines without per-image API costs. The premium on closed image models keeps getting squeezed from both the top and the bottom.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>🔓 开源权重</span><span>30B / 激活 3B</span><span>2026-11-25</span></div>
+                <a href="https://huggingface.co/nvidia/Nemotron-Labs-Image-30B-A3B" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">OP</div>
+                        <div class="author-info">
+                            <span class="author-name">OpenAI</span>
+                            <span class="author-handle">@OpenAI</span>
+                            <span class="author-bio">前沿 AI 实验室</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(5, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">OpenAI begins piloting Private Inference with first enterprise customers so their data never touches OpenAI</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">据 The Decoder 报道，OpenAI CEO 奥特曼确认，此前预告的 Private Inference（私有推理）已与首批企业客户进入试点：查询在可独立验证安全性的隔离硬件上处理，OpenAI 自身无法访问数据。此前几天，Anthropic 也宣布 Enterprise Frontier Safeguards 支持「零数据留存」合规标准。两大前沿实验室同时在「数据主权」上发力，指向同一个判断：金融、医疗、政务等机密场景是企业 AI 预算的最大池子，而拦住它们的从来不是模型能力，而是「数据会流向谁」。可验证的机密计算如果跑通，企业 AI 采购的合规阻力将大幅下降，这也将是 AI 基础设施的下一个军备竞赛。</p>
+                <p class="article-content en" data-lang="en" style="display:none">OpenAI CEO Sam Altman confirmed that Private Inference, announced earlier this year, has entered pilots with the first enterprise customers: queries are processed on isolated hardware whose security can be independently verified, and OpenAI itself cannot access the data. It follows Anthropic's Enterprise Frontier Safeguards, which entered directed beta with zero-data-retention compliance support. Both frontier labs are converging on the same bet - the biggest pools of enterprise AI budget sit in finance, healthcare and government, and what blocks them was never model capability but data custody. If verifiable confidential computing works at scale, the compliance friction in enterprise AI procurement drops sharply, and confidential inference becomes the next arms race in AI infrastructure.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>🔐 企业试点</span><span>可验证隔离硬件</span><span>2026-11-25</span></div>
+                <a href="https://the-decoder.com/openai-wants-companies-to-trust-it-with-sensitive-work-by-promising-not-to-look-at-their-data/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">DP</div>
+                        <div class="author-info">
+                            <span class="author-name">Dwarkesh Patel</span>
+                            <span class="author-handle">@dwarkesh_sp</span>
+                            <span class="author-bio">Dwarkesh Podcast 主播</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(6, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Responding to objections to recursive self-improvement: why the intelligence explosion still lands in 2028-2029</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Dwarkesh 发布 65 分钟的回应篇，逐一拆解外界对其「2030 年前超级智能」论断的反对意见。核心回应包括：AI 研究拥有大量可验证的代理指标（预训练 loss、新游戏掌握速度），因此狭义进步可转化为通用能力；依据 Amdahl 定律的变体，自动化比例越高收益呈双曲线放大——自动化 90% 时系统快 8.5 倍，99% 时快 30 倍以上，人类监督大量 AI 劳动仍能带来极快进步；算力是硬瓶颈（年增长仅 2.6 倍），所以智能爆炸更可能是「一年压缩 3-6 年」而非一夜奇点。他还引用 OpenAI 顶尖研究员日均 token 消耗从 7000 涨至 23000 美元、Anthropic 研究员自报提速 12 倍等内部数据。中位预测：2028 年完全自动化顶尖 AI 研究，2029 年超级智能。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Dwarkesh follows up his 'superintelligence before 2030' argument with a 65-minute episode answering the strongest objections one by one. Key moves: AI research is unusually rich in verifiable proxy metrics (pretraining loss, mastery speed on new games), so narrow progress compounds into general capability; a variant of Amdahl's law means gains scale hyperbolically with automation - 2x at 50% automated, 8.5x at 90%, 30x-plus at 99% - so humans supervising a fleet of AI workers still yields explosive progress; and compute is the hard bottleneck (global supply growing just 2.6x a year), making the explosion look like '3-6 years compressed into one' rather than an overnight singularity. He cites internal data - OpenAI's top researchers burning $23,000/day in tokens, Anthropic researchers self-reporting 12x speedups - and lands on median predictions of fully automated frontier research by 2028 and superintelligence around 2029.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>🎙️ 65 分钟</span><span>智能爆炸 2028-29</span><span>2026-11-24</span></div>
+                <a href="https://www.dwarkesh.com/p/rsiobjections" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">SY</div>
+                        <div class="author-info">
+                            <span class="author-name">沈驿康 × 语言即世界</span>
+                            <span class="author-handle">@Learning Machine</span>
+                            <span class="author-bio">前 xAI 预训练团队成员 / Learning Machine 创始人</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(7, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">A former xAI pretraining engineer reviews 2026: Jensen's shockwave, why xAI never hit T0, RSI and continual learning</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">语言即世界第 158 期（11 月 25 日上线），嘉宾是前 xAI 预训练团队成员、Learning Machine 创始人沈驿康。节目恰好录制于黄仁勋辞职后一周、复职前一天，保留了震荡中硅谷最真实的一手体感：最近两周硅谷氛围相当悲观。他复盘了 xAI 内部观察——资源雄厚、人才密度极高却始终未跻身 T0，根因是缺少有效产品机制、数据飞轮链路被低估；并解读 xAI 解散多模态团队与 OpenAI 解散机器人团队的共同逻辑。技术层面，他讨论了 2026 年大模型的多个跳变时刻、RSI 与持续学习、预训练白盒化，以及个人 Agent 的创业机会，是一份难得的预训练一线视角复盘。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Episode 158 of Language is World (published Nov 25) sits down with Shen Yikang, a former xAI pretraining team member and founder of Learning Machine. The recording happened in the week Jensen Huang stepped down - one day before his reinstatement was announced - and preserves a raw, first-hand read of Silicon Valley's mood: the past two weeks have felt genuinely pessimistic. He reviews xAI from the inside - enormous resources and elite talent density yet never breaking into the top tier - attributing it to a missing product mechanism and an underestimated data-flywheel loop, and reads the disbanding of xAI's multimodal team alongside OpenAI's robotics exit. Technically, he walks through 2026's discontinuous leaps, RSI and continual learning, white-boxing pretraining, and where personal-agent startups still have room. A rare pretraining-practitioner retrospective.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>🎙️ 前 xAI 预训练</span><span>2026 年复盘</span><span>2026-11-25</span></div>
+                <a href="https://podcasts.apple.com/cn/podcast/158-2026%E5%B9%B4%E5%A4%8D%E7%9B%98-%E5%92%8C%E6%B2%88%E9%A9%BF%E5%BA%B7%E8%81%8A-%E9%BB%84%E4%BB%81%E5%8B%8B-xai%E5%86%85%E5%B9%95-rsi-%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A0-%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96-%E9%A2%84%E8%AE%AD%E7%BB%83%E7%BB%83%E7%99%BD%E7%9B%92-%E7%A1%85%E8%B0%B7%E5%88%9B%E4%B8%9A%E5%9C%B0%E5%9B%BE/id1634356920?i=1000803881972" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AR</div>
+                        <div class="author-info">
+                            <span class="author-name">Anthropic Engineering</span>
+                            <span class="author-handle">@AnthropicAI</span>
+                            <span class="author-bio">Anthropic 工程博客</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(8, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Claude wrote our new Messages API in a week, but verifying the Python-to-Rust migration took months</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Anthropic 工程博客详解把 Claude 主要调用入口 Messages API 从 Python 迁移到 Rust 的全过程：每请求 CPU 用量下降约 70%，首 token 中位延迟缩短约 20%，全程未停服。写作只花了一周——Claude 写出了核心请求路径；真正的难点是验证。团队用生产流量做「影子比对」，再派出多组 Claude 智能体排查和修复行为差异，由工程师审核放行，前后耗时数月。这篇文章最有价值的不是迁移本身，而是揭示了 AI 加速工程的真相：生成速度已经不再是瓶颈，验证带宽才是。当写代码接近免费，「如何相信代码是对的」成为新的工程核心问题——与本周 OpenAI 研究加速报告中「验证税」的结论完全同频。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Anthropic's engineering blog details the migration of the Messages API - the main entry point for every Claude call - from Python to Rust: per-request CPU usage dropped about 70%, median time-to-first-token shrank about 20%, and the service never went down. The writing took one week; Claude produced the core request path. Verification took months. The team shadow-compared against production traffic, dispatched teams of Claude agents to hunt down and fix behavioral divergences, and had engineers sign off each fix. The most valuable insight is not the migration itself but what it reveals about AI-accelerated engineering: generation speed is no longer the bottleneck - verification bandwidth is. When writing code approaches free, 'how do we trust the code is correct' becomes the core engineering problem, echoing OpenAI's research-acceleration report on the verification tax this same week.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>🛠️ 工程实践</span><span>CPU -70%</span><span>2026-11-25</span></div>
+                <a href="https://www.anthropic.com/research/migrating-api-to-rust" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+    </main>
+
+    
+        <!-- 历史存档 -->
+        <div class="archive-section">
+            <h3>📅 历史存档</h3>
+            <div class="archive-list">
+<a href="2026-11-25.html" class="archive-item">2026年11月25日</a>
+<a href="2026-11-24.html" class="archive-item">2026年11月24日</a>
+<a href="2026-11-23.html" class="archive-item">2026年11月23日</a>
+<a href="2026-11-20.html" class="archive-item">2026年11月20日</a>
+<a href="2026-11-19.html" class="archive-item">2026年11月19日</a>
+<a href="2026-11-17.html" class="archive-item">2026年11月17日</a>
+<a href="2026-11-16.html" class="archive-item">2026年11月16日</a>
+<a href="2026-11-15.html" class="archive-item">2026年11月15日</a>
+<a href="2026-11-14.html" class="archive-item">2026年11月14日</a>
+<a href="2026-11-13.html" class="archive-item">2026年11月13日</a>
+            </div>
+        </div>
+
+
+    <footer>
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
+    </footer>
+
+    <script>
+        var LANG = 'zh';
+        var voices = [];
+        var isPlaying = false;
+        var currentUtterance = null;
+        var selectedVoice = null;
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            var select = document.getElementById('voiceSelect');
+            select.innerHTML = '<option value="">默认语音</option>';
+            var zhGroup = document.createElement('optgroup');
+            zhGroup.label = '中文';
+            var enGroup = document.createElement('optgroup');
+            enGroup.label = 'English';
+            voices.forEach(function(v) {
+                var opt = document.createElement('option');
+                opt.value = v.name;
+                var label = v.name + (v.localService ? ' ★' : '');
+                opt.textContent = label;
+                if (v.lang.startsWith('zh')) zhGroup.appendChild(opt);
+                else if (v.lang.startsWith('en')) enGroup.appendChild(opt);
+            });
+            if (zhGroup.children.length) select.appendChild(zhGroup);
+            if (enGroup.children.length) select.appendChild(enGroup);
+            var highQ = voices.find(function(v) {
+                return v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en'));
+            });
+            if (highQ) { select.value = highQ.name; selectedVoice = highQ; }
+        }
+
+        document.getElementById('voiceSelect').addEventListener('change', function(e) {
+            selectedVoice = voices.find(function(v) { return v.name === e.target.value; }) || null;
+        });
+
+        var LABELS = {
+            'zh': {
+                'title':    'AI Builders 每日精选',
+                'subtitle': '每日精选 AI 领域最有价值的深度内容',
+                'stats':    '📝 8 篇精选',
+                'playBtn':  '朗读',
+                'stopBtn':  '停止',
+                'playAll':  '全文朗读',
+                'stopAll':  '停止',
+            },
+            'en': {
+                'title':    'AI Builders Daily Digest',
+                'subtitle': 'Daily curated deep content from AI builders',
+                'stats':    '📝 8 Articles',
+                'playBtn':  'Read',
+                'stopBtn':  'Stop',
+                'playAll':  'Read All',
+                'stopAll':  'Stop',
+            }
+        };
+
+        function setLang(lang) {
+            LANG = lang;
+            var ls = LABELS[lang];
+            document.getElementById('btn-zh').className = 'lang-btn' + (lang === 'zh' ? ' active' : '');
+            document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+            document.getElementById('title-zh').textContent = ls.title;
+            document.getElementById('subtitle-zh').textContent = ls.subtitle;
+            document.getElementById('stats-zh').textContent = ls.stats;
+            document.getElementById('playAllLabel').textContent = isPlaying ? ls.stopAll : ls.playAll;
+            document.querySelectorAll('.action-btn').forEach(function(btn) {
+                var playing = btn.classList.contains('playing');
+                btn.querySelector('.btn-text').textContent = playing ? ls.stopBtn : ls.playBtn;
+            });
+            document.querySelectorAll('[data-lang]').forEach(function(el) {
+                el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+            });
+            try { localStorage.setItem('ai-news-lang', lang); } catch(e) {}
+        }
+
+        function getTextForArticle(num, lang) {
+            var arts = document.querySelectorAll('.article');
+            if (!arts[num - 1]) return '';
+            var art = arts[num - 1];
+            var parts = [];
+            art.querySelectorAll('[data-lang="' + lang + '"]').forEach(function(el) {
+                if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+            });
+            return parts.join('。');
+        }
+
+        function playArticle(num, btn) {
+            var text = getTextForArticle(num, LANG);
+            if (!text) return;
+            if (isPlaying && currentUtterance) {
+                speechSynthesis.cancel();
+                isPlaying = false;
+                currentUtterance = null;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(function(b) {
+                    b.classList.remove('playing');
+                });
+                var ls = LABELS[LANG];
+                document.getElementById('playAllLabel').textContent = ls.playAll;
+                document.querySelectorAll('.action-btn .btn-text').forEach(function(t) { t.textContent = ls.playBtn; });
+                return;
+            }
+            var ls = LABELS[LANG];
+            var u = new SpeechSynthesisUtterance(text.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); btn.querySelector('.btn-text').textContent = ls.stopBtn; };
+            u.onend = u.onerror = function() {
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); btn.querySelector('.btn-text').textContent = ls.playBtn;
+            };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        function playAll() {
+            var btn = document.getElementById('playAllBtn');
+            var label = document.getElementById('playAllLabel');
+            var ls = LABELS[LANG];
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); label.textContent = ls.playAll;
+                document.querySelectorAll('.action-btn').forEach(function(b) {
+                    b.classList.remove('playing'); b.querySelector('.btn-text').textContent = ls.playBtn;
+                });
+                return;
+            }
+            var texts = [];
+            document.querySelectorAll('.article').forEach(function(art) {
+                var parts = [];
+                art.querySelectorAll('[data-lang="' + LANG + '"]').forEach(function(el) {
+                    if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+                });
+                if (parts.length) texts.push(parts.join('。'));
+            });
+            var fullText = texts.join('。');
+            var u = new SpeechSynthesisUtterance(fullText.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); label.textContent = ls.stopAll; };
+            u.onend = u.onerror = function() { isPlaying = false; currentUtterance = null; btn.classList.remove('playing'); label.textContent = ls.playAll; };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+        try { var saved = localStorage.getItem('ai-news-lang'); if (saved) setLang(saved); } catch(e) {}
+    </script>
+</body>
+</html>
