@@ -2,7 +2,24 @@
 
 > 规则变更（2026-10-23）：money.xlsx 已从 Git 索引移除并加入 .gitignore，**只保留本地**，不再提交/推送到远程。scrape.sh 仍在本地更新该文件（追加 V2EX + who-is-hiring 数据）。
 
-## 最近一次执行: 2026-11-25 07:26
+## 最近一次执行: 2026-11-25 10:08
+
+**结果**: ✅ 成功（同日第二次自动化触发；7892 已在监听无需重建，v2ex 验证返回 200）
+- Remote OK: 100 / Remotive: 15 / 远程岛: 150
+- who-is-hiring: 435（含联系方式 435）
+- V2EX: 0（跳过 20 个非今日帖子）
+- 智联招聘: 30 / 远程.work: 40（共发现 42 链接）/ 远程工作网: 800（40/40 页有效）
+- Working Nomads: 37 / Himalayas: 100
+- **时效过滤(>89天)**: 丢弃 CN=386, Global=0
+- **汇总**: CN=1269, Global=2000（基线 CN=1265 → +4；Global 顶格不变）
+- **分源存量**: CN = 远程工作网857 + 智联297 + 远程.work55 + who-is-hiring47 + V2EX13；Global = 远程岛1131 + Himalayas584 + RemoteOK234 + WorkingNomads36 + Remotive15
+- **Git**: commit 1657e61 push 成功（442f181..1657e61, 4 files, +20490/-20344）；另补提交 8157f01（scrape.log 尾部 5 行），HEAD 与 origin/master 一致
+- **money.xlsx**: 更新成功（0 条 V2EX + 435 条 who-is-hiring），按规则未入库
+- **异常**: 无。jobs-featured.js(41 条) / jobs-mainlist.js / review.html / jobs-featured-pending.js 均未改动
+- **数据质量**: dupID=0, dupURL=0；缺 date/title/description 均 0；desc>500：CN 2 条(502)、Global 40 条(≤514)，与历史一致
+- **耗时**: 约 4 分钟
+
+## 上一次执行: 2026-11-25 07:26
 
 **结果**: ✅ 成功（自动化触发；7892 已在监听无需重建，v2ex 验证返回 200）
 - Remote OK: 100 条 / Remotive: 15 条 / 远程岛: 150 条
