@@ -1716,6 +1716,26 @@ try:
         # 数据从第3行开始（第1行标题，第2行表头）
         data_start_row = 3
         
+        # --- 去重：已存在的 sourceUrl 不再重复插入 ---
+        # 历史问题：每天把相同的 Rebase 帖子再插一遍，表膨胀到 2.8 万行，
+        # wb.save() 要写 60MB XML，跑 1 小时以上，中途被杀就会把 money.xlsx 截断。
+        _existing = set()
+        for _r in sheet.iter_rows(min_row=data_start_row, max_col=12, values_only=True):
+            _u = _r[11] if len(_r) > 11 else None
+            if _u:
+                _existing.add(str(_u).strip())
+        v2ex_jobs = [j for j in v2ex_jobs if str(j.get('sourceUrl', '')).strip() not in _existing]
+        _existing.update(str(j.get('sourceUrl', '')).strip() for j in v2ex_jobs)
+        rebase_jobs_for_excel = [j for j in rebase_jobs_for_excel
+                                 if str(j.get('sourceUrl', '')).strip() not in _existing]
+        
+        if not v2ex_jobs and not rebase_jobs_for_excel:
+            print("ℹ️ money.xlsx 无新增岗位")
+        
+        # 写入前留一份备份，避免 save 中途出错把原文件写坏
+        import shutil
+        shutil.copy(xlsx_file, xlsx_file + '.bak')
+        
         # 插入空行给新数据
         if v2ex_jobs and sheet.cell(data_start_row, 1).value is not None:
             sheet.insert_rows(data_start_row, len(v2ex_jobs))
