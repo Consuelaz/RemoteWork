@@ -2,7 +2,21 @@
 
 > 规则变更（2026-10-23）：money.xlsx 已从 Git 索引移除并加入 .gitignore，**只保留本地**，不再提交/推送到远程。scrape.sh 仍在本地更新该文件（追加 V2EX + who-is-hiring 数据）。
 
-## 最近一次执行: 2026-11-25 10:08
+## 最近一次执行: 2026-11-26 10:04
+
+**结果**: ⚠️ 数据抓取成功、Git 已推送；money.xlsx 环节故障并已修复
+- **汇总**: CN=1295, Global=2000（基线 CN=1269 → +26；Global 顶格不变）
+- **分源存量**: CN = 远程工作网874 + 智联306 + 远程.work55 + who-is-hiring47 + V2EX13；
+  Global = 远程岛1052 + Himalayas645 + RemoteOK250 + WorkingNomads37 + Remotive16
+- 各源下载均正常（远程工作网 40/40 页有效）；7892 已在监听，v2ex 验证 200
+- **Git**: commit 8acf92b push 成功（8157f01..8acf92b）；修复另以 270be38 推送
+- **异常**: money.xlsx 写入卡死约 80 分钟。根因=每日 insert_rows 重复插入同样约 435 条 Rebase 帖子，
+  表膨胀至 28033 行、save 需写 60MB sheet XML。中止后原文件被截断（2092 字节），
+  已从 openpyxl 临时流抢救 13638 行；按 sourceUrl 去重后实为 478 条唯一岗位，重建为 480 行干净文件
+- **修复**: scrape.sh money 块加 sourceUrl 去重 + 写前 .bak 备份；.gitignore 加 `money.xlsx.*`
+- 下次关注：money.xlsx 应只增不胀，save 应在 1 秒内完成
+
+## 上一次执行: 2026-11-25 10:08
 
 **结果**: ✅ 成功（同日第二次自动化触发；7892 已在监听无需重建，v2ex 验证返回 200）
 - Remote OK: 100 / Remotive: 15 / 远程岛: 150
