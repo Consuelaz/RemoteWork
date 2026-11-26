@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Builders · 2026-11-27</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #fafaf9;
+            --text: #1c1917;
+            --text-secondary: #78716c;
+            --accent: #ea580c;
+            --border: #e7e5e4;
+            --tag-bg: #f5f5f4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* 控制栏 */
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,249,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .lang-switch { display: flex; gap: 4px; }
+        .lang-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .lang-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .audio-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        .audio-btn:hover { background: var(--tag-bg); }
+        .audio-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .audio-btn svg { width: 13px; height: 13px; }
+        .voice-select {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* 头部 */
+        .hero {
+            padding: 40px 40px 30px;
+            max-width: 760px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        .date { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 10px; }
+        .hero-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; }
+        .stats { font-size: 12px; color: var(--text-secondary); }
+
+        /* 文章列表 */
+        .articles {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .article {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article:last-child { border-bottom: none; }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .article-left { display: flex; align-items: center; gap: 12px; }
+        .article-number { font-size: 22px; font-weight: 700; color: var(--border); line-height: 1; min-width: 32px; }
+
+        .author-row { display: flex; align-items: center; gap: 10px; }
+        .author-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700; font-size: 11px; flex-shrink: 0;
+        }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; font-size: 13px; }
+        .author-handle { color: var(--accent); font-size: 12px; }
+        .author-bio { color: var(--text-secondary); font-size: 12px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .article-actions { display: flex; gap: 6px; }
+        .action-btn {
+            padding: 5px 12px; border: 1px solid var(--border);
+            background: white; cursor: pointer; font-size: 12px;
+            border-radius: 12px; display: flex; align-items: center; gap: 4px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .action-btn:hover { background: var(--tag-bg); }
+        .action-btn.playing { background: var(--accent); color: white; border-color: var(--accent); }
+        .action-btn svg { width: 11px; height: 11px; }
+
+        .article-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem; font-weight: 600; line-height: 1.4;
+            margin-bottom: 10px; margin-left: 46px;
+        }
+        .article-title.en { font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text-secondary); font-size: 0.95rem; }
+
+        .article-body { margin-left: 46px; }
+        .article-content {
+            font-size: 14px; line-height: 1.85; color: var(--text);
+            margin-bottom: 8px;
+        }
+        .article-content.en { color: var(--text-secondary); }
+
+        .article-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; margin-left: 46px;
+        }
+        .article-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .article-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; }
+        .article-link:hover { text-decoration: underline; }
+
+        /* 历史存档 */
+        .archive-section {
+            max-width: 760px; margin: 0 auto;
+            padding: 32px 40px; border-top: 1px solid var(--border);
+        }
+        .archive-section h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; }
+        .archive-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .archive-item { padding: 6px 14px; background: var(--tag-bg); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: all .15s; }
+        .archive-item:hover { background: var(--accent); color: white; }
+
+        footer { text-align: center; padding: 32px 40px; color: var(--text-secondary); font-size: 12px; border-top: 1px solid var(--border); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .controls { padding: 10px 20px; }
+            .hero, .archive-section { padding: 28px 20px 20px; }
+            .hero h1 { font-size: 1.4rem; }
+            .articles { padding: 0 20px 60px; }
+            .article-title, .article-body, .article-footer { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 控制栏 -->
+    <div class="controls">
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+        <div class="audio-controls">
+            <select class="voice-select" id="voiceSelect" title="选择语音">
+                <option value="">默认语音</option>
+            </select>
+            <button class="audio-btn" id="playAllBtn" onclick="playAll()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span id="playAllLabel">全文朗读</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <header class="hero">
+        <p class="date" id="date-en">Friday, November 27, 2026</p>
+        <h1 id="title-zh">AI Builders 每日精选</h1>
+        <p class="hero-sub" id="subtitle-zh">每日精选 AI 领域最有价值的深度内容</p>
+        <p class="stats" id="stats-zh">📝 8 篇精选</p>
+    </header>
+
+    <!-- 文章列表 -->
+    <main class="articles">
+
+        <!-- 01 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">01</span>
+                    <div class="author-row">
+                        <div class="author-avatar">AO</div>
+                        <div class="author-info">
+                            <span class="author-name">Anthropic &amp; OpenAI</span>
+                            <span class="author-handle">@AnthropicAI @OpenAI</span>
+                            <span class="author-bio">两大前沿实验室同日发布数学证明预印本</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(1, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Anthropic and OpenAI both claim AI-written proofs that VP is not equal to VNP, formalized in Lean 4</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">两大实验室在约四小时内先后发布预印本，宣称旗下模型独立证明了算术复杂度核心难题 VP 不等于 VNP——这是 P vs NP 千禧年难题的关键一步。Anthropic 称证明由内部研究版 Claude 产出：模型写出论文、完成数学论证，并自动转写为 Lean 4 形式化代码供机器逐步校验；OpenAI 的论文同样附带了形式化证明，两条路线细节有同有异，恰是独立工作的理想特征。剑桥学者评价其「远超数学家既有技术」。两家均未宣称解决了经典 P vs NP，且尚无数学家完整人工核验，结果仍待同行评审。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Roughly four hours apart, Anthropic and OpenAI both published preprints claiming their models independently proved VP is not equal to VNP, a major step inside the P vs NP Millennium Problem. Anthropic says an internal research version of Claude wrote the argument, drafted the paper, and converted it into Lean 4 formal code so a machine could verify each inference step; OpenAI's paper also includes a formalized proof. The two approaches resemble each other in places and diverge at key steps, exactly what independent work should look like. Neither company claims P vs NP itself is solved, no mathematician has fully verified either proof by hand, and expert reaction from Cambridge and Oxford remains measured but serious.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>Lean 4 形式化</span><span>理论 CS</span></div>
+                <a href="https://glonce.com/digest/week" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">02</span>
+                    <div class="author-row">
+                        <div class="author-avatar">DA</div>
+                        <div class="author-info">
+                            <span class="author-name">Dario Amodei</span>
+                            <span class="author-handle">@DarioAmodei</span>
+                            <span class="author-bio">Anthropic CEO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(2, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Dario Amodei fires back at Axios report on handing decision-making to superintelligence, calling it quote-cherry-picking</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">针对 Axios 报道称 Anthropic 倾向在超级智能出现后将决策权移交给它，Dario 罕见动怒发文反击。他驳斥这是断章取义，指出舆论混淆了「移交人类统治权」与「具体任务自动化」两个完全不同的概念：Anthropic 主张的是让 AI 自主完成受限的执行类任务，而非放弃人类主导权。他同时炮轰部分高喊「人类主导」口号的竞争对手，指出其产品在自动化路线上并无二致，实为商业「口号秀」。这场安全叙事之争再度升级，也折射出头部实验室在 AGI 路线上的深层分歧。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Responding to an Axios report that Anthropic leans toward handing decision-making authority to superintelligence, Dario Amodei published a rare, visibly angry rebuttal. He accused the report of cherry-picking quotes and conflating two very different ideas: ceding human rule to AI versus automating bounded, concrete tasks. Amodei argues Anthropic's position has always been AI autonomously executing constrained work, never surrendering human oversight. He also took aim at rivals who loudly champion human control while shipping products on essentially the same automation trajectory, calling it marketing theater. The exchange escalates the safety-narrative war between frontier labs and exposes a deeper strategic rift over AGI roadmaps.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>安全叙事</span><span>官方回应</span></div>
+                <a href="https://www.163.com/dy/article/LCNM2IJ105198NMR.html" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">03</span>
+                    <div class="author-row">
+                        <div class="author-avatar">HR</div>
+                        <div class="author-info">
+                            <span class="author-name">Hexagon Robotics x Volvo Cars</span>
+                            <span class="author-handle">@HexagonAB @VolvoCars</span>
+                            <span class="author-bio">人形机器人进入真实产线的重要里程碑</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(3, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Volvo Cars brings Hexagon's AEON humanoid robots into its Ghent plant with a mid-2027 production target</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Hexagon Robotics 与沃尔沃汽车宣布，AEON 人形机器人已在比利时根特工厂内开展真实工业任务的训练与验证，目标支持重复性高、劳动强度大的岗位。这不是演示视频：训练由沃尔沃自有制造团队与 Hexagon 机器人部门共同完成，时间表明确——2027 年上半年启动工厂试点，投放更多 AEON 机器人承接更广泛任务，2027 年年中正式投入生产。沃尔沃制造负责人直言，人形设计意味着机器人可以直接嵌入现有产线与团队协作。汽车厂商再次证明自己是人形机器人最可信的早期落地方。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Hexagon Robotics and Volvo Cars announced that AEON humanoid robots are now training inside Volvo's plant in Ghent, Belgium, working on real industrial tasks aimed at supporting repetitive and ergonomically demanding work. This is not a demo stage: training and validation are run by Volvo's own manufacturing team in collaboration with Hexagon's robotics division. The timeline is concrete, with a factory pilot in the first half of 2027 bringing in more units for a wider task range, and robots running in actual production from mid-2027. Volvo's chief manufacturing officer argues the humanoid form factor lets robots fit the existing line as-is, alongside teams and current automation.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>人形机器人</span><span>工业部署</span></div>
+                <a href="https://dev.to/hiroki-ii-ai/ai-daily-digest-november-27-2026-gpt-56-gets-a-sunset-date-anthropic-rewrites-its-api-in-d86" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">04</span>
+                    <div class="author-row">
+                        <div class="author-avatar">GW</div>
+                        <div class="author-info">
+                            <span class="author-name">Google Workspace</span>
+                            <span class="author-handle">@GoogleWorkspace</span>
+                            <span class="author-bio">Workspace MCP 服务与 CLI 正式 GA</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(4, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Google makes Workspace MCP servers and CLI generally available, enforcing agent access via MCP from February 2027</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Google 宣布 Workspace MCP 服务器与官方 CLI 正式可用，覆盖 Gmail、Drive、Calendar 等 8 大服务，并给出明确迁移截止线：2027 年 2 月 1 日起，AI Agent 将强制通过 MCP 访问 Workspace，取代现有的 REST API 直连方式。管理员可以为敏感操作设置确认要求，并审计 Agent 活动。这意味着 MCP 从社区协议正式升级为 Google 的组织级基础设施——数十亿账户规模的生态切换协议栈，对整个 Agent 开发生态是一次强信号：企业级 Agent 接入正在被协议化、标准化。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Google announced that its Workspace MCP servers and official CLI are now generally available, covering eight services including Gmail, Drive and Calendar, with a hard migration deadline: from February 1, 2027, AI agents will be required to access Workspace through MCP, replacing direct REST API access. Admins gain the ability to require confirmation for sensitive actions and to audit agent activity. The move elevates MCP from a community protocol to Google-scale organizational infrastructure, and it signals to the entire agent development ecosystem that enterprise agent access is being formalized and standardized at a scale of billions of accounts.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>MCP</span><span>Agent 基建</span></div>
+                <a href="https://workspaceupdates.googleblog.com/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">05</span>
+                    <div class="author-row">
+                        <div class="author-avatar">BT</div>
+                        <div class="author-info">
+                            <span class="author-name">Bret Taylor</span>
+                            <span class="author-handle">@btaylor</span>
+                            <span class="author-bio">Sierra CEO，OpenAI 董事会主席</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(5, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Sierra finalizes a $1.75B round led by Lightspeed and Greenoaks at a $30B valuation, doubled since May</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Bret Taylor 创办的客服 AI 公司 Sierra 正在敲定一笔超 17.5 亿美元的融资，由 Lightspeed 与 Greenoaks 领投，估值 300 亿美元——较今年 5 月的 158 亿几乎翻倍。Sierra 专注于用 AI Agent 自动化企业客户服务，客户覆盖大型消费与电信品牌，按结果付费的商业模式在业内被视为 Agent 商业化的标杆样本。同期 AI 基建融资同样火热：推理工厂初创 Marlowe 宣布 2.77 亿美元种子轮，与 AMD、Etched 合作建设专用推理集群。企业 Agent 赛道的资本浓度仍在快速抬升。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Sierra, the customer-service AI startup founded by Bret Taylor, is finalizing a round of over $1.75 billion led by Lightspeed and Greenoaks at a $30 billion valuation, nearly double the $15.8 billion it commanded in May. Sierra builds AI agents that automate enterprise customer service for large consumer and telecom brands, and its outcome-based pricing model is widely seen as a benchmark for agent monetization. The capital heat extends across infrastructure: inference-factory startup Marlowe announced a $277 million seed round to build dedicated inference clusters with AMD and Etched. Capital concentration in the enterprise agent space keeps climbing fast.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>融资</span><span>$30B 估值</span></div>
+                <a href="https://digestai.news/week" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">06</span>
+                    <div class="author-row">
+                        <div class="author-avatar">KK</div>
+                        <div class="author-info">
+                            <span class="author-name">Koray Kavukcuoglu</span>
+                            <span class="author-handle">@kavukcuoglu</span>
+                            <span class="author-bio">Google DeepMind 研究副总裁，Gemini 负责人</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(6, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">DeepMind podcast: agents now schedule and run experiments for the next Gemini, but RSI is still far</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">在 11 月 26 日上线的 DeepMind 官方播客中，Gemini 研发负责人 Koray Kavukcuoglu 披露了实验室工作方式的根本转变：AI Agent 已在为下一代 Gemini 调度并执行部分研究实验，自主决定部分研究算力的分配——这是真实的研究参与，但他强调距离递归自我改进仍很遥远。组织层面的变化同样值得关注：DeepMind 不再为每个项目组建专属团队，而是用通用算法并行推进科学与产品。两个工程细节极具参考价值：训练时刻意不奖励思维链，以免模型为奖励信号优化内心独白，让意图保持可审计；他同时区分了「渲染」与「理解」——模型能生成视觉逼真的流体，却不代表掌握背后的物理。</p>
+                <p class="article-content en" data-lang="en" style="display:none">On DeepMind's official podcast published November 26, Gemini research lead Koray Kavukcuoglu described a structural shift in how the lab builds models: AI agents now schedule and run some of the experiments behind the next generation of Gemini, deciding how to allocate compute for parts of the research process. He calls this real participation in research work while insisting the lab remains far from recursive self-improvement. Two engineering details stand out: DeepMind deliberately does not reward chain-of-thought during training, so intent stays auditable in natural language, and he draws a line between rendering and understanding, noting models produce convincing fluid simulations without evidence they grasp the underlying physics.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>DeepMind</span><span>AI 自研 AI</span></div>
+                <a href="https://deepmind.google/discover/podcast/" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">07</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LS</div>
+                        <div class="author-info">
+                            <span class="author-name">Latent Space</span>
+                            <span class="author-handle">@latentspacepod</span>
+                            <span class="author-bio">AI Engineer 播客：模型、Agent 与基础设施</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(7, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">Latent Space this week: evals and expert data as the bottleneck, designing products for agents, Linear on GTM</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">Latent Space 本周持续高频更新，核心话题集中在两条主线。其一是「评估与专家数据成为新瓶颈」：当模型能力逼近饱和，真正拉开产品差距的是高质量 eval 集合与领域专家数据的获取能力，这正在重塑 AI 公司的护城河结构。其二是「为 Agent 设计产品」：API 优先、可编程接口、机器可读的文档正在取代传统 UI 成为一等公民，Linear 分享了其 GTM 团队如何围绕 Agent 重新组织增长策略。对独立开发者与产品人的启示非常直接：你的产品如果没有 Agent 可调用的接口，正在从未来客户的视野中消失。</p>
+                <p class="article-content en" data-lang="en" style="display:none">Latent Space kept up a high publishing cadence this week, with two threads dominating. First, evals and expert data are becoming the real bottleneck: as raw model capability saturates, competitive advantage now comes from high-quality eval sets and access to domain expert data, reshaping where AI moats live. Second, designing products for agents: API-first surfaces, programmable interfaces and machine-readable docs are becoming first-class citizens ahead of traditional UIs. Linear shared how its go-to-market team is reorganizing growth around agents. The takeaway for indie builders is blunt: if your product lacks agent-callable interfaces, it is disappearing from the view of tomorrow's customers.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>AI Engineer</span><span>Agent 产品</span></div>
+                <a href="https://latent.space/podcast" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+
+        <!-- 08 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="article-left">
+                    <span class="article-number">08</span>
+                    <div class="author-row">
+                        <div class="author-avatar">LA</div>
+                        <div class="author-info">
+                            <span class="author-name">Local AI Zone</span>
+                            <span class="author-handle">@localaizone</span>
+                            <span class="author-bio">开源模型追踪与月度复盘博客</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-actions">
+                    <button class="action-btn play-btn" onclick="playArticle(8, this)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span class="btn-text">朗读</span>
+                    </button>
+                </div>
+            </div>
+                        <h2 class="article-title en" data-lang="en">November 2026 AI Model Updates: the full dispatch, with eight corrections to earlier coverage</h2>
+            <div class="article-body">
+                <p class="article-content" data-lang="zh">这份 11 月模型大战全景复盘的最大亮点是方法论：作者公开列出上一版报告的 8 处错误并逐条更正，包括 Mistral Large 4 权重并未跳票、Gemini 4 Carbon 已 GA 且定价 $2/$10、Kimi K3.1 Pro 并非 Apache 2.0 许可、GGUF 转换榜单数据有误等。核心结论：11 月前沿没有收敛出唯一赢家，而是分裂为「能力竞赛」与「成本竞赛」，且成本竞赛跑得更快——Claude Fable 5.2 以 65 分守住榜首，GPT-6.2 Astra 落后 3 分但单任务实测成本仅约七分之一，Gemini 4 Neon 再低一档。11 月还发生了 Anthropic 以每股 83 美元 IPO、募资约 810 亿美元、市值近 1.5 万亿美元的资本市场大事件。</p>
+                <p class="article-content en" data-lang="en" style="display:none">The standout feature of this full November dispatch is methodology: the author publicly lists eight corrections to the earlier November 11 edition, including that Mistral Large 4 weights shipped on time, Gemini 4 Carbon is generally available at $2/$10, Kimi K3.1 Pro does not use Apache 2.0, and the GGUF conversion ledger was wrong. The core finding: November's frontier did not consolidate around one winner but split into a capability race and a cost race, with the cost race moving faster. Claude Fable 5.2 holds No. 1 at 65, GPT-6.2 Astra sits three points back at roughly one-seventh the measured per-task cost, and Gemini 4 Neon undercuts further. The month also delivered Anthropic's IPO at $83 a share, raising about $81 billion at a near $1.5 trillion valuation.</p>
+            </div>
+            <div class="article-footer">
+                <div class="article-stats"><span>月度复盘</span><span>模型大战</span></div>
+                <a href="https://local-ai-zone.github.io/blog/November_2026_AI_Model_Updates.html" class="article-link" target="_blank">原文 →</a>
+            </div>
+        </article>
+    </main>
+
+    
+        <!-- 历史存档 -->
+        <div class="archive-section">
+            <h3>📅 历史存档</h3>
+            <div class="archive-list">
+<a href="2026-11-26.html" class="archive-item">2026年11月26日</a>
+<a href="2026-11-25.html" class="archive-item">2026年11月25日</a>
+<a href="2026-11-24.html" class="archive-item">2026年11月24日</a>
+<a href="2026-11-23.html" class="archive-item">2026年11月23日</a>
+<a href="2026-11-20.html" class="archive-item">2026年11月20日</a>
+<a href="2026-11-19.html" class="archive-item">2026年11月19日</a>
+<a href="2026-11-17.html" class="archive-item">2026年11月17日</a>
+<a href="2026-11-16.html" class="archive-item">2026年11月16日</a>
+<a href="2026-11-15.html" class="archive-item">2026年11月15日</a>
+<a href="2026-11-14.html" class="archive-item">2026年11月14日</a>
+            </div>
+        </div>
+
+
+    <footer>
+        <p>Data by <a href="https://github.com/zarazhangrui/follow-builders" target="_blank">Follow Builders</a> · <a href="../index.html">Junes远程</a></p>
+    </footer>
+
+    <script>
+        var LANG = 'zh';
+        var voices = [];
+        var isPlaying = false;
+        var currentUtterance = null;
+        var selectedVoice = null;
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            var select = document.getElementById('voiceSelect');
+            select.innerHTML = '<option value="">默认语音</option>';
+            var zhGroup = document.createElement('optgroup');
+            zhGroup.label = '中文';
+            var enGroup = document.createElement('optgroup');
+            enGroup.label = 'English';
+            voices.forEach(function(v) {
+                var opt = document.createElement('option');
+                opt.value = v.name;
+                var label = v.name + (v.localService ? ' ★' : '');
+                opt.textContent = label;
+                if (v.lang.startsWith('zh')) zhGroup.appendChild(opt);
+                else if (v.lang.startsWith('en')) enGroup.appendChild(opt);
+            });
+            if (zhGroup.children.length) select.appendChild(zhGroup);
+            if (enGroup.children.length) select.appendChild(enGroup);
+            var highQ = voices.find(function(v) {
+                return v.localService && (v.lang.startsWith('zh') || v.lang.startsWith('en'));
+            });
+            if (highQ) { select.value = highQ.name; selectedVoice = highQ; }
+        }
+
+        document.getElementById('voiceSelect').addEventListener('change', function(e) {
+            selectedVoice = voices.find(function(v) { return v.name === e.target.value; }) || null;
+        });
+
+        var LABELS = {
+            'zh': {
+                'title':    'AI Builders 每日精选',
+                'subtitle': '每日精选 AI 领域最有价值的深度内容',
+                'stats':    '📝 8 篇精选',
+                'playBtn':  '朗读',
+                'stopBtn':  '停止',
+                'playAll':  '全文朗读',
+                'stopAll':  '停止',
+            },
+            'en': {
+                'title':    'AI Builders Daily Digest',
+                'subtitle': 'Daily curated deep content from AI builders',
+                'stats':    '📝 8 Articles',
+                'playBtn':  'Read',
+                'stopBtn':  'Stop',
+                'playAll':  'Read All',
+                'stopAll':  'Stop',
+            }
+        };
+
+        function setLang(lang) {
+            LANG = lang;
+            var ls = LABELS[lang];
+            document.getElementById('btn-zh').className = 'lang-btn' + (lang === 'zh' ? ' active' : '');
+            document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+            document.getElementById('title-zh').textContent = ls.title;
+            document.getElementById('subtitle-zh').textContent = ls.subtitle;
+            document.getElementById('stats-zh').textContent = ls.stats;
+            document.getElementById('playAllLabel').textContent = isPlaying ? ls.stopAll : ls.playAll;
+            document.querySelectorAll('.action-btn').forEach(function(btn) {
+                var playing = btn.classList.contains('playing');
+                btn.querySelector('.btn-text').textContent = playing ? ls.stopBtn : ls.playBtn;
+            });
+            document.querySelectorAll('[data-lang]').forEach(function(el) {
+                el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+            });
+            try { localStorage.setItem('ai-news-lang', lang); } catch(e) {}
+        }
+
+        function getTextForArticle(num, lang) {
+            var arts = document.querySelectorAll('.article');
+            if (!arts[num - 1]) return '';
+            var art = arts[num - 1];
+            var parts = [];
+            art.querySelectorAll('[data-lang="' + lang + '"]').forEach(function(el) {
+                if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+            });
+            return parts.join('。');
+        }
+
+        function playArticle(num, btn) {
+            var text = getTextForArticle(num, LANG);
+            if (!text) return;
+            if (isPlaying && currentUtterance) {
+                speechSynthesis.cancel();
+                isPlaying = false;
+                currentUtterance = null;
+                document.querySelectorAll('.action-btn, .audio-btn').forEach(function(b) {
+                    b.classList.remove('playing');
+                });
+                var ls = LABELS[LANG];
+                document.getElementById('playAllLabel').textContent = ls.playAll;
+                document.querySelectorAll('.action-btn .btn-text').forEach(function(t) { t.textContent = ls.playBtn; });
+                return;
+            }
+            var ls = LABELS[LANG];
+            var u = new SpeechSynthesisUtterance(text.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); btn.querySelector('.btn-text').textContent = ls.stopBtn; };
+            u.onend = u.onerror = function() {
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); btn.querySelector('.btn-text').textContent = ls.playBtn;
+            };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        function playAll() {
+            var btn = document.getElementById('playAllBtn');
+            var label = document.getElementById('playAllLabel');
+            var ls = LABELS[LANG];
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                isPlaying = false; currentUtterance = null;
+                btn.classList.remove('playing'); label.textContent = ls.playAll;
+                document.querySelectorAll('.action-btn').forEach(function(b) {
+                    b.classList.remove('playing'); b.querySelector('.btn-text').textContent = ls.playBtn;
+                });
+                return;
+            }
+            var texts = [];
+            document.querySelectorAll('.article').forEach(function(art) {
+                var parts = [];
+                art.querySelectorAll('[data-lang="' + LANG + '"]').forEach(function(el) {
+                    if (el.tagName === 'H2' || el.tagName === 'P') parts.push(el.textContent);
+                });
+                if (parts.length) texts.push(parts.join('。'));
+            });
+            var fullText = texts.join('。');
+            var u = new SpeechSynthesisUtterance(fullText.replace(/\s+/g, ' '));
+            u.lang = LANG === 'zh' ? 'zh-CN' : 'en-US';
+            u.rate = 0.85;
+            u.pitch = 0.95;
+            var voice = selectedVoice || voices.find(function(v) {
+                if (!v.lang.startsWith(LANG)) return false;
+                return v.localService || v.name.toLowerCase().includes('google');
+            });
+            if (voice) u.voice = voice;
+            u.onstart = function() { isPlaying = true; currentUtterance = u; btn.classList.add('playing'); label.textContent = ls.stopAll; };
+            u.onend = u.onerror = function() { isPlaying = false; currentUtterance = null; btn.classList.remove('playing'); label.textContent = ls.playAll; };
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+        }
+
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+        try { var saved = localStorage.getItem('ai-news-lang'); if (saved) setLang(saved); } catch(e) {}
+    </script>
+</body>
+</html>
