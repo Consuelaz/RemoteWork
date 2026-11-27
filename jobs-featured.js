@@ -29,6 +29,46 @@
 
 const JOBS_FEATURED = [
   {
+    'id': 'featured-20261127-01',
+    'title': '【企业直招】【全职远程】AIPower 全栈工程师（虚拟卡/Online Banking/AI Agent 支付）｜30-45K×12薪',
+    'company': 'AIPower, Inc.（美国公司，团队分布于美国/欧洲/越南/中国大陆）',
+    'logo': '💳',
+    'category': '全栈开发',
+    'tags': ['全栈', 'Next.js', 'Node.js', 'TypeScript', '支付金融', 'AI Agent', '远程', '全职', '合同制', '内推岗'],
+    'salary': '30K-45K/月（税前，12 薪）',
+    'location': '全球远程（纯远程，不打卡）',
+    'date': '2026-11-27',
+    'isNew': true,
+    'isFeatured': true,
+    'canRefer': true,
+    'contact': '',
+    'apply_url': '',
+    'source': '',
+    'sourceUrl': '',
+    'description': '美国公司 AIPower 招聘全栈工程师，做虚拟信用卡与跨境账户产品（aipaycards.com、jpm.us），团队分布于美国、欧洲、越南和中国大陆。当前负责两款产品的功能开发、发布与线上排障，迭代虚拟信用卡和 Online Banking 业务；接下来一起做 AI Agent 支付和移动端 App，从方案到上线全程参与。技术栈：前端 Next.js/React/TypeScript，后端 Node.js/TypeScript/NestJS 或 Express，数据与任务用 PostgreSQL/Redis/BullMQ，部署交付用 Docker/Terraform/CI。要求有成熟线上产品经验、独立负责过核心功能，或有很强的自主学习能力能快速学懂陌生业务并做出可用成果；支付、金融科技或 App 开发经验加分，欢迎用 AI 辅助开发但看重验证与交付质量。薪资税前 30-45K/月 × 12 薪，长期全职远程、合同制合作，纯远程不打卡、以交付为准（跨时区同步需提前约），日常沟通以中文为主、需能读写英文技术文档。',
+    'responsibilities': [
+      '负责虚拟信用卡与 Online Banking 两款产品的功能开发、发布和线上排障，持续迭代业务',
+      '参与 AI Agent 支付和移动端 App 建设，从方案到上线全程参与',
+      '前后端全栈开发：Next.js/React/TypeScript 前端，Node.js/NestJS 或 Express 后端',
+      '用 PostgreSQL、Redis、BullMQ 处理数据与任务，用 Docker、Terraform、CI 完成部署交付'
+    ],
+    'requirements': [
+      '符合以下任一条即欢迎来聊：有成熟线上产品经验，独立负责过核心功能，知道怎么把功能做稳、把体验做好',
+      '或：有很强的自主学习能力，能主动查资料、读接口文档、动手验证，快速学懂陌生业务并做出可用的东西',
+      '需能读写英文技术文档（日常沟通以中文为主）',
+      '加分项：支付、金融科技或 App 开发经验',
+      '欢迎用 AI 辅助开发，但看重你怎么验证代码、保证交付质量'
+    ],
+    'benefits': [
+      '薪资税前 30K-45K/月 × 12 薪',
+      '长期全职远程，纯远程不打卡，工作时间自己安排；跨时区同步提前约，以交付为准',
+      '日常沟通以中文为主，团队分布于美国、欧洲、越南和中国大陆',
+      '参与虚拟卡、Online Banking 及 AI Agent 支付等金融科技产品，业务从方案到上线全程参与'
+    ],
+    'company_info': 'AIPower, Inc. 是一家美国公司，团队分布于美国、欧洲、越南和中国大陆，做虚拟信用卡和跨境账户产品（aipaycards.com、jpm.us）。注意：本岗为长期全职远程的合同制合作，签约主体、结算币种与付款方式、社保公积金安排会在首轮沟通时说明——投递前请确认可接受合同制模式。业务涉及虚拟信用卡与跨境支付，请自行了解所在地区对该类业务的合规要求。',
+    'postedAt': '2026-11-27'
+  },
+  {
     'id': 'featured-20261124-05',
     'title': '【企业直招】新媒体运营 & 社媒方向（设计工作室｜兼职，上海可居家）｜6-10K',
     'company': '设计工作室（建筑/设计/家居方向）',
